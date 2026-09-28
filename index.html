@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>yigitqwc</title>
+    <style>
+        /* ================= KÖK DEĞİŞKENLER & SIFIRLAMA ================= */
+        :root {
+            --bg-color: #050505;
+            --nav-bg: #000000;
+            --text-color: #ffffff;
+            --accent-red: #ff0000;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* ================= NAVİGASYON ================= */
+        nav {
+            background-color: var(--nav-bg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 3rem;
+            position: relative;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 0, 0, 0.1);
+        }
+
+        /* Logo ve Kırmızı Çizgi Animasyonu */
+        .logo-container {
+            position: relative;
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--text-color);
+            overflow: hidden;
+            padding-bottom: 5px;
+        }
+
+        .logo-text {
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .red-line {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 20px;
+            height: 4px;
+            background-color: var(--accent-red);
+            transition: left 0.4s ease-out;
+        }
+
+        .logo-container:hover .red-line,
+        .logo-container:focus-visible .red-line {
+            animation: slideLine 2.5s linear infinite;
+        }
+
+        @keyframes slideLine {
+            0% { left: -20px; }
+            100% { left: 100%; }
+        }
+
+        /* Sosyal Medya Bağlantıları */
+        .socials {
+            display: flex;
+            gap: 3rem;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .social-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-color);
+            gap: 8px;
+            transition: transform 0.25s ease, text-shadow 0.25s ease;
+            outline: none;
+        }
+
+        .social-link svg {
+            width: 32px;
+            height: 32px;
+            fill: var(--text-color);
+            transition: fill 0.25s ease, filter 0.25s ease;
+        }
+
+        .social-link span {
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .social-link:hover,
+        .social-link:focus-visible {
+            transform: scale(1.05);
+        }
+
+        .social-link:hover svg,
+        .social-link:focus-visible svg {
+            fill: var(--accent-red);
+            filter: drop-shadow(0 0 8px rgba(255, 0, 0, 0.6));
+        }
+
+        .social-link:hover span,
+        .social-link:focus-visible span {
+            color: var(--accent-red);
+            text-shadow: 0 0 5px rgba(255, 0, 0, 0.4);
+        }
+
+        /* ================= ANA GÖRSEL (TEK PARÇA) ================= */
+        .hero {
+            flex-grow: 1;
+            position: relative;
+            overflow: hidden;
+            background-color: #0a0000;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* DİKKAT: Resminizin adını buraya yazın. bg.jpg olarak ayarladım. */
+            background-image: url('bg.png.png.png'); 
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            /* Yavaş ve sinematik yakınlaşma efekti */
+            transition: transform 6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        /* Fare ana görsele geldiğinde resim hafifçe büyür */
+        .hero:hover .hero-bg {
+            transform: scale(1.08);
+        }
+
+        /* ================= MOBİL & RESPONSIVE ================= */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                gap: 1.5rem;
+                padding: 1rem;
+            }
+            .socials {
+                position: static;
+                transform: none;
+                width: 100%;
+                justify-content: space-around;
+                gap: 1rem;
+            }
+            .logo-text { font-size: 1.8rem; }
+        }
+
+        /* Hareket Azaltma (Erişilebilirlik) */
+        @media (prefers-reduced-motion: reduce) {
+            *, ::before, ::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            .red-line { left: 0 !important; width: 100% !important; animation: none !important; }
+            .hero:hover .hero-bg { transform: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <!-- Logo -->
+        <a href="/" class="logo-container" aria-label="Ana Sayfayı Yenile" onclick="window.location.reload(); return false;">
+            <div class="logo-text">yigitqwc</div>
+            <div class="red-line"></div>
+        </a>
+
+        <!-- Sosyal Medya -->
+        <div class="socials">
+            <a href="https://www.instagram.com/yigitqwc/" target="_blank" rel="noopener noreferrer" class="social-link">
+                <!-- Instagram SVG -->
+                <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm3.98-10.169a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                <span>yigitqwc</span>
+            </a>
+            <a href="https://www.tiktok.com/@yigitqwc3" target="_blank" rel="noopener noreferrer" class="social-link">
+                <!-- TikTok SVG -->
+                <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 15.68a6.34 6.34 0 006.27 6.36 6.33 6.33 0 006.26-6.19v-6a8.28 8.28 0 004.47 1.3V7.69a4.85 4.85 0 01-2.41-1z"/></svg>
+                <span>yigitqwc3</span>
+            </a>
+        </div>
+    </nav>
+
+    <main class="hero">
+        <div class="hero-bg"></div>
+    </main>
+
+</body>
+</html>
