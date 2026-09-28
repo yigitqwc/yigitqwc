@@ -3,12 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>yigitqwc</title>
+    <meta name="description" content="yigitqwc kişisel web sitesi.">
+    <meta property="og:title" content="yigitqwc">
+    <meta property="og:image" content="bg.jpg">
+    <meta property="og:type" content="website">
+    
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
     <style>
-        /* ================= KÖK DEĞİŞKENLER & SIFIRLAMA ================= */
         :root {
             --bg-color: #050505;
-            --nav-bg: #000000;
+            --nav-bg: rgba(0, 0, 0, 0.6);
             --text-color: #ffffff;
             --accent-red: #ff0000;
         }
@@ -17,21 +24,98 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            cursor: none; 
         }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
-            overflow-x: hidden;
+            overflow: hidden; 
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            transition: filter 0.1s;
         }
 
-        /* ================= NAVİGASYON ================= */
+        /* 1. KAN DAMLASI TIKLAMA EFEKTİ */
+        .click-ripple {
+            position: fixed;
+            border-radius: 50%;
+            border: 2px solid var(--accent-red);
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            animation: rippleEffect 0.6s ease-out forwards;
+            z-index: 99998;
+            box-shadow: 0 0 15px rgba(255,0,0,0.5);
+        }
+
+        @keyframes rippleEffect {
+            0% { width: 0; height: 0; opacity: 1; border-width: 4px; }
+            100% { width: 120px; height: 120px; opacity: 0; border-width: 1px; }
+        }
+
+        /* YENİ HAVALI FARE İMLECİ */
+        .custom-cursor {
+            position: fixed;
+            top: 0; left: 0;
+            width: 16px; height: 16px;
+            background-color: transparent;
+            border: 2px solid var(--accent-red);
+            pointer-events: none;
+            z-index: 99999;
+            transform: translate(-50%, -50%) rotate(45deg);
+            transition: width 0.3s, height 0.3s, transform 0.3s, background-color 0.3s;
+            box-shadow: 0 0 10px var(--accent-red), inset 0 0 5px var(--accent-red);
+        }
+
+        .custom-cursor::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 4px; height: 4px;
+            background: var(--accent-red);
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 5px var(--accent-red);
+        }
+
+        .cursor-hover {
+            width: 28px; height: 28px;
+            background-color: rgba(255, 0, 0, 0.15);
+            transform: translate(-50%, -50%) rotate(135deg);
+        }
+
+        /* YENİ SHARINGAN AÇILIŞ (SPLASH) EKRANI */
+        #splash {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: #000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            transition: opacity 1s ease, visibility 1s ease;
+        }
+
+        .sharingan {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 25px;
+            animation: spin 2.5s linear infinite;
+            filter: drop-shadow(0 0 15px rgba(255,0,0,0.8));
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* NAVİGASYON */
         nav {
             background-color: var(--nav-bg);
+            backdrop-filter: blur(8px);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -41,13 +125,10 @@
             border-bottom: 1px solid rgba(255, 0, 0, 0.1);
         }
 
-        /* Logo ve Kırmızı Çizgi Animasyonu */
         .logo-container {
             position: relative;
-            cursor: pointer;
             text-decoration: none;
             color: var(--text-color);
-            overflow: hidden;
             padding-bottom: 5px;
         }
 
@@ -55,20 +136,25 @@
             font-size: 2rem;
             font-weight: 800;
             letter-spacing: -0.5px;
+            animation: glitch-anim 6s infinite;
+        }
+
+        @keyframes glitch-anim {
+            0%, 93%, 100% { text-shadow: 0 0 15px rgba(255,0,0,0.8); transform: translate(0); }
+            94% { text-shadow: 3px 0 0 red, -3px 0 0 white; transform: translate(3px, -2px); }
+            96% { text-shadow: -3px 0 0 red, 3px 0 0 white; transform: translate(-3px, 2px); }
+            98% { text-shadow: 3px 0 0 red, -3px 0 0 white; transform: translate(3px, 2px); }
         }
 
         .red-line {
             position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 20px;
-            height: 4px;
+            bottom: 0; left: 0;
+            width: 20px; height: 4px;
             background-color: var(--accent-red);
             transition: left 0.4s ease-out;
         }
 
-        .logo-container:hover .red-line,
-        .logo-container:focus-visible .red-line {
+        .logo-container:hover .red-line {
             animation: slideLine 2.5s linear infinite;
         }
 
@@ -77,13 +163,9 @@
             100% { left: 100%; }
         }
 
-        /* Sosyal Medya Bağlantıları */
         .socials {
             display: flex;
-            gap: 3rem;
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
+            gap: 2.5rem;
         }
 
         .social-link {
@@ -93,13 +175,11 @@
             text-decoration: none;
             color: var(--text-color);
             gap: 8px;
-            transition: transform 0.25s ease, text-shadow 0.25s ease;
-            outline: none;
+            transition: transform 0.25s ease;
         }
 
         .social-link svg {
-            width: 32px;
-            height: 32px;
+            width: 32px; height: 32px;
             fill: var(--text-color);
             transition: fill 0.25s ease, filter 0.25s ease;
         }
@@ -110,107 +190,424 @@
             letter-spacing: 0.5px;
         }
 
-        .social-link:hover,
-        .social-link:focus-visible {
-            transform: scale(1.05);
-        }
-
-        .social-link:hover svg,
-        .social-link:focus-visible svg {
+        .social-link:hover { transform: scale(1.05) translateY(-3px); }
+        .social-link:hover svg {
             fill: var(--accent-red);
-            filter: drop-shadow(0 0 8px rgba(255, 0, 0, 0.6));
+            filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.8));
         }
-
-        .social-link:hover span,
-        .social-link:focus-visible span {
+        .social-link:hover span {
             color: var(--accent-red);
-            text-shadow: 0 0 5px rgba(255, 0, 0, 0.4);
+            text-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
         }
 
-        /* ================= ANA GÖRSEL (TEK PARÇA) ================= */
+        /* ANA GÖRSEL, PARALLAX & VİNYET */
         .hero {
             flex-grow: 1;
-            position: relative;
-            overflow: hidden;
-            background-color: #0a0000;
+            position: absolute;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background-color: #000;
+            z-index: 1; 
         }
 
         .hero-bg {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            /* DİKKAT: Resminizin adını buraya yazın. bg.jpg olarak ayarladım. */
+            top: -2%; left: -2%;
+            width: 104%; height: 104%; 
             background-image: url('bg.jpg'); 
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            /* Yavaş ve sinematik yakınlaşma efekti */
-            transition: transform 6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
-        /* Fare ana görsele geldiğinde resim hafifçe büyür */
-        .hero:hover .hero-bg {
-            transform: scale(1.08);
+        .vignette {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: radial-gradient(circle, rgba(0,0,0,0) 40%, rgba(0,0,0,0.85) 100%);
+            pointer-events: none; 
+            z-index: 2;
         }
 
-        /* ================= MOBİL & RESPONSIVE ================= */
+        #particles-canvas {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        /* CANLI MÜZİK RİTMİ (VISUALIZER) EKRANI */
+        #visualizer-canvas {
+            position: fixed;
+            bottom: 0; left: 0;
+            width: 100%; height: 120px;
+            z-index: 50; /* Arka planda kalması için düşük z-index */
+            pointer-events: none;
+            opacity: 0.5;
+        }
+
+        /* GENJUTSU (EASTER EGG) EKRANI */
+        #genjutsu-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(255, 0, 0, 0.6);
+            mix-blend-mode: color;
+            z-index: 999999;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+            backdrop-filter: blur(15px) invert(20%);
+        }
+
+        .genjutsu-active {
+            animation: shake 0.3s infinite;
+        }
+
+        @keyframes shake {
+            0% { transform: translate(2px, 2px) rotate(0deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            40% { transform: translate(1px, -2px) rotate(-1deg); }
+            60% { transform: translate(-3px, 2px) rotate(0deg); }
+            80% { transform: translate(2px, 1px) rotate(1deg); }
+            100% { transform: translate(-1px, -2px) rotate(-1deg); }
+        }
+
+        /* MÜZİK ÇALAR */
+        .music-player {
+            position: fixed;
+            bottom: 30px; left: 30px;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 10px 15px;
+            border: 1px solid rgba(255, 0, 0, 0.2);
+            border-radius: 30px;
+            backdrop-filter: blur(5px);
+            transition: border-color 0.3s ease, background 0.3s ease;
+        }
+
+        .music-player:hover { 
+            border-color: var(--accent-red); 
+            background: rgba(0, 0, 0, 0.8);
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.2);
+        }
+
+        .music-btn {
+            background: none; border: none; color: white;
+            font-size: 1.5rem; outline: none;
+        }
+        
+        .music-text { font-size: 0.85rem; opacity: 0.8; }
+
         @media (max-width: 768px) {
-            nav {
-                flex-direction: column;
-                gap: 1.5rem;
-                padding: 1rem;
-            }
-            .socials {
-                position: static;
-                transform: none;
-                width: 100%;
-                justify-content: space-around;
-                gap: 1rem;
-            }
-            .logo-text { font-size: 1.8rem; }
-        }
-
-        /* Hareket Azaltma (Erişilebilirlik) */
-        @media (prefers-reduced-motion: reduce) {
-            *, ::before, ::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
-            .red-line { left: 0 !important; width: 100% !important; animation: none !important; }
-            .hero:hover .hero-bg { transform: none; }
+            nav { flex-direction: column; gap: 1rem; }
+            * { cursor: auto !important; } 
+            .custom-cursor { display: none !important; }
+            .music-player { bottom: 15px; left: 15px; padding: 8px 12px; }
+            .hero-bg { transition: none; } 
+            #visualizer-canvas { height: 80px; }
         }
     </style>
 </head>
 <body>
 
+    <!-- Arka Plan Müzik Oynatıcısı -->
+    <audio id="bg-music" loop crossorigin="anonymous">
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="custom-cursor" id="cursor"></div>
+    <div id="genjutsu-overlay"></div>
+
+    <!-- Yükleme Ekranı (Sharingan + Logo) -->
+    <div id="splash">
+        <!-- SVG Sharingan Çizimi -->
+        <svg class="sharingan" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="45" fill="#990000" stroke="#111" stroke-width="4"/>
+            <circle cx="50" cy="50" r="24" fill="none" stroke="#111" stroke-width="2" opacity="0.6"/>
+            <circle cx="50" cy="50" r="8" fill="#000"/>
+            <g>
+                <g transform="translate(50, 26)"><circle cx="0" cy="0" r="6" fill="#000"/><path d="M -6 0 Q -10 -15 5 -15 Q 0 -5 6 0 Z" fill="#000"/></g>
+                <g transform="translate(71, 62) rotate(120)"><circle cx="0" cy="0" r="6" fill="#000"/><path d="M -6 0 Q -10 -15 5 -15 Q 0 -5 6 0 Z" fill="#000"/></g>
+                <g transform="translate(29, 62) rotate(240)"><circle cx="0" cy="0" r="6" fill="#000"/><path d="M -6 0 Q -10 -15 5 -15 Q 0 -5 6 0 Z" fill="#000"/></g>
+            </g>
+        </svg>
+
+        <div class="logo-container">
+            <div class="logo-text">yigitqwc</div>
+            <div class="red-line" style="animation: slideLine 1.5s linear infinite;"></div>
+        </div>
+    </div>
+
+    <main class="hero">
+        <div class="hero-bg" id="parallax-bg"></div>
+        <div class="vignette"></div>
+        <canvas id="visualizer-canvas"></canvas>
+        <canvas id="particles-canvas"></canvas>
+    </main>
+
     <nav>
-        <!-- Logo -->
-        <a href="/" class="logo-container" aria-label="Ana Sayfayı Yenile" onclick="window.location.reload(); return false;">
+        <a href="/" class="logo-container hover-target" onclick="window.location.reload(); return false;">
             <div class="logo-text">yigitqwc</div>
             <div class="red-line"></div>
         </a>
 
-        <!-- Sosyal Medya -->
         <div class="socials">
-            <a href="https://www.instagram.com/yigitqwc/" target="_blank" rel="noopener noreferrer" class="social-link">
-                <!-- Instagram SVG -->
+            <a href="https://www.instagram.com/yigitqwc/" target="_blank" class="social-link hover-target">
                 <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm3.98-10.169a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
                 <span>yigitqwc</span>
             </a>
-            <a href="https://www.tiktok.com/@yigitqwc3" target="_blank" rel="noopener noreferrer" class="social-link">
-                <!-- TikTok SVG -->
+            <a href="https://www.tiktok.com/@yigitqwc3" target="_blank" class="social-link hover-target">
                 <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 15.68a6.34 6.34 0 006.27 6.36 6.33 6.33 0 006.26-6.19v-6a8.28 8.28 0 004.47 1.3V7.69a4.85 4.85 0 01-2.41-1z"/></svg>
                 <span>yigitqwc3</span>
             </a>
         </div>
     </nav>
 
-    <main class="hero">
-        <div class="hero-bg"></div>
-    </main>
+    <div class="music-player hover-target" id="musicToggle">
+        <button class="music-btn" id="musicIcon">▶</button>
+        <span class="music-text">Sesi Aç</span>
+    </div>
 
+    <script>
+        // MÜZİK VE CANLI RİTİM (VISUALIZER) KONTROLÜ
+        const bgMusic = document.getElementById('bg-music');
+        const musicToggle = document.getElementById('musicToggle');
+        const musicIcon = document.getElementById('musicIcon');
+        const musicText = document.querySelector('.music-text');
+        
+        let isPlaying = false;
+        let audioCtx, analyser, source, dataArray, bufferLength;
+        
+        const visCanvas = document.getElementById('visualizer-canvas');
+        const visCtx = visCanvas.getContext('2d');
+        visCanvas.width = window.innerWidth;
+        
+        function initAudioVisualizer() {
+            if(audioCtx) return; 
+            try {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                analyser = audioCtx.createAnalyser();
+                source = audioCtx.createMediaElementSource(bgMusic);
+                source.connect(analyser);
+                analyser.connect(audioCtx.destination);
+                analyser.fftSize = 128; 
+                bufferLength = analyser.frequencyBinCount;
+                dataArray = new Uint8Array(bufferLength);
+                drawVisualizer();
+            } catch(e) {
+                console.log("Visualizer yerel sunucularda engellenebilir, GitHub Pages'te çalışacaktır.");
+            }
+        }
+
+        function drawVisualizer() {
+            requestAnimationFrame(drawVisualizer);
+            if(!analyser) return;
+            analyser.getByteFrequencyData(dataArray);
+            visCtx.clearRect(0, 0, visCanvas.width, visCanvas.height);
+            
+            const barWidth = (visCanvas.width / bufferLength) * 2;
+            let barHeight, x = 0;
+            
+            for(let i = 0; i < bufferLength; i++) {
+                barHeight = dataArray[i];
+                visCtx.fillStyle = `rgba(200, 0, 0, ${barHeight / 255})`;
+                visCtx.fillRect(x, visCanvas.height - barHeight/2, barWidth - 1, barHeight/2);
+                x += barWidth;
+            }
+        }
+
+        musicToggle.addEventListener('click', () => {
+            initAudioVisualizer(); 
+            if (audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+
+            if (isPlaying) {
+                bgMusic.pause();
+                musicIcon.innerText = '▶';
+                musicText.innerText = 'Sesi Aç';
+            } else {
+                bgMusic.play();
+                musicIcon.innerText = '⏸';
+                musicText.innerText = 'Sesi Kapat';
+            }
+            isPlaying = !isPlaying;
+        });
+
+        // AÇILIŞ EKRANI (Biraz daha uzun tuttuk ki Sharingan belli olsun)
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('splash').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('splash').style.visibility = 'hidden';
+                }, 1000);
+            }, 2000);
+        });
+
+        // İMLEÇ, PARALLAX VE AMATERASU İZİ KONTROLÜ
+        const cursor = document.getElementById('cursor');
+        const hoverTargets = document.querySelectorAll('.hover-target');
+        const parallaxBg = document.getElementById('parallax-bg');
+
+        let amaterasuTrail = [];
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+
+            const x = (e.clientX / window.innerWidth - 0.5) * 30; 
+            const y = (e.clientY / window.innerHeight - 0.5) * 30;
+            parallaxBg.style.transform = `translate(${-x}px, ${-y}px)`;
+
+            // Amaterasu Ateş izi oluştur
+            for(let i=0; i<3; i++){
+                amaterasuTrail.push(new TrailParticle(e.clientX, e.clientY));
+            }
+        });
+
+        document.addEventListener('click', (e) => {
+            const ripple = document.createElement('div');
+            ripple.classList.add('click-ripple');
+            ripple.style.left = e.clientX + 'px';
+            ripple.style.top = e.clientY + 'px';
+            document.body.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        });
+
+        hoverTargets.forEach(target => {
+            target.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
+            target.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
+        });
+
+        // EASTER EGG (Genjutsu)
+        let typedCode = '';
+        const secretCode = 'itachi';
+        
+        document.addEventListener('keydown', (e) => {
+            typedCode += e.key.toLowerCase();
+            if (typedCode.length > secretCode.length) {
+                typedCode = typedCode.slice(-secretCode.length);
+            }
+            if (typedCode === secretCode) {
+                triggerGenjutsu();
+            }
+        });
+
+        function triggerGenjutsu() {
+            const overlay = document.getElementById('genjutsu-overlay');
+            document.body.classList.add('genjutsu-active');
+            overlay.style.opacity = '1';
+            
+            setTimeout(() => {
+                document.body.classList.remove('genjutsu-active');
+                overlay.style.opacity = '0';
+            }, 1500);
+        }
+
+        // UÇUŞAN KÜLLER VE AMATERASU ATEŞ ÇİZİMİ
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+        let particlesArray = [];
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height + Math.random() * 200; 
+                this.size = Math.random() * 2.5 + 1; 
+                this.speedY = Math.random() * 1.5 + 0.5; 
+                this.speedX = (Math.random() * 1) - 0.5; 
+                this.opacity = Math.random() * 0.6 + 0.1; 
+            }
+            update() {
+                this.y -= this.speedY;
+                this.x += this.speedX;
+                if (this.y < 0 - this.size) {
+                    this.y = canvas.height + Math.random() * 100;
+                    this.x = Math.random() * canvas.width;
+                }
+            }
+            draw() {
+                ctx.fillStyle = `rgba(255, 0, 0, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        // Siyah/Koyu kırmızı Amaterasu ateş parçacıkları
+        class TrailParticle {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.size = Math.random() * 6 + 2;
+                this.speedX = (Math.random() - 0.5) * 1.5;
+                this.speedY = (Math.random() - 1.5) * 2; 
+                this.life = 1;
+                this.color = Math.random() > 0.4 ? 'rgba(0, 0, 0,' : 'rgba(120, 0, 0,'; 
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.life -= 0.04;
+                this.size *= 0.95;
+            }
+            draw() {
+                ctx.fillStyle = this.color + Math.max(this.life, 0) + ')';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            for (let i = 0; i < 60; i++) {
+                particlesArray.push(new Particle());
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Külleri çiz
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
+            }
+
+            // Fare izini (Amaterasu) çiz
+            for (let i = 0; i < amaterasuTrail.length; i++) {
+                amaterasuTrail[i].update();
+                amaterasuTrail[i].draw();
+                // Ömrü biteni sil
+                if (amaterasuTrail[i].life <= 0) {
+                    amaterasuTrail.splice(i, 1);
+                    i--;
+                }
+            }
+            
+            requestAnimationFrame(animateParticles);
+        }
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            visCanvas.width = window.innerWidth;
+        });
+
+        initParticles();
+        animateParticles();
+    </script>
 </body>
 </html>
