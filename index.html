@@ -38,7 +38,7 @@
             transition: filter 0.1s;
         }
 
-        /* 1. KAN DAMLASI TIKLAMA EFEKTİ */
+        /* KAN DAMLASI TIKLAMA EFEKTİ */
         .click-ripple {
             position: fixed;
             border-radius: 50%;
@@ -112,7 +112,7 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* NAVİGASYON */
+        /* NAVİGASYON (SHORT LİNKİ EKLENDİ) */
         nav {
             background-color: var(--nav-bg);
             backdrop-filter: blur(8px);
@@ -123,6 +123,13 @@
             position: relative;
             z-index: 100;
             border-bottom: 1px solid rgba(255, 0, 0, 0.1);
+        }
+
+        /* SOL MENÜ GRUBU */
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 2.5rem;
         }
 
         .logo-container {
@@ -161,6 +168,23 @@
         @keyframes slideLine {
             0% { left: -20px; }
             100% { left: 100%; }
+        }
+
+        /* YENİ SHORT LİNKİ TASARIMI */
+        .short-link {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: lowercase;
+            transition: color 0.3s ease, text-shadow 0.3s ease, transform 0.3s ease;
+        }
+
+        .short-link:hover {
+            color: var(--accent-red);
+            text-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
+            transform: translateY(-2px);
         }
 
         .socials {
@@ -243,7 +267,7 @@
             position: fixed;
             bottom: 0; left: 0;
             width: 100%; height: 120px;
-            z-index: 50; /* Arka planda kalması için düşük z-index */
+            z-index: 50; 
             pointer-events: none;
             opacity: 0.5;
         }
@@ -306,6 +330,7 @@
 
         @media (max-width: 768px) {
             nav { flex-direction: column; gap: 1rem; }
+            .nav-left { flex-direction: column; gap: 1rem; }
             * { cursor: auto !important; } 
             .custom-cursor { display: none !important; }
             .music-player { bottom: 15px; left: 15px; padding: 8px 12px; }
@@ -352,10 +377,14 @@
     </main>
 
     <nav>
-        <a href="/" class="logo-container hover-target" onclick="window.location.reload(); return false;">
-            <div class="logo-text">yigitqwc</div>
-            <div class="red-line"></div>
-        </a>
+        <div class="nav-left">
+            <a href="/" class="logo-container hover-target" onclick="window.location.reload(); return false;">
+                <div class="logo-text">yigitqwc</div>
+                <div class="red-line"></div>
+            </a>
+            <!-- Bizi INDEX2 (Oyun Sayfasına) Götürecek Link -->
+            <a href="index2.html" class="short-link hover-target">short</a>
+        </div>
 
         <div class="socials">
             <a href="https://www.instagram.com/yigitqwc/" target="_blank" class="social-link hover-target">
@@ -440,7 +469,7 @@
             isPlaying = !isPlaying;
         });
 
-        // AÇILIŞ EKRANI (Biraz daha uzun tuttuk ki Sharingan belli olsun)
+        // AÇILIŞ EKRANI
         window.addEventListener('load', () => {
             setTimeout(() => {
                 document.getElementById('splash').style.opacity = '0';
@@ -546,7 +575,6 @@
             }
         }
 
-        // Siyah/Koyu kırmızı Amaterasu ateş parçacıkları
         class TrailParticle {
             constructor(x, y) {
                 this.x = x;
@@ -580,17 +608,14 @@
         function animateParticles() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
-            // Külleri çiz
             for (let i = 0; i < particlesArray.length; i++) {
                 particlesArray[i].update();
                 particlesArray[i].draw();
             }
 
-            // Fare izini (Amaterasu) çiz
             for (let i = 0; i < amaterasuTrail.length; i++) {
                 amaterasuTrail[i].update();
                 amaterasuTrail[i].draw();
-                // Ömrü biteni sil
                 if (amaterasuTrail[i].life <= 0) {
                     amaterasuTrail.splice(i, 1);
                     i--;
@@ -608,6 +633,16 @@
 
         initParticles();
         animateParticles();
+
+        // KORUMA (CAYDIRICI) KODU
+        document.addEventListener('contextmenu', event => event.preventDefault());
+        document.onkeydown = function(e) {
+            if(e.keyCode == 123) { return false; } 
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { return false; } 
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { return false; } 
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { return false; } 
+            if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { return false; } 
+        }
     </script>
 </body>
 </html>
