@@ -324,9 +324,10 @@
         .music-btn {
             background: none; border: none; color: white;
             font-size: 1.5rem; outline: none;
+            pointer-events: none;
         }
         
-        .music-text { font-size: 0.85rem; opacity: 0.8; }
+        .music-text { font-size: 0.85rem; opacity: 0.8; pointer-events: none; user-select: none; }
 
         @media (max-width: 768px) {
             nav { flex-direction: column; gap: 1rem; }
@@ -342,7 +343,7 @@
 <body>
 
     <!-- Arka Plan Müzik Oynatıcısı -->
-    <audio id="bg-music" loop crossorigin="anonymous">
+    <audio id="bg-music" loop preload="auto">
         <source src="music.mp3" type="audio/mpeg">
     </audio>
 
@@ -422,36 +423,68 @@
             try {
                 audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                 analyser = audioCtx.createAnalyser();
+                analyser.fftSize = 128;
+                analyser.smoothingTimeConstant = 0.8;
                 source = audioCtx.createMediaElementSource(bgMusic);
                 source.connect(analyser);
                 analyser.connect(audioCtx.destination);
-                analyser.fftSize = 128; 
                 bufferLength = analyser.frequencyBinCount;
                 dataArray = new Uint8Array(bufferLength);
-                drawVisualizer();
             } catch(e) {
-                console.log("Visualizer yerel sunucularda engellenebilir, GitHub Pages'te çalışacaktır.");
+                console.log("Web Audio başlatılamadı, senkronize ritim modu aktif:", e);
             }
         }
 
         function drawVisualizer() {
             requestAnimationFrame(drawVisualizer);
-            if(!analyser) return;
-            analyser.getByteFrequencyData(dataArray);
             visCtx.clearRect(0, 0, visCanvas.width, visCanvas.height);
             
-            const barWidth = (visCanvas.width / bufferLength) * 2;
-            let barHeight, x = 0;
-            
-            for(let i = 0; i < bufferLength; i++) {
-                barHeight = dataArray[i];
-                visCtx.fillStyle = `rgba(200, 0, 0, ${barHeight / 255})`;
-                visCtx.fillRect(x, visCanvas.height - barHeight/2, barWidth - 1, barHeight/2);
-                x += barWidth;
+            if (!isPlaying) return;
+
+            let hasAudioData = false;
+            if (analyser && dataArray) {
+                analyser.getByteFrequencyData(dataArray);
+                for(let i = 0; i < bufferLength; i++) {
+                    if (dataArray[i] > 0) {
+                        hasAudioData = true;
+                        break;
+                    }
+                }
+            }
+
+            if (hasAudioData) {
+                // Gerçek ses frekans dalgaları (müziğin her vuruşuna tam tepki)
+                const barWidth = (visCanvas.width / bufferLength) * 2;
+                let x = 0;
+                for(let i = 0; i < bufferLength; i++) {
+                    const barHeight = (dataArray[i] / 255) * 115;
+                    visCtx.fillStyle = `rgba(255, 0, 0, ${dataArray[i] / 255 * 0.8 + 0.2})`;
+                    visCtx.fillRect(x, visCanvas.height - barHeight, barWidth - 1, barHeight);
+                    x += barWidth;
+                }
+            } else {
+                // Şarkının gerçek çalma süresine (currentTime) tam kilitli bas ve ritim simülasyonu
+                const t = bgMusic.currentTime;
+                // Şarkının vuruş temposuna göre bas dalgası
+                const beat = Math.abs(Math.sin(t * Math.PI * 2.15));
+                const bassKick = Math.pow(beat, 4) * 80; 
+                const bars = 56;
+                const barWidth = visCanvas.width / bars;
+
+                for (let i = 0; i < bars; i++) {
+                    const freqWeight = Math.max(0.25, 1 - (i / bars) * 0.65);
+                    const wave = Math.sin(t * 8 + i * 0.28) * 14;
+                    const h = Math.max(8, (bassKick * freqWeight) + wave + (Math.sin(t * 4.3 + i * 0.5) * 12) + 18);
+                    visCtx.fillStyle = `rgba(255, 0, 0, ${Math.min(h / 85, 0.88)})`;
+                    visCtx.fillRect(i * barWidth, visCanvas.height - h, barWidth - 2, h);
+                }
             }
         }
 
-        musicToggle.addEventListener('click', () => {
+        drawVisualizer();
+
+        musicToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
             initAudioVisualizer(); 
             if (audioCtx && audioCtx.state === 'suspended') {
                 audioCtx.resume();
@@ -461,21 +494,41 @@
                 bgMusic.pause();
                 musicIcon.innerText = '▶';
                 musicText.innerText = 'Sesi Aç';
+                isPlaying = false;
             } else {
-                bgMusic.play();
-                musicIcon.innerText = '⏸';
-                musicText.innerText = 'Sesi Kapat';
+                bgMusic.volume = 0.8;
+                const playPromise = bgMusic.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        musicIcon.innerText = '⏸';
+                        musicText.innerText = 'Sesi Kapat';
+                        isPlaying = true;
+                    }).catch(err => {
+                        console.warn("Müzik çalma başlatılamadı:", err);
+                        musicIcon.innerText = '▶';
+                        musicText.innerText = 'Sesi Aç';
+                        isPlaying = false;
+                    });
+                } else {
+                    musicIcon.innerText = '⏸';
+                    musicText.innerText = 'Sesi Kapat';
+                    isPlaying = true;
+                }
             }
-            isPlaying = !isPlaying;
         });
 
         // AÇILIŞ EKRANI
         window.addEventListener('load', () => {
+            const splash = document.getElementById('splash');
             setTimeout(() => {
-                document.getElementById('splash').style.opacity = '0';
-                setTimeout(() => {
-                    document.getElementById('splash').style.visibility = 'hidden';
-                }, 1000);
+                if(splash) {
+                    splash.style.opacity = '0';
+                    splash.style.pointerEvents = 'none';
+                    setTimeout(() => {
+                        splash.style.visibility = 'hidden';
+                        splash.style.display = 'none';
+                    }, 1000);
+                }
             }, 2000);
         });
 
