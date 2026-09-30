@@ -3,13 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
     <title>yigitqwc</title>
     <meta name="description" content="yigitqwc kişisel web sitesi.">
     <meta property="og:title" content="yigitqwc">
     <meta property="og:image" content="bg.jpg">
     <meta property="og:type" content="website">
-    
     <link rel="icon" href="favicon.ico" type="image/x-icon">
 
     <style>
@@ -38,7 +36,6 @@
             transition: filter 0.1s;
         }
 
-        /* KAN DAMLASI TIKLAMA EFEKTİ */
         .click-ripple {
             position: fixed;
             border-radius: 50%;
@@ -55,7 +52,6 @@
             100% { width: 120px; height: 120px; opacity: 0; border-width: 1px; }
         }
 
-        /* YENİ HAVALI FARE İMLECİ */
         .custom-cursor {
             position: fixed;
             top: 0; left: 0;
@@ -85,7 +81,6 @@
             transform: translate(-50%, -50%) rotate(135deg);
         }
 
-        /* YENİ SHARINGAN AÇILIŞ (SPLASH) EKRANI */
         #splash {
             position: fixed;
             top: 0; left: 0;
@@ -112,7 +107,6 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* NAVİGASYON (SHORT LİNKİ EKLENDİ) */
         nav {
             background-color: var(--nav-bg);
             backdrop-filter: blur(8px);
@@ -125,24 +119,25 @@
             border-bottom: 1px solid rgba(255, 0, 0, 0.1);
         }
 
-        /* SOL MENÜ GRUBU */
         .nav-left {
             display: flex;
             align-items: center;
-            gap: 2.5rem;
+            gap: 2rem;
         }
 
         .logo-container {
             position: relative;
             text-decoration: none;
             color: var(--text-color);
-            padding-bottom: 5px;
+            display: inline-block;
+            padding-bottom: 4px;
         }
 
         .logo-text {
             font-size: 2rem;
             font-weight: 800;
             letter-spacing: -0.5px;
+            display: inline-block;
             animation: glitch-anim 6s infinite;
         }
 
@@ -153,25 +148,35 @@
             98% { text-shadow: 3px 0 0 red, -3px 0 0 white; transform: translate(3px, 2px); }
         }
 
-        .red-line {
+        .red-line-wrapper {
             position: absolute;
-            bottom: 0; left: 0;
-            width: 20px; height: 4px;
-            background-color: var(--accent-red);
-            transition: left 0.4s ease-out;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: rgba(255, 0, 0, 0.2);
+            border-radius: 2px;
+            overflow: hidden;
         }
 
-        .logo-container:hover .red-line {
-            animation: slideLine 2.5s linear infinite;
+        .red-line-wrapper::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -50%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, #ff0000, #ffffff, #ff0000, transparent);
+            box-shadow: 0 0 8px #ff0000;
+            animation: beamMove 2.5s infinite linear;
         }
 
-        @keyframes slideLine {
-            0% { left: -20px; }
+        @keyframes beamMove {
+            0% { left: -50%; }
             100% { left: 100%; }
         }
 
-        /* YENİ SHORT LİNKİ TASARIMI */
-        .short-link {
+        .nav-nav-link {
             color: var(--text-color);
             text-decoration: none;
             font-size: 1.2rem;
@@ -181,7 +186,7 @@
             transition: color 0.3s ease, text-shadow 0.3s ease, transform 0.3s ease;
         }
 
-        .short-link:hover {
+        .nav-nav-link:hover {
             color: var(--accent-red);
             text-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
             transform: translateY(-2px);
@@ -224,7 +229,6 @@
             text-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
         }
 
-        /* ANA GÖRSEL, PARALLAX & VİNYET */
         .hero {
             flex-grow: 1;
             position: absolute;
@@ -262,7 +266,6 @@
             pointer-events: none;
         }
 
-        /* CANLI MÜZİK RİTMİ (VISUALIZER) EKRANI */
         #visualizer-canvas {
             position: fixed;
             bottom: 0; left: 0;
@@ -272,7 +275,6 @@
             opacity: 0.5;
         }
 
-        /* GENJUTSU (EASTER EGG) EKRANI */
         #genjutsu-overlay {
             position: fixed;
             top: 0; left: 0;
@@ -299,7 +301,6 @@
             100% { transform: translate(-1px, -2px) rotate(-1deg); }
         }
 
-        /* MÜZİK ÇALAR */
         .music-player {
             position: fixed;
             bottom: 30px; left: 30px;
@@ -324,10 +325,9 @@
         .music-btn {
             background: none; border: none; color: white;
             font-size: 1.5rem; outline: none;
-            pointer-events: none;
         }
         
-        .music-text { font-size: 0.85rem; opacity: 0.8; pointer-events: none; user-select: none; }
+        .music-text { font-size: 0.85rem; opacity: 0.8; }
 
         @media (max-width: 768px) {
             nav { flex-direction: column; gap: 1rem; }
@@ -342,17 +342,14 @@
 </head>
 <body>
 
-    <!-- Arka Plan Müzik Oynatıcısı -->
-    <audio id="bg-music" loop preload="auto">
+    <audio id="bg-music" loop crossorigin="anonymous">
         <source src="music.mp3" type="audio/mpeg">
     </audio>
 
     <div class="custom-cursor" id="cursor"></div>
     <div id="genjutsu-overlay"></div>
 
-    <!-- Yükleme Ekranı (Sharingan + Logo) -->
     <div id="splash">
-        <!-- SVG Sharingan Çizimi -->
         <svg class="sharingan" viewBox="0 0 100 100">
             <circle cx="50" cy="50" r="45" fill="#990000" stroke="#111" stroke-width="4"/>
             <circle cx="50" cy="50" r="24" fill="none" stroke="#111" stroke-width="2" opacity="0.6"/>
@@ -366,7 +363,7 @@
 
         <div class="logo-container">
             <div class="logo-text">yigitqwc</div>
-            <div class="red-line" style="animation: slideLine 1.5s linear infinite;"></div>
+            <div class="red-line-wrapper"></div>
         </div>
     </div>
 
@@ -381,10 +378,11 @@
         <div class="nav-left">
             <a href="/" class="logo-container hover-target" onclick="window.location.reload(); return false;">
                 <div class="logo-text">yigitqwc</div>
-                <div class="red-line"></div>
+                <div class="red-line-wrapper"></div>
             </a>
-            <!-- Bizi INDEX2 (Oyun Sayfasına) Götürecek Link -->
-            <a href="index2.html" class="short-link hover-target">short</a>
+            <a href="index2.html" class="nav-nav-link hover-target">short</a>
+            <!-- YENİ SLOT BÖLÜMÜ -->
+            <a href="index3.html" class="nav-nav-link hover-target">slot</a>
         </div>
 
         <div class="socials">
@@ -405,7 +403,6 @@
     </div>
 
     <script>
-        // MÜZİK VE CANLI RİTİM (VISUALIZER) KONTROLÜ
         const bgMusic = document.getElementById('bg-music');
         const musicToggle = document.getElementById('musicToggle');
         const musicIcon = document.getElementById('musicIcon');
@@ -423,68 +420,34 @@
             try {
                 audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                 analyser = audioCtx.createAnalyser();
-                analyser.fftSize = 128;
-                analyser.smoothingTimeConstant = 0.8;
                 source = audioCtx.createMediaElementSource(bgMusic);
                 source.connect(analyser);
                 analyser.connect(audioCtx.destination);
+                analyser.fftSize = 128; 
                 bufferLength = analyser.frequencyBinCount;
                 dataArray = new Uint8Array(bufferLength);
-            } catch(e) {
-                console.log("Web Audio başlatılamadı, senkronize ritim modu aktif:", e);
-            }
+                drawVisualizer();
+            } catch(e) {}
         }
 
         function drawVisualizer() {
             requestAnimationFrame(drawVisualizer);
+            if(!analyser) return;
+            analyser.getByteFrequencyData(dataArray);
             visCtx.clearRect(0, 0, visCanvas.width, visCanvas.height);
             
-            if (!isPlaying) return;
-
-            let hasAudioData = false;
-            if (analyser && dataArray) {
-                analyser.getByteFrequencyData(dataArray);
-                for(let i = 0; i < bufferLength; i++) {
-                    if (dataArray[i] > 0) {
-                        hasAudioData = true;
-                        break;
-                    }
-                }
-            }
-
-            if (hasAudioData) {
-                // Gerçek ses frekans dalgaları (müziğin her vuruşuna tam tepki)
-                const barWidth = (visCanvas.width / bufferLength) * 2;
-                let x = 0;
-                for(let i = 0; i < bufferLength; i++) {
-                    const barHeight = (dataArray[i] / 255) * 115;
-                    visCtx.fillStyle = `rgba(255, 0, 0, ${dataArray[i] / 255 * 0.8 + 0.2})`;
-                    visCtx.fillRect(x, visCanvas.height - barHeight, barWidth - 1, barHeight);
-                    x += barWidth;
-                }
-            } else {
-                // Şarkının gerçek çalma süresine (currentTime) tam kilitli bas ve ritim simülasyonu
-                const t = bgMusic.currentTime;
-                // Şarkının vuruş temposuna göre bas dalgası
-                const beat = Math.abs(Math.sin(t * Math.PI * 2.15));
-                const bassKick = Math.pow(beat, 4) * 80; 
-                const bars = 56;
-                const barWidth = visCanvas.width / bars;
-
-                for (let i = 0; i < bars; i++) {
-                    const freqWeight = Math.max(0.25, 1 - (i / bars) * 0.65);
-                    const wave = Math.sin(t * 8 + i * 0.28) * 14;
-                    const h = Math.max(8, (bassKick * freqWeight) + wave + (Math.sin(t * 4.3 + i * 0.5) * 12) + 18);
-                    visCtx.fillStyle = `rgba(255, 0, 0, ${Math.min(h / 85, 0.88)})`;
-                    visCtx.fillRect(i * barWidth, visCanvas.height - h, barWidth - 2, h);
-                }
+            const barWidth = (visCanvas.width / bufferLength) * 2;
+            let barHeight, x = 0;
+            
+            for(let i = 0; i < bufferLength; i++) {
+                barHeight = dataArray[i];
+                visCtx.fillStyle = `rgba(200, 0, 0, ${barHeight / 255})`;
+                visCtx.fillRect(x, visCanvas.height - barHeight/2, barWidth - 1, barHeight/2);
+                x += barWidth;
             }
         }
 
-        drawVisualizer();
-
-        musicToggle.addEventListener('click', (e) => {
-            e.stopPropagation();
+        musicToggle.addEventListener('click', () => {
             initAudioVisualizer(); 
             if (audioCtx && audioCtx.state === 'suspended') {
                 audioCtx.resume();
@@ -494,45 +457,23 @@
                 bgMusic.pause();
                 musicIcon.innerText = '▶';
                 musicText.innerText = 'Sesi Aç';
-                isPlaying = false;
             } else {
-                bgMusic.volume = 0.8;
-                const playPromise = bgMusic.play();
-                if (playPromise !== undefined) {
-                    playPromise.then(() => {
-                        musicIcon.innerText = '⏸';
-                        musicText.innerText = 'Sesi Kapat';
-                        isPlaying = true;
-                    }).catch(err => {
-                        console.warn("Müzik çalma başlatılamadı:", err);
-                        musicIcon.innerText = '▶';
-                        musicText.innerText = 'Sesi Aç';
-                        isPlaying = false;
-                    });
-                } else {
-                    musicIcon.innerText = '⏸';
-                    musicText.innerText = 'Sesi Kapat';
-                    isPlaying = true;
-                }
+                bgMusic.play();
+                musicIcon.innerText = '⏸';
+                musicText.innerText = 'Sesi Kapat';
             }
+            isPlaying = !isPlaying;
         });
 
-        // AÇILIŞ EKRANI
         window.addEventListener('load', () => {
-            const splash = document.getElementById('splash');
             setTimeout(() => {
-                if(splash) {
-                    splash.style.opacity = '0';
-                    splash.style.pointerEvents = 'none';
-                    setTimeout(() => {
-                        splash.style.visibility = 'hidden';
-                        splash.style.display = 'none';
-                    }, 1000);
-                }
+                document.getElementById('splash').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('splash').style.visibility = 'hidden';
+                }, 1000);
             }, 2000);
         });
 
-        // İMLEÇ, PARALLAX VE AMATERASU İZİ KONTROLÜ
         const cursor = document.getElementById('cursor');
         const hoverTargets = document.querySelectorAll('.hover-target');
         const parallaxBg = document.getElementById('parallax-bg');
@@ -547,7 +488,6 @@
             const y = (e.clientY / window.innerHeight - 0.5) * 30;
             parallaxBg.style.transform = `translate(${-x}px, ${-y}px)`;
 
-            // Amaterasu Ateş izi oluştur
             for(let i=0; i<3; i++){
                 amaterasuTrail.push(new TrailParticle(e.clientX, e.clientY));
             }
@@ -559,10 +499,7 @@
             ripple.style.left = e.clientX + 'px';
             ripple.style.top = e.clientY + 'px';
             document.body.appendChild(ripple);
-            
-            setTimeout(() => {
-                ripple.remove();
-            }, 600);
+            setTimeout(() => { ripple.remove(); }, 600);
         });
 
         hoverTargets.forEach(target => {
@@ -570,7 +507,6 @@
             target.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
         });
 
-        // EASTER EGG (Genjutsu)
         let typedCode = '';
         const secretCode = 'itachi';
         
@@ -588,14 +524,12 @@
             const overlay = document.getElementById('genjutsu-overlay');
             document.body.classList.add('genjutsu-active');
             overlay.style.opacity = '1';
-            
             setTimeout(() => {
                 document.body.classList.remove('genjutsu-active');
                 overlay.style.opacity = '0';
             }, 1500);
         }
 
-        // UÇUŞAN KÜLLER VE AMATERASU ATEŞ ÇİZİMİ
         const canvas = document.getElementById('particles-canvas');
         const ctx = canvas.getContext('2d');
         let particlesArray = [];
@@ -660,12 +594,10 @@
 
         function animateParticles() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
             for (let i = 0; i < particlesArray.length; i++) {
                 particlesArray[i].update();
                 particlesArray[i].draw();
             }
-
             for (let i = 0; i < amaterasuTrail.length; i++) {
                 amaterasuTrail[i].update();
                 amaterasuTrail[i].draw();
@@ -674,7 +606,6 @@
                     i--;
                 }
             }
-            
             requestAnimationFrame(animateParticles);
         }
 
@@ -687,7 +618,6 @@
         initParticles();
         animateParticles();
 
-        // KORUMA (CAYDIRICI) KODU
         document.addEventListener('contextmenu', event => event.preventDefault());
         document.onkeydown = function(e) {
             if(e.keyCode == 123) { return false; } 

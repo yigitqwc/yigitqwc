@@ -8,7 +8,7 @@
     <style>
         :root {
             --bg-color: #050505;
-            --nav-bg: rgba(0, 0, 0, 0.75);
+            --nav-bg: rgba(0, 0, 0, 0.8);
             --text-color: #ffffff;
             --accent-red: #ff0000;
             --accent-gold: #ffaa00;
@@ -30,7 +30,7 @@
         .custom-cursor {
             position: fixed; top: 0; left: 0; width: 16px; height: 16px;
             background-color: transparent; border: 2px solid var(--accent-red);
-            pointer-events: none; z-index: 99999;
+            pointer-events: none; z-index: 9999999;
             transform: translate(-50%, -50%) rotate(45deg);
             box-shadow: 0 0 10px var(--accent-red), inset 0 0 5px var(--accent-red);
         }
@@ -39,6 +39,40 @@
             background: var(--accent-red); transform: translate(-50%, -50%);
         }
         .cursor-hover { width: 28px; height: 28px; background-color: rgba(255, 0, 0, 0.25); }
+
+        /* AÇILIŞ (SPLASH) EKRANI */
+        #splash {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #000; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; z-index: 99999;
+            transition: opacity 1s ease, visibility 1s ease;
+        }
+        .sharingan-loader {
+            width: 80px; height: 80px; margin-bottom: 25px;
+            animation: spin 2.5s linear infinite;
+            filter: drop-shadow(0 0 15px rgba(255,0,0,0.8));
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* DÜZELTİLMİŞ LOGO VE KUSURSUZ ŞERİT */
+        .logo-container {
+            position: relative; text-decoration: none; color: var(--text-color);
+            display: inline-block; padding-bottom: 4px;
+        }
+        .logo-text {
+            font-size: 1.8rem; font-weight: 800; letter-spacing: -0.5px;
+            display: inline-block; color: #fff;
+        }
+        .red-line-wrapper {
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 3px;
+            background: rgba(255, 0, 0, 0.2); border-radius: 2px; overflow: hidden;
+        }
+        .red-line-wrapper::after {
+            content: ''; position: absolute; top: 0; left: -50%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, #ff0000, #ffffff, #ff0000, transparent);
+            box-shadow: 0 0 8px #ff0000; animation: beamMove 2.5s infinite linear;
+        }
+        @keyframes beamMove { 0% { left: -50%; } 100% { left: 100%; } }
 
         /* ARKA PLAN */
         .hero-bg {
@@ -59,21 +93,20 @@
             background: var(--nav-bg); backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(255, 0, 0, 0.25);
         }
-        .nav-left { display: flex; align-items: center; gap: 1.2rem; }
-        .logo-text { font-size: 1.6rem; font-weight: 800; text-decoration: none; color: #fff; letter-spacing: -1px;}
+        .nav-left { display: flex; align-items: center; gap: 1.5rem; }
         
-        .tab-buttons { display: flex; gap: 6px; }
+        .tab-buttons { display: flex; gap: 8px; }
         .tab-btn {
             background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 0, 0, 0.3);
-            color: #ccc; padding: 6px 12px; border-radius: 20px; font-weight: 600;
-            font-size: 0.8rem; outline: none; transition: all 0.3s;
+            color: #ccc; padding: 6px 14px; border-radius: 20px; font-weight: 600;
+            font-size: 0.85rem; outline: none; transition: all 0.3s;
         }
         .tab-btn.active, .tab-btn:hover {
             background: rgba(255, 0, 0, 0.35); border-color: var(--accent-red);
             color: #fff; box-shadow: 0 0 10px rgba(255, 0, 0, 0.6);
         }
 
-        .back-link { color: #aaa; text-decoration: none; font-size: 0.85rem; font-weight: 600; transition: color 0.3s; }
+        .back-link { color: #aaa; text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: color 0.3s; }
         .back-link:hover { color: var(--accent-red); }
 
         .view-section {
@@ -101,8 +134,8 @@
 
         .shop-container {
             background: rgba(12, 0, 0, 0.85); border: 2px solid var(--accent-red);
-            border-radius: 16px; padding: 18px; width: 380px; backdrop-filter: blur(12px);
-            box-shadow: 0 0 35px rgba(255,0,0,0.25); max-height: 75vh; display: flex; flex-direction: column;
+            border-radius: 16px; padding: 18px; width: 360px; backdrop-filter: blur(12px);
+            box-shadow: 0 0 35px rgba(255,0,0,0.25); max-height: 72vh; display: flex; flex-direction: column;
         }
         .shop-tabs { display: flex; gap: 8px; margin-bottom: 15px; border-bottom: 1px solid rgba(255,0,0,0.3); padding-bottom: 10px; }
         .shop-tab-btn {
@@ -125,66 +158,40 @@
         .upg-info p { font-size: 0.75rem; color: #aaa; }
         .upg-cost { font-weight: bold; font-size: 1.1rem; color: var(--accent-gold); }
 
-        /* ================= 2. İZANAMİ (AYNISINA BASMA OYUNU) ================= */
-        #view-izanami {
-            flex-direction: column; align-items: center; justify-content: center; position: relative;
-        }
-        .izanami-header { text-align: center; margin-bottom: 20px; }
-        .izanami-header h2 { font-size: 2.2rem; color: var(--accent-red); margin-bottom: 5px; }
-        .izanami-header p { color: #aaa; font-size: 0.95rem; }
-
+        /* ================= 2. İZANAMİ ================= */
+        #view-izanami { flex-direction: column; align-items: center; justify-content: center; position: relative; }
         .izanami-dash {
-            display: flex; gap: 30px; margin-bottom: 20px;
-            background: rgba(0,0,0,0.8); border: 1px solid var(--accent-red);
-            padding: 8px 30px; border-radius: 25px; font-weight: bold; font-size: 1.1rem;
+            display: flex; gap: 30px; margin-bottom: 15px; background: rgba(0,0,0,0.8);
+            border: 1px solid var(--accent-red); padding: 8px 30px; border-radius: 25px; font-weight: bold; font-size: 1.1rem;
         }
-
-        /* Süre Barı */
         .timer-bar-container {
-            width: 380px; height: 10px; background: rgba(255,255,255,0.1);
-            border-radius: 5px; margin-bottom: 30px; overflow: hidden;
+            width: 380px; height: 8px; background: rgba(255,255,255,0.1);
+            border-radius: 5px; margin-bottom: 25px; overflow: hidden;
         }
-        #izanami-timer-fill {
-            width: 100%; height: 100%; background: var(--accent-red);
-            box-shadow: 0 0 10px red; transition: width 0.05s linear;
-        }
-
-        .cards-grid {
-            display: flex; gap: 20px;
-        }
+        #izanami-timer-fill { width: 100%; height: 100%; background: var(--accent-red); box-shadow: 0 0 10px red; }
+        .cards-grid { display: flex; gap: 20px; }
         .eye-card {
-            width: 130px; height: 170px; background: rgba(20, 0, 0, 0.7);
+            width: 125px; height: 165px; background: rgba(20, 0, 0, 0.7);
             border: 2px solid rgba(255, 0, 0, 0.3); border-radius: 14px;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            cursor: pointer; transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
-            user-select: none;
+            cursor: pointer; transition: transform 0.2s, border-color 0.2s; user-select: none;
         }
-        .eye-card:hover {
-            transform: translateY(-8px); border-color: var(--accent-red);
-            box-shadow: 0 0 25px rgba(255, 0, 0, 0.6);
-        }
-        .eye-card-icon { font-size: 3.5rem; margin-bottom: 10px; filter: drop-shadow(0 0 10px rgba(255,0,0,0.5)); }
-        .eye-card-title { font-weight: bold; font-size: 0.95rem; color: #fff; }
-
+        .eye-card:hover { transform: translateY(-8px); border-color: var(--accent-red); box-shadow: 0 0 20px rgba(255,0,0,0.6); }
+        .eye-card-icon { font-size: 3.2rem; margin-bottom: 10px; }
         #izanami-start-btn {
-            margin-top: 30px; padding: 12px 35px; font-size: 1.1rem; font-weight: bold;
-            background: rgba(255,0,0,0.2); border: 2px solid var(--accent-red);
-            color: #fff; border-radius: 30px; cursor: pointer; transition: all 0.3s;
+            margin-top: 25px; padding: 12px 35px; font-size: 1.1rem; font-weight: bold;
+            background: rgba(255,0,0,0.2); border: 2px solid var(--accent-red); color: #fff; border-radius: 30px; cursor: pointer;
         }
-        #izanami-start-btn:hover { background: var(--accent-red); box-shadow: 0 0 20px rgba(255,0,0,0.8); }
 
         /* ================= 3. SUSANOO KULESİ ================= */
         #view-stack { flex-direction: column; align-items: center; justify-content: center; position: relative; }
         .stack-dashboard {
-            position: absolute; top: 15px; display: flex; gap: 30px;
-            background: rgba(0,0,0,0.8); border: 1px solid var(--accent-red);
-            padding: 8px 30px; border-radius: 25px; font-weight: bold; font-size: 1.1rem;
+            position: absolute; top: 15px; display: flex; gap: 30px; background: rgba(0,0,0,0.8);
+            border: 1px solid var(--accent-red); padding: 8px 30px; border-radius: 25px; font-weight: bold;
         }
         .stack-arena {
-            position: relative; width: 380px; height: 400px;
-            border-bottom: 3px solid var(--accent-red);
+            position: relative; width: 380px; height: 400px; border-bottom: 3px solid var(--accent-red);
             overflow: hidden; background: rgba(255,0,0,0.02);
-            box-shadow: 0 10px 20px -10px rgba(255,0,0,0.5);
         }
         #stack-container { position: absolute; bottom: 0; left: 0; width: 100%; height: 100%; }
         .stack-block {
@@ -192,67 +199,40 @@
             background: linear-gradient(90deg, #990000, #ff1100, #ff5500);
             box-shadow: 0 0 12px rgba(255,0,0,0.8), inset 0 0 5px #fff;
         }
-        .stack-controls { margin-top: 15px; display: flex; flex-direction: column; align-items: center; gap: 8px; }
         #stack-action-btn {
-            padding: 10px 35px; font-size: 1rem; font-weight: bold;
-            background: rgba(255,0,0,0.2); border: 2px solid var(--accent-red);
-            color: #fff; border-radius: 30px; cursor: pointer; transition: all 0.2s;
+            margin-top: 15px; padding: 10px 35px; font-size: 1rem; font-weight: bold;
+            background: rgba(255,0,0,0.2); border: 2px solid var(--accent-red); color: #fff; border-radius: 30px; cursor: pointer;
         }
-        #stack-action-btn:hover { background: var(--accent-red); box-shadow: 0 0 20px rgba(255,0,0,0.8); }
 
         /* ================= 4. ALEV KÜRESİ ================= */
         #view-fireball { flex-direction: column; align-items: center; justify-content: center; position: relative; }
-        .fireball-ui { text-align: center; margin-bottom: 20px; }
-        .fireball-ui h2 { font-size: 2.2rem; color: var(--accent-red); margin-bottom: 5px; }
-        .fireball-ui p { color: #aaa; font-size: 0.95rem; }
         .fireball-stats {
-            display: flex; gap: 30px; margin-bottom: 20px;
-            background: rgba(0,0,0,0.7); border: 1px solid rgba(255,0,0,0.3);
-            padding: 10px 25px; border-radius: 25px;
+            display: flex; gap: 25px; margin-bottom: 20px; background: rgba(0,0,0,0.7);
+            border: 1px solid rgba(255,0,0,0.3); padding: 10px 25px; border-radius: 25px; font-weight: bold;
         }
-        .fireball-stats span { font-weight: bold; font-size: 1.1rem; }
-        .fireball-arena {
-            position: relative; width: 320px; height: 320px; display: flex;
-            align-items: center; justify-content: center;
-        }
+        .fireball-arena { width: 300px; height: 300px; display: flex; align-items: center; justify-content: center; }
         #fireball-core {
             width: 70px; height: 70px; border-radius: 50%;
             background: radial-gradient(circle, #fff, #ff8800, #ff0000, #400);
-            box-shadow: 0 0 25px #ff4400, inset 0 0 15px #fff;
-            user-select: none; cursor: pointer;
+            box-shadow: 0 0 25px #ff4400, inset 0 0 15px #fff; cursor: pointer;
             transition: width 0.05s linear, height 0.05s linear;
         }
-        .charge-instruction { margin-top: 20px; font-weight: bold; font-size: 1.1rem; color: #ccc; }
 
         /* ================= 5. KAÇAN BUTON ================= */
         #view-flee { flex-direction: column; align-items: center; justify-content: center; position: relative; }
-        .flee-box { text-align: center; max-width: 500px; }
-        .flee-box h2 { font-size: 2.2rem; color: var(--accent-red); margin-bottom: 12px; }
-        .flee-box p { color: #ccc; margin-bottom: 25px; line-height: 1.6; }
-        #start-flee-btn {
-            padding: 12px 30px; font-size: 1.1rem; font-weight: bold; color: #fff;
-            background: rgba(255, 0, 0, 0.2); border: 2px solid var(--accent-red);
-            border-radius: 30px; backdrop-filter: blur(5px); transition: all 0.3s;
-        }
-        #start-flee-btn:hover { background: var(--accent-red); box-shadow: 0 0 25px rgba(255,0,0,0.8); }
-        .flee-dashboard {
-            position: absolute; top: 25px; font-size: 1.3rem; font-weight: bold;
-            background: rgba(0,0,0,0.8); border: 1px solid var(--accent-red);
-            padding: 8px 25px; border-radius: 20px; display: none;
-        }
         #fleeing-target {
             position: absolute; padding: 12px 24px; font-size: 1rem; font-weight: bold;
-            color: #fff; background: #990000; border: 2px solid #ff3333;
-            border-radius: 40px; box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
-            display: none; transition: left 0.12s ease-out, top 0.12s ease-out, transform 0.2s;
-            user-select: none; z-index: 1000;
+            color: #fff; background: #990000; border: 2px solid #ff3333; border-radius: 40px;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.8); display: none;
+            transition: left 0.12s ease-out, top 0.12s ease-out, transform 0.2s; user-select: none; z-index: 1000;
+        }
+        #start-flee-btn {
+            padding: 12px 30px; font-size: 1.1rem; font-weight: bold; color: #fff;
+            background: rgba(255, 0, 0, 0.2); border: 2px solid var(--accent-red); border-radius: 30px;
         }
 
         /* ================= 6. ÖDÜLLER ================= */
         #view-awards { flex-direction: column; align-items: center; justify-content: flex-start; padding: 2rem; overflow-y: auto; }
-        .awards-header { text-align: center; margin-bottom: 1.5rem; }
-        .awards-header h2 { font-size: 2.2rem; color: var(--accent-red); margin-bottom: 5px; }
-        .awards-header p { color: #aaa; }
         .awards-grid {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 14px; width: 100%; max-width: 950px; padding-bottom: 30px;
@@ -268,20 +248,74 @@
         }
         .award-icon { font-size: 2.2rem; filter: grayscale(1); }
         .award-card.unlocked .award-icon { filter: grayscale(0); drop-shadow: 0 0 10px red; }
-        .award-info h4 { font-size: 0.95rem; color: #fff; margin-bottom: 3px; }
-        .award-card.unlocked .award-info h4 { color: var(--accent-red); }
-        .award-info p { font-size: 0.75rem; color: #aaa; margin-bottom: 4px; }
-        .award-bonus { font-size: 0.75rem; color: #00ff88; font-weight: bold; }
 
-        /* BİLDİRİM */
-        #award-toast {
-            position: fixed; top: 80px; right: -400px; z-index: 100000;
-            background: #110000; border: 2px solid var(--accent-red);
-            padding: 12px 22px; border-radius: 8px; display: flex; align-items: center;
-            gap: 12px; box-shadow: 0 0 25px rgba(255, 0, 0, 0.8);
-            transition: right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        /* HACK EKRANI (KIRMIZI KODLAR & PARAZİT) */
+        #hack-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: #000; z-index: 999999; display: none;
+            overflow: hidden; font-family: monospace;
         }
-        #award-toast.show { right: 25px; }
+        #hack-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        .hack-center-msg {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            color: #ff0000; font-size: 2rem; font-weight: 900; letter-spacing: 4px;
+            text-shadow: 0 0 20px red, 0 0 40px red; text-align: center;
+            animation: glitch-anim 0.2s infinite; pointer-events: none;
+        }
+
+        /* YÖNETİCİ NOT DEFTERİ EKRANI */
+        #notepad-modal {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 90%; max-width: 650px; background: rgba(10, 0, 0, 0.95);
+            border: 2px solid var(--accent-red); border-radius: 12px;
+            box-shadow: 0 0 40px rgba(255, 0, 0, 0.7); z-index: 100000;
+            display: none; flex-direction: column; overflow: hidden; backdrop-filter: blur(10px);
+        }
+        .notepad-header {
+            background: rgba(30, 0, 0, 0.8); padding: 12px 20px;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid var(--accent-red);
+        }
+        .notepad-header h3 { color: var(--accent-red); font-size: 1.1rem; }
+        .notepad-textarea {
+            width: 100%; height: 350px; background: transparent; border: none;
+            padding: 20px; color: #fff; font-family: monospace; font-size: 1rem;
+            outline: none; resize: none; line-height: 1.6;
+        }
+        .notepad-footer {
+            padding: 10px 20px; background: rgba(20, 0, 0, 0.6);
+            border-top: 1px solid #330000; display: flex; justify-content: space-between;
+            align-items: center; font-size: 0.8rem; color: #aaa;
+        }
+
+        /* MODAL */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); z-index: 100000; display: none;
+            align-items: center; justify-content: center; backdrop-filter: blur(5px);
+        }
+        .modal-content {
+            background: rgba(15, 0, 0, 0.95); border: 2px solid var(--accent-red);
+            padding: 2rem; border-radius: 12px; width: 90%; max-width: 400px;
+            box-shadow: 0 0 40px rgba(255,0,0,0.7); position: relative;
+        }
+        .modal-content h3 { color: var(--accent-red); margin-bottom: 15px; text-align: center; }
+        .form-group input {
+            width: 100%; padding: 10px; background: rgba(0,0,0,0.7);
+            border: 1px solid #440000; color: #fff; border-radius: 6px; outline: none; margin-top: 5px;
+        }
+        .modal-btn {
+            width: 100%; padding: 10px; background: var(--accent-red);
+            color: #fff; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 15px;
+        }
+        .close-modal { position: absolute; top: 12px; right: 15px; color: #aaa; cursor: pointer; font-size: 1.2rem; }
+
+        .admin-trigger {
+            position: fixed; bottom: 15px; right: 20px; z-index: 999;
+            background: rgba(0,0,0,0.4); border: 1px solid #330000; color: #666;
+            padding: 5px 12px; border-radius: 12px; font-size: 0.75rem; cursor: pointer;
+        }
+        .admin-trigger:hover { color: var(--accent-red); border-color: var(--accent-red); }
 
         .floating-point {
             position: fixed; font-weight: bold; font-size: 1.3rem; pointer-events: none;
@@ -289,160 +323,21 @@
         }
         @keyframes floatUp { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(-45px); opacity: 0; } }
 
-        /* MODAL */
-        .modal {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: rgba(15, 0, 0, 0.95); border: 2px solid var(--accent-red);
-            padding: 2.2rem; border-radius: 12px; text-align: center; z-index: 10000;
-            display: none; box-shadow: 0 0 40px rgba(255, 0, 0, 0.7); backdrop-filter: blur(10px);
+        #award-toast {
+            position: fixed; top: 75px; right: -400px; z-index: 100000;
+            background: #110000; border: 2px solid var(--accent-red);
+            padding: 12px 22px; border-radius: 8px; display: flex; align-items: center;
+            gap: 12px; box-shadow: 0 0 25px rgba(255, 0, 0, 0.8);
+            transition: right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .modal h2 { color: var(--accent-red); margin-bottom: 8px; }
-        .modal p { font-size: 1rem; margin-bottom: 18px; color: #ddd; }
-        .modal button { padding: 8px 22px; background: var(--accent-red); color: white; border: none; font-weight: bold; border-radius: 5px; cursor: pointer; }
-
-        /* YENİ SHARINGAN AÇILIŞ (SPLASH) EKRANI */
-        #splash {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: #000; display: flex; flex-direction: column;
-            align-items: center; justify-content: center; z-index: 10000;
-            transition: opacity 1s ease, visibility 1s ease;
-        }
-        .sharingan {
-            width: 80px; height: 80px; margin-bottom: 25px;
-            animation: spin 2.5s linear infinite;
-            filter: drop-shadow(0 0 15px rgba(255,0,0,0.8));
-        }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        .logo-container { position: relative; text-decoration: none; color: var(--text-color); padding-bottom: 5px; }
-        .red-line {
-            position: absolute; bottom: 0; left: 0; width: 20px; height: 4px;
-            background-color: var(--accent-red); transition: left 0.4s ease-out;
-        }
-        @keyframes slideLine { 0% { left: -20px; } 100% { left: 100%; } }
-
-        /* SAĞ MENÜ VE PROFİL / YÖNETİCİ BUTONLARI */
-        .nav-right { display: flex; align-items: center; gap: 1rem; }
-        .auth-btn, .admin-btn, .logout-btn {
-            background: rgba(255, 0, 0, 0.2); border: 1px solid var(--accent-red);
-            color: #fff; padding: 6px 14px; border-radius: 18px; font-size: 0.8rem;
-            font-weight: 600; cursor: pointer; transition: all 0.25s; outline: none;
-        }
-        .auth-btn:hover, .admin-btn:hover, .logout-btn:hover {
-            background: var(--accent-red); box-shadow: 0 0 14px rgba(255, 0, 0, 0.7);
-        }
-        .admin-btn { border-color: var(--accent-gold); color: #ffdd88; background: rgba(255, 170, 0, 0.15); }
-        .admin-btn:hover { background: var(--accent-gold); color: #000; box-shadow: 0 0 14px rgba(255, 170, 0, 0.7); }
-        
-        .user-profile {
-            display: flex; align-items: center; gap: 8px;
-            background: rgba(25, 0, 0, 0.75); border: 1px solid rgba(255, 0, 0, 0.4);
-            padding: 4px 12px; border-radius: 20px;
-        }
-        .user-badge { color: var(--accent-gold); font-size: 0.85rem; font-weight: bold; }
-
-        /* ================= 7. SIRALAMA (LEADERBOARD) ================= */
-        #view-leaderboard {
-            flex-direction: column; align-items: center; justify-content: flex-start;
-            padding: 2rem; overflow-y: auto;
-        }
-        .leaderboard-container {
-            width: 100%; max-width: 860px; background: rgba(14, 0, 0, 0.88);
-            border: 2px solid var(--accent-red); border-radius: 16px;
-            padding: 25px 30px; backdrop-filter: blur(12px);
-            box-shadow: 0 0 35px rgba(255, 0, 0, 0.3);
-        }
-        .leaderboard-header { text-align: center; margin-bottom: 20px; }
-        .leaderboard-header h2 {
-            font-size: 2.2rem; color: var(--accent-red); margin-bottom: 5px;
-            text-shadow: 0 0 15px rgba(255,0,0,0.6);
-        }
-        .leaderboard-header p { color: #aaa; font-size: 0.95rem; }
-        .leaderboard-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        .leaderboard-table th {
-            text-align: left; padding: 12px 16px; color: var(--accent-red);
-            border-bottom: 2px solid rgba(255, 0, 0, 0.3); font-size: 0.88rem;
-            text-transform: uppercase; letter-spacing: 0.5px;
-        }
-        .leaderboard-table td {
-            padding: 13px 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.06); font-size: 0.95rem;
-        }
-        .leaderboard-row { transition: background 0.2s; }
-        .leaderboard-row:hover { background: rgba(255, 0, 0, 0.08); }
-        .leaderboard-row.my-row {
-            background: rgba(255, 170, 0, 0.12); border-left: 3px solid var(--accent-gold);
-        }
-        .rank-badge { font-weight: 900; font-size: 1.15rem; display: inline-block; width: 32px; }
-        .rank-1 { color: #ffd700; text-shadow: 0 0 10px rgba(255,215,0,0.8); }
-        .rank-2 { color: #c0c0c0; text-shadow: 0 0 8px rgba(192,192,192,0.8); }
-        .rank-3 { color: #cd7f32; text-shadow: 0 0 8px rgba(205,127,50,0.8); }
-        .rank-other { color: #888; }
-        .score-badge { color: var(--accent-gold); font-weight: bold; font-size: 1.05rem; }
-
-        .guest-notice {
-            background: rgba(255, 170, 0, 0.1); border: 1px dashed var(--accent-gold);
-            color: #ffdd88; padding: 12px 18px; border-radius: 8px; margin-bottom: 20px;
-            display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem;
-        }
-
-        /* AUTH & ADMIN MODALLARI */
-        .custom-dialog-modal {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: rgba(16, 0, 0, 0.97); border: 2px solid var(--accent-red);
-            border-radius: 14px; padding: 26px; width: 90%; max-width: 420px;
-            z-index: 10005; box-shadow: 0 0 45px rgba(255, 0, 0, 0.7);
-            backdrop-filter: blur(15px); display: none;
-        }
-        .admin-dialog-wide { max-width: 720px; max-height: 82vh; overflow-y: auto; }
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0, 0, 0, 0.75); z-index: 10004; display: none;
-        }
-        .auth-tabs {
-            display: flex; gap: 10px; border-bottom: 1px solid rgba(255, 0, 0, 0.3);
-            margin-bottom: 20px; padding-bottom: 8px;
-        }
-        .auth-tab-btn {
-            background: none; border: none; color: #888; font-weight: bold;
-            font-size: 0.95rem; cursor: pointer; padding: 6px 14px; transition: color 0.2s;
-        }
-        .auth-tab-btn.active { color: var(--accent-red); border-bottom: 2px solid var(--accent-red); }
-        .form-group { margin-bottom: 14px; text-align: left; }
-        .form-group label { display: block; font-size: 0.85rem; color: #ccc; margin-bottom: 6px; }
-        .form-input {
-            width: 100%; padding: 10px 14px; background: rgba(30, 0, 0, 0.7);
-            border: 1px solid rgba(255, 0, 0, 0.4); border-radius: 8px;
-            color: #fff; font-size: 0.95rem; outline: none; transition: border-color 0.25s;
-        }
-        .form-input:focus { border-color: var(--accent-red); box-shadow: 0 0 10px rgba(255, 0, 0, 0.5); }
-        .submit-btn {
-            width: 100%; padding: 11px; background: var(--accent-red);
-            color: #fff; border: none; border-radius: 8px; font-size: 1rem;
-            font-weight: bold; cursor: pointer; transition: all 0.25s; margin-top: 10px;
-        }
-        .submit-btn:hover { box-shadow: 0 0 20px rgba(255, 0, 0, 0.8); transform: translateY(-2px); }
-        .close-modal-btn {
-            position: absolute; top: 12px; right: 15px; background: none;
-            border: none; color: #888; font-size: 1.4rem; cursor: pointer;
-        }
-        .close-modal-btn:hover { color: #fff; }
-        .auth-msg { margin-top: 12px; font-size: 0.85rem; min-height: 18px; text-align: center; }
-        .auth-msg.error { color: #ff4444; }
-        .auth-msg.success { color: #00ff88; }
-
-        .admin-del-btn {
-            background: rgba(255, 0, 0, 0.2); border: 1px solid #ff3333;
-            color: #ff6666; padding: 4px 10px; border-radius: 6px;
-            font-size: 0.8rem; font-weight: bold; cursor: pointer; transition: all 0.2s;
-        }
-        .admin-del-btn:hover { background: #ff1111; color: #fff; box-shadow: 0 0 10px red; }
+        #award-toast.show { right: 25px; }
     </style>
 </head>
 <body>
 
-    <!-- Yükleme Ekranı (Sharingan + Logo) -->
+    <!-- AÇILIŞ VE GEÇİŞ BEKLEME EKRANI (SHARINGAN SPLASH) -->
     <div id="splash">
-        <svg class="sharingan" viewBox="0 0 100 100">
+        <svg class="sharingan-loader" viewBox="0 0 100 100">
             <circle cx="50" cy="50" r="45" fill="#990000" stroke="#111" stroke-width="4"/>
             <circle cx="50" cy="50" r="24" fill="none" stroke="#111" stroke-width="2" opacity="0.6"/>
             <circle cx="50" cy="50" r="8" fill="#000"/>
@@ -452,11 +347,16 @@
                 <g transform="translate(29, 62) rotate(240)"><circle cx="0" cy="0" r="6" fill="#000"/><path d="M -6 0 Q -10 -15 5 -15 Q 0 -5 6 0 Z" fill="#000"/></g>
             </g>
         </svg>
-
         <div class="logo-container">
-            <div class="logo-text">yigitqwc | Uchiha Mabedi</div>
-            <div class="red-line" style="animation: slideLine 1.5s linear infinite;"></div>
+            <div class="logo-text">yigitqwc</div>
+            <div class="red-line-wrapper"></div>
         </div>
+    </div>
+
+    <!-- KIRMIZI HACK EKRANI -->
+    <div id="hack-overlay">
+        <canvas id="hack-canvas"></canvas>
+        <div class="hack-center-msg">SİSTEM HACKLENDİ<br><span style="font-size:1.2rem;">YÖNETİCİ ÇEKİRDEĞİNE SIZILIYOR...</span></div>
     </div>
 
     <div class="custom-cursor" id="cursor"></div>
@@ -472,25 +372,24 @@
         </div>
     </div>
 
-    <!-- Menü -->
+    <!-- Menü (Giriş ve Sıralama Temizlendi) -->
     <nav>
         <div class="nav-left">
-            <a href="index.html" class="logo-text hover-target">yigitqwc</a>
+            <a href="index.html" class="logo-container hover-target">
+                <div class="logo-text">yigitqwc</div>
+                <div class="red-line-wrapper"></div>
+            </a>
             <div class="tab-buttons">
                 <button class="tab-btn hover-target active" onclick="switchTab('clicker')">👁️ Clicker</button>
-                <button class="tab-btn hover-target" onclick="switchTab('izanami')">🌀 İzanami (Hafıza)</button>
-                <button class="tab-btn hover-target" onclick="switchTab('stack')">⚔️ Susanoo Kulesi</button>
+                <button class="tab-btn hover-target" onclick="switchTab('izanami')">🌀 İzanami</button>
+                <button class="tab-btn hover-target" onclick="switchTab('stack')">⚔️ Susanoo</button>
                 <button class="tab-btn hover-target" onclick="switchTab('fireball')">🔥 Alev Küresi</button>
                 <button class="tab-btn hover-target" onclick="switchTab('flee')">🎯 Kaçan Buton</button>
-                <button class="tab-btn hover-target" onclick="switchTab('awards')">🏆 Ödüller (<span id="unlocked-count">0</span>/15)</button>
-                <button class="tab-btn hover-target" onclick="switchTab('leaderboard')">📜 Sıralama</button>
+                <button class="tab-btn hover-target" onclick="switchTab('awards')">🎖️ Ödüller</button>
             </div>
         </div>
-        <div class="nav-right">
-            <div id="auth-nav-area"></div>
-            <button class="admin-btn hover-target" onclick="openAdminPrompt()">🛡️ Yönetici</button>
-            <a href="index.html" class="back-link hover-target">← Ana Sayfa</a>
-        </div>
+
+        <a href="index.html" class="back-link hover-target">← Ana Sayfa</a>
     </nav>
 
     <!-- 1. CLICKER -->
@@ -537,10 +436,6 @@
                     <div class="upg-info"><h4>Amaterasu Alevi</h4><p>+110 Güç/sn</p></div>
                     <div class="upg-cost"><span id="pcost4">2500</span></div>
                 </button>
-                <button class="upgrade-btn hover-target" id="btn-p5" onclick="buyPassive(5)" disabled>
-                    <div class="upg-info"><h4>Susanoo Zırhı</h4><p>+450 Güç/sn</p></div>
-                    <div class="upg-cost"><span id="pcost5">10000</span></div>
-                </button>
             </div>
 
             <div class="shop-list" id="shop-active" style="display: none;">
@@ -552,35 +447,19 @@
                     <div class="upg-info"><h4>Sharingan Odaklanması</h4><p>Tıklama Gücü x2</p></div>
                     <div class="upg-cost"><span id="acost2">500</span></div>
                 </button>
-                <button class="upgrade-btn hover-target" id="btn-a3" onclick="buyActive(3)" disabled>
-                    <div class="upg-info"><h4>Mangekyo Uyanışı</h4><p>Tıklama Gücü x5</p></div>
-                    <div class="upg-cost"><span id="acost3">25000</span></div>
-                </button>
             </div>
         </div>
     </section>
 
-    <!-- 2. İZANAMİ (AYNISINA BASMA OYUNU) -->
+    <!-- 2. İZANAMİ -->
     <section class="view-section" id="view-izanami">
-        <div class="izanami-header">
-            <h2>İzanami: Hafıza İllüzyonu</h2>
-            <p>Kural: Az önce tıkladığın göze ASLA tekrar basma! Yerler sürekli değişir, tempo hızlanır.</p>
-        </div>
-
         <div class="izanami-dash">
             <div>Seri: <span id="iz-streak" style="color:var(--accent-red)">0</span></div>
-            <div>En İyi Seri: <span id="iz-best" style="color:var(--accent-gold)">0</span></div>
+            <div>En İyi: <span id="iz-best" style="color:var(--accent-gold)">0</span></div>
             <div>Son Seçim: <span id="iz-last" style="color:#aaa">-</span></div>
         </div>
-
-        <div class="timer-bar-container">
-            <div id="izanami-timer-fill"></div>
-        </div>
-
-        <div class="cards-grid" id="izanami-cards">
-            <!-- Dinamik Kartlar -->
-        </div>
-
+        <div class="timer-bar-container"><div id="izanami-timer-fill"></div></div>
+        <div class="cards-grid" id="izanami-cards"></div>
         <button id="izanami-start-btn" class="hover-target" onclick="startIzanamiGame()">DÖNGÜYÜ BAŞLAT 🌀</button>
     </section>
 
@@ -590,39 +469,29 @@
             <div>Kat: <span id="stack-score" style="color:var(--accent-red)">0</span></div>
             <div>En Yüksek: <span id="stack-best" style="color:var(--accent-gold)">0</span></div>
         </div>
-        <div class="stack-arena" id="stack-arena">
-            <div id="stack-container"></div>
-        </div>
-        <div class="stack-controls">
-            <button id="stack-action-btn" class="hover-target" onclick="handleStackAction()">BAŞLAT ⚔️</button>
-        </div>
+        <div class="stack-arena" id="stack-arena"><div id="stack-container"></div></div>
+        <button id="stack-action-btn" class="hover-target" onclick="handleStackAction()">BAŞLAT ⚔️</button>
     </section>
 
     <!-- 4. ALEV KÜRESİ -->
     <section class="view-section" id="view-fireball">
-        <div class="fireball-ui">
-            <h2>Katon: Çakra Yoğunlaştırma</h2>
-            <p>Basılı tuttukça küre büyür ve katlanır. Patlamadan önce parmağını çek!</p>
-        </div>
         <div class="fireball-stats">
             <div>Potansiyel: <span id="fb-potential" style="color:var(--accent-gold)">0</span></div>
             <div>Risk: <span id="fb-multiplier" style="color:#ff3333">1.0x</span></div>
             <div>En İyi: <span id="fb-best" style="color:#00ff88">0</span></div>
         </div>
-        <div class="fireball-arena">
-            <div id="fireball-core" class="hover-target"></div>
-        </div>
-        <div class="charge-instruction" id="fb-status-text">BÜYÜTMEK İÇİN BASILI TUT</div>
+        <div class="fireball-arena"><div id="fireball-core" class="hover-target"></div></div>
+        <div class="charge-instruction" id="fb-status-text" style="margin-top:20px; font-weight:bold;">BÜYÜTMEK İÇİN BASILI TUT</div>
     </section>
 
     <!-- 5. KAÇAN BUTON -->
     <section class="view-section" id="view-flee">
-        <div class="flee-dashboard" id="flee-dash">
+        <div class="flee-dashboard" id="flee-dash" style="position:absolute; top:25px; font-size:1.3rem; font-weight:bold; background:rgba(0,0,0,0.8); border:1px solid red; padding:8px 25px; border-radius:20px; display:none;">
             Süre: <span id="flee-timer" style="color:red">20</span>s | Vuruş: <span id="flee-score" style="color:red">0</span>/5
         </div>
-        <div class="flee-box" id="flee-intro">
-            <h2>Refleks Testi</h2>
-            <p>20 saniyede 5 kez tıkla. Başarırsan doğrudan <strong>+10.000 Güç</strong> kazanırsın!</p>
+        <div id="flee-intro" style="text-align:center;">
+            <h2 style="font-size:2.2rem; color:red; margin-bottom:12px;">Refleks Testi</h2>
+            <p style="color:#ccc; margin-bottom:25px;">20 saniyede butona 5 kez tıkla. Doğrudan +10.000 Güç kazan!</p>
             <button id="start-flee-btn" class="hover-target" onclick="startFleeGame()">Meydan Oku 🎯</button>
         </div>
         <button id="fleeing-target" class="hover-target">Beni Yakala!</button>
@@ -630,181 +499,53 @@
 
     <!-- 6. ÖDÜLLER VE BAŞARIMLAR -->
     <section class="view-section" id="view-awards">
-        <div class="awards-header">
-            <h2>Uchiha Şöhretler Salonu</h2>
-            <p>Tüm oyunlardaki rekorlarını taçlandır, kalıcı güçler kazan!</p>
-        </div>
-
         <div class="awards-grid">
-            <div class="award-card" id="card-ach1">
-                <div class="award-icon">🔥</div>
-                <div class="award-info"><h4>İlk Kıvılcım</h4><p>Sharingan'a ilk kez dokun.</p><span class="award-bonus">+20 Güç</span></div>
-            </div>
-            <div class="award-card" id="card-ach2">
-                <div class="award-icon">⚡</div>
-                <div class="award-info"><h4>Seri Parmaklar</h4><p>5x Kombo Çarpanına ulaş.</p><span class="award-bonus">+150 Güç</span></div>
-            </div>
-            <div class="award-card" id="card-ach3">
-                <div class="award-icon">💥</div>
-                <div class="award-info"><h4>Alev Hasadı</h4><p>Alev küresini başarıyla hasat et.</p><span class="award-bonus">+250 Güç</span></div>
-            </div>
-            <div class="award-card" id="card-ach4">
-                <div class="award-icon">💣</div>
-                <div class="award-info"><h4>Sınırları Zorlayan</h4><p>Alev küresinde 3.0x risk çarpanı yakala.</p><span class="award-bonus">+2.500 Güç</span></div>
-            </div>
-            <div class="award-card" id="card-ach5">
-                <div class="award-icon">🏃</div>
-                <div class="award-info"><h4>Işık Hızı</h4><p>Kaçan Buton meydan okumasını kazan.</p><span class="award-bonus">+10.000 Güç</span></div>
-            </div>
-            <div class="award-card" id="card-ach6">
-                <div class="award-icon">🏛️</div>
-                <div class="award-info"><h4>Temel Zırh</h4><p>Susanoo Kulesi'nde 5. kata ulaş.</p><span class="award-bonus">+1.000 Güç</span></div>
-            </div>
-            <div class="award-card" id="card-ach7">
-                <div class="award-icon">🛡️</div>
-                <div class="award-info"><h4>Göğe Yükseliş</h4><p>Susanoo Kulesi'nde 15. kata ulaş.</p><span class="award-bonus">+5.000 Güç</span></div>
-            </div>
-            <div class="award-card" id="card-ach8">
-                <div class="award-icon">🌌</div>
-                <div class="award-info"><h4>Mutlak Susanoo</h4><p>Susanoo Kulesi'nde 25. kata ulaş!</p><span class="award-bonus">+20.000 Güç</span></div>
-            </div>
-            <!-- YENİ İZANAMİ BAŞARIMLARI -->
-            <div class="award-card" id="card-ach9">
-                <div class="award-icon">🌀</div>
-                <div class="award-info"><h4>Döngü Çırağı</h4><p>İzanami'de 10 seriye ulaş.</p><span class="award-bonus">+2.500 Güç</span></div>
-            </div>
-            <div class="award-card" id="card-ach10">
-                <div class="award-icon">👁️‍🗨️</div>
-                <div class="award-info"><h4>İzanami Kırıcı</h4><p>İzanami'de 25 seriye ulaş.</p><span class="award-bonus">+10.000 Güç & Tıklama x2</span></div>
-            </div>
-            <div class="award-card" id="card-ach11">
-                <div class="award-icon">🔱</div>
-                <div class="award-info"><h4>Gerçek Göz</h4><p>İzanami'de 50 seriye ulaş!</p><span class="award-bonus">+50.000 Güç & Kalıcı x1.5 Hız</span></div>
-            </div>
-            <div class="award-card" id="card-ach12">
-                <div class="award-icon">🌀</div>
-                <div class="award-info"><h4>İllüzyon Efendisi</h4><p>50.000 Genjutsu Gücüne ulaş.</p><span class="award-bonus">+%20 Kalıcı Üretim</span></div>
-            </div>
-            <div class="award-card" id="card-ach13">
-                <div class="award-icon">👁️</div>
-                <div class="award-info"><h4>Mangekyo Efendisi</h4><p>Mangekyo Uyanışı geliştirmesini al.</p><span class="award-bonus">Kalıcı x3 Tıklama</span></div>
-            </div>
-            <div class="award-card" id="card-ach14">
-                <div class="award-icon">☠️</div>
-                <div class="award-info"><h4>Küllerden Doğan</h4><p>Alev küresini patlat (Hata ödülü).</p><span class="award-bonus">+100 Güç</span></div>
-            </div>
-            <div class="award-card" id="card-ach15">
-                <div class="award-icon">👑</div>
-                <div class="award-info"><h4>Kader Hükümdarı</h4><p>Tüm mini oyunlarda en az bir başarı kazan.</p><span class="award-bonus">"Uchiha Efsanesi" Unvanı</span></div>
-            </div>
+            <div class="award-card" id="card-ach1"><div class="award-icon">🔥</div><div class="award-info"><h4>İlk Kıvılcım</h4><p>Sharingan'a dokun.</p></div></div>
+            <div class="award-card" id="card-ach2"><div class="award-icon">⚡</div><div class="award-info"><h4>Seri Parmaklar</h4><p>5x Kombo yap.</p></div></div>
+            <div class="award-card" id="card-ach3"><div class="award-icon">💥</div><div class="award-info"><h4>Alev Hasadı</h4><p>Katon'u hasat et.</p></div></div>
+            <div class="award-card" id="card-ach4"><div class="award-icon">🏃</div><div class="award-info"><h4>Işık Hızı</h4><p>Kaçan Buton'u yen.</p></div></div>
+            <div class="award-card" id="card-ach5"><div class="award-icon">🏛️</div><div class="award-info"><h4>Temel Zırh</h4><p>Susanoo'da 5. kata çık.</p></div></div>
+            <div class="award-card" id="card-ach6"><div class="award-icon">🌀</div><div class="award-info"><h4>Döngü Çırağı</h4><p>İzanami'de 10 seri yap.</p></div></div>
         </div>
     </section>
 
-    <!-- 7. SIRALAMA BÖLÜMÜ (TOP 10) -->
-    <section class="view-section" id="view-leaderboard">
-        <div class="leaderboard-container">
-            <div class="leaderboard-header">
-                <h2>📜 Shinobi Sıralaması (Top 10)</h2>
-                <p>Uchiha Mabedi'nin en güçlü savaşçıları. Yalnızca kayıtlı hesaplar sıralamada listelenir.</p>
-            </div>
-
-            <div id="leaderboard-guest-banner" class="guest-notice" style="display: none;">
-                <span>⚠️ Sıralamaya adınızı yazdırmak ve puanınızı kaydetmek için giriş yapmalı veya hesap açmalısınız.</span>
-                <button class="auth-btn hover-target" onclick="openAuthModal('register')">Hesap Oluştur</button>
-            </div>
-
-            <table class="leaderboard-table">
-                <thead>
-                    <tr>
-                        <th style="width: 70px;">Sıra</th>
-                        <th>Shinobi (Takma Ad)</th>
-                        <th>Genjutsu Gücü</th>
-                        <th>Klan Unvanı</th>
-                    </tr>
-                </thead>
-                <tbody id="leaderboard-tbody">
-                    <!-- Dinamik Sıralama -->
-                </tbody>
-            </table>
-        </div>
-    </section>
-
-    <!-- MODAL -->
-    <div class="modal" id="resultModal">
-        <h2 id="modalTitle">Tebrikler!</h2>
-        <p id="modalDesc">Kazandınız.</p>
-        <button class="hover-target" onclick="closeModal()">Devam Et</button>
-    </div>
-
-    <!-- ARKA PLAN KARARTMASI -->
-    <div class="modal-overlay" id="modalOverlay" onclick="closeAllDialogs()"></div>
-
-    <!-- HESAP AÇ / GİRİŞ YAP MODALI -->
-    <div class="custom-dialog-modal" id="authModal">
-        <button class="close-modal-btn hover-target" onclick="closeAllDialogs()">×</button>
-        <div class="auth-tabs">
-            <button class="auth-tab-btn active" id="tab-login-btn" onclick="switchAuthTab('login')">Giriş Yap</button>
-            <button class="auth-tab-btn" id="tab-reg-btn" onclick="switchAuthTab('register')">Hesap Aç</button>
-        </div>
-
-        <form id="auth-form" onsubmit="handleAuthSubmit(event)">
+    <!-- ŞİFRELİ YÖNETİCİ GİRİŞİ MODALI -->
+    <div class="modal-overlay" id="adminPassModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('adminPassModal')">✕</span>
+            <h3>Yönetici Girişi</h3>
             <div class="form-group">
-                <label for="auth-username">Takma Ad (Nickname):</label>
-                <input type="text" id="auth-username" class="form-input hover-target" placeholder="Örn: Itachi_7" autocomplete="off" required maxlength="16">
+                <input type="password" id="adminPasswordInput" placeholder="Yönetici Şifresi">
             </div>
-            <div class="form-group">
-                <label for="auth-password">Şifre:</label>
-                <input type="password" id="auth-password" class="form-input hover-target" placeholder="Şifreniz" required maxlength="32">
-            </div>
-            <button type="submit" id="auth-submit-btn" class="submit-btn hover-target">Giriş Yap</button>
-            <div class="auth-msg" id="auth-msg"></div>
-        </form>
-    </div>
-
-    <!-- YÖNETİCİ ŞİFRE GİRİŞ MODALI -->
-    <div class="custom-dialog-modal" id="adminPassModal">
-        <button class="close-modal-btn hover-target" onclick="closeAllDialogs()">×</button>
-        <h2 style="color: var(--accent-gold); margin-bottom: 8px;">🛡️ Yönetici Girişi</h2>
-        <p style="color: #aaa; font-size: 0.85rem; margin-bottom: 18px;">Uchiha Mabedi yönetim paneline erişmek için şifreyi girin.</p>
-        <form onsubmit="handleAdminPassSubmit(event)">
-            <div class="form-group">
-                <label for="admin-pass-input">Yönetici Şifresi:</label>
-                <input type="password" id="admin-pass-input" class="form-input hover-target" placeholder="Şifreyi giriniz..." required>
-            </div>
-            <button type="submit" class="submit-btn hover-target" style="background: var(--accent-gold); color: #000;">Paneli Aç</button>
-            <div class="auth-msg" id="admin-pass-msg"></div>
-        </form>
-    </div>
-
-    <!-- YÖNETİCİ KONTROL PANELİ MODALI -->
-    <div class="custom-dialog-modal admin-dialog-wide" id="adminPanelModal">
-        <button class="close-modal-btn hover-target" onclick="closeAllDialogs()">×</button>
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 15px; border-bottom: 1px solid rgba(255,0,0,0.3); padding-bottom: 10px;">
-            <div>
-                <h2 style="color: var(--accent-gold); font-size: 1.4rem;">🛡️ Yönetici Denetim Paneli</h2>
-                <span style="font-size: 0.8rem; color: #888;">Troll, hileli veya uygunsuz adları sıralamadan kaldırabilirsiniz.</span>
-            </div>
-            <button class="admin-btn hover-target" onclick="logoutAdmin()">Çıkış</button>
-        </div>
-
-        <div style="max-height: 50vh; overflow-y: auto;">
-            <table class="leaderboard-table" style="margin-top: 0;">
-                <thead>
-                    <tr>
-                        <th>Takma Ad</th>
-                        <th>Puan</th>
-                        <th>Kayıt Tarihi</th>
-                        <th style="text-align: right;">İşlem</th>
-                    </tr>
-                </thead>
-                <tbody id="admin-users-tbody">
-                    <!-- Dinamik Yönetici Listesi -->
-                </tbody>
-            </table>
+            <button class="modal-btn hover-target" onclick="startAdminSequence()">Doğrula & Gir 🔐</button>
         </div>
     </div>
+
+    <!-- YÖNETİCİ NOT DEFTERİ -->
+    <div id="notepad-modal">
+        <div class="notepad-header">
+            <h3>📝 Uchiha Gizli Not Defteri</h3>
+            <span class="close-modal" style="position:static;" onclick="closeNotepad()">✕</span>
+        </div>
+        <textarea id="adminNotes" class="notepad-textarea" placeholder="Gizli planlarını ve notlarını buraya yaz..."></textarea>
+        <div class="notepad-footer">
+            <span>Otomatik kaydedilir.</span>
+            <button onclick="clearNotes()" style="background:none; border:none; color:red; cursor:pointer; font-weight:bold;">Tümünü Temizle</button>
+        </div>
+    </div>
+
+    <div class="admin-trigger hover-target" onclick="openModal('adminPassModal')">⚙️ Yönetici</div>
 
     <script>
+        // AÇILIŞ SPLASH KONTROLÜ
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const splash = document.getElementById('splash');
+                splash.style.opacity = '0';
+                setTimeout(() => splash.style.visibility = 'hidden', 1000);
+            }, 1500);
+        });
+
         // İMLEÇ
         const cursor = document.getElementById('cursor');
         document.addEventListener('mousemove', (e) => {
@@ -816,14 +557,9 @@
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active-view'));
 
-            const tabMap = { clicker: 0, izanami: 1, stack: 2, fireball: 3, flee: 4, awards: 5, leaderboard: 6 };
-            if (tabMap[tabId] !== undefined) {
-                document.querySelectorAll('.tab-btn')[tabMap[tabId]].classList.add('active');
-                document.getElementById(`view-${tabId}`).classList.add('active-view');
-            }
-            if (tabId === 'leaderboard') {
-                renderLeaderboard();
-            }
+            const tabMap = { clicker: 0, izanami: 1, stack: 2, fireball: 3, flee: 4, awards: 5 };
+            document.querySelectorAll('.tab-btn')[tabMap[tabId]].classList.add('active');
+            document.getElementById(`view-${tabId}`).classList.add('active-view');
         }
 
         function toggleShopCategory(cat) {
@@ -833,58 +569,104 @@
             document.getElementById('shop-active').style.display = cat === 'active' ? 'block' : 'none';
         }
 
-        // ================= BAŞARIMLAR =================
-        const unlockedAchievements = new Set();
-        const achievementsData = {
-            ach1: { name: "İlk Kıvılcım", reward: () => { score += 20; } },
-            ach2: { name: "Seri Parmaklar", reward: () => { score += 150; } },
-            ach3: { name: "Alev Hasadı", reward: () => { score += 250; } },
-            ach4: { name: "Sınırları Zorlayan", reward: () => { score += 2500; } },
-            ach5: { name: "Işık Hızı", reward: () => { score += 10000; } },
-            ach6: { name: "Temel Zırh", reward: () => { score += 1000; } },
-            ach7: { name: "Göğe Yükseliş", reward: () => { score += 5000; } },
-            ach8: { name: "Mutlak Susanoo", reward: () => { score += 20000; } },
-            ach9: { name: "Döngü Çırağı", reward: () => { score += 2500; } },
-            ach10: { name: "İzanami Kırıcı", reward: () => { score += 10000; clickPower *= 2; } },
-            ach11: { name: "Gerçek Göz", reward: () => { score += 50000; ppsMultiplier *= 1.5; } },
-            ach12: { name: "İllüzyon Efendisi", reward: () => { ppsMultiplier *= 1.2; } },
-            ach13: { name: "Mangekyo Efendisi", reward: () => { clickPower *= 3; } },
-            ach14: { name: "Küllerden Doğan", reward: () => { score += 100; } },
-            ach15: { name: "Kader Hükümdarı", reward: () => { score += 100000; } }
-        };
+        // ================= YÖNETİCİ: HACK VE NOT DEFTERİ =================
+        const ADMIN_PASS = "yigit123";
 
-        function unlockAchievement(id) {
-            if (unlockedAchievements.has(id)) return;
-            unlockedAchievements.add(id);
-            achievementsData[id].reward();
-
-            const card = document.getElementById(`card-${id}`);
-            if (card) card.classList.add('unlocked');
-            document.getElementById('unlocked-count').innerText = unlockedAchievements.size;
-
-            const toast = document.getElementById('award-toast');
-            document.getElementById('toast-name').innerText = achievementsData[id].name;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 3500);
-
-            // Tüm oyunlardan en az 1 kupa var mı kontrolü
-            if (unlockedAchievements.has('ach5') && unlockedAchievements.has('ach6') && unlockedAchievements.has('ach3') && unlockedAchievements.has('ach9')) {
-                unlockAchievement('ach15');
+        function startAdminSequence() {
+            const pass = document.getElementById('adminPasswordInput').value;
+            if (pass !== ADMIN_PASS) {
+                alert("Hatalı yönetici parolası!");
+                return;
             }
+            closeModal('adminPassModal');
+            document.getElementById('adminPasswordInput').value = '';
 
-            updateUI();
+            // 1. ADIM: 3 Saniyelik Kırmızı Matrix/Hack Efekti
+            runHackScreen(() => {
+                // 2. ADIM: Bekleme Ekranı (Sharingan + Logo)
+                const splash = document.getElementById('splash');
+                splash.style.visibility = 'visible';
+                splash.style.opacity = '1';
+
+                setTimeout(() => {
+                    splash.style.opacity = '0';
+                    setTimeout(() => splash.style.visibility = 'hidden', 800);
+                    
+                    // 3. ADIM: Not Defterini Aç
+                    openNotepad();
+                }, 1800);
+            });
         }
+
+        function runHackScreen(callback) {
+            const hackOverlay = document.getElementById('hack-overlay');
+            const hCanvas = document.getElementById('hack-canvas');
+            const hCtx = hCanvas.getContext('2d');
+            hackOverlay.style.display = 'block';
+
+            hCanvas.width = window.innerWidth;
+            hCanvas.height = window.innerHeight;
+
+            const chars = "UCHIHA_ITACHI_SHARINGAN_GENJUTSU_SYSTEM_BREACH_010101";
+            const fontSize = 14;
+            const columns = Math.floor(hCanvas.width / fontSize);
+            const drops = Array(columns).fill(1);
+
+            let hackInterval = setInterval(() => {
+                hCtx.fillStyle = "rgba(0, 0, 0, 0.08)";
+                hCtx.fillRect(0, 0, hCanvas.width, hCanvas.height);
+                hCtx.fillStyle = "#ff0000";
+                hCtx.font = fontSize + "px monospace";
+
+                for (let i = 0; i < drops.length; i++) {
+                    const text = chars[Math.floor(Math.random() * chars.length)];
+                    hCtx.fillText(text, i * fontSize, drops[i] * fontSize);
+                    if (drops[i] * fontSize > hCanvas.height && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    }
+                    drops[i]++;
+                }
+            }, 33);
+
+            // 3 saniye sonra hack ekranını kapat ve sonraki adıma geç
+            setTimeout(() => {
+                clearInterval(hackInterval);
+                hackOverlay.style.display = 'none';
+                callback();
+            }, 3000);
+        }
+
+        function openNotepad() {
+            const modal = document.getElementById('notepad-modal');
+            const notes = localStorage.getItem('uchiha_admin_notes') || '';
+            document.getElementById('adminNotes').value = notes;
+            modal.style.display = 'flex';
+        }
+
+        function closeNotepad() {
+            document.getElementById('notepad-modal').style.display = 'none';
+        }
+
+        document.getElementById('adminNotes').addEventListener('input', (e) => {
+            localStorage.setItem('uchiha_admin_notes', e.target.value);
+        });
+
+        function clearNotes() {
+            if(confirm("Tüm notları silmek istediğine emin misin?")) {
+                document.getElementById('adminNotes').value = '';
+                localStorage.removeItem('uchiha_admin_notes');
+            }
+        }
+
+        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
         // ================= 1. CLICKER SİSTEMİ =================
         let score = 0, basePps = 0, ppsMultiplier = 1, clickPower = 1;
         let combo = 1, comboTimer = null;
-        const comboTag = document.getElementById('combo-tag');
-        const comboVal = document.getElementById('combo-val');
-
-        const passCosts = [0, 20, 120, 600, 2500, 10000];
-        const passCounts = [0, 0, 0, 0, 0, 0];
-        const passPower = [0, 1, 6, 25, 110, 450];
-        const actCosts = [0, 50, 500, 25000];
+        const passCosts = [0, 20, 120, 600, 2500];
+        const passPower = [0, 1, 6, 25, 110];
+        const actCosts = [0, 50, 500];
 
         const scoreEl = document.getElementById('score');
         const ppsEl = document.getElementById('pps');
@@ -892,27 +674,21 @@
         const mainEye = document.getElementById('main-eye');
 
         mainEye.addEventListener('click', (e) => {
-            unlockAchievement('ach1');
             combo = Math.min(10, combo + 0.5);
-            comboVal.innerText = combo.toFixed(1);
-            comboTag.classList.add('combo-active');
+            document.getElementById('combo-val').innerText = combo.toFixed(1);
+            document.getElementById('combo-tag').classList.add('combo-active');
             clearTimeout(comboTimer);
-            comboTimer = setTimeout(() => { combo = 1; comboTag.classList.remove('combo-active'); }, 1200);
-
-            if (combo >= 5) unlockAchievement('ach2');
+            comboTimer = setTimeout(() => { combo = 1; document.getElementById('combo-tag').classList.remove('combo-active'); }, 1200);
 
             let currentPower = clickPower * combo;
             score += currentPower;
             createFloatingText(`+${Math.floor(currentPower)}`, e.clientX, e.clientY);
-            
-            if (score >= 50000) unlockAchievement('ach12');
             updateUI();
         });
 
         window.buyPassive = function(id) {
             if (score >= passCosts[id]) {
                 score -= passCosts[id];
-                passCounts[id]++;
                 basePps += passPower[id];
                 passCosts[id] = Math.floor(passCosts[id] * 1.25);
                 document.getElementById(`pcost${id}`).innerText = passCosts[id];
@@ -925,7 +701,6 @@
                 score -= actCosts[id];
                 if (id === 1) clickPower += 2;
                 if (id === 2) clickPower *= 2;
-                if (id === 3) { clickPower *= 5; unlockAchievement('ach13'); }
                 actCosts[id] = Math.floor(actCosts[id] * 1.5);
                 document.getElementById(`acost${id}`).innerText = actCosts[id];
                 updateUI();
@@ -933,10 +708,8 @@
         };
 
         setInterval(() => {
-            let totalPps = basePps * ppsMultiplier;
-            if (totalPps > 0) {
-                score += totalPps;
-                if (score >= 50000) unlockAchievement('ach12');
+            if (basePps > 0) {
+                score += basePps * ppsMultiplier;
                 updateUI();
             }
         }, 1000);
@@ -945,16 +718,8 @@
             scoreEl.innerText = Math.floor(score);
             ppsEl.innerText = Math.floor(basePps * ppsMultiplier);
             cpcEl.innerText = Math.floor(clickPower);
-
-            for (let i = 1; i <= 5; i++) {
-                document.getElementById(`btn-p${i}`).disabled = score < passCosts[i];
-            }
-            for (let i = 1; i <= 3; i++) {
-                document.getElementById(`btn-a${i}`).disabled = score < actCosts[i];
-            }
-            if (typeof syncCurrentUserScore === 'function') {
-                syncCurrentUserScore();
-            }
+            for (let i = 1; i <= 4; i++) document.getElementById(`btn-p${i}`).disabled = score < passCosts[i];
+            for (let i = 1; i <= 2; i++) document.getElementById(`btn-a${i}`).disabled = score < actCosts[i];
         }
 
         function createFloatingText(text, x, y) {
@@ -966,688 +731,189 @@
             setTimeout(() => el.remove(), 800);
         }
 
-        // ================= 2. İZANAMİ (AYNISINA BASMA OYUNU) =================
-        const eyeTypes = [
-            { id: 'sharingan', name: 'Sharingan', icon: '👁️' },
-            { id: 'mangekyo', name: 'Mangekyo', icon: '🌀' },
-            { id: 'rinnegan', name: 'Rinnegan', icon: '🟣' }
-        ];
-
-        let izStreak = 0;
-        let izBest = 0;
-        let izLastSelected = null;
-        let izIsPlaying = false;
-        let izTimerInterval = null;
-        let izCurrentTime = 0;
-        let izMaxTime = 2500; // Başlangıç 2.5 saniye
-
-        const izStreakEl = document.getElementById('iz-streak');
-        const izBestEl = document.getElementById('iz-best');
-        const izLastEl = document.getElementById('iz-last');
-        const izCardsContainer = document.getElementById('izanami-cards');
-        const izTimerFill = document.getElementById('izanami-timer-fill');
-        const izStartBtn = document.getElementById('izanami-start-btn');
+        // ================= 2. İZANAMİ =================
+        const eyeTypes = [{ id: 'sharingan', name: 'Sharingan', icon: '👁️' }, { id: 'mangekyo', name: 'Mangekyo', icon: '🌀' }, { id: 'rinnegan', name: 'Rinnegan', icon: '🟣' }];
+        let izStreak = 0, izBest = 0, izLastSelected = null, izIsPlaying = false, izTimerInterval = null, izMaxTime = 2500;
 
         function startIzanamiGame() {
-            izIsPlaying = true;
-            izStreak = 0;
-            izLastSelected = null;
-            izMaxTime = 2500;
-            izStreakEl.innerText = izStreak;
-            izLastEl.innerText = "-";
-            izStartBtn.style.display = "none";
+            izIsPlaying = true; izStreak = 0; izLastSelected = null; izMaxTime = 2500;
+            document.getElementById('iz-streak').innerText = izStreak;
+            document.getElementById('iz-last').innerText = "-";
+            document.getElementById('izanami-start-btn').style.display = "none";
             nextIzanamiRound();
         }
 
         function nextIzanamiRound() {
             clearInterval(izTimerInterval);
-            
-            // Kartları rastgele sırala (Shuffle)
             const shuffled = [...eyeTypes].sort(() => Math.random() - 0.5);
-            izCardsContainer.innerHTML = '';
-
+            const container = document.getElementById('izanami-cards');
+            container.innerHTML = '';
             shuffled.forEach(eye => {
                 const card = document.createElement('div');
                 card.className = 'eye-card hover-target';
-                card.innerHTML = `
-                    <div class="eye-card-icon">${eye.icon}</div>
-                    <div class="eye-card-title">${eye.name}</div>
-                `;
-                card.onclick = () => handleEyeCardClick(eye.id, eye.name);
-                izCardsContainer.appendChild(card);
+                card.innerHTML = `<div class="eye-card-icon">${eye.icon}</div><div>${eye.name}</div>`;
+                card.onclick = () => {
+                    if (izLastSelected === eye.id) {
+                        alert(`HATA! '${eye.name}' daha önce seçildi. Döngü bitti!`);
+                        izIsPlaying = false; clearInterval(izTimerInterval);
+                        document.getElementById('izanami-start-btn').style.display = "block";
+                        return;
+                    }
+                    izStreak++;
+                    izLastSelected = eye.id;
+                    document.getElementById('iz-streak').innerText = izStreak;
+                    document.getElementById('iz-last').innerText = eye.name;
+                    score += izStreak * 150;
+                    updateUI();
+                    nextIzanamiRound();
+                };
+                container.appendChild(card);
             });
 
-            // Seviye arttıkça süreyi kısalt (Zorlaşan Tempo)
-            izMaxTime = Math.max(850, 2500 - (izStreak * 35));
-            izCurrentTime = izMaxTime;
-            izTimerFill.style.width = '100%';
-
+            izMaxTime = Math.max(800, 2500 - (izStreak * 40));
             const startTime = Date.now();
             izTimerInterval = setInterval(() => {
                 const elapsed = Date.now() - startTime;
-                izCurrentTime = izMaxTime - elapsed;
-                const percentage = Math.max(0, (izCurrentTime / izMaxTime) * 100);
-                izTimerFill.style.width = percentage + '%';
-
-                if (izCurrentTime <= 0) {
-                    endIzanamiGame("Süre Doldu! ⏳", "Zamanında karar veremedin, İzanami illüzyonu bozuldu.");
+                const perc = Math.max(0, ((izMaxTime - elapsed) / izMaxTime) * 100);
+                document.getElementById('izanami-timer-fill').style.width = perc + '%';
+                if (elapsed >= izMaxTime) {
+                    clearInterval(izTimerInterval);
+                    alert("Süre doldu!");
+                    izIsPlaying = false;
+                    document.getElementById('izanami-start-btn').style.display = "block";
                 }
             }, 30);
         }
 
-        function handleEyeCardClick(selectedId, selectedName) {
-            if (!izIsPlaying) return;
-
-            // KURAL KONTROLÜ: Önceki turla aynı mı?
-            if (izLastSelected === selectedId) {
-                endIzanamiGame("HATA! AYNI GÖZE BASTIN! 💀", `Önceki turda da '${selectedName}' seçmiştin. İzanami döngüsüne hapsoldun!`);
-                return;
-            }
-
-            // Doğru seçim: Devam et
-            izStreak++;
-            izLastSelected = selectedId;
-            izStreakEl.innerText = izStreak;
-            izLastEl.innerText = selectedName;
-
-            // Başarımlar
-            if (izStreak >= 10) unlockAchievement('ach9');
-            if (izStreak >= 25) unlockAchievement('ach10');
-            if (izStreak >= 50) unlockAchievement('ach11');
-
-            nextIzanamiRound();
-        }
-
-        function endIzanamiGame(title, desc) {
-            izIsPlaying = false;
-            clearInterval(izTimerInterval);
-            izTimerFill.style.width = '0%';
-            izCardsContainer.innerHTML = '';
-            izStartBtn.style.display = "block";
-            izStartBtn.innerText = "TEKRAR DENE 🌀";
-
-            if (izStreak > izBest) {
-                izBest = izStreak;
-                izBestEl.innerText = izBest;
-            }
-
-            // Ödül: Her seri puan kazandırır
-            let earnedPower = izStreak * 300;
-            score += earnedPower;
-            updateUI();
-
-            showModal(title, `${desc} Seri: ${izStreak} | Kasanıza +${earnedPower} Genjutsu Gücü aktarıldı.`);
-        }
-
         // ================= 3. SUSANOO KULESİ =================
-        const stackArena = document.getElementById('stack-arena');
-        const stackContainer = document.getElementById('stack-container');
-        const stackActionBtn = document.getElementById('stack-action-btn');
-        const stackScoreEl = document.getElementById('stack-score');
-        const stackBestEl = document.getElementById('stack-best');
-
-        let isStackRunning = false, stackLevel = 0, stackBest = 0;
-        let currentBlockWidth = 200, currentBlockX = 0, blockDirection = 1, blockSpeed = 3.5;
-        let stackAnimationId = null, activeBlockEl = null;
-
+        let isStack = false, stackLvl = 0, blockW = 200, blockX = 90, bDir = 1, bSpd = 3.5, stackAnim, actBlock;
         function handleStackAction() {
-            if (!isStackRunning) startStackGame();
-            else placeStackBlock();
-        }
-
-        stackArena.addEventListener('click', () => { if (isStackRunning) placeStackBlock(); });
-
-        function startStackGame() {
-            isStackRunning = true; stackLevel = 0; currentBlockWidth = 200; currentBlockX = 90; blockSpeed = 3.5;
-            stackScoreEl.innerText = stackLevel; stackContainer.innerHTML = ''; stackActionBtn.innerText = "DURDUR ⚡";
-
-            const baseBlock = document.createElement('div');
-            baseBlock.className = 'stack-block';
-            baseBlock.style.width = currentBlockWidth + 'px';
-            baseBlock.style.left = currentBlockX + 'px';
-            baseBlock.style.bottom = '0px';
-            stackContainer.appendChild(baseBlock);
-            spawnMovingBlock();
-        }
-
-        function spawnMovingBlock() {
-            stackLevel++; stackScoreEl.innerText = stackLevel;
-            if (stackLevel >= 5) unlockAchievement('ach6');
-            if (stackLevel >= 15) unlockAchievement('ach7');
-            if (stackLevel >= 25) unlockAchievement('ach8');
-
-            blockSpeed = Math.min(8, blockSpeed + 0.15);
-            activeBlockEl = document.createElement('div');
-            activeBlockEl.className = 'stack-block';
-            activeBlockEl.style.width = currentBlockWidth + 'px';
-            activeBlockEl.style.bottom = (stackLevel * 28) + 'px';
-
-            if (stackLevel * 28 > 280) stackContainer.style.transform = `translateY(${-(stackLevel * 28 - 280)}px)`;
-            else stackContainer.style.transform = 'translateY(0)';
-
-            currentBlockX = 0; blockDirection = 1;
-            stackContainer.appendChild(activeBlockEl);
-            animateStackBlock();
-        }
-
-        function animateStackBlock() {
-            if (!isStackRunning) return;
-            currentBlockX += blockSpeed * blockDirection;
-            const maxRight = 380 - currentBlockWidth;
-            if (currentBlockX >= maxRight) { currentBlockX = maxRight; blockDirection = -1; }
-            else if (currentBlockX <= 0) { currentBlockX = 0; blockDirection = 1; }
-            activeBlockEl.style.left = currentBlockX + 'px';
-            stackAnimationId = requestAnimationFrame(animateStackBlock);
-        }
-
-        function placeStackBlock() {
-            cancelAnimationFrame(stackAnimationId);
-            const blocks = stackContainer.getElementsByClassName('stack-block');
-            const prevBlock = blocks[blocks.length - 2];
-            const prevX = parseFloat(prevBlock.style.left);
-            const diff = currentBlockX - prevX;
-
-            if (Math.abs(diff) < 4) {
-                currentBlockX = prevX;
-                activeBlockEl.style.left = currentBlockX + 'px';
-                activeBlockEl.style.boxShadow = "0 0 25px #00ff88, inset 0 0 10px #fff";
+            if (!isStack) {
+                isStack = true; stackLvl = 0; blockW = 200; blockX = 90; bSpd = 3.5;
+                document.getElementById('stack-container').innerHTML = '';
+                document.getElementById('stack-action-btn').innerText = "DURDUR ⚡";
+                const base = document.createElement('div');
+                base.className = 'stack-block'; base.style.width = blockW+'px'; base.style.left = blockX+'px'; base.style.bottom = '0px';
+                document.getElementById('stack-container').appendChild(base);
+                spawnBlock();
             } else {
-                currentBlockWidth -= Math.abs(diff);
-                if (currentBlockWidth <= 0) { endStackGame(); return; }
-                if (diff > 0) activeBlockEl.style.width = currentBlockWidth + 'px';
-                else { currentBlockX = prevX; activeBlockEl.style.left = currentBlockX + 'px'; activeBlockEl.style.width = currentBlockWidth + 'px'; }
+                cancelAnimationFrame(stackAnim);
+                const blocks = document.getElementById('stack-container').getElementsByClassName('stack-block');
+                const prev = parseFloat(blocks[blocks.length - 2].style.left);
+                const diff = blockX - prev;
+                blockW -= Math.abs(diff);
+                if (blockW <= 0) {
+                    alert(`Kule Çöktü! Kat: ${stackLvl}`);
+                    isStack = false; document.getElementById('stack-action-btn').innerText = "BAŞLAT ⚔️";
+                    return;
+                }
+                if (diff < 0) blockX = prev;
+                actBlock.style.left = blockX + 'px'; actBlock.style.width = blockW + 'px';
+                score += stackLvl * 200; updateUI();
+                spawnBlock();
             }
-            spawnMovingBlock();
         }
-
-        function endStackGame() {
-            isStackRunning = false; cancelAnimationFrame(stackAnimationId);
-            if (stackLevel > stackBest) { stackBest = stackLevel; stackBestEl.innerText = stackBest; }
-            let earnedPower = stackLevel * 250; score += earnedPower; updateUI();
-            stackActionBtn.innerText = "TEKRAR DENE ⚔️";
-            showModal("Susanoo Çöktü! 💥", `${stackLevel}. kata ulaştın. +${earnedPower} Güç kazandın.`);
+        function spawnBlock() {
+            stackLvl++; document.getElementById('stack-score').innerText = stackLvl;
+            bSpd = Math.min(8, bSpd + 0.15);
+            actBlock = document.createElement('div');
+            actBlock.className = 'stack-block'; actBlock.style.width = blockW+'px'; actBlock.style.bottom = (stackLvl*28)+'px';
+            blockX = 0; bDir = 1;
+            document.getElementById('stack-container').appendChild(actBlock);
+            animBlock();
+        }
+        function animBlock() {
+            blockX += bSpd * bDir;
+            if (blockX >= (380 - blockW)) { blockX = 380 - blockW; bDir = -1; }
+            else if (blockX <= 0) { blockX = 0; bDir = 1; }
+            actBlock.style.left = blockX + 'px';
+            stackAnim = requestAnimationFrame(animBlock);
         }
 
         // ================= 4. ALEV KÜRESİ =================
-        const fbCore = document.getElementById('fireball-core');
-        const fbPotential = document.getElementById('fb-potential');
-        const fbMultiplier = document.getElementById('fb-multiplier');
-        const fbBest = document.getElementById('fb-best');
-        const fbStatus = document.getElementById('fb-status-text');
-
-        let isCharging = false, chargeSize = 70, chargeTimer = null;
-        let currentMultiplier = 1.0, currentPotential = 0, explodeThreshold = 0, bestHarvest = 0;
-
-        function startCharge(e) {
-            e.preventDefault(); if (isCharging) return; isCharging = true;
-            explodeThreshold = Math.floor(Math.random() * 140) + 120;
-            chargeSize = 70; fbStatus.innerText = "ŞARJ EDİLİYOR... BIRAKIRSAN ALIRSIN!"; fbStatus.style.color = "#ffaa00";
-
-            chargeTimer = setInterval(() => {
-                chargeSize += 2.5; fbCore.style.width = chargeSize + "px"; fbCore.style.height = chargeSize + "px";
-                currentMultiplier = (1.0 + ((chargeSize - 70) / 45));
-                let baseGain = Math.max(10, Math.floor(basePps * 2 + clickPower * 5));
-                currentPotential = Math.floor(baseGain * currentMultiplier);
-
-                fbPotential.innerText = currentPotential; fbMultiplier.innerText = currentMultiplier.toFixed(1) + "x";
-                if (chargeSize >= explodeThreshold) explodeFireball();
+        let isChg = false, fbSize = 70, fbTimer, fbExp = 0, fbPot = 0;
+        const core = document.getElementById('fireball-core');
+        core.addEventListener('mousedown', () => {
+            isChg = true; fbExp = Math.floor(Math.random() * 120) + 120; fbSize = 70;
+            fbTimer = setInterval(() => {
+                fbSize += 2.5; core.style.width = fbSize + 'px'; core.style.height = fbSize + 'px';
+                let mul = (1.0 + (fbSize - 70) / 45);
+                fbPot = Math.floor(25 * mul);
+                document.getElementById('fb-potential').innerText = fbPot;
+                document.getElementById('fb-multiplier').innerText = mul.toFixed(1) + 'x';
+                if (fbSize >= fbExp) {
+                    clearInterval(fbTimer); isChg = false;
+                    alert("Alev küresi patladı! Puanlar yandı.");
+                    core.style.width = '70px'; core.style.height = '70px';
+                }
             }, 50);
-        }
-
-        function releaseCharge() {
-            if (!isCharging) return; isCharging = false; clearInterval(chargeTimer);
-            score += currentPotential; unlockAchievement('ach3');
-            if (currentMultiplier >= 3.0) unlockAchievement('ach4');
-            if (currentPotential > bestHarvest) { bestHarvest = currentPotential; fbBest.innerText = bestHarvest; }
-            fbStatus.innerText = `BAŞARILI! +${currentPotential} GÜÇ KAZANDIN! 🔥`; fbStatus.style.color = "#00ff88";
-            resetFireballVisual(); updateUI();
-        }
-
-        function explodeFireball() {
-            isCharging = false; clearInterval(chargeTimer); unlockAchievement('ach14');
-            fbStatus.innerText = "GÜM! ÇAKRA TAŞTI VE PATLADI! 💥"; fbStatus.style.color = "#ff2222";
-            resetFireballVisual();
-        }
-
-        function resetFireballVisual() {
-            setTimeout(() => {
-                chargeSize = 70; fbCore.style.width = "70px"; fbCore.style.height = "70px";
-                fbPotential.innerText = "0"; fbMultiplier.innerText = "1.0x";
-            }, 600);
-        }
-
-        fbCore.addEventListener('mousedown', startCharge); window.addEventListener('mouseup', releaseCharge);
-        fbCore.addEventListener('touchstart', startCharge); window.addEventListener('touchend', releaseCharge);
+        });
+        window.addEventListener('mouseup', () => {
+            if (isChg) {
+                isChg = false; clearInterval(fbTimer);
+                score += fbPot; updateUI();
+                alert(`Başarıyla ${fbPot} güç çektin!`);
+                core.style.width = '70px'; core.style.height = '70px';
+            }
+        });
 
         // ================= 5. KAÇAN BUTON =================
-        const fleeDash = document.getElementById('flee-dash');
-        const fleeIntro = document.getElementById('flee-intro');
-        const fleeingTarget = document.getElementById('fleeing-target');
-        let isFleeRunning = false, fleeScore = 0, fleeTime = 20, fleeInterval, fleeScale = 1;
-
+        let isFlee = false, fleeSc = 0, fleeT = 20, fleeInt;
         function startFleeGame() {
-            isFleeRunning = true; fleeScore = 0; fleeTime = 20; fleeScale = 1;
-            document.getElementById('flee-score').innerText = fleeScore; document.getElementById('flee-timer').innerText = fleeTime;
-            fleeIntro.style.display = 'none'; fleeDash.style.display = 'block'; fleeingTarget.style.display = 'block';
-            fleeingTarget.style.transform = `scale(1)`; fleeingTarget.innerText = "Beni Yakala!";
-            moveFleeButton();
-
-            fleeInterval = setInterval(() => {
-                fleeTime--; document.getElementById('flee-timer').innerText = fleeTime;
-                if (fleeTime <= 0) endFleeGame(false);
+            isFlee = true; fleeSc = 0; fleeT = 20;
+            document.getElementById('flee-intro').style.display = 'none';
+            document.getElementById('flee-dash').style.display = 'block';
+            const btn = document.getElementById('fleeing-target');
+            btn.style.display = 'block';
+            fleeInt = setInterval(() => {
+                fleeT--; document.getElementById('flee-timer').innerText = fleeT;
+                if (fleeT <= 0) {
+                    clearInterval(fleeInt); isFlee = false;
+                    btn.style.display = 'none'; document.getElementById('flee-dash').style.display = 'none';
+                    document.getElementById('flee-intro').style.display = 'block';
+                    alert(`Süre bitti! Skor: ${fleeSc}/5`);
+                }
             }, 1000);
         }
-
-        document.addEventListener('mousemove', (e) => {
-            if (!isFleeRunning) return;
-            const rect = fleeingTarget.getBoundingClientRect();
-            if (Math.hypot(e.clientX - (rect.left + rect.width / 2), e.clientY - (rect.top + rect.height / 2)) < 85) moveFleeButton();
+        document.getElementById('fleeing-target').addEventListener('click', (e) => {
+            e.stopPropagation(); fleeSc++;
+            document.getElementById('flee-score').innerText = fleeSc;
+            if (fleeSc >= 5) {
+                clearInterval(fleeInt); isFlee = false;
+                document.getElementById('fleeing-target').style.display = 'none';
+                document.getElementById('flee-dash').style.display = 'none';
+                document.getElementById('flee-intro').style.display = 'block';
+                score += 10000; updateUI();
+                alert("Tebrikler! 5 kez yakaladın, +10.000 Güç eklendi!");
+            } else {
+                document.getElementById('fleeing-target').style.left = Math.random() * (window.innerWidth - 180) + 'px';
+                document.getElementById('fleeing-target').style.top = Math.random() * (window.innerHeight - 150) + 'px';
+            }
         });
-
-        fleeingTarget.addEventListener('click', (e) => {
-            if (!isFleeRunning) return; e.stopPropagation();
-            fleeScore++; document.getElementById('flee-score').innerText = fleeScore;
-            fleeScale -= 0.12; fleeingTarget.style.transform = `scale(${fleeScale})`;
-            if (fleeScore >= 5) endFleeGame(true);
-            else moveFleeButton();
-        });
-
-        function moveFleeButton() {
-            fleeingTarget.style.left = Math.max(60, Math.random() * (window.innerWidth - 180)) + 'px';
-            fleeingTarget.style.top = Math.max(100, Math.random() * (window.innerHeight - 120)) + 'px';
-        }
-
-        function endFleeGame(win) {
-            isFleeRunning = false; clearInterval(fleeInterval);
-            fleeingTarget.style.display = 'none'; fleeDash.style.display = 'none'; fleeIntro.style.display = 'block';
-            if (win) { unlockAchievement('ach5'); showModal("Zafer! 🎯", "+10.000 Güç kazandın!"); }
-            else showModal("Iska! 💀", `Süre bitti. Skor: ${fleeScore}/5.`);
-        }
-
-        function showModal(title, desc) {
-            document.getElementById('modalTitle').innerText = title;
-            document.getElementById('modalDesc').innerText = desc;
-            document.getElementById('resultModal').style.display = 'block';
-        }
-        function closeModal() { document.getElementById('resultModal').style.display = 'none'; }
 
         // ================= KÜLLER & ANİMASYON =================
         const canvas = document.getElementById('particles-canvas');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-        let particlesArray = [];
-
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width; this.y = canvas.height + Math.random() * 200; 
-                this.size = Math.random() * 2.5 + 1; this.speedY = Math.random() * 1.5 + 0.5; 
-                this.speedX = (Math.random() * 1) - 0.5; this.opacity = Math.random() * 0.6 + 0.1; 
-            }
-            update() {
-                this.y -= this.speedY; this.x += this.speedX;
-                if (this.y < 0) { this.y = canvas.height + 100; this.x = Math.random() * canvas.width; }
-            }
-            draw() {
-                ctx.fillStyle = `rgba(255, 0, 0, ${this.opacity})`; ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
-            }
+        let particles = [];
+        for (let i = 0; i < 35; i++) {
+            particles.push({
+                x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+                s: Math.random() * 2 + 1, sy: Math.random() * 1.5 + 0.5
+            });
         }
-        for (let i = 0; i < 40; i++) particlesArray.push(new Particle());
-
-        function animate() {
+        function anim() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "rgba(255,0,0,0.4)";
+            particles.forEach(p => {
+                p.y -= p.sy; if (p.y < 0) p.y = canvas.height;
+                ctx.beginPath(); ctx.arc(p.x, p.y, p.s, 0, Math.PI * 2); ctx.fill();
+            });
             document.getElementById('tomoe-group').style.transform = `rotate(${score * 1.5}deg)`;
             document.getElementById('tomoe-group').style.transformOrigin = "50px 50px";
-            particlesArray.forEach(p => { p.update(); p.draw(); });
-            requestAnimationFrame(animate);
+            requestAnimationFrame(anim);
         }
-        animate();
-
-        // ================= AÇILIŞ (SPLASH) EKRANI =================
-        window.addEventListener('load', () => {
-            const splash = document.getElementById('splash');
-            setTimeout(() => {
-                if (splash) {
-                    splash.style.opacity = '0';
-                    splash.style.pointerEvents = 'none';
-                    setTimeout(() => {
-                        splash.style.visibility = 'hidden';
-                        splash.style.display = 'none';
-                    }, 1000);
-                }
-            }, 1800);
-        });
-
-        // ================= HESAP, SIRALAMA VE YÖNETİCİ SİSTEMİ =================
-        const DEFAULT_SHINOBI = [
-            { username: "Itachi_Uchiha", password: "123", score: 250000, date: "2026-09-01" },
-            { username: "Madara_Ghost", password: "123", score: 180000, date: "2026-09-05" },
-            { username: "Sasuke_Avenger", password: "123", score: 95000, date: "2026-09-10" },
-            { username: "Shisui_Teleport", password: "123", score: 62000, date: "2026-09-15" },
-            { username: "Obito_Kamui", password: "123", score: 45000, date: "2026-09-20" }
-        ];
-
-        function getStoredUsers() {
-            let users = localStorage.getItem('uch_users');
-            if (!users) {
-                localStorage.setItem('uch_users', JSON.stringify(DEFAULT_SHINOBI));
-                return DEFAULT_SHINOBI;
-            }
-            try {
-                return JSON.parse(users);
-            } catch(e) {
-                return DEFAULT_SHINOBI;
-            }
-        }
-
-        function saveStoredUsers(users) {
-            localStorage.setItem('uch_users', JSON.stringify(users));
-        }
-
-        function getCurrentUser() {
-            return localStorage.getItem('uch_current_user') || null;
-        }
-
-        function setCurrentUser(username) {
-            if (username) {
-                localStorage.setItem('uch_current_user', username);
-            } else {
-                localStorage.removeItem('uch_current_user');
-            }
-            updateNavAuth();
-            renderLeaderboard();
-        }
-
-        function getTitleByScore(pts) {
-            if (pts >= 300000) return "👑 Uchiha Efsanesi";
-            if (pts >= 150000) return "🔴 Kage Seviyesi";
-            if (pts >= 75000) return "🗡️ Anbu Kaptanı";
-            if (pts >= 30000) return "🔥 Jonin";
-            if (pts >= 10000) return "⚡ Chunin";
-            if (pts >= 2000) return "🍃 Genin";
-            return "🌱 Akademi";
-        }
-
-        function updateNavAuth() {
-            const authNavArea = document.getElementById('auth-nav-area');
-            if (!authNavArea) return;
-            const user = getCurrentUser();
-            if (user) {
-                authNavArea.innerHTML = `
-                    <div class="user-profile">
-                        <span class="user-badge">👤 ${escapeHtml(user)}</span>
-                        <button class="logout-btn hover-target" onclick="logoutUser()">Çıkış</button>
-                    </div>
-                `;
-            } else {
-                authNavArea.innerHTML = `
-                    <button class="auth-btn hover-target" onclick="openAuthModal('login')">🔑 Giriş Yap / Hesap Aç</button>
-                `;
-            }
-        }
-
-        function syncCurrentUserScore() {
-            const currentUsername = getCurrentUser();
-            if (!currentUsername) return;
-            let users = getStoredUsers();
-            let idx = users.findIndex(u => u.username.toLowerCase() === currentUsername.toLowerCase());
-            if (idx !== -1) {
-                if (score > (users[idx].score || 0)) {
-                    users[idx].score = Math.floor(score);
-                    saveStoredUsers(users);
-                    renderLeaderboard();
-                }
-            }
-        }
-
-        // --- AUTH İŞLEMLERİ ---
-        let currentAuthTab = 'login';
-        function openAuthModal(tab = 'login') {
-            document.getElementById('modalOverlay').style.display = 'block';
-            document.getElementById('authModal').style.display = 'block';
-            document.getElementById('auth-msg').innerText = '';
-            document.getElementById('auth-msg').className = 'auth-msg';
-            switchAuthTab(tab);
-        }
-
-        function switchAuthTab(tab) {
-            currentAuthTab = tab;
-            const isLogin = tab === 'login';
-            document.getElementById('tab-login-btn').classList.toggle('active', isLogin);
-            document.getElementById('tab-reg-btn').classList.toggle('active', !isLogin);
-            document.getElementById('auth-submit-btn').innerText = isLogin ? 'Giriş Yap' : 'Hesap Oluştur';
-            document.getElementById('auth-msg').innerText = '';
-        }
-
-        function handleAuthSubmit(e) {
-            e.preventDefault();
-            const usernameInput = document.getElementById('auth-username').value.trim();
-            const passwordInput = document.getElementById('auth-password').value.trim();
-            const msgEl = document.getElementById('auth-msg');
-
-            if (!usernameInput || !passwordInput) {
-                msgEl.innerText = "Lütfen takma ad ve şifreyi eksiksiz girin.";
-                msgEl.className = "auth-msg error";
-                return;
-            }
-
-            let users = getStoredUsers();
-
-            if (currentAuthTab === 'register') {
-                // Kayıt Kontrolü
-                const exists = users.find(u => u.username.toLowerCase() === usernameInput.toLowerCase());
-                if (exists) {
-                    msgEl.innerText = "Bu takma ad zaten kullanımda! Başka bir ad deneyin.";
-                    msgEl.className = "auth-msg error";
-                    return;
-                }
-                const newUser = {
-                    username: usernameInput,
-                    password: passwordInput,
-                    score: Math.floor(score),
-                    date: new Date().toISOString().split('T')[0]
-                };
-                users.push(newUser);
-                saveStoredUsers(users);
-                setCurrentUser(usernameInput);
-
-                msgEl.innerText = "Hesabınız başarıyla oluşturuldu!";
-                msgEl.className = "auth-msg success";
-                setTimeout(() => {
-                    closeAllDialogs();
-                }, 700);
-            } else {
-                // Giriş Kontrolü
-                const user = users.find(u => u.username.toLowerCase() === usernameInput.toLowerCase() && u.password === passwordInput);
-                if (!user) {
-                    msgEl.innerText = "Hatalı takma ad veya şifre!";
-                    msgEl.className = "auth-msg error";
-                    return;
-                }
-                if (user.score > score) {
-                    score = user.score;
-                    updateUI();
-                } else if (score > user.score) {
-                    user.score = Math.floor(score);
-                    saveStoredUsers(users);
-                }
-                setCurrentUser(user.username);
-                msgEl.innerText = `Giriş başarılı! Hoş geldin, ${user.username}.`;
-                msgEl.className = "auth-msg success";
-                setTimeout(() => {
-                    closeAllDialogs();
-                }, 700);
-            }
-        }
-
-        function logoutUser() {
-            setCurrentUser(null);
-            showModal("Çıkış Yapıldı", "Hesabınızdan çıkış yapıldı. Yalnızca giriş yapmış kullanıcıların skorları sıralamada tutulur.");
-        }
-
-        // --- SIRALAMA (LEADERBOARD - TOP 10) ---
-        function renderLeaderboard() {
-            const tbody = document.getElementById('leaderboard-tbody');
-            if (!tbody) return;
-            const guestBanner = document.getElementById('leaderboard-guest-banner');
-            const currentUser = getCurrentUser();
-
-            if (guestBanner) {
-                guestBanner.style.display = currentUser ? 'none' : 'flex';
-            }
-
-            let users = getStoredUsers();
-            // Yalnızca kayıtlı kullanıcıları skorlarına göre büyükten küçüğe sırala
-            users.sort((a, b) => (b.score || 0) - (a.score || 0));
-
-            // İlk 10 kullanıcı
-            const top10 = users.slice(0, 10);
-            tbody.innerHTML = '';
-
-            if (top10.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:#888; padding:30px;">Henüz kayıtlı bir shinobi bulunmuyor. İlk hesabı sen aç!</td></tr>`;
-                return;
-            }
-
-            top10.forEach((u, idx) => {
-                const rank = idx + 1;
-                let rankClass = "rank-other";
-                let rankIcon = `${rank}.`;
-                if (rank === 1) { rankClass = "rank-1"; rankIcon = "🥇 1"; }
-                else if (rank === 2) { rankClass = "rank-2"; rankIcon = "🥈 2"; }
-                else if (rank === 3) { rankClass = "rank-3"; rankIcon = "🥉 3"; }
-
-                const isMe = currentUser && currentUser.toLowerCase() === u.username.toLowerCase();
-                const tr = document.createElement('tr');
-                tr.className = `leaderboard-row ${isMe ? 'my-row' : ''}`;
-                tr.innerHTML = `
-                    <td><span class="rank-badge ${rankClass}">${rankIcon}</span></td>
-                    <td style="font-weight:bold; color:${isMe ? 'var(--accent-gold)' : '#fff'};">
-                        ${escapeHtml(u.username)} ${isMe ? '<span style="font-size:0.75rem; color:var(--accent-gold); font-weight:normal;">(Sen)</span>' : ''}
-                    </td>
-                    <td><span class="score-badge">${(u.score || 0).toLocaleString('tr-TR')}</span> Güç</td>
-                    <td style="color:#bbb; font-size:0.85rem;">${getTitleByScore(u.score || 0)}</td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-
-        // --- YÖNETİCİ PANELİ (ADMIN PANEL) ---
-        let isAdminLoggedIn = false;
-
-        function openAdminPrompt() {
-            if (isAdminLoggedIn) {
-                openAdminPanel();
-                return;
-            }
-            document.getElementById('modalOverlay').style.display = 'block';
-            document.getElementById('adminPassModal').style.display = 'block';
-            document.getElementById('admin-pass-input').value = '';
-            document.getElementById('admin-pass-msg').innerText = '';
-            document.getElementById('admin-pass-msg').className = 'auth-msg';
-        }
-
-        function handleAdminPassSubmit(e) {
-            e.preventDefault();
-            const pass = document.getElementById('admin-pass-input').value.trim();
-            const msgEl = document.getElementById('admin-pass-msg');
-
-            // Kullanıcının belirttiği yönetici şifresi
-            if (pass === 'itachi123') {
-                isAdminLoggedIn = true;
-                msgEl.innerText = "Yönetici şifresi doğru! Açılıyor...";
-                msgEl.className = "auth-msg success";
-                setTimeout(() => {
-                    document.getElementById('adminPassModal').style.display = 'none';
-                    openAdminPanel();
-                }, 400);
-            } else {
-                msgEl.innerText = "Hatalı şifre! Yönetici yetkisi reddedildi.";
-                msgEl.className = "auth-msg error";
-            }
-        }
-
-        function openAdminPanel() {
-            document.getElementById('modalOverlay').style.display = 'block';
-            document.getElementById('adminPanelModal').style.display = 'block';
-            renderAdminUserList();
-        }
-
-        function renderAdminUserList() {
-            const tbody = document.getElementById('admin-users-tbody');
-            if (!tbody) return;
-            let users = getStoredUsers();
-            tbody.innerHTML = '';
-
-            if (users.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:#888; padding:20px;">Sistemde kayıtlı kullanıcı bulunmuyor.</td></tr>`;
-                return;
-            }
-
-            users.sort((a, b) => (b.score || 0) - (a.score || 0));
-
-            users.forEach((u) => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td style="font-weight:bold; color:#fff;">${escapeHtml(u.username)}</td>
-                    <td style="color:var(--accent-gold);">${(u.score || 0).toLocaleString('tr-TR')}</td>
-                    <td style="color:#888; font-size:0.8rem;">${u.date || '-'}</td>
-                    <td style="text-align: right;">
-                        <button class="admin-del-btn hover-target" onclick="adminDeleteUser('${escapeHtml(u.username)}')">🗑️ Sıralamadan Sil</button>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-
-        function adminDeleteUser(username) {
-            if (!confirm(`"${username}" adlı kullanıcıyı sıralamadan ve sistemden silmek istediğinize emin misiniz?`)) {
-                return;
-            }
-            let users = getStoredUsers();
-            users = users.filter(u => u.username.toLowerCase() !== username.toLowerCase());
-            saveStoredUsers(users);
-
-            // Eğer şu an giriş yapmış kullanıcı silindiyse oturumu kapat
-            if (getCurrentUser() && getCurrentUser().toLowerCase() === username.toLowerCase()) {
-                setCurrentUser(null);
-            }
-
-            renderAdminUserList();
-            renderLeaderboard();
-        }
-
-        function logoutAdmin() {
-            isAdminLoggedIn = false;
-            closeAllDialogs();
-            showModal("Yönetici Çıkışı", "Yönetici oturumu başarıyla kapatıldı.");
-        }
-
-        function closeAllDialogs() {
-            document.getElementById('modalOverlay').style.display = 'none';
-            document.getElementById('authModal').style.display = 'none';
-            document.getElementById('adminPassModal').style.display = 'none';
-            document.getElementById('adminPanelModal').style.display = 'none';
-        }
-
-        function escapeHtml(text) {
-            if (!text) return '';
-            const div = document.createElement('div');
-            div.innerText = text;
-            return div.innerHTML;
-        }
-
-        // Başlangıç Yüklemesi
-        updateNavAuth();
-        renderLeaderboard();
-        const savedUser = getCurrentUser();
-        if (savedUser) {
-            const userObj = getStoredUsers().find(u => u.username.toLowerCase() === savedUser.toLowerCase());
-            if (userObj && userObj.score > score) {
-                score = userObj.score;
-                updateUI();
-            }
-        }
+        anim();
     </script>
 </body>
 </html>
