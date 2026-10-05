@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -45,7 +46,7 @@
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: #000; display: flex; flex-direction: column;
             align-items: center; justify-content: center; z-index: 99999;
-            transition: opacity 1s ease, visibility 1s ease;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
         }
         .sharingan-loader {
             width: 80px; height: 80px; margin-bottom: 25px;
@@ -292,7 +293,6 @@
             position: relative;
         }
 
-        /* 15K Kilit Ekranı */
         .lock-overlay {
             position: absolute;
             top: 0; left: 0;
@@ -325,7 +325,6 @@
         }
         .unlock-btn:hover { transform: scale(1.05); background: #ff2222; }
 
-        /* Kazı Kazan Alanı */
         .scratch-arena {
             position: relative;
             width: 300px;
@@ -364,7 +363,7 @@
             z-index: 2;
         }
 
-        /* HACK EKRANI */
+        /* ================= MODALLAR VE HACK EKRANI ================= */
         #hack-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: #000; z-index: 999999; display: none;
@@ -378,7 +377,6 @@
             animation: glitch-anim 0.2s infinite; pointer-events: none;
         }
 
-        /* YÖNETİCİ KOD KONSOLU */
         #code-console-modal {
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
             width: 90%; max-width: 550px; background: rgba(8, 0, 0, 0.95);
@@ -410,7 +408,6 @@
             font-weight: bold; border-radius: 6px; cursor: pointer;
         }
 
-        /* MODAL */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.8); z-index: 100000; display: none;
@@ -479,7 +476,7 @@
                 <div class="red-line-wrapper"></div>
             </a>
             <div class="game-tabs">
-                <button class="tab-btn hover-target active" onclick="switchGameTab('slot')">🎰 Slot (10x Kazanç)</button>
+                <button class="tab-btn hover-target active" onclick="switchGameTab('slot')">🎰 Slot (10x / 3x Kazanç)</button>
                 <button class="tab-btn hover-target" onclick="switchGameTab('scratch')">🎫 Kazı Kazan (3x Kazanç)</button>
             </div>
             <div class="points-badge">
@@ -515,13 +512,12 @@
                 </button>
             </div>
         </div>
-        <div class="slot-status-msg" id="slot-status">Şansını dene! Herhangi bir aktif çizgide 777 yakala, 10 katını kap!</div>
+        <div class="slot-status-msg" id="slot-status">Şansını dene! Herhangi bir aktif çizgide 777 yakala 10 katını, yan yana 3 göz yakala 3 katını kap!</div>
     </section>
 
     <!-- 2. SEKME: KAZI KAZAN (15K KİLİTLİ) -->
     <section class="view-section" id="view-scratch">
         <div class="scratch-card-box">
-            <!-- 15K Kilit Ekranı -->
             <div class="lock-overlay" id="scratch-lock">
                 <div class="lock-icon">🔒</div>
                 <div class="lock-title">MÜHÜRLÜ ŞANS PARŞÖMENİ</div>
@@ -641,6 +637,7 @@
 
         // ================= 1. SLOT MAKİNESİ =================
         const symbols = ['👁️', '🌀', '🟣', '🔥', '🗡️', '7'];
+        const eyeIcons = ['👁️', '🌀', '🟣']; // 3x Kazanç sağlayacak göz simgeleri
         const REEL_COUNT = 3;
         const CELL_HEIGHT = 80;
         let isSpinning = false;
@@ -667,7 +664,7 @@
         function spinSlot(cost, mode) {
             if (isSpinning) return;
             if (userPoints < cost) {
-                alert("Yetersiz Çakra Puanı! Puanın bittiyse gizli yönetici kodunu dene.");
+                alert("Yetersiz Çakra Puanı!");
                 return;
             }
 
@@ -715,22 +712,33 @@
         }
 
         function checkSlotResult(cost, mode, results) {
-            let winCount = 0;
+            let totalWin = 0;
+            let winDetails = [];
 
-            if (results[0][1] === '7' && results[1][1] === '7' && results[2][1] === '7') {
-                winCount++;
+            // Satırları kontrol eden yardımcı fonksiyon
+            function evaluateLine(val1, val2, val3) {
+                if (val1 === '7' && val2 === '7' && val3 === '7') {
+                    totalWin += cost * 10;
+                    winDetails.push("777 (10X)");
+                } 
+                else if (val1 === val2 && val2 === val3 && eyeIcons.includes(val1)) {
+                    totalWin += cost * 3;
+                    winDetails.push(`GÖZ KOMBOSU: ${val1} (3X)`);
+                }
             }
 
+            // Orta Çizgiyi Değerlendir
+            evaluateLine(results[0][1], results[1][1], results[2][1]);
+
+            // 3 Çizgi Modu Seçildiyse Üst ve Alt Çizgileri Değerlendir
             if (mode === 'all') {
-                if (results[0][0] === '7' && results[1][0] === '7' && results[2][0] === '7') winCount++;
-                if (results[0][2] === '7' && results[1][2] === '7' && results[2][2] === '7') winCount++;
+                evaluateLine(results[0][0], results[1][0], results[2][0]);
+                evaluateLine(results[0][2], results[1][2], results[2][2]);
             }
 
-            if (winCount > 0) {
-                // 10 KAT PUAN
-                const winAmount = Math.floor(cost * 10 * winCount);
-                updatePoints(winAmount, true);
-                document.getElementById('slot-status').innerText = `🔥 EFSANEVİ 777! 10 KAT KAZANDIN! +${winAmount.toLocaleString()} PUAN! 🔥`;
+            if (totalWin > 0) {
+                updatePoints(totalWin, true);
+                document.getElementById('slot-status').innerText = `🔥 TEBRİKLER! ${winDetails.join(" + ")} İLE +${totalWin.toLocaleString()} PUAN KAZANDIN! 🔥`;
                 document.getElementById('slot-status').style.color = "#00ff88";
             } else {
                 document.getElementById('slot-status').innerText = "Tutturamadın! Tekrar dene veya kaderini zorla.";
@@ -783,9 +791,8 @@
             document.getElementById('scratch-status').innerText = "Kartı fareyle kazı! 3 aynı sembol çıkarsa 3 katını alırsın.";
             document.getElementById('scratch-status').style.color = "#aaa";
 
-            // Sembol havuzu oluştur (3x3 = 9 hücre)
             const possible = ['👁️', '🌀', '🟣', '🔥', '🗡️'];
-            const willWin = Math.random() < 0.28; // Zorluk ayarı
+            const willWin = Math.random() < 0.28;
             cardSymbols = [];
 
             if (willWin) {
@@ -808,7 +815,6 @@
 
             cardSymbols.sort(() => Math.random() - 0.5);
 
-            // Alt ızgarayı doldur
             const grid = document.getElementById('scratch-grid');
             grid.innerHTML = '';
             cardSymbols.forEach(sym => {
@@ -818,12 +824,10 @@
                 grid.appendChild(cell);
             });
 
-            // Üstteki kazıma katmanını çiz
             scratchCtx.globalCompositeOperation = 'source-over';
             scratchCtx.fillStyle = '#440000';
             scratchCtx.fillRect(0, 0, scratchCanvas.width, scratchCanvas.height);
 
-            // Üzerine metalik Akatsuki deseni ver
             scratchCtx.fillStyle = '#ff0000';
             scratchCtx.font = 'bold 22px monospace';
             scratchCtx.textAlign = 'center';
@@ -845,8 +849,8 @@
         function scratch(e) {
             if (!isDrawing || !isCardActive) return;
             const rect = scratchCanvas.getBoundingClientRect();
-            const x = (e.clientX || e.touches[0].clientX) - rect.left;
-            const y = (e.clientY || e.touches[0].clientY) - rect.top;
+            const x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
+            const y = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
 
             scratchCtx.globalCompositeOperation = 'destination-out';
             scratchCtx.beginPath();
@@ -858,7 +862,6 @@
 
         function checkScratchProgress() {
             if (isCardScratched) return;
-            // %40'ı kazındığında otomatik olarak sonucu belirle
             const imgData = scratchCtx.getImageData(0, 0, scratchCanvas.width, scratchCanvas.height);
             let transparentPixels = 0;
             for (let i = 3; i < imgData.data.length; i += 16) {
@@ -867,7 +870,6 @@
             const totalSampled = imgData.data.length / 16;
             if (transparentPixels / totalSampled > 0.4) {
                 isCardScratched = true;
-                // Kalan kaplamayı tamamen aç
                 scratchCtx.clearRect(0, 0, scratchCanvas.width, scratchCanvas.height);
                 document.getElementById('btn-new-card').disabled = false;
                 evaluateScratchResult();
@@ -888,7 +890,6 @@
             });
 
             if (won) {
-                // 3 KAT PUAN
                 const winPrize = scratchCost * 3;
                 updatePoints(winPrize, true);
                 document.getElementById('scratch-status').innerText = `🔥 TEBRİKLER! 3 TANE ${winningSym} BULDUN! +${winPrize.toLocaleString()} PUAN KAZANDIN! 🔥`;

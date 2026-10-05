@@ -43,7 +43,7 @@
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: #000; display: flex; flex-direction: column;
             align-items: center; justify-content: center; z-index: 99999;
-            transition: opacity 0.5s ease, visibility 0.5s ease;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
         }
         .sharingan-loader {
             width: 80px; height: 80px; margin-bottom: 25px;
@@ -110,7 +110,7 @@
         }
         .view-section.active-view { display: flex; }
 
-        /* 1. CLICKER */
+        /* CLICKER */
         #view-clicker { align-items: center; justify-content: space-around; padding: 1.5rem 3rem; }
         .click-area { display: flex; flex-direction: column; align-items: center; text-align: center; position: relative; }
         .combo-meter {
@@ -153,7 +153,38 @@
         .upg-info p { font-size: 0.75rem; color: #aaa; }
         .upg-cost { font-weight: bold; font-size: 1.1rem; color: var(--accent-gold); }
 
-        /* 2. İZANAMİ */
+        /* HIZLI YAZMA TESTİ */
+        #view-typing { flex-direction: column; align-items: center; justify-content: center; gap: 20px; }
+        .typing-box {
+            width: 90%; max-width: 720px; background: rgba(15, 0, 0, 0.85);
+            border: 2px solid var(--accent-red); border-radius: 16px; padding: 25px;
+            box-shadow: 0 0 35px rgba(255, 0, 0, 0.4); text-align: center;
+        }
+        .words-display {
+            background: rgba(0, 0, 0, 0.6); padding: 18px; border-radius: 8px;
+            border: 1px solid #330000; font-size: 1.3rem; line-height: 1.8;
+            height: 120px; overflow: hidden; display: flex; flex-wrap: wrap; gap: 12px;
+            justify-content: flex-start; align-content: flex-start; margin-bottom: 20px; user-select: none;
+        }
+        .word-item { color: #888; transition: color 0.1s; }
+        .word-current { color: #fff; border-bottom: 2px solid var(--accent-red); font-weight: bold; }
+        .word-correct { color: #00ff88; }
+        .word-wrong { color: #ff3333; text-decoration: line-through; }
+        .typing-input {
+            width: 70%; padding: 12px 20px; background: #000; border: 2px solid var(--accent-red);
+            color: #fff; font-size: 1.2rem; border-radius: 25px; outline: none; text-align: center;
+        }
+        .typing-stats { display: flex; justify-content: center; gap: 30px; font-size: 1.2rem; font-weight: bold; margin-bottom: 15px; }
+
+        /* FLAPPY CROW */
+        #view-flappy { flex-direction: column; align-items: center; justify-content: center; position: relative; }
+        #flappy-canvas {
+            border: 2px solid var(--accent-red); border-radius: 12px;
+            background: #050101; box-shadow: 0 0 30px rgba(255, 0, 0, 0.4); cursor: pointer;
+        }
+        .flappy-hint { margin-top: 10px; color: #aaa; font-size: 0.9rem; font-weight: bold; }
+
+        /* İZANAMİ */
         #view-izanami { flex-direction: column; align-items: center; justify-content: center; position: relative; }
         .izanami-dash {
             display: flex; gap: 30px; margin-bottom: 15px; background: rgba(0,0,0,0.8);
@@ -178,7 +209,7 @@
             background: rgba(255,0,0,0.2); border: 2px solid var(--accent-red); color: #fff; border-radius: 30px; cursor: pointer;
         }
 
-        /* 3. SUSANOO */
+        /* SUSANOO KULESİ */
         #view-stack { flex-direction: column; align-items: center; justify-content: center; position: relative; }
         .stack-dashboard {
             position: absolute; top: 15px; display: flex; gap: 30px; background: rgba(0,0,0,0.8);
@@ -199,7 +230,7 @@
             background: rgba(255,0,0,0.2); border: 2px solid var(--accent-red); color: #fff; border-radius: 30px; cursor: pointer;
         }
 
-        /* 4. ALEV KÜRESİ */
+        /* ALEV KÜRESİ */
         #view-fireball { flex-direction: column; align-items: center; justify-content: center; position: relative; }
         .fireball-stats {
             display: flex; gap: 25px; margin-bottom: 20px; background: rgba(0,0,0,0.7);
@@ -213,51 +244,21 @@
             transition: width 0.05s linear, height 0.05s linear;
         }
 
-        /* 5. KAÇAN BUTON */
+        /* KAÇAN BUTON */
         #view-flee { flex-direction: column; align-items: center; justify-content: center; position: relative; width: 100%; height: 100%; }
         #fleeing-target {
-            position: absolute; padding: 14px 28px; font-size: 1.1rem; font-weight: bold;
+            position: absolute; padding: 15px 30px; font-size: 1.1rem; font-weight: bold;
             color: #fff; background: #990000; border: 2px solid #ff3333; border-radius: 40px;
             box-shadow: 0 0 25px rgba(255, 0, 0, 0.9); display: none;
-            transition: left 0.12s ease-out, top 0.12s ease-out; user-select: none; z-index: 100;
+            transition: left 0.15s ease-out, top 0.15s ease-out;
+            user-select: none; z-index: 100;
         }
         #start-flee-btn {
             padding: 12px 30px; font-size: 1.1rem; font-weight: bold; color: #fff;
             background: rgba(255, 0, 0, 0.2); border: 2px solid var(--accent-red); border-radius: 30px;
         }
 
-        /* 6. YENİ OYUN: HIZLI YAZMA (TYPING TEST) */
-        #view-typing { flex-direction: column; align-items: center; justify-content: center; gap: 20px; }
-        .typing-box {
-            width: 90%; max-width: 700px; background: rgba(15, 0, 0, 0.85);
-            border: 2px solid var(--accent-red); border-radius: 16px; padding: 25px;
-            box-shadow: 0 0 35px rgba(255, 0, 0, 0.4); text-align: center;
-        }
-        .words-display {
-            background: rgba(0, 0, 0, 0.6); padding: 18px; border-radius: 8px;
-            border: 1px solid #330000; font-size: 1.3rem; line-height: 1.8;
-            height: 120px; overflow: hidden; display: flex; flex-wrap: wrap; gap: 12px;
-            justify-content: center; margin-bottom: 20px; user-select: none;
-        }
-        .word-item { color: #888; transition: color 0.1s; }
-        .word-current { color: #fff; border-bottom: 2px solid var(--accent-red); }
-        .word-correct { color: #00ff88; }
-        .word-wrong { color: #ff3333; text-decoration: line-through; }
-        .typing-input {
-            width: 70%; padding: 12px 20px; background: #000; border: 2px solid var(--accent-red);
-            color: #fff; font-size: 1.2rem; border-radius: 25px; outline: none; text-align: center;
-        }
-        .typing-stats { display: flex; justify-content: center; gap: 30px; font-size: 1.2rem; font-weight: bold; }
-
-        /* 7. YENİ OYUN: FLAPPY CROW */
-        #view-flappy { flex-direction: column; align-items: center; justify-content: center; position: relative; }
-        #flappy-canvas {
-            border: 2px solid var(--accent-red); border-radius: 12px;
-            background: #050101; box-shadow: 0 0 30px rgba(255, 0, 0, 0.4);
-        }
-        .flappy-hint { margin-top: 10px; color: #888; font-size: 0.9rem; }
-
-        /* 8. ÖDÜLLER */
+        /* ÖDÜLLER */
         #view-awards { flex-direction: column; align-items: center; justify-content: flex-start; padding: 2rem; overflow-y: auto; }
         .awards-grid {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -288,7 +289,7 @@
             text-shadow: 0 0 20px red; text-align: center; pointer-events: none;
         }
 
-        /* YÖNETİCİ NOT DEFTERİ */
+        /* NOT DEFTERİ */
         #notepad-modal {
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
             width: 90%; max-width: 650px; background: rgba(10, 0, 0, 0.95);
@@ -358,7 +359,6 @@
 </head>
 <body>
 
-    <!-- AÇILIŞ VE GEÇİŞ BEKLEME EKRANI (SHARINGAN SPLASH) -->
     <div id="splash">
         <svg class="sharingan-loader" viewBox="0 0 100 100">
             <circle cx="50" cy="50" r="45" fill="#990000" stroke="#111" stroke-width="4"/>
@@ -376,7 +376,6 @@
         </div>
     </div>
 
-    <!-- KIRMIZI HACK EKRANI -->
     <div id="hack-overlay">
         <canvas id="hack-canvas"></canvas>
         <div class="hack-center-msg">SİSTEM HACKLENDİ<br><span style="font-size:1.2rem;">YÖNETİCİ ÇEKİRDEĞİNE SIZILIYOR...</span></div>
@@ -403,7 +402,7 @@
             </a>
             <div class="tab-buttons">
                 <button class="tab-btn hover-target active" onclick="switchTab('clicker', this)">👁️ Clicker</button>
-                <button class="tab-btn hover-target" onclick="switchTab('typing', this)">⌨️ Hızlı Yazma</button>
+                <button class="tab-btn hover-target" onclick="switchTab('typing', this)">⌨ Hızlı Yazma</button>
                 <button class="tab-btn hover-target" onclick="switchTab('flappy', this)">🦅 Kuzgun Uçuşu</button>
                 <button class="tab-btn hover-target" onclick="switchTab('izanami', this)">🌀 İzanami</button>
                 <button class="tab-btn hover-target" onclick="switchTab('stack', this)">⚔️ Susanoo</button>
@@ -474,24 +473,24 @@
         </div>
     </section>
 
-    <!-- 2. HIZLI YAZMA OYUNU -->
+    <!-- 2. HIZLI YAZMA OYUNU (DÜZELTİLDİ: SONSUZ KELİME) -->
     <section class="view-section" id="view-typing">
         <div class="typing-box">
-            <h2 style="color:var(--accent-red); margin-bottom:10px;">⌨️ Sharingan Odaklanması (Hızlı Yazma)</h2>
+            <h2 style="color:var(--accent-red); margin-bottom:10px;">⌨️ Hızlı Yazma Testi</h2>
             <div class="typing-stats">
                 <div>Süre: <span id="typing-timer" style="color:red">60</span>s</div>
                 <div>DKM (Hız): <span id="typing-wpm" style="color:var(--accent-gold)">0</span></div>
                 <div>Doğruluk: <span id="typing-acc" style="color:#00ff88">%100</span></div>
             </div>
             <div class="words-display" id="words-container"></div>
-            <input type="text" id="typing-input" class="typing-input hover-target" placeholder="Buraya yazıp boşluğa bas..." autofocus>
+            <input type="text" id="typing-input" class="typing-input hover-target" placeholder="Buraya yaz ve boşluğa bas..." autofocus>
         </div>
     </section>
 
-    <!-- 3. FLAPPY CROW OYUNU -->
+    <!-- 3. FLAPPY CROW OYUNU (DÜZELTİLDİ: BEKLEME EKRANI & TIKLAMA DESTEĞİ) -->
     <section class="view-section" id="view-flappy">
         <canvas id="flappy-canvas" width="400" height="500"></canvas>
-        <div class="flappy-hint">Zıplamak için <strong>Boşluk (Space)</strong> tuşuna bas veya ekrana tıkla!</div>
+        <div class="flappy-hint">Başlamak ve zıplamak için <strong>ekrana tıkla</strong> veya <strong>Boşluk (Space)</strong> tuşuna bas!</div>
     </section>
 
     <!-- 4. İZANAMİ -->
@@ -527,14 +526,14 @@
         <div class="charge-instruction" id="fb-status-text" style="margin-top:20px; font-weight:bold;">BÜYÜTMEK İÇİN BASILI TUT</div>
     </section>
 
-    <!-- 7. KAÇAN BUTON (TAMİR EDİLDİ) -->
+    <!-- 7. KAÇAN BUTON (DÜZELTİLDİ: ZOR AMA YAKALANABİLİR) -->
     <section class="view-section" id="view-flee">
         <div class="flee-dashboard" id="flee-dash" style="position:absolute; top:25px; font-size:1.3rem; font-weight:bold; background:rgba(0,0,0,0.8); border:1px solid red; padding:8px 25px; border-radius:20px; display:none;">
             Süre: <span id="flee-timer" style="color:red">20</span>s | Vuruş: <span id="flee-score" style="color:red">0</span>/5
         </div>
         <div id="flee-intro" style="text-align:center;">
             <h2 style="font-size:2.2rem; color:red; margin-bottom:12px;">Refleks Testi</h2>
-            <p style="color:#ccc; margin-bottom:25px;">20 saniyede butona 5 kez tıkla. Doğrudan +10.000 Güç kazan!</p>
+            <p style="color:#ccc; margin-bottom:25px;">20 saniyede butona 5 kez tıkla. Hızlı ve keskin reflekslerle yakala!</p>
             <button id="start-flee-btn" class="hover-target" onclick="startFleeGame()">Meydan Oku 🎯</button>
         </div>
         <button id="fleeing-target" class="hover-target">Beni Yakala!</button>
@@ -547,14 +546,14 @@
             <div class="award-card" id="card-ach2"><div class="award-icon">⚡</div><div class="award-info"><h4>Seri Parmaklar</h4><p>5x Kombo yap.</p></div></div>
             <div class="award-card" id="card-ach3"><div class="award-icon">💥</div><div class="award-info"><h4>Alev Hasadı</h4><p>Katon'u hasat et.</p></div></div>
             <div class="award-card" id="card-ach4"><div class="award-icon">🏃</div><div class="award-info"><h4>Işık Hızı</h4><p>Kaçan Buton'u yen.</p></div></div>
-            <div class="award-card" id="card-ach5"><div class="award-icon">🏛️</div><div class="award-info"><h4>Temel Zırh</h4><p>Susanoo'da 5. kata çık.</p></div></div>
+            <div class="award-card" id="card-ach5"><div class="award-icon">🏛</div><div class="award-info"><h4>Temel Zırh</h4><p>Susanoo'da 5. kata çık.</p></div></div>
             <div class="award-card" id="card-ach6"><div class="award-icon">🌀</div><div class="award-info"><h4>Döngü Çırağı</h4><p>İzanami'de 10 seri yap.</p></div></div>
-            <div class="award-card" id="card-ach7"><div class="award-icon">⌨️</div><div class="award-info"><h4>Hızlı Parmaklar</h4><p>Yazma testinde 40+ DKM yap.</p></div></div>
+            <div class="award-card" id="card-ach7"><div class="award-icon">⌨️</div><div class="award-info"><h4>Hızlı Parmaklar</h4><p>Yazma testinde 35+ DKM yap.</p></div></div>
             <div class="award-card" id="card-ach8"><div class="award-icon">🦅</div><div class="award-info"><h4>Göklerin Efendisi</h4><p>Kuzgun uçuşunda 10 skor yap.</p></div></div>
         </div>
     </section>
 
-    <!-- ŞİFRELİ YÖNETİCİ GİRİŞİ MODALI -->
+    <!-- YÖNETİCİ ŞİFRE GİRİŞİ -->
     <div class="modal-overlay" id="adminPassModal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal('adminPassModal')">✕</span>
@@ -566,7 +565,7 @@
         </div>
     </div>
 
-    <!-- YÖNETİCİ NOT DEFTERİ -->
+    <!-- NOT DEFTERİ -->
     <div id="notepad-modal">
         <div class="notepad-header">
             <h3>📝 Uchiha Gizli Not Defteri</h3>
@@ -582,11 +581,8 @@
     <div class="admin-trigger hover-target" onclick="openModal('adminPassModal')">⚙️ Yönetici</div>
 
     <script>
-        // AÇILIŞ SPLASH KONTROLÜ
         window.addEventListener('load', () => {
-            setTimeout(() => {
-                hideSplash();
-            }, 1000);
+            setTimeout(hideSplash, 1000);
         });
 
         function showSplash(callback) {
@@ -602,16 +598,14 @@
         function hideSplash() {
             const splash = document.getElementById('splash');
             splash.style.opacity = '0';
-            setTimeout(() => splash.style.visibility = 'hidden', 500);
+            setTimeout(() => splash.style.visibility = 'hidden', 400);
         }
 
-        // İMLEÇ
         const cursor = document.getElementById('cursor');
         document.addEventListener('mousemove', (e) => {
             cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px';
         });
 
-        // SEKME YÖNETİMİ & BEKLEME EKRANI
         function switchTab(tabId, btn) {
             showSplash(() => {
                 document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -621,7 +615,7 @@
                 document.getElementById(`view-${tabId}`).classList.add('active-view');
 
                 if (tabId === 'typing') initTypingGame();
-                if (tabId === 'flappy') startFlappyGame();
+                if (tabId === 'flappy') resetFlappyReadyState();
             });
         }
 
@@ -649,7 +643,6 @@
             setTimeout(() => toast.classList.remove('show'), 3500);
         }
 
-        // Sayfa açıldığında kazanılan başarımları yak
         unlockedAchievements.forEach(id => {
             const card = document.getElementById(`card-${id}`);
             if (card) card.classList.add('unlocked');
@@ -728,8 +721,15 @@
             setTimeout(() => el.remove(), 800);
         }
 
-        // ================= 2. HIZLI YAZMA TESTİ =================
-        const wordPool = ["itachi", "sharingan", "mangekyo", "susanoo", "amaterasu", "tsukuyomi", "akatsuki", "konoha", "sasuke", "shinobi", "chakra", "genjutsu", "katon", "chidori", "rasengan", "hokage", "kunai", "shuriken", "kagebunshin", "rinnegan", "alav", "karanlik", "goz", "intikam", "kader", "baglilik", "kurban", "baris", "ates", "kan", "ruyadami", "illuzyon", "gece", "karga", "sis", "sessizlik"];
+        // ================= 2. HIZLI YAZMA TESTİ (DÜZELTİLDİ: SONSUZ KELİME) =================
+        const turkishWordPool = [
+            "zaman", "hayat", "kader", "gölge", "sessizlik", "insan", "dünya", "yolculuk", "sabah", "akşam",
+            "karanlık", "aydınlık", "kitap", "kelime", "anlam", "rüzgar", "deniz", "yıldız", "gökyüzü", "kalp",
+            "umut", "sevgi", "özgürlük", "gerçek", "rüya", "masal", "dağlar", "nehir", "yağmur", "toprak",
+            "güçlü", "sabır", "çaba", "hedef", "başarı", "derin", "hızlı", "keskin", "sonsuz", "parlak",
+            "zihin", "bakış", "nefes", "adım", "durak", "hafıza", "yankı", "alev", "kıvılcım", "düşünce"
+        ];
+
         let typingWords = [], currentWordIdx = 0, correctWordCount = 0, totalKeystrokes = 0, correctKeystrokes = 0;
         let typingTime = 60, typingTimer = null, isTypingStarted = false;
 
@@ -748,10 +748,14 @@
             document.getElementById('typing-input').disabled = false;
 
             typingWords = [];
-            for (let i = 0; i < 60; i++) {
-                typingWords.push(wordPool[Math.floor(Math.random() * wordPool.length)]);
+            for (let i = 0; i < 40; i++) {
+                typingWords.push(getRandomTurkishWord());
             }
             renderTypingWords();
+        }
+
+        function getRandomTurkishWord() {
+            return turkishWordPool[Math.floor(Math.random() * turkishWordPool.length)];
         }
 
         function renderTypingWords() {
@@ -782,27 +786,37 @@
                 const targetWord = typingWords[currentWordIdx];
                 const span = document.getElementById(`tw-${currentWordIdx}`);
 
-                totalKeystrokes += targetWord.length;
-                if (typedWord === targetWord) {
-                    span.className = 'word-item word-correct';
-                    correctWordCount++;
-                    correctKeystrokes += targetWord.length;
-                } else {
-                    span.className = 'word-item word-wrong';
-                }
+                if (typedWord.length > 0) {
+                    totalKeystrokes += targetWord.length;
+                    if (typedWord === targetWord) {
+                        span.className = 'word-item word-correct';
+                        correctWordCount++;
+                        correctKeystrokes += targetWord.length;
+                    } else {
+                        span.className = 'word-item word-wrong';
+                    }
 
-                currentWordIdx++;
-                e.target.value = '';
+                    currentWordIdx++;
+                    e.target.value = '';
 
-                // İstatistikleri Canlı Güncelle
-                const elapsedMin = (60 - typingTime) / 60 || 0.01;
-                const wpm = Math.floor(correctWordCount / elapsedMin);
-                const acc = Math.floor((correctKeystrokes / (totalKeystrokes || 1)) * 100);
-                document.getElementById('typing-wpm').innerText = wpm;
-                document.getElementById('typing-acc').innerText = `%${acc}`;
+                    if (currentWordIdx + 15 >= typingWords.length) {
+                        for (let k = 0; k < 20; k++) {
+                            typingWords.push(getRandomTurkishWord());
+                        }
+                        renderTypingWords();
+                    }
 
-                if (document.getElementById(`tw-${currentWordIdx}`)) {
-                    document.getElementById(`tw-${currentWordIdx}`).className = 'word-item word-current';
+                    const nextSpan = document.getElementById(`tw-${currentWordIdx}`);
+                    if (nextSpan) {
+                        nextSpan.className = 'word-item word-current';
+                        nextSpan.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+
+                    const elapsedMin = (60 - typingTime) / 60 || 0.01;
+                    const wpm = Math.floor(correctWordCount / elapsedMin);
+                    const acc = Math.floor((correctKeystrokes / (totalKeystrokes || 1)) * 100);
+                    document.getElementById('typing-wpm').innerText = wpm;
+                    document.getElementById('typing-acc').innerText = `%${acc}`;
                 }
             }
         });
@@ -811,57 +825,79 @@
             clearInterval(typingTimer);
             document.getElementById('typing-input').disabled = true;
             const wpm = parseInt(document.getElementById('typing-wpm').innerText);
-            if (wpm >= 40) unlockAchievement('ach7', 'Hızlı Parmaklar');
+            if (wpm >= 35) unlockAchievement('ach7', 'Hızlı Parmaklar');
             score += wpm * 100;
             updateUI();
             alert(`Süre doldu! Skorunuz: ${wpm} DKM. +${wpm * 100} Güç kazandınız!`);
         }
 
-        // ================= 3. FLAPPY CROW =================
+        // ================= 3. FLAPPY CROW (DÜZELTİLDİ: BEKLEME EKRANI & TIKLAMA) =================
         const fCanvas = document.getElementById('flappy-canvas');
         const fCtx = fCanvas.getContext('2d');
         let fAnimationId = null;
-        let bird = { x: 50, y: 200, vy: 0, gravity: 0.35, jump: -6.5, size: 14 };
+        let bird = { x: 60, y: 220, vy: 0, gravity: 0.35, jump: -6.5, size: 14 };
         let pipes = [];
         let fScore = 0;
         let isFlappyRunning = false;
-        let pipeSpeed = 2.5;
+        let isFlappyReady = false;
+        let pipeSpeed = 2.4;
 
-        function startFlappyGame() {
+        function resetFlappyReadyState() {
             cancelAnimationFrame(fAnimationId);
-            bird.y = 200;
+            isFlappyRunning = false;
+            isFlappyReady = true;
+            bird.y = 220;
             bird.vy = 0;
             pipes = [];
             fScore = 0;
-            pipeSpeed = 2.5;
-            isFlappyRunning = true;
-            spawnPipe();
-            loopFlappy();
+            pipeSpeed = 2.4;
+
+            fCtx.clearRect(0, 0, fCanvas.width, fCanvas.height);
+            fCtx.fillStyle = '#ff0000';
+            fCtx.beginPath();
+            fCtx.arc(bird.x, bird.y, bird.size, 0, Math.PI * 2);
+            fCtx.fill();
+
+            fCtx.fillStyle = '#fff';
+            fCtx.font = 'bold 20px monospace';
+            fCtx.textAlign = 'center';
+            fCtx.fillText("TIKLA VEYA BOŞLUĞA BAS", fCanvas.width / 2, fCanvas.height / 2 - 20);
+            fCtx.fillStyle = '#ffaa00';
+            fCtx.font = '14px monospace';
+            fCtx.fillText("Uçuşu Başlatmak İçin", fCanvas.width / 2, fCanvas.height / 2 + 15);
+            fCtx.textAlign = 'left';
+        }
+
+        function triggerFlapAction() {
+            if (!isFlappyRunning && isFlappyReady) {
+                isFlappyRunning = true;
+                isFlappyReady = false;
+                spawnPipe();
+                bird.vy = bird.jump;
+                loopFlappy();
+            } else if (isFlappyRunning) {
+                bird.vy = bird.jump;
+            }
         }
 
         function spawnPipe() {
-            const gap = 120;
+            const gap = 125;
             const topHeight = Math.floor(Math.random() * (fCanvas.height - gap - 100)) + 40;
-            pipes.push({ x: fCanvas.width, top: topHeight, bottom: topHeight + gap, width: 45 });
+            pipes.push({ x: fCanvas.width, top: topHeight, bottom: topHeight + gap, width: 45, passed: false });
         }
 
         function loopFlappy() {
             if (!isFlappyRunning) return;
             fCtx.clearRect(0, 0, fCanvas.width, fCanvas.height);
 
-            // Kuş Dinamiği
             bird.vy += bird.gravity;
             bird.y += bird.vy;
 
-            // Kuşu Çiz (Itachi Kargası)
             fCtx.fillStyle = '#ff0000';
             fCtx.beginPath();
             fCtx.arc(bird.x, bird.y, bird.size, 0, Math.PI * 2);
             fCtx.fill();
-            fCtx.shadowColor = 'red';
-            fCtx.shadowBlur = 10;
 
-            // Boruları Güncelle ve Çiz (Susanoo Kolonları)
             for (let i = 0; i < pipes.length; i++) {
                 const p = pipes[i];
                 p.x -= pipeSpeed;
@@ -870,7 +906,6 @@
                 fCtx.fillRect(p.x, 0, p.width, p.top);
                 fCtx.fillRect(p.x, p.bottom, p.width, fCanvas.height - p.bottom);
 
-                // Çarpışma Testi
                 if (
                     bird.x + bird.size > p.x && bird.x - bird.size < p.x + p.width &&
                     (bird.y - bird.size < p.top || bird.y + bird.size > p.bottom)
@@ -879,26 +914,22 @@
                     return;
                 }
 
-                // Skor Artışı
                 if (p.x + p.width < bird.x && !p.passed) {
                     p.passed = true;
                     fScore++;
-                    pipeSpeed += 0.08;
+                    pipeSpeed += 0.06;
                     if (fScore >= 10) unlockAchievement('ach8', 'Göklerin Efendisi');
                 }
             }
 
-            // Ekrandan çıkan boruları temizle
             if (pipes.length && pipes[0].x < -50) pipes.shift();
             if (pipes.length && pipes[pipes.length - 1].x < fCanvas.width - 180) spawnPipe();
 
-            // Zemin ve Tavan Sınırları
             if (bird.y + bird.size > fCanvas.height || bird.y - bird.size < 0) {
                 endFlappyGame();
                 return;
             }
 
-            // Skor Yazısı
             fCtx.fillStyle = '#fff';
             fCtx.font = 'bold 24px monospace';
             fCtx.fillText(`Skor: ${fScore}`, 20, 40);
@@ -906,17 +937,16 @@
             fAnimationId = requestAnimationFrame(loopFlappy);
         }
 
-        function flap() {
-            if (isFlappyRunning) bird.vy = bird.jump;
-        }
-
         window.addEventListener('keydown', (e) => {
             if (e.code === 'Space' && document.getElementById('view-flappy').classList.contains('active-view')) {
                 e.preventDefault();
-                flap();
+                triggerFlapAction();
             }
         });
-        fCanvas.addEventListener('click', flap);
+        fCanvas.addEventListener('mousedown', (e) => {
+            e.stopPropagation();
+            triggerFlapAction();
+        });
 
         function endFlappyGame() {
             isFlappyRunning = false;
@@ -924,6 +954,7 @@
             score += fScore * 300;
             updateUI();
             alert(`Kuzgun Düştü! Skorunuz: ${fScore}. +${fScore * 300} Güç kazandınız!`);
+            resetFlappyReadyState();
         }
 
         // ================= 4. İZANAMİ =================
@@ -1055,10 +1086,10 @@
             }
         });
 
-        // ================= 7. KAÇAN BUTON (TAMİR EDİLEN BÖLÜM) =================
+        // ================= 7. KAÇAN BUTON (DÜZELTİLDİ: ZOR AMA YAKALANABİLİR) =================
         let isFlee = false, fleeSc = 0, fleeT = 20, fleeInt;
+        let lastMoveTime = 0;
         const fleeBtn = document.getElementById('fleeing-target');
-        const fleeSection = document.getElementById('view-flee');
 
         function startFleeGame() {
             isFlee = true; fleeSc = 0; fleeT = 20;
@@ -1081,19 +1112,22 @@
         function moveFleeButtonRandom() {
             const maxX = window.innerWidth - 180;
             const maxY = window.innerHeight - 150;
-            fleeBtn.style.left = Math.max(60, Math.floor(Math.random() * maxX)) + 'px';
-            fleeBtn.style.top = Math.max(100, Math.floor(Math.random() * maxY)) + 'px';
+            fleeBtn.style.left = Math.max(80, Math.floor(Math.random() * maxX)) + 'px';
+            fleeBtn.style.top = Math.max(120, Math.floor(Math.random() * maxY)) + 'px';
+            lastMoveTime = Date.now();
         }
 
-        // Fare Yaklaşınca Anında Kaçma Mantığı
         document.addEventListener('mousemove', (e) => {
             if (!isFlee) return;
+            const now = Date.now();
+            if (now - lastMoveTime < 140) return;
+
             const rect = fleeBtn.getBoundingClientRect();
             const btnX = rect.left + rect.width / 2;
             const btnY = rect.top + rect.height / 2;
             const dist = Math.hypot(e.clientX - btnX, e.clientY - btnY);
 
-            if (dist < 110) {
+            if (dist < 85) {
                 moveFleeButtonRandom();
             }
         });
