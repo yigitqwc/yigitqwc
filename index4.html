@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>yigitqwc | AOH - Age of History</title>
+    <title>yigitqwc | Mustafa Kemal Atatürk</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <style>
         :root {
             --bg-color: #050505;
             --text-color: #ffffff;
             --accent-red: #ff0000;
-            --accent-gold: #ffaa00;
         }
 
         * {
@@ -21,7 +20,7 @@
 
         body {
             background-color: var(--bg-color); color: var(--text-color);
-            overflow: hidden; width: 100vw; height: 100vh; display: flex; flex-direction: column;
+            overflow-x: hidden; width: 100vw; min-height: 100vh; display: flex; flex-direction: column;
         }
 
         /* ÖZEL İMLEÇ */
@@ -37,9 +36,8 @@
             content: ''; position: absolute; top: 50%; left: 50%; width: 4px; height: 4px;
             background: var(--accent-red); transform: translate(-50%, -50%);
         }
-        .cursor-hover { width: 28px; height: 28px; background-color: rgba(255, 0, 0, 0.2); }
+        .cursor-hover { width: 28px; height: 28px; background-color: rgba(255, 0, 0, 0.25); }
 
-        /* KAN DAMLASI EFEKTİ */
         .click-ripple {
             position: fixed; border-radius: 50%; border: 2px solid var(--accent-red);
             pointer-events: none; transform: translate(-50%, -50%);
@@ -51,7 +49,6 @@
             100% { width: 120px; height: 120px; opacity: 0; border-width: 1px; }
         }
 
-        /* SHARINGAN YÜKLEME EKRANI (SPLASH) */
         #splash {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: #000; display: flex; flex-direction: column;
@@ -64,7 +61,6 @@
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* LOGO VE LAZER ÇİZGİSİ */
         .logo-container {
             position: relative; text-decoration: none; color: var(--text-color);
             display: inline-block; padding-bottom: 4px;
@@ -90,179 +86,85 @@
         }
         @keyframes beamMove { 0% { left: -50%; } 100% { left: 100%; } }
 
-        /* ARKA PLAN VE KÜLLER */
         .hero-bg {
-            position: absolute; top: -2%; left: -2%; width: 104%; height: 104%; 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
             background-image: url('bg.jpg'); background-size: cover; background-position: center;
-            filter: brightness(0.35); z-index: 1;
+            filter: brightness(0.25); z-index: -2; pointer-events: none;
         }
         .vignette {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle, rgba(0,0,0,0) 30%, rgba(0,0,0,0.9) 100%);
-            pointer-events: none; z-index: 2;
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: radial-gradient(circle, rgba(0,0,0,0) 30%, rgba(0,0,0,0.95) 100%);
+            pointer-events: none; z-index: -1;
         }
-        #particles-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 3; pointer-events: none; }
+        #particles-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
 
-        /* ÜST NAVİGASYON */
         nav {
-            background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(8px);
+            background-color: rgba(0, 0, 0, 0.7); backdrop-filter: blur(8px);
             display: flex; justify-content: space-between; align-items: center;
-            padding: 1.2rem 3rem; position: relative; z-index: 100;
+            padding: 1.2rem 3rem; position: relative; z-index: 10;
             border-bottom: 1px solid rgba(255, 0, 0, 0.15);
         }
+        .nav-left { display: flex; align-items: center; gap: 2rem; }
+        
+        .nav-link {
+            color: var(--text-color); text-decoration: none; font-size: 1.2rem;
+            font-weight: 700; letter-spacing: 1px; text-transform: lowercase;
+            transition: color 0.3s ease, text-shadow 0.3s ease, transform 0.3s ease;
+        }
+        .nav-link:hover {
+            color: var(--accent-red); text-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
+            transform: translateY(-2px);
+        }
+
         .back-link {
             color: #aaa; text-decoration: none; font-size: 1rem; font-weight: 600;
             transition: color 0.3s;
         }
         .back-link:hover { color: var(--accent-red); }
 
-        /* EKRAN YÖNETİMİ */
-        .screen {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 50; display: none; flex-direction: column; align-items: center; justify-content: center;
+        .ataturk-container {
+            position: relative; z-index: 5; width: 90%; max-width: 1000px; margin: 40px auto;
+            display: flex; flex-direction: column; gap: 50px; padding-bottom: 60px;
         }
-        .screen.active { display: flex; }
-
-        /* ANA MENÜ */
-        .aoh-logo-title {
-            font-size: 4rem; font-weight: 900; color: #ff1111; letter-spacing: 6px;
-            text-shadow: 0 0 30px rgba(255,0,0,0.8); margin-bottom: 15px;
+        .section-card {
+            background: rgba(15, 2, 2, 0.85); border: 2px solid rgba(255, 0, 0, 0.4);
+            border-radius: 20px; padding: 40px; box-shadow: 0 0 35px rgba(255, 0, 0, 0.25);
+            backdrop-filter: blur(10px); display: flex; flex-direction: column; align-items: center; text-align: center;
         }
-        .aoh-menu-btn {
-            background: rgba(20, 0, 0, 0.8); border: 2px solid var(--accent-red);
-            color: #fff; padding: 14px 45px; border-radius: 30px; font-size: 1.2rem;
-            font-weight: 800; letter-spacing: 1px; outline: none; cursor: pointer;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.3); transition: all 0.3s; width: 280px; margin: 8px;
-        }
-        .aoh-menu-btn:hover {
-            background: var(--accent-red); box-shadow: 0 0 30px rgba(255, 0, 0, 0.9);
-            transform: scale(1.05);
-        }
-
-        /* KAYDEDİLENLER EKRANI (20 SLOT) */
-        .saves-container {
-            width: 90%; max-width: 700px; height: 75vh; background: rgba(10, 0, 0, 0.9);
-            border: 2px solid var(--accent-red); border-radius: 16px; padding: 20px;
-            box-shadow: 0 0 40px rgba(255,0,0,0.5); display: flex; flex-direction: column; gap: 15px;
-            z-index: 60;
-        }
-        .saves-header {
-            display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid #440000; padding-bottom: 10px;
-        }
-        .saves-header h2 { color: var(--accent-red); font-size: 1.8rem; }
-        .saves-list {
-            overflow-y: auto; flex-grow: 1; display: flex; flex-direction: column; gap: 10px; padding-right: 5px;
-        }
-        .saves-list::-webkit-scrollbar { width: 6px; }
-        .saves-list::-webkit-scrollbar-thumb { background: var(--accent-red); border-radius: 3px; }
-
-        .save-slot-card {
-            background: rgba(25, 0, 0, 0.6); border: 1px solid #550000; border-radius: 8px;
-            padding: 12px 18px; display: flex; justify-content: space-between; align-items: center;
-            transition: border-color 0.2s;
-        }
-        .save-slot-card:hover { border-color: var(--accent-gold); }
-        .slot-info h4 { font-size: 1.1rem; color: #fff; margin-bottom: 3px; }
-        .slot-info p { font-size: 0.8rem; color: #aaa; }
-        .slot-actions { display: flex; gap: 8px; }
-        .slot-btn {
-            background: rgba(255,0,0,0.2); border: 1px solid var(--accent-red); color: #fff;
-            padding: 6px 14px; border-radius: 6px; font-weight: bold; font-size: 0.8rem; cursor: pointer;
-            transition: background 0.2s;
-        }
-        .slot-btn:hover { background: var(--accent-red); }
-        .slot-btn.delete { border-color: #555; background: rgba(50,50,50,0.4); color: #aaa; }
-        .slot-btn.delete:hover { background: #880000; color: #fff; border-color: red; }
-
-        /* OYUN DÜNYASI VE SOL MENÜ YERLEŞİMİ */
-        .game-world-screen {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: #020000; z-index: 70; display: none; flex-direction: column;
-        }
-        .game-world-screen.active { display: flex; }
-
-        .game-hud {
-            height: 60px; background: rgba(15, 0, 0, 0.95); border-bottom: 2px solid var(--accent-red);
-            display: flex; justify-content: space-between; align-items: center; padding: 0 25px; z-index: 100;
-        }
-        .hud-stats { display: flex; gap: 20px; font-weight: bold; font-size: 0.95rem; color: #ccc; }
-        .hud-stats span { color: var(--accent-gold); }
-
-        .map-and-panel-layout {
-            display: flex; flex-grow: 1; height: calc(100vh - 60px); position: relative; overflow: hidden;
-            flex-direction: row; /* Sol menü standart yerleşim */
-        }
-
-        /* SOL KONTROL PANELİ */
-        .game-control-panel {
-            width: 340px; background: rgba(12, 2, 2, 0.95); border-right: 2px solid #550000;
-            padding: 15px; display: flex; flex-direction: column; gap: 12px; overflow-y: auto; z-index: 100;
-            box-shadow: 5px 0 25px rgba(0,0,0,0.8);
-        }
-        .control-box { background: #1c0505; border: 1px solid #550000; border-radius: 8px; padding: 12px; }
-        .control-box h3 { color: var(--accent-red); margin-bottom: 8px; font-size: 1rem; border-bottom: 1px solid #440000; padding-bottom: 4px; }
-        .control-box p { font-size: 0.85rem; color: #ccc; margin-bottom: 4px; }
         
-        .game-action-btn {
-            width: 100%; background: #330000; border: 1px solid var(--accent-red); color: #fff;
-            padding: 8px; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 6px;
-            transition: background 0.2s; font-size: 0.85rem;
+        /* FOTOĞRAFLARA BÜYÜME VE BEYAZ PARLAMA EFEKTİ EKLENDİ */
+        .mka-img {
+            width: 320px; height: 400px; object-fit: cover; border-radius: 14px;
+            border: 4px solid #ffffff; box-shadow: 0 0 30px rgba(255, 255, 255, 0.3); margin-bottom: 30px;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
         }
-        .game-action-btn:hover { background: var(--accent-red); box-shadow: 0 0 10px rgba(255,0,0,0.7); }
-
-        /* BÜYÜTÜLMÜŞ KAYDIRILABİLİR HARİTA */
-        .map-viewport {
-            flex-grow: 1; overflow: auto; position: relative; background: #030101;
-            display: flex; justify-content: center; align-items: center;
-        }
-        .world-map-canvas {
-            width: 1800px; height: 1000px; position: relative;
-            background-image: url('hr.jfif');
-            background-size: cover; background-position: center;
-            border: 3px solid #550000; box-shadow: inset 0 0 80px rgba(0,0,0,0.9);
+        .mka-img:hover {
+            transform: scale(1.08); /* Fotoğraf %8 oranında büyür */
+            box-shadow: 0 0 50px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.5); /* Güçlü beyaz parlama */
+            z-index: 10;
         }
 
-        .country-node {
-            position: absolute; border: 1px solid rgba(255, 0, 0, 0.5);
-            background: rgba(200, 0, 0, 0.25); border-radius: 4px; padding: 4px;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            font-size: 11px; font-weight: bold; color: #fff; cursor: pointer; transition: 0.2s;
-            text-shadow: 0 0 5px #000;
+        .section-title { font-size: 2.3rem; font-weight: 900; color: #ff3333; margin-bottom: 15px; }
+        .section-text { font-size: 1.1rem; line-height: 1.8; color: #ddd; text-align: justify; margin-bottom: 20px; }
+        .quote-box {
+            background: rgba(30, 0, 0, 0.6); border-left: 4px solid #ffffff;
+            padding: 15px 20px; margin: 15px 0; border-radius: 0 8px 8px 0;
+            font-style: italic; color: #ffeedd; font-size: 1.15rem; width: 100%; text-align: left;
         }
-        .country-node:hover { background: rgba(255, 0, 0, 0.55); border-color: #fff; z-index: 30; }
-        .country-node.selected { border: 2px solid var(--accent-gold); background: rgba(255, 170, 0, 0.45); z-index: 40; }
-
-        /* MODALLAR */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85); z-index: 100000; display: none;
-            align-items: center; justify-content: center; backdrop-filter: blur(5px);
+        .principles-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 15px; width: 100%; margin-top: 15px;
         }
-        .modal-content {
-            background: rgba(15, 0, 0, 0.95); border: 2px solid var(--accent-red);
-            padding: 2rem; border-radius: 12px; width: 90%; max-width: 420px;
-            box-shadow: 0 0 40px rgba(255,0,0,0.7); position: relative;
+        .principle-item {
+            background: rgba(25, 0, 0, 0.7); border: 1px solid #550000; padding: 18px; border-radius: 10px; text-align: left;
         }
-        .modal-content h3 { color: var(--accent-red); margin-bottom: 15px; text-align: center; }
-        .form-group { margin-bottom: 12px; }
-        .form-group label { display: block; font-size: 0.85rem; color: #ccc; margin-bottom: 4px; }
-        .form-group input, .form-group select {
-            width: 100%; padding: 10px; background: rgba(0,0,0,0.8);
-            border: 1px solid #550000; color: #fff; border-radius: 6px; outline: none;
-        }
-        .modal-btn {
-            width: 100%; padding: 10px; background: var(--accent-red);
-            color: #fff; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 15px;
-        }
-        .close-modal { position: absolute; top: 12px; right: 15px; color: #aaa; cursor: pointer; font-size: 1.2rem; }
+        .principle-item h4 { color: #ffffff; margin-bottom: 6px; font-size: 1.15rem; }
+        .principle-item p { font-size: 0.95rem; color: #ccc; }
     </style>
 </head>
 <body>
 
     <div class="custom-cursor" id="cursor"></div>
 
-    <!-- SHARINGAN YÜKLEME EKRANI -->
     <div id="splash">
         <svg class="sharingan" viewBox="0 0 100 100">
             <circle cx="50" cy="50" r="45" fill="#990000" stroke="#111" stroke-width="4"/>
@@ -280,158 +182,65 @@
         </div>
     </div>
 
-    <!-- ARKA PLAN GÖRSELİ VE KÜLLER -->
     <div class="hero-bg"></div>
     <div class="vignette"></div>
     <canvas id="particles-canvas"></canvas>
 
-    <!-- ÜST NAVİGASYON -->
     <nav>
-        <a href="index.html" class="logo-container hover-target">
-            <div class="logo-text">yigitqwc</div>
-            <div class="red-line-wrapper"></div>
-        </a>
+        <div class="nav-left">
+            <a href="index.html" class="logo-container hover-target">
+                <div class="logo-text">yigitqwc</div>
+                <div class="red-line-wrapper"></div>
+            </a>
+            <a href="index5.html" class="nav-link hover-target">world</a>
+        </div>
         <a href="index.html" class="back-link hover-target">← Ana Sayfa</a>
     </nav>
 
-    <!-- 1. EKRAN: ANA MENÜ -->
-    <div class="screen active" id="screen-menu">
-        <div class="aoh-logo-title">AGE OF HISTORY</div>
-        <button class="aoh-menu-btn hover-target" onclick="openCountrySelectModal()">Yeni Oyun</button>
-        <button class="aoh-menu-btn hover-target" onclick="openSavesScreen()">Kaydedilenler</button>
-        <button class="aoh-menu-btn hover-target" onclick="alert('AOH Global Strategy v2.2 - yigitqwc')">Seçenekler</button>
-    </div>
-
-    <!-- 2. EKRAN: KAYDEDİLENLER (20 SLOT) -->
-    <div class="screen" id="screen-saves">
-        <div class="saves-container">
-            <div class="saves-header">
-                <h2>Kayıtlı Oyun Slotları (20 Slot)</h2>
-                <button class="slot-btn hover-target" onclick="showScreen('screen-menu')">← Geri Dön</button>
+    <div class="ataturk-container">
+        <section class="section-card">
+            <img src="mka2.jfif" alt="Mustafa Kemal Atatürk" class="mka-img hover-target">
+            <h2 class="section-title">Mustafa Kemal Atatürk Kimdir?</h2>
+            <p class="section-text">
+                1881 yılında Selanik'te doğan Mustafa Kemal Atatürk, Türk asker, devlet adamı ve Türkiye Cumhuriyeti'nin kurucusudur. Osmanlı İmparatorluğu'nun dağılış sürecinde liderliği ele alarak Kurtuluş Savaşı'nı zaferle taçlandırmış, ardından hayata geçirdiği köklü inkılaplarla modern, laik ve çağdaş Türkiye Cumhuriyeti'ni inşa etmiştir. Milletine olan inancı, eşsiz ileri görüşlülüğü ve dehası ile dünya tarihine adını altın harflerle yazdırmıştır.
+            </p>
+            <div class="quote-box">
+                "Benim naciz vücudum elbet bir gün toprak olacaktır, fakat Türkiye Cumhuriyeti ilelebet payidar kalacaktır."
             </div>
-            <div class="saves-list" id="savesSlotsList"></div>
-        </div>
-    </div>
+        </section>
 
-    <!-- 3. EKRAN: OYUN DÜNYASI VE HARİTA (SOL MENÜLÜ) -->
-    <div class="game-world-screen" id="screen-game">
-        <div class="game-hud">
-            <div class="hud-stats">
-                <div>Ülke: <span id="hud-civ">Türkiye</span></div>
-                <div>Tur: <span id="hud-turn">1</span></div>
-                <div>Hazine: <span id="hud-gold">15,000</span> Altın</div>
+        <section class="section-card">
+            <img src="mka3.jfif" alt="Mustafa Kemal Atatürk" class="mka-img hover-target">
+            <h2 class="section-title">İlkeleri, Düşünceleri ve Gençliğe Hitabeleri</h2>
+            <p class="section-text">
+                Atatürk'ün düşünce sistemi; akla, bilime, millî egemenliğe ve tam bağımsızlığa dayanır. Türkiye Cumhuriyeti'nin temelini oluşturan **Atatürk İlkeleri**, ülkenin çağdaş medeniyetler seviyesinin üzerine çıkmasını hedeflemiştir. Gençliğe her zaman en büyük güveni duymuş, geleceği Türk gençliğinin ellerine emanet etmiştir.
+            </p>
+            <div class="quote-box">
+                "Ey yükselen yeni nesil, istikbal sizindir. Cumhuriyeti biz kurduk, onu yükseltecek ve yaşatacak olan sizlersiniz."
             </div>
-            <button class="slot-btn hover-target" onclick="showScreen('screen-menu')">Ana Menüye Dön</button>
-        </div>
-
-        <div class="map-and-panel-layout">
-            <!-- SOL KONTROL PANELİ -->
-            <div class="game-control-panel">
-                <div class="control-box">
-                    <h3>Seçili Bölge Bilgisi</h3>
-                    <p id="info-c-name">Ülke: Seçilmedi</p>
-                    <p id="info-c-owner">Egemenlik: -</p>
-                    <p id="info-c-economy">Vergi Geliri: -</p>
-                    <p id="info-c-army">Askeri Varlık: -</p>
-                </div>
-                
-                <div class="control-box">
-                    <h3>Devlet Emirleri</h3>
-                    <button class="game-action-btn hover-target" onclick="nextGameTurn()">⏩ Turu Atlat</button>
-                    <button class="game-action-btn hover-target" onclick="investEconomy()">💰 Ekonomiye Yatırım Yap (600 Altın)</button>
-                    <button class="game-action-btn hover-target" onclick="recruitArmy()">⚔️ Asker Alımı Yap (400 Altın)</button>
-                    <button class="game-action-btn hover-target" onclick="researchTech()">🔬 Teknoloji Araştır (1,200 Altın)</button>
-                </div>
-
-                <div class="control-box">
-                    <h3>İç Yönetim & Gıda</h3>
-                    <p>🌾 Gıda Stoğu: <span id="hud-grain" style="color:var(--accent-gold)">10,000</span> ton</p>
-                    <p>📜 Rejim: <span id="hud-regime">Demokrasi</span></p>
-                    <p>⚖️ Yasa: <span id="hud-law">Serbest Piyasa</span></p>
-                    <button class="game-action-btn hover-target" onclick="changeRegimeModal()">Rejim / Yasaları Değiştir</button>
-                </div>
-
-                <div class="control-box" style="flex-grow:1;">
-                    <h3>Savaş & Diplomasi</h3>
-                    <button class="game-action-btn hover-target" onclick="attackCountry()">War Hedef Ülkeye Saldır</button>
-                    <button class="game-action-btn hover-target" onclick="improveDiplomacy()">🤝 İlişkileri Geliştir</button>
-                </div>
+            <div class="principles-grid">
+                <div class="principle-item"><h4>Cumhuriyetçilik</h4><p>Milli egemenliğin millette olduğu, yönetimin halka dayandığı rejim.</p></div>
+                <div class="principle-item"><h4>Laiklik</h4><p>Din ve devlet işlerinin birbirinden ayrılması, akıl ve bilimin rehber alınması.</p></div>
+                <div class="principle-item"><h4>Milliyetçilik</h4><p>Milli birlik, beraberlik ve ulusal bilincin her şeyin üzerinde tutulması.</p></div>
+                <div class="principle-item"><h4>İnkılapçılık</h4><p>Çağın gerekliliklerine ayak uydurmak için sürekli yenilik ve gelişim.</p></div>
+                <div class="principle-item"><h4>Devletçilik</h4><p>Ekonomik alanda devletin öncülük etmesi, yatırımların devlet eliyle yapılması.</p></div>
+                <div class="principle-item"><h4>Halkçılık</h4><p>Milletin kanun önünde eşit olması, sınıfsız ve kaynaşmış toplum yapısı.</p></div>
             </div>
+        </section>
 
-            <!-- BÜYÜTÜLMÜŞ KAYDIRILABİLİR HARİTA -->
-            <div class="map-viewport">
-                <div class="world-map-canvas" id="worldMapCanvas">
-                    <div class="country-node" style="top: 36%; left: 54%; width: 90px; height: 50px;" onclick="selectCountry(0)">Türkiye</div>
-                    <div class="country-node" style="top: 25%; left: 47%; width: 75px; height: 45px;" onclick="selectCountry(1)">Almanya</div>
-                    <div class="country-node" style="top: 15%; left: 63%; width: 180px; height: 90px;" onclick="selectCountry(2)">Rusya</div>
-                    <div class="country-node" style="top: 38%; left: 78%; width: 130px; height: 80px;" onclick="selectCountry(3)">Çin</div>
-                    <div class="country-node" style="top: 33%; left: 18%; width: 150px; height: 85px;" onclick="selectCountry(4)">ABD</div>
-                    <div class="country-node" style="top: 27%; left: 42%; width: 55px; height: 40px;" onclick="selectCountry(5)">İngiltere</div>
-                    <div class="country-node" style="top: 31%; left: 44%; width: 65px; height: 50px;" onclick="selectCountry(6)">Fransa</div>
-                    <div class="country-node" style="top: 21%; left: 78%; width: 80px; height: 50px;" onclick="selectCountry(7)">Japonya</div>
-                    <div class="country-node" style="top: 55%; left: 24%; width: 110px; height: 90px;" onclick="selectCountry(8)">Brezilya</div>
-                    <div class="country-node" style="top: 48%; left: 69%; width: 90px; height: 75px;" onclick="selectCountry(9)">Hindistan</div>
-                    <div class="country-node" style="top: 45%; left: 52%; width: 70px; height: 50px;" onclick="selectCountry(10)">Mısır</div>
-                    <div class="country-node" style="top: 75%; left: 82%; width: 110px; height: 70px;" onclick="selectCountry(11)">Avustralya</div>
-                    <div class="country-node" style="top: 37%; left: 48%; width: 60px; height: 45px;" onclick="selectCountry(12)">İtalya</div>
-                </div>
+        <section class="section-card">
+            <img src="mka1.jfif" alt="Mustafa Kemal Atatürk" class="mka-img hover-target">
+            <h2 class="section-title">Askeri Dehası ve Savaş Başarıları</h2>
+            <p class="section-text">
+                Harp ve strateji alanındaki üstün yetenekleri ile Atatürk, Osmanlı subaylığı döneminden itibaren kritik cephelerde tarihi zaferler kazanmıştır. Trablusgarp'tan Çanakkale'ye, Sakarya'dan Büyük Taarruz'a kadar girdiği her savaşta askeri dehasını kanıtlamıştır. Çanakkale'de <em>"Ben size taarruz emretmiyorum, ölmeyi emrediyorum!"</em> emriyle savaşın seyrini değiştirmiştir.
+            </p>
+            <div class="quote-box">
+                "Hattı müdafaa yoktur, sathı müdafaa vardır. O satıh bütün vatandır."
             </div>
-        </div>
-    </div>
-
-    <!-- ÜLKE SEÇİM MODALI -->
-    <div class="modal-overlay" id="countrySelectModal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeModal('countrySelectModal')">✕</span>
-            <h3>Faksiyonunu Seç</h3>
-            <div class="form-group">
-                <label>Yönetmek İstediğin Ülke:</label>
-                <select id="chosenCivSelect">
-                    <option value="Türkiye">Türkiye</option>
-                    <option value="Almanya">Almanya</option>
-                    <option value="Rusya">Rusya</option>
-                    <option value="Çin">Çin</option>
-                    <option value="ABD">ABD</option>
-                    <option value="İngiltere">İngiltere</option>
-                    <option value="Fransa">Fransa</option>
-                    <option value="Japonya">Japonya</option>
-                    <option value="Brezilya">Brezilya</option>
-                    <option value="Hindistan">Hindistan</option>
-                    <option value="Mısır">Mısır</option>
-                    <option value="Avustralya">Avustralya</option>
-                    <option value="İtalya">İtalya</option>
-                </select>
-            </div>
-            <button class="modal-btn hover-target" onclick="launchGameWithChosenCountry()">Oyunu Başlat 🗺️</button>
-        </div>
+        </section>
     </div>
 
     <script>
-        // OYUN DURUMU VE ÜLKELER
-        let gameTurn = 1;
-        let playerGold = 15000;
-        let gameTechLevel = 1.0;
-        let grainSupply = 10000;
-        let currentRegime = "Demokrasi";
-        let currentLaw = "Serbest Piyasa";
-        let selectedCountryIdx = null;
-
-        let countriesList = [
-            { name: "Türkiye", owner: "Türkiye", economy: 1500, army: 50000, diplomacy: 50 },
-            { name: "Almanya", owner: "Almanya", economy: 2800, army: 65000, diplomacy: 50 },
-            { name: "Rusya", owner: "Rusya", economy: 3200, army: 95000, diplomacy: 40 },
-            { name: "Çin", owner: "Çin", economy: 4500, army: 130000, diplomacy: 40 },
-            { name: "ABD", owner: "ABD", economy: 6000, army: 160000, diplomacy: 60 },
-            { name: "İngiltere", owner: "İngiltere", economy: 2400, army: 55000, diplomacy: 60 },
-            { name: "Fransa", owner: "Fransa", economy: 2600, army: 60000, diplomacy: 55 },
-            { name: "Japonya", owner: "Japonya", economy: 4000, army: 110000, diplomacy: 65 },
-            { name: "Brezilya", owner: "Brezilya", economy: 2000, army: 45000, diplomacy: 50 },
-            { name: "Hindistan", owner: "Hindistan", economy: 3500, army: 115000, diplomacy: 50 },
-            { name: "Mısır", owner: "Mısır", economy: 1200, army: 40000, diplomacy: 50 },
-            { name: "Avustralya", owner: "Avustralya", economy: 2500, army: 48000, diplomacy: 60 },
-            { name: "İtalya", owner: "İtalya", economy: 2300, army: 52000, diplomacy: 55 }
-        ];
-
         window.addEventListener('load', () => {
             setTimeout(() => {
                 const splash = document.getElementById('splash');
@@ -440,255 +249,28 @@
             }, 1500);
         });
 
-        function showScreen(screenId) {
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            document.getElementById('screen-game').classList.remove('active');
-            
-            if (screenId === 'screen-game') {
-                document.getElementById('screen-game').classList.add('active');
-            } else {
-                document.getElementById(screenId).classList.add('active');
-            }
-        }
-
-        function openCountrySelectModal() {
-            openModal('countrySelectModal');
-        }
-
-        function launchGameWithChosenCountry() {
-            let chosen = document.getElementById('chosenCivSelect').value;
-            // Seçilen ülkeyi oyuncuya ata
-            countriesList.forEach(c => {
-                if (c.name === chosen) c.owner = chosen;
-            });
-            closeModal('countrySelectModal');
-            showScreen('screen-game');
-            updateHudDisplay();
-        }
-
-        function updateHudDisplay() {
-            let playerCivName = countriesList.find(c => c.owner === countriesList.find(x => x.name === document.getElementById('chosenCivSelect').value)?.name)?.owner || "Türkiye";
-            document.getElementById('hud-civ').innerText = playerCivName;
-            document.getElementById('hud-turn').innerText = gameTurn;
-            document.getElementById('hud-gold').innerText = playerGold.toLocaleString();
-            document.getElementById('hud-grain').innerText = grainSupply.toLocaleString();
-            document.getElementById('hud-regime').innerText = currentRegime;
-            document.getElementById('hud-law').innerText = currentLaw;
-        }
-
-        function selectCountry(index) {
-            selectedCountryIdx = index;
-            let c = countriesList[index];
-            document.getElementById('info-c-name').innerText = "Ülke: " + c.name;
-            document.getElementById('info-c-owner').innerText = "Sahibi: " + c.owner;
-            document.getElementById('info-c-economy').innerText = "Vergi Geliri: +" + Math.floor(c.economy * gameTechLevel) + " Altın";
-            document.getElementById('info-c-army').innerText = "Askeri Güç: " + c.army.toLocaleString();
-
-            document.querySelectorAll('.country-node').forEach((el, idx) => {
-                if (idx === index) el.classList.add('selected');
-                else el.classList.remove('selected');
-            });
-        }
-
-        function nextGameTurn() {
-            gameTurn++;
-            
-            // Tarım ve Gıda Krizi Hesaplaması
-            let playerCivName = document.getElementById('chosenCivSelect').value;
-            let playerProvs = countriesList.filter(c => c.owner === playerCivName);
-            let consumption = playerProvs.length * 2000;
-            grainSupply -= consumption;
-
-            if (grainSupply < 0) {
-                grainSupply = 0;
-                playerGold = Math.floor(playerGold * 0.9);
-                alert("⚠️ GIDA KRİZİ! Ülkede gıda bitti, halk kıtlık nedeniyle isyan çıkardı ve ekonomi zarar gördü!");
-            } else {
-                grainSupply += 3000; // Tarım üretimi
-            }
-
-            let income = 0;
-            countriesList.forEach(c => {
-                if (c.owner === playerCivName) {
-                    income += Math.floor(c.economy * gameTechLevel);
-                }
-            });
-            playerGold += income;
-
-            // Yapay zeka hamleleri
-            countriesList.forEach(c => {
-                if (c.owner !== playerCivName) {
-                    c.army += Math.floor(Math.random() * 3000) + 1000;
-                }
-            });
-
-            updateHudDisplay();
-            if (selectedCountryIdx !== null) selectCountry(selectedCountryIdx);
-            alert(`Tur ${gameTurn} Başladı! Gıda Durumu: ${grainSupply.toLocaleString()} ton. Vergi Geliri: +${income.toLocaleString()} Altın.`);
-        }
-
-        function investEconomy() {
-            if (selectedCountryIdx === null) { alert("Önce haritadan bir ülke seçin!"); return; }
-            let c = countriesList[selectedCountryIdx];
-            let playerCivName = document.getElementById('chosenCivSelect').value;
-            if (c.owner !== playerCivName) { alert("Sadece kendi topraklarınıza yatırım yapabilirsiniz!"); return; }
-            if (playerGold < 600) { alert("Yetersiz altın! (Gerekli: 600)"); return; }
-
-            playerGold -= 600;
-            c.economy += 150;
-            updateHudDisplay();
-            selectCountry(selectedCountryIdx);
-            alert("Ülke ekonomisi geliştirildi!");
-        }
-
-        function recruitArmy() {
-            if (selectedCountryIdx === null) { alert("Önce haritadan bir ülke seçin!"); return; }
-            let c = countriesList[selectedCountryIdx];
-            let playerCivName = document.getElementById('chosenCivSelect').value;
-            if (c.owner !== playerCivName) { alert("Sadece kendi topraklarınızda asker alabilirsiniz!"); return; }
-            if (playerGold < 400) { alert("Yetersiz altın! (Gerekli: 400)"); return; }
-
-            playerGold -= 400;
-            c.army += 15000;
-            updateHudDisplay();
-            selectCountry(selectedCountryIdx);
-            alert("Yeni askeri birlikler orduya katıldı!");
-        }
-
-        function researchTech() {
-            if (playerGold < 1200) { alert("Yetersiz altın! (Gerekli: 1,200)"); return; }
-            playerGold -= 1200;
-            gameTechLevel += 0.05;
-            updateHudDisplay();
-            alert("Teknoloji seviyesi yükseltildi!");
-        }
-
-        function attackCountry() {
-            if (selectedCountryIdx === null) { alert("Hedef ülke seçilmedi!"); return; }
-            let target = countriesList[selectedCountryIdx];
-            let playerCivName = document.getElementById('chosenCivSelect').value;
-            if (target.owner === playerCivName) { alert("Kendi ülkenize saldıramazsınız!"); return; }
-
-            let playerCountry = countriesList.find(x => x.owner === playerCivName);
-            if (!playerCountry) { alert("Ülkenize ait toprak kalmadı!"); return; }
-
-            if (playerCountry.army >= target.army) {
-                target.owner = playerCivName;
-                target.army = Math.floor(target.army * 0.4);
-                alert(`Zafer! ${target.name} toprakları fethedildi.`);
-                selectCountry(selectedCountryIdx);
-            } else {
-                playerCountry.army = Math.floor(playerCountry.army * 0.5);
-                alert(`Saldırı Püskürtüldü! Düşman savunması güçlüydü, kayıp verdik.`);
-                selectCountry(selectedCountryIdx);
-            }
-        }
-
-        function improveDiplomacy() {
-            if (selectedCountryIdx === null) { alert("Ülke seçilmedi!"); return; }
-            let c = countriesList[selectedCountryIdx];
-            c.diplomacy = Math.min(100, c.diplomacy + 10);
-            alert(`${c.name} ile diplomatik ilişkiler gelişti. (İlişki: ${c.diplomacy}/100)`);
-        }
-
-        function changeRegimeModal() {
-            let newRegime = prompt("Yeni Rejim Türünü Seçin (Demokrasi / Monarşi / Komünizm / Faşizm):", currentRegime);
-            if (newRegime) {
-                currentRegime = newRegime;
-                updateHudDisplay();
-                alert("Devlet rejimi değiştirildi!");
-            }
-        }
-
-        // ================= KAYIT SİSTEMİ (20 SLOT) =================
-        function openSavesScreen() {
-            showScreen('screen-saves');
-            renderSaveSlots();
-        }
-
-        function renderSaveSlots() {
-            const list = document.getElementById('savesSlotsList');
-            list.innerHTML = '';
-
-            for (let i = 1; i <= 20; i++) {
-                const saveData = JSON.parse(localStorage.getItem(`aoh_global_save_${i}`));
-                const card = document.createElement('div');
-                card.className = 'save-slot-card';
-
-                if (saveData) {
-                    card.innerHTML = `
-                        <div class="slot-info">
-                            <h4>Slot ${i}: ${saveData.civ}</h4>
-                            <p>Tur: ${saveData.turn} | Altın: ${saveData.gold.toLocaleString()} | Tarih: ${saveData.date}</p>
-                        </div>
-                        <div class="slot-actions">
-                            <button class="slot-btn hover-target" onclick="loadGame(${i})">Devam Et</button>
-                            <button class="slot-btn hover-target" onclick="saveGame(${i})">Üzerine Yaz</button>
-                            <button class="slot-btn delete hover-target" onclick="deleteSave(${i})">Sil</button>
-                        </div>
-                    `;
-                } else {
-                    card.innerHTML = `
-                        <div class="slot-info">
-                            <h4>Slot ${i}: [Boş Slot]</h4>
-                            <p>Kayıtlı veri bulunmuyor.</p>
-                        </div>
-                        <div class="slot-actions">
-                            <button class="slot-btn hover-target" onclick="saveGame(${i})">Kayıt Yap</button>
-                        </div>
-                    `;
-                }
-                list.appendChild(card);
-            }
-        }
-
-        function saveGame(slotIndex) {
-            let playerCivName = document.getElementById('chosenCivSelect').value;
-            const currentSave = {
-                civ: playerCivName,
-                turn: gameTurn,
-                gold: playerGold,
-                date: new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-            };
-            localStorage.setItem(`aof_global_save_${slotIndex}`, JSON.stringify(currentSave));
-            renderSaveSlots();
-            alert(`Oyun başarıyla Slot ${slotIndex}'e kaydedildi!`);
-        }
-
-        function loadGame(slotIndex) {
-            const saveData = JSON.parse(localStorage.getItem(`aof_global_save_${slotIndex}`));
-            if (saveData) {
-                gameTurn = saveData.turn;
-                playerGold = saveData.gold;
-                showScreen('screen-game');
-                updateHudDisplay();
-                alert(`Slot ${slotIndex} başarıyla yüklendi!`);
-            }
-        }
-
-        function deleteSave(slotIndex) {
-            if (confirm(`Slot ${slotIndex}'deki kaydı silmek istediğinize emin misiniz?`)) {
-                localStorage.removeItem(`aof_global_save_${slotIndex}`);
-                renderSaveSlots();
-            }
-        }
-
-        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
-        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-
-        // ÖZEL İMLEÇ
         const cursor = document.getElementById('cursor');
+        const hoverTargets = document.querySelectorAll('.hover-target');
+
         document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px';
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
         });
 
         document.addEventListener('click', (e) => {
             const ripple = document.createElement('div');
-            ripple.className = 'click-ripple'; ripple.style.left = e.clientX + 'px'; ripple.style.top = e.clientY + 'px';
-            document.body.appendChild(ripple); setTimeout(() => ripple.remove(), 600);
+            ripple.classList.add('click-ripple');
+            ripple.style.left = e.clientX + 'px';
+            ripple.style.top = e.clientY + 'px';
+            document.body.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 600);
         });
 
-        // KÜLLER
+        hoverTargets.forEach(target => {
+            target.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
+            target.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
+        });
+
         const canvas = document.getElementById('particles-canvas');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth; canvas.height = window.innerHeight;

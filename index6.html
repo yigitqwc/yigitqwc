@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>yigitqwc | Türkiye Bilgi Bankası</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <style>
+        :root {
+            --bg-color: #030101;
+            --text-color: #ffffff;
+            --accent-red: #ff0000;
+        }
+
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            cursor: none;
+        }
+
+        body {
+            background-color: var(--bg-color); color: var(--text-color);
+            overflow: hidden; width: 100vw; height: 100vh; display: flex; flex-direction: column;
+        }
+
+        /* ÖZEL İMLEÇ VE EFEKTLER */
+        .custom-cursor {
+            position: fixed; top: 0; left: 0; width: 16px; height: 16px;
+            background-color: transparent; border: 2px solid var(--accent-red);
+            pointer-events: none; z-index: 9999999;
+            transform: translate(-50%, -50%) rotate(45deg);
+            box-shadow: 0 0 10px var(--accent-red), inset 0 0 5px var(--accent-red);
+            transition: width 0.2s, height 0.2s;
+        }
+        .custom-cursor::after {
+            content: ''; position: absolute; top: 50%; left: 50%; width: 4px; height: 4px;
+            background: var(--accent-red); transform: translate(-50%, -50%);
+        }
+        .cursor-hover { width: 28px; height: 28px; background-color: rgba(255, 0, 0, 0.25); }
+
+        .click-ripple {
+            position: fixed; border-radius: 50%; border: 2px solid var(--accent-red);
+            pointer-events: none; transform: translate(-50%, -50%);
+            animation: rippleEffect 0.6s ease-out forwards; z-index: 99998;
+            box-shadow: 0 0 15px rgba(255,0,0,0.5);
+        }
+        @keyframes rippleEffect {
+            0% { width: 0; height: 0; opacity: 1; border-width: 4px; }
+            100% { width: 120px; height: 120px; opacity: 0; border-width: 1px; }
+        }
+
+        /* SHARINGAN YÜKLEME EKRANI */
+        #splash {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #000; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; z-index: 99999;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+        .sharingan {
+            width: 80px; height: 80px; margin-bottom: 25px;
+            animation: spin 2.5s linear infinite; filter: drop-shadow(0 0 15px rgba(255,0,0,0.8));
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .logo-container {
+            position: relative; text-decoration: none; color: var(--text-color); display: inline-block; padding-bottom: 4px;
+        }
+        .logo-text { font-size: 2rem; font-weight: 800; letter-spacing: -0.5px; display: inline-block; animation: glitch-anim 6s infinite; }
+        @keyframes glitch-anim {
+            0%, 93%, 100% { text-shadow: 0 0 15px rgba(255,0,0,0.8); transform: translate(0); }
+            94% { text-shadow: 3px 0 0 red, -3px 0 0 white; transform: translate(3px, -2px); }
+            96% { text-shadow: -3px 0 0 red, 3px 0 0 white; transform: translate(-3px, 2px); }
+            98% { text-shadow: 3px 0 0 red, -3px 0 0 white; transform: translate(3px, 2px); }
+        }
+        .red-line-wrapper {
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: rgba(255, 0, 0, 0.2); border-radius: 2px; overflow: hidden;
+        }
+        .red-line-wrapper::after {
+            content: ''; position: absolute; top: 0; left: -50%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, #ff0000, #ffffff, #ff0000, transparent);
+            box-shadow: 0 0 8px #ff0000; animation: beamMove 2.5s infinite linear;
+        }
+        @keyframes beamMove { 0% { left: -50%; } 100% { left: 100%; } }
+
+        /* ARKA PLAN VE KÜLLER */
+        .hero-bg {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-color: #020000; filter: brightness(0.2); z-index: -2; pointer-events: none;
+        }
+        .vignette {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: radial-gradient(circle, rgba(0,0,0,0) 30%, rgba(0,0,0,0.98) 100%); pointer-events: none; z-index: -1;
+        }
+        #particles-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
+
+        nav {
+            background-color: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1rem 3rem; position: relative; z-index: 10;
+            border-bottom: 1px solid rgba(255, 0, 0, 0.25); box-shadow: 0 0 20px rgba(255,0,0,0.2);
+        }
+        .back-link { color: #aaa; text-decoration: none; font-size: 1rem; font-weight: 600; transition: color 0.3s; }
+        .back-link:hover { color: var(--accent-red); }
+
+        /* ANA DÜZEN */
+        .world-layout {
+            display: flex; flex-grow: 1; height: calc(100vh - 70px); position: relative; z-index: 5;
+        }
+
+        /* SOL PANEL (ARAMA VE BİLGİ) */
+        .info-panel {
+            width: 380px; background: rgba(10, 1, 1, 0.95); border-right: 2px solid #550000;
+            padding: 25px; display: flex; flex-direction: column; gap: 15px; box-shadow: 5px 0 25px rgba(0,0,0,0.9);
+            backdrop-filter: blur(10px); z-index: 20; position: relative;
+        }
+        .info-panel h2 { color: #ff3333; font-size: 1.5rem; border-bottom: 1px solid #440000; padding-bottom: 10px; margin-bottom: 5px; }
+
+        /* ARAMA KUTUSU VE LİSTE */
+        .search-container { display: flex; flex-direction: column; gap: 15px; flex-grow: 1; overflow: hidden; }
+        .search-box {
+            width: 100%; padding: 12px 15px; background: #050000; border: 1px solid #770000;
+            color: #fff; border-radius: 8px; font-size: 1rem; outline: none; box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .search-box:focus { border-color: var(--accent-red); box-shadow: 0 0 15px rgba(255,0,0,0.4), inset 0 0 10px rgba(0,0,0,0.8); }
+        .search-box::placeholder { color: #555; }
+
+        .city-list {
+            list-style: none; overflow-y: auto; flex-grow: 1; padding-right: 5px;
+        }
+        .city-list::-webkit-scrollbar { width: 6px; }
+        .city-list::-webkit-scrollbar-thumb { background: #550000; border-radius: 3px; }
+        .city-list li {
+            padding: 12px 15px; background: rgba(25, 0, 0, 0.4); border: 1px solid #330000;
+            margin-bottom: 8px; border-radius: 6px; color: #ddd; font-weight: bold; cursor: pointer; transition: 0.2s;
+        }
+        .city-list li:hover { background: rgba(255, 0, 0, 0.8); color: #fff; border-color: #ff3333; transform: translateX(5px); }
+
+        /* DETAY EKRANI */
+        .details-container { display: none; flex-direction: column; gap: 12px; flex-grow: 1; overflow-y: auto; padding-right: 5px; }
+        .details-container::-webkit-scrollbar { width: 6px; }
+        .details-container::-webkit-scrollbar-thumb { background: #550000; border-radius: 3px; }
+        
+        .city-title { font-size: 2rem; color: #ffffff; text-shadow: 0 0 15px red; font-weight: 900; margin-bottom: 10px; }
+        .info-row { background: rgba(20, 0, 0, 0.6); padding: 10px; border-radius: 6px; border-left: 3px solid #ff3333; margin-bottom: 5px; }
+        .info-row span { color: var(--accent-red); font-weight: bold; display: block; font-size: 0.85rem; margin-bottom: 3px; }
+        .info-row p { color: #e0e0e0; font-size: 0.95rem; line-height: 1.5; }
+        
+        .back-btn {
+            background: #2b0505; border: 1px solid #ff3333; color: #fff; padding: 12px;
+            border-radius: 6px; font-weight: bold; cursor: pointer; text-align: center; margin-top: 10px; transition: 0.2s;
+        }
+        .back-btn:hover { background: #ff3333; box-shadow: 0 0 15px rgba(255,0,0,0.5); }
+
+        /* HARİTA ALANI (%75) */
+        .map-view-area {
+            flex-grow: 1; display: flex; justify-content: center; align-items: center; position: relative; overflow: hidden; padding: 20px;
+        }
+        .tr-map-wrapper {
+            width: 75vw; height: 75vh; position: relative;
+            background-image: url('tr.jfif'); /* KULLANICININ VERDİĞİ HARİTA */
+            background-size: 100% 100%; background-position: center; background-repeat: no-repeat;
+            border: 3px solid #660000; border-radius: 12px; box-shadow: 0 0 60px rgba(255,0,0,0.5);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="custom-cursor" id="cursor"></div>
+
+    <div id="splash">
+        <svg class="sharingan" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="45" fill="#990000" stroke="#111" stroke-width="4"/>
+            <circle cx="50" cy="50" r="24" fill="none" stroke="#111" stroke-width="2" opacity="0.6"/>
+            <circle cx="50" cy="50" r="8" fill="#000"/>
+            <g>
+                <g transform="translate(50, 26)"><circle cx="0" cy="0" r="6" fill="#000"/><path d="M -6 0 Q -10 -15 5 -15 Q 0 -5 6 0 Z" fill="#000"/></g>
+                <g transform="translate(71, 62) rotate(120)"><circle cx="0" cy="0" r="6" fill="#000"/><path d="M -6 0 Q -10 -15 5 -15 Q 0 -5 6 0 Z" fill="#000"/></g>
+                <g transform="translate(29, 62) rotate(240)"><circle cx="0" cy="0" r="6" fill="#000"/><path d="M -6 0 Q -10 -15 5 -15 Q 0 -5 6 0 Z" fill="#000"/></g>
+            </g>
+        </svg>
+        <div class="logo-container">
+            <div class="logo-text" style="font-size:2rem;">yigitqwc</div>
+            <div class="red-line-wrapper"></div>
+        </div>
+    </div>
+
+    <div class="hero-bg"></div>
+    <div class="vignette"></div>
+    <canvas id="particles-canvas"></canvas>
+
+    <nav>
+        <a href="index.html" class="logo-container hover-target">
+            <div class="logo-text">yigitqwc</div>
+            <div class="red-line-wrapper"></div>
+        </a>
+        <a href="index5.html" class="back-link hover-target">← Dünya Haritası</a>
+    </nav>
+
+    <div class="world-layout">
+        <!-- SOL PANEL: ARAMA VE DETAYLAR -->
+        <div class="info-panel">
+            <h2>📍 Türkiye Veritabanı</h2>
+            
+            <!-- ARAMA EKRANI -->
+            <div class="search-container" id="searchContainer">
+                <input type="text" id="citySearch" class="search-box" placeholder="Şehir ara (Örn: Mersin)..." onkeyup="filterCities()">
+                <ul class="city-list" id="cityList">
+                    <!-- Javascript ile doldurulacak -->
+                </ul>
+            </div>
+
+            <!-- DETAY EKRANI -->
+            <div class="details-container" id="detailsContainer">
+                <div class="city-title" id="d-name">Mersin</div>
+                <div class="info-row"><span>Konum (Bölge)</span><p id="d-region">-</p></div>
+                <div class="info-row"><span>Plaka Kodu</span><p id="d-plate">-</p></div>
+                <div class="info-row"><span>Nüfus</span><p id="d-pop">-</p></div>
+                <div class="info-row"><span>Tarihi Eserler & Yerler</span><p id="d-history">-</p></div>
+                <div class="info-row"><span>Meşhur Yemekleri</span><p id="d-food">-</p></div>
+                <div class="info-row"><span>Tarihte Yaşanmış Önemli Olaylar</span><p id="d-events">-</p></div>
+                <div class="back-btn hover-target" onclick="showSearchPanel()">← Yeni Şehir Ara</div>
+            </div>
+        </div>
+
+        <!-- HARİTA ALANI (%75) -->
+        <div class="map-view-area">
+            <div class="tr-map-wrapper"></div>
+        </div>
+    </div>
+
+    <script>
+        // 81 İLİN TAMAMI (PLAKA SIRASINA GÖRE)
+        const cityDatabase = {
+            "Adana": { region: "Akdeniz Bölgesi", plate: "01", pop: "2.2 Milyon", history: "Taş Köprü, Varda Köprüsü, Anavarza Antik Kenti, Yılan Kale.", food: "Adana Kebap, Şalgam, Bici Bici, Şırdan.", events: "Kilikya bölgesinin en önemli merkezlerindendir. Fransız işgaline karşı destansı bir direniş göstermiş ve 5 Ocak 1922'de kurtulmuştur." },
+            "Adıyaman": { region: "Güneydoğu Anadolu", plate: "02", pop: "630 Bin", history: "Nemrut Dağı Milli Parkı, Cendere Köprüsü, Perre Antik Kenti.", food: "Etsiz Çiğ Köfte, Besni Tavası, Meyir Çorbası.", events: "Kommagene Krallığı'na ev sahipliği yapmış, tarihi İpek Yolu üzerinde stratejik bir konuma sahip kadim bir şehirdir." },
+            "Afyonkarahisar": { region: "Ege Bölgesi", plate: "03", pop: "730 Bin", history: "Karahisar Kalesi, Frig Vadisi, İhsaniye Döğer.", food: "Afyon Sucuğu, Kaymak, Ekmek Kadayıfı, Haşhaşlı Çörek.", events: "Kurtuluş Savaşı'nda Büyük Taarruz'un (Kocatepe) başladığı ve savaşın kaderinin değiştiği en kritik şehirdir." },
+            "Ağrı": { region: "Doğu Anadolu", plate: "04", pop: "530 Bin", history: "İshak Paşa Sarayı, Ağrı Dağı, Meteor Çukuru.", food: "Abdigör Köftesi, Haşıl, Beyaz Bal.", events: "Efsanelere konu olan Ağrı Dağı ve Nuh'un Gemisi kalıntıları ile bilinir. Urartular döneminde önemli bir merkezdi." },
+            "Amasya": { region: "Karadeniz Bölgesi", plate: "05", pop: "330 Bin", history: "Kral Kaya Mezarları, Amasya Kalesi, Ferhat ile Şirin Aşıklar Müzesi.", food: "Amasya Elması, Keşkek, Çörek, Toyga Çorbası.", events: "Osmanlı döneminde şehzadelerin eğitim gördüğü 'Şehzadeler Şehri'dir. Amasya Genelgesi ile Kurtuluş Savaşı'nın manifestosu burada yazılmıştır." },
+            "Ankara": { region: "İç Anadolu", plate: "06", pop: "5.7 Milyon", history: "Anıtkabir, Ankara Kalesi, Gordion Antik Kenti, Roma Hamamı.", food: "Ankara Tavası, Beypazarı Kurusu, Çubuk Turşusu.", events: "Mustafa Kemal Atatürk'ün milli mücadeleyi yönettiği karargâh merkezidir. 13 Ekim 1923'te Cumhuriyet'in başkenti olmuştur." },
+            "Antalya": { region: "Akdeniz Bölgesi", plate: "07", pop: "2.6 Milyon", history: "Aspendos, Olympos, Kaleiçi, Perge, Termessos.", food: "Piyaz, Turunç Reçeli, Yanıksı Dondurma.", events: "Pamfilya ve Likya uygarlıklarının merkezidir. I. Dünya Savaşı sonrası kısa süreli İtalyan işgaline uğramıştır." },
+            "Artvin": { region: "Karadeniz Bölgesi", plate: "08", pop: "170 Bin", history: "Karagöl, Çifte Köprü, Ardanuç Kalesi.", food: "Kuymak, Laz Böreği, Hamsili Ekmek.", events: "Sarp coğrafyasıyla bilinir. 1877-1878 Osmanlı-Rus savaşında işgale uğramış, 1921 Moskova Antlaşması ile Türkiye'de kalmıştır." },
+            "Aydın": { region: "Ege Bölgesi", plate: "09", pop: "1.1 Milyon", history: "Efes (yakın çevre), Afrodisias, Didyma Antik Kenti, Milet.", food: "İncir, Çöp Şiş, Zeytinyağlı Enginar.", events: "Kurtuluş Savaşı'nda Yörük Ali Efe önderliğinde Kuvayı Milliye hareketinin en güçlü olduğu ve düşmana ilk direnişin başladığı illerdendir." },
+            "Balıkesir": { region: "Marmara / Ege", plate: "10", pop: "1.2 Milyon", history: "Cunda Adası, Manyas Kuş Cenneti, Antandros Antik Kenti.", food: "Höşmerim, Ayvalık Tostu, Susurluk Ayranı.", events: "Alaca Mescit Toplantıları ile Kuvayı Milliye'nin Ege'de örgütlendiği, Kurtuluş Savaşı'na büyük destek veren bir şehirdir." },
+            "Bilecik": { region: "Marmara Bölgesi", plate: "11", pop: "220 Bin", history: "Ertuğrul Gazi Türbesi, Şeyh Edebali Türbesi.", food: "Bıldırcın Kebabı, Büzme Tatlısı.", events: "Osmanlı İmparatorluğu'nun Söğüt ve Domaniç ekseninde kurulduğu tarihi topraklardır." },
+            "Bingöl": { region: "Doğu Anadolu", plate: "12", pop: "280 Bin", history: "Yüzen Adalar, Kral Kızı Kalesi.", food: "Gömme, Löl, Keldoş.", events: "Urartular ve Persler döneminden itibaren stratejik bir geçiş güzergahı olmuştur." },
+            "Bitlis": { region: "Doğu Anadolu", plate: "13", pop: "350 Bin", history: "Ahlat Selçuklu Mezarlığı, Bitlis Kalesi.", food: "Büryan Kebabı, Avşor Çorbası.", events: "Ahlat, Türklerin Anadolu'ya giriş kapılarından biri ve 'Kubbet-ül İslam' olarak adlandırılan tarihi bir merkezdir." },
+            "Bolu": { region: "Karadeniz Bölgesi", plate: "14", pop: "320 Bin", history: "Abant Gölü, Yedigöller, Gölcük, Seben Kaya Evleri.", food: "Mengen Pilavı, Bolu Çikolatası, Orman Kebabı.", events: "Osmanlı'nın ünlü aşçılarının yetiştiği Mengen'e ev sahipliği yapar. Köroğlu efsanelerinin geçtiği dağlık bölgedir." },
+            "Burdur": { region: "Akdeniz Bölgesi", plate: "15", pop: "270 Bin", history: "Sagalassos Antik Kenti, Salda Gölü, İnsuyu Mağarası.", food: "Burdur Şiş, Ceviz Ezmesi.", events: "Tarihi Pisidya bölgesinin önemli merkezlerindendir. Salda Gölü ile dünyaca ün kazanmıştır." },
+            "Bursa": { region: "Marmara Bölgesi", plate: "16", pop: "3.1 Milyon", history: "Ulu Cami, Yeşil Türbe, Cumalıkızık, Uludağ.", food: "İskender Kebap, Kestane Şekeri, Pideli Köfte.", events: "Osmanlı Devleti'nin ilk büyük başkentidir. Tarih boyunca ipek üretimi ve ticaretin Anadolu'daki kalbi olmuştur." },
+            "Çanakkale": { region: "Marmara Bölgesi", plate: "17", pop: "550 Bin", history: "Truva Antik Kenti, Gelibolu Şehitliği, Assos.", food: "Peynir Helvası, Ezine Peyniri, Sardalya.", events: "1915 Çanakkale Savaşları'nda 'Çanakkale Geçilmez' destanının yazıldığı topraklardır." },
+            "Çankırı": { region: "İç Anadolu", plate: "18", pop: "190 Bin", history: "Tuz Mağarası, Çankırı Kalesi, Taş Mescit.", food: "Sarımsaklı Et, Yaren Güveci.", events: "Kızılırmak kavisi içinde yer alan şehir, Hititler ve Paflagonya uygarlıklarına ev sahipliği yapmıştır." },
+            "Çorum": { region: "Karadeniz Bölgesi", plate: "19", pop: "520 Bin", history: "Hattuşaş Antik Kenti (Hitit Başkenti), Alacahöyük.", food: "Çorum Leblebisi, İskilip Dolması.", events: "Dünyanın bilinen ilk yazılı barış antlaşması olan Kadeş Antlaşması'na imza atan Hitit İmparatorluğu'nun başkentidir." },
+            "Denizli": { region: "Ege Bölgesi", plate: "20", pop: "1 Milyon", history: "Pamukkale Travertenleri, Hierapolis Antik Kenti.", food: "Denizli Kebabı, Zafer Gazozu.", events: "Roma döneminin en önemli termal sağlık merkezi Hierapolis'i barındırır. Dokuma ve tekstil tarihinin merkezidir." },
+            "Diyarbakır": { region: "Güneydoğu Anadolu", plate: "21", pop: "1.7 Milyon", history: "Diyarbakır Surları, Hevsel Bahçeleri, Ulu Cami.", food: "Ciğer Kebabı, Diyarbakır Karpuzu, Burma Kadayıf.", events: "Asurlular, Romalılar ve Selçuklular da dâhil 33 farklı medeniyete ev sahipliği yapmış tarihi İpek Yolu şehridir." },
+            "Edirne": { region: "Marmara Bölgesi", plate: "22", pop: "410 Bin", history: "Selimiye Camii, Kırkpınar Er Meydanı, Rüstempaşa Kervansarayı.", food: "Tava Ciğer, Badem Ezmesi, Kavala Kurabiyesi.", events: "İstanbul'un fethinden önce Osmanlı'ya başkentlik yapmıştır. Mimar Sinan'ın ustalık eseri Selimiye buradadır." },
+            "Elazığ": { region: "Doğu Anadolu", plate: "23", pop: "590 Bin", history: "Harput Kalesi (Süt Kalesi), Hazar Gölü.", food: "Orcik (Cevizli Sucuk), Çedene Kahvesi, Harput Köfte.", events: "Tarihi Harput şehri üzerine kurulmuştur. Urartular döneminde önemli bir askeri üstü." },
+            "Erzincan": { region: "Doğu Anadolu", plate: "24", pop: "230 Bin", history: "Karanlık Kanyon, Girlevik Şelalesi, Mama Hatun Türbesi.", food: "Erzincan Döneri, Tulum Peyniri, Kesme Çorba.", events: "Tarih boyunca büyük depremler atlatmış, 1939 Erzincan Depremi sonrası tamamen yeniden inşa edilmiştir." },
+            "Erzurum": { region: "Doğu Anadolu", plate: "25", pop: "750 Bin", history: "Çifte Minareli Medrese, Yakutiye Medresesi, Palandöken.", food: "Cağ Kebabı, Kadayıf Dolması.", events: "23 Temmuz 1919'da Erzurum Kongresi'nin toplanarak 'Milli sınırlar içinde vatan bir bütündür' kararının alındığı Cumhuriyetin temellerinin atıldığı şehirdir." },
+            "Eskişehir": { region: "İç Anadolu", plate: "26", pop: "900 Bin", history: "Odunpazarı Evleri, Sazova Parkı, Yazılıkaya (Midas).", food: "Çibörek, Balaban Kebabı, Met Helvası.", events: "Kurtuluş Savaşı'nda çok çetin çarpışmalara sahne olmuş, modern şehircilik anlayışıyla küllerinden doğmuştur." },
+            "Gaziantep": { region: "Güneydoğu Anadolu", plate: "27", pop: "2.1 Milyon", history: "Zeugma Mozaik Müzesi, Gaziantep Kalesi.", food: "Baklava, Beyran, Ali Nazik, Katmer.", events: "Fransız işgaline karşı destansı Antep Savunması yapılmış, bu nedenle 'Gazi' unvanını almıştır." },
+            "Giresun": { region: "Karadeniz Bölgesi", plate: "28", pop: "450 Bin", history: "Giresun Kalesi, Giresun Adası, Kümbet Yaylası.", food: "Fındık, Görele Pidesi, Karalahana Çorbası.", events: "Milli Mücadele'de Topal Osman Ağa liderliğindeki Giresun Uşakları'nın kahramanlıklarıyla bilinir." },
+            "Gümüşhane": { region: "Karadeniz Bölgesi", plate: "29", pop: "150 Bin", history: "Karaca Mağarası, Tomara Şelalesi, Santa Harabeleri.", food: "Pestil, Köme, Siron.", events: "Adını bölgedeki zengin gümüş madenlerinden almıştır, tarihi İpek Yolu üzerinde yer alır." },
+            "Hakkari": { region: "Doğu Anadolu", plate: "30", pop: "270 Bin", history: "Meydan Medresesi, Cennet Cehennem Vadisi, Cilo Dağları.", food: "Keledoş, Doğaba.", events: "Urartu, Med ve Asur medeniyetlerine ait izler barındıran sarp ve zorlu bir coğrafyadır." },
+            "Hatay": { region: "Akdeniz Bölgesi", plate: "31", pop: "1.6 Milyon", history: "Titus Tüneli, St. Pierre Kilisesi, Hatay Arkeoloji Müzesi.", food: "Künefe, Tepsi Kebabı, Kaytaz Böreği.", events: "Uzun süre Fransız mandasında kaldıktan sonra Atatürk'ün yoğun diplomatik çabalarıyla 1939'da Anavatan'a katılmıştır." },
+            "Isparta": { region: "Akdeniz Bölgesi", plate: "32", pop: "440 Bin", history: "Eğirdir Gölü, Sagalassos (sınırda), Lavanta Bahçeleri.", food: "Gül Lokumu, Isparta Fırın Kebabı.", events: "Antik çağlarda Pisidya bölgesinin parçasıdır, günümüzde Gül ve Lavanta diyarı olarak bilinir." },
+            "Mersin": { region: "Akdeniz Bölgesi", plate: "33", pop: "1.9 Milyon", history: "Kanlıdivane, Kızkalesi, Soli Pompeiopolis, Alahan Manastırı.", food: "Tantuni, Kerebiç, Cezerye.", events: "Kilikya'nın en önemli limanıdır. I. Dünya Savaşı sonrası Fransız işgaline direnmiş, 3 Ocak 1922'de kurtulmuştur." },
+            "İstanbul": { region: "Marmara Bölgesi", plate: "34", pop: "16 Milyon", history: "Ayasofya, Topkapı Sarayı, Galata Kulesi, Yerebatan Sarnıcı.", food: "Balık Ekmek, Kumpir, Vefa Bozası.", events: "1453'te Fatih Sultan Mehmet tarafından fethedilmiştir. Roma, Bizans ve Osmanlı'ya başkentlik yapmıştır." },
+            "İzmir": { region: "Ege Bölgesi", plate: "35", pop: "4.4 Milyon", history: "Efes Antik Kenti, Saat Kulesi, Bergama.", food: "Boyoz, Kumru, Bomba, Şambali.", events: "15 Mayıs 1919'da Yunan işgaline uğramış ve Hasan Tahsin'in ilk kurşunu atmasıyla direniş başlamıştır." },
+            "Kars": { region: "Doğu Anadolu", plate: "36", pop: "280 Bin", history: "Ani Harabeleri, Kars Kalesi, Sarıkamış.", food: "Kars Kaşarı, Kaz Eti, Piti.", events: "Rus işgali döneminde inşa edilen Baltık mimarisi evleriyle meşhurdur. Sarıkamış Harekâtı burada yaşanmıştır." },
+            "Kastamonu": { region: "Karadeniz Bölgesi", plate: "37", pop: "370 Bin", history: "Kastamonu Kalesi, Valla Kanyonu, Ilgaz Dağları.", food: "Kuyu Kebabı, Etli Ekmek, Çekme Helva.", events: "Kurtuluş Savaşı'nda Şerife Bacı'nın kahramanlığıyla İstiklal Yolu'nun en kritik geçiş noktalarından biri olmuştur." },
+            "Kayseri": { region: "İç Anadolu", plate: "38", pop: "1.4 Milyon", history: "Erciyes Dağı, Kültepe (Kaniş), Kayseri Kalesi.", food: "Mantı, Pastırma, Sucuk.", events: "Kültepe, Anadolu'daki ilk yazılı tabletlerin bulunduğu, ticaretin ilk başkenti sayılan Asur ticaret kolonisidir." },
+            "Kırklareli": { region: "Marmara Bölgesi", plate: "39", pop: "360 Bin", history: "İğneada Longoz Ormanları, Dupnisa Mağarası.", food: "Hardaliye, Kırklareli Köftesi.", events: "Trakya'nın en eski yerleşim yerlerinden biridir. Balkan Savaşları sırasında önemli çatışmalara sahne olmuştur." },
+            "Kırşehir": { region: "İç Anadolu", plate: "40", pop: "240 Bin", history: "Cacabey Medresesi, Ahi Evran Türbesi, Mucur Yeraltı Şehri.", food: "Ceviz, Çullama, Kırşehir Köftesi.", events: "Ahilik teşkilatının kurulduğu merkezdir. Cacabey Medresesi dünyanın ilk astronomi okullarından biridir." },
+            "Kocaeli": { region: "Marmara Bölgesi", plate: "41", pop: "2 Milyon", history: "Kartepe, Saat Kulesi, Osman Hamdi Bey Müzesi.", food: "Pişmaniye, Değirmendere Fındığı.", events: "Tarihi Nikomedia kenti üzerine kuruludur. Günümüzde Türkiye'nin en büyük sanayi merkezlerinden biridir." },
+            "Konya": { region: "İç Anadolu", plate: "42", pop: "2.3 Milyon", history: "Mevlana Müzesi, Çatalhöyük, Karatay Medresesi.", food: "Etli Ekmek, Fırın Kebabı, Bamya Çorbası.", events: "Anadolu Selçuklu Devleti'ne başkentlik yapmış, Çatalhöyük ile insanlığın en eski yerleşimlerinden birine ev sahipliği yapmıştır." },
+            "Kütahya": { region: "Ege Bölgesi", plate: "43", pop: "570 Bin", history: "Aizanoi Antik Kenti, Kütahya Kalesi, Çini Müzesi.", food: "Cimcik, Kütahya Pidesi, Çini.", events: "Kurtuluş Savaşı'nın dönüm noktalarından Başkomutanlık Meydan Muharebesi (Dumlupınar) bu ilin sınırları içinde kazanılmıştır." },
+            "Malatya": { region: "Doğu Anadolu", plate: "44", pop: "800 Bin", history: "Arslantepe Höyüğü, Battalgazi Ulu Cami, Şire Pazarı.", food: "Kayısı, Analı Kızlı, Kağıt Kebabı.", events: "UNESCO mirası Arslantepe Höyüğü ile devletleşme sürecinin Anadolu'daki ilk adımlarının atıldığı yerdir." },
+            "Manisa": { region: "Ege Bölgesi", plate: "45", pop: "1.4 Milyon", history: "Sardes Antik Kenti, Spil Dağı, Muradiye Camii.", food: "Mesir Macunu, Salihli Odun Köfte, Sultaniye Üzümü.", events: "Lidya Krallığı'nın başkenti Sardes buradadır ve paranın icat edildiği yer olarak tarihe geçmiştir." },
+            "Kahramanmaraş": { region: "Akdeniz Bölgesi", plate: "46", pop: "1.1 Milyon", history: "Maraş Kalesi, Yedi Uyurlar Mağarası, Taş Köprü.", food: "Maraş Dondurması, Tarhana, Eli Böğründe.", events: "Sütçü İmam'ın attığı ilk kurşunla başlayan kurtuluş mücadelesi sonucu 'Kahraman' unvanını almıştır." },
+            "Mardin": { region: "Güneydoğu Anadolu", plate: "47", pop: "850 Bin", history: "Dara Antik Kenti, Deyrulzafaran Manastırı, Mardin Evleri.", food: "Kaburga Dolması, Süryani Şarabı, Mardin Çöreği.", events: "Artuklular döneminden kalma muazzam taş işçiliği ve farklı dinlerin barış içinde yaşadığı kültürel mozaiğiyle ünlüdür." },
+            "Muğla": { region: "Ege Bölgesi", plate: "48", pop: "1 Milyon", history: "Bodrum Kalesi, Kaunos Antik Kenti, Ölüdeniz, Saklıkent.", food: "Bodrum Mantısı, Çökertme Kebabı, Muğla Tarhanası.", events: "Antik Karya bölgesinin merkezidir. Dünyanın yedi harikasından biri olan Halikarnas Mozolesi'ne ev sahipliği yapmıştır." },
+            "Muş": { region: "Doğu Anadolu", plate: "49", pop: "400 Bin", history: "Malazgirt Meydanı, Murat Köprüsü, Muş Kalesi.", food: "Muş Köftesi, Çorti, Domatesli Lahana.", events: "1071 yılında Sultan Alparslan'ın Bizans'ı yenerek Türklere Anadolu'nun kapılarını açtığı Malazgirt Meydan Muharebesi burada gerçekleşmiştir." },
+            "Nevşehir": { region: "İç Anadolu", plate: "50", pop: "300 Bin", history: "Kapadokya, Göreme, Derinkuyu Yeraltı Şehri, Ürgüp.", food: "Testi Kebabı, Köftür, Nevşehir Mantısı.", events: "Erken Hristiyanlık döneminde Romalılardan kaçanların sığındığı devasa yeraltı şehirleri ve peribacaları ile eşsizdir." },
+            "Niğde": { region: "İç Anadolu", plate: "51", pop: "360 Bin", history: "Niğde Kalesi, Gümüşler Manastırı, Aladağlar.", food: "Niğde Gazozu, Niğde Tavası, Elma.", events: "Hititler ve Kapadokya Krallığı'na ait tarihi eserlerle doludur. Kurtuluş Savaşı kahramanı Ömer Halisdemir'in memleketidir." },
+            "Ordu": { region: "Karadeniz Bölgesi", plate: "52", pop: "760 Bin", history: "Boztepe, Yason Burnu, Kurul Kalesi.", food: "Fındık, Ordu Tostu, Melocan Kavurması.", events: "Antik çağlardan beri deniz ticaretinin önemli merkezlerindendir. Kurul Kalesi'nde Kibele heykeli bulunmuştur." },
+            "Rize": { region: "Karadeniz Bölgesi", plate: "53", pop: "340 Bin", history: "Zilkale, Ayder Yaylası, Fırtına Deresi.", food: "Çay, Muhlama, Laz Böreği, Rize Kavurması.", events: "Kaçkar Dağları'nın eteklerinde, Türkiye'nin çay üretiminin kalbidir. Eski çağlarda Kolhis krallığının parçasıydı." },
+            "Sakarya": { region: "Marmara Bölgesi", plate: "54", pop: "1 Milyon", history: "Sapanca Gölü, Acarlar Longozu, Justinianus Köprüsü.", food: "Islama Köfte, Kabak Tatlısı.", events: "Adını Sakarya Nehri'nden alır. Kurtuluş Savaşı'nın en kanlı çarpışmalarından Sakarya Meydan Muharebesi'ne adını vermiştir." },
+            "Samsun": { region: "Karadeniz Bölgesi", plate: "55", pop: "1.3 Milyon", history: "Bandırma Vapuru, Onur Anıtı, Amisos Tepesi.", food: "Bafra Pidesi, Samsun Simidi, Çakallı Menemeni.", events: "Mustafa Kemal Atatürk'ün 19 Mayıs 1919'da Bandırma Vapuru ile ayak basarak Kurtuluş Savaşı'nı başlattığı şehirdir." },
+            "Siirt": { region: "Güneydoğu Anadolu", plate: "56", pop: "330 Bin", history: "Ulu Cami, Veysel Karani Türbesi, Botan Vadisi.", food: "Büryan, Pervari Balı, Siirt Fıstığı.", events: "Mezopotamya ile Anadolu'nun kesiştiği noktada yer alır. Dünyaca ünlü Tillo bilim ve astronomi merkezine ev sahipliği yapar." },
+            "Sinop": { region: "Karadeniz Bölgesi", plate: "57", pop: "210 Bin", history: "Tarihi Sinop Cezaevi, Erfelek Şelaleleri, İnceburun.", food: "Sinop Mantısı, Nokul, Kestane.", events: "Türkiye'nin en kuzey ucudur. Diyojen'in doğduğu yerdir. Tarihi cezaevi 'Anadolu'nun Alkatrazı' olarak bilinir." },
+            "Sivas": { region: "İç Anadolu", plate: "58", pop: "630 Bin", history: "Divriği Ulu Cami (UNESCO), Gök Medrese, Çifte Minareli Medrese.", food: "Sivas Köftesi, Madımak, Katmer.", events: "4 Eylül 1919'da Sivas Kongresi toplanmış, milli sınırlar içinde bağımsızlık ateşi buradan tüm ülkeye yayılmıştır." },
+            "Tekirdağ": { region: "Marmara Bölgesi", plate: "59", pop: "1.1 Milyon", history: "Rakoczi Müzesi, Namık Kemal Evi, Şarköy.", food: "Tekirdağ Köftesi, Peynir Helvası, Hayrabolu Tatlısı.", events: "Trakya'nın en önemli liman şehirlerindendir. Vatan şairi Namık Kemal'in doğduğu topraklardır." },
+            "Tokat": { region: "Karadeniz Bölgesi", plate: "60", pop: "590 Bin", history: "Ballıca Mağarası, Tokat Kalesi, Taşhan.", food: "Tokat Kebabı, Tokat Yaprağı, Zile Pekmezi.", events: "Tarihi İpek Yolu üzerinde yer alan, Osmanlı döneminin en önemli ticaret ve eğitim merkezlerinden biridir." },
+            "Trabzon": { region: "Karadeniz Bölgesi", plate: "61", pop: "810 Bin", history: "Sümela Manastırı, Ayasofya, Atatürk Köşkü, Uzungöl.", food: "Akçaabat Köftesi, Kuymak, Hamsi Kuşu.", events: "Trabzon İmparatorluğu'nun başkenti olmuş, 1461'de Fatih Sultan Mehmet tarafından fethedilmiştir." },
+            "Tunceli": { region: "Doğu Anadolu", plate: "62", pop: "83 Bin", history: "Munzur Vadisi Milli Parkı, Pertek Kalesi.", food: "Şir, Zerefet, Munzur Sarımsağı.", events: "Munzur Dağları ile çevrili zorlu bir coğrafyaya sahiptir. Tarih boyunca birçok isyan ve askeri harekata sahne olmuştur." },
+            "Şanlıurfa": { region: "Güneydoğu Anadolu", plate: "63", pop: "2.1 Milyon", history: "Göbeklitepe, Balıklıgöl, Harran Evleri, Halfeti.", food: "Çiğ Köfte, Urfa Kebabı, Şıllık Tatlısı.", events: "12 bin yıllık Göbeklitepe ile insanlık tarihini baştan yazdıran, Peygamberler Şehri olarak bilinen kadim kenttir." },
+            "Uşak": { region: "Ege Bölgesi", plate: "64", pop: "370 Bin", history: "Ulubey Kanyonu, Blaundus Antik Kenti, Karun Hazineleri.", food: "Tarhana, Uşak Halısı, Döndürme.", events: "Dünyanın en büyük ikinci kanyonuna sahiptir. Cumhuriyet döneminin ilk şeker fabrikası burada kurulmuştur." },
+            "Van": { region: "Doğu Anadolu", plate: "65", pop: "1.1 Milyon", history: "Van Gölü, Akdamar Adası, Van Kalesi, Hoşap Kalesi.", food: "Van Kahvaltısı, Otlu Peynir, İnci Kefali.", events: "Antik Tuşba adıyla Urartu İmparatorluğu'nun başkentliğini yapmıştır." },
+            "Yozgat": { region: "İç Anadolu", plate: "66", pop: "410 Bin", history: "Çamlık Milli Parkı, Sarıkaya Roma Hamamı, Saat Kulesi.", food: "Testi Kebabı, Arabaşı, Yozgat Böreği.", events: "Bozok Yaylası üzerinde kurulu, Osmanlı döneminde Çapanoğulları sülalesinin hakimiyet sürdüğü tarihi bölgedir." },
+            "Zonguldak": { region: "Karadeniz Bölgesi", plate: "67", pop: "580 Bin", history: "Gökgöl Mağarası, Filyos Antik Kenti, Cehennemağzı Mağaraları.", food: "Mancar, Zonguldak Pidesi, Ereğli Çileği.", events: "Türkiye'nin en büyük taş kömürü havzasına sahiptir. Cumhuriyet döneminin ilk sanayi şehirlerindendir." },
+            "Aksaray": { region: "İç Anadolu", plate: "68", pop: "430 Bin", history: "Ihlara Vadisi, Selime Manastırı, Eğri Minare.", food: "Aksaray Tavası, Sıkma.", events: "Kapadokya'nın batı kapısıdır. Selçuklu döneminde önemli bir askeri üstü." },
+            "Bayburt": { region: "Karadeniz Bölgesi", plate: "69", pop: "85 Bin", history: "Bayburt Kalesi, Baksı Müzesi, Aydıntepe Yeraltı Şehri.", food: "Lor Dolması, Yalancı Dolma, Tatlı Çorba.", events: "Tarihi İpek Yolu üzerinde Dede Korkut hikayelerinin geçtiği kop dağlarının yamacında yer alır." },
+            "Karaman": { region: "İç Anadolu", plate: "70", pop: "260 Bin", history: "Karaman Kalesi, Taşkale Tahıl Ambarları, Manazan Mağaraları.", food: "Batırık, Karaman Koyunu, Etli Ekmek.", events: "Karamanoğulları Beyliği'nin başkenti olmuş, Türkçe'nin resmi dil ilan edildiği (Karamanoğlu Mehmet Bey) şehirdir." },
+            "Kırıkkale": { region: "İç Anadolu", plate: "71", pop: "270 Bin", history: "Çeşnigir Köprüsü, Silah Sanayi Müzesi.", food: "Keskin Tavası, Hasandede Üzümü.", events: "Makina ve Kimya Endüstrisi (MKE) fabrikalarıyla Cumhuriyet döneminde bir savunma sanayi kenti olarak kurulmuştur." },
+            "Batman": { region: "Güneydoğu Anadolu", plate: "72", pop: "630 Bin", history: "Hasankeyf, Malabadi Köprüsü.", food: "Şam Böreği, Mumbar Dolması.", events: "Türkiye'de petrolün ilk bulunduğu ve çıkarıldığı Raman Dağı'na ev sahipliği yapan sanayi ve tarih kentidir." },
+            "Şırnak": { region: "Güneydoğu Anadolu", plate: "73", pop: "540 Bin", history: "Cudi Dağı, Kırmızı Medrese, Finik Kalesi.", food: "Kutlık, Serbıdev.", events: "Nuh Tufanı'nın Cudi Dağı'nda son bulduğuna inanılan efsanelere ev sahipliği yapan kadim bir sınır kentidir." },
+            "Bartın": { region: "Karadeniz Bölgesi", plate: "74", pop: "200 Bin", history: "Amasra, Güzelcehisar Lav Sütunları, Kuşkayası Yol Anıtı.", food: "Amasra Salatası, Su Böreği.", events: "Roma, Bizans ve Cenevizlilerin önemli ticaret limanı Amasra'yı barındıran ormanlarla kaplı şehirdir." },
+            "Ardahan": { region: "Doğu Anadolu", plate: "75", pop: "95 Bin", history: "Çıldır Gölü, Şeytan Kalesi, Ardahan Kalesi.", food: "Kars-Ardahan Kaşarı, Kaz Eti.", events: "Rus işgaline uzun yıllar direnmiş, Kış aylarında donan Çıldır Gölü'nde atlı kızaklarıyla meşhur bir sınır kentidir." },
+            "Iğdır": { region: "Doğu Anadolu", plate: "76", pop: "200 Bin", history: "Ağrı Dağı (etekleri), Tuzluca Tuz Mağaraları, Meteor Çukuru.", food: "Bozbaş, Iğdır Kayısısı.", events: "Ermenistan, Azerbaycan (Nahçıvan) ve İran olmak üzere üç ülkeye sınır olan tek Türkiye ilidir." },
+            "Yalova": { region: "Marmara Bölgesi", plate: "77", pop: "290 Bin", history: "Yürüyen Köşk, Termal Kaplıcaları.", food: "Yalova Sütlüsü, Termal Tatlısı.", events: "Mustafa Kemal Atatürk'ün 'Yalova benim kentimdir' diyerek değer verdiği ve çevre bilincini (Yürüyen Köşk) dünyaya gösterdiği şehirdir." },
+            "Karabük": { region: "Karadeniz Bölgesi", plate: "78", pop: "250 Bin", history: "Safranbolu Evleri (UNESCO), Mencilis Mağarası, Bulak.", food: "Safranbolu Lokumu, Kuyu Kebabı.", events: "Tarihi Safranbolu evleriyle meşhurdur. Türkiye'nin ilk demir-çelik fabrikası olan KARDEMİR burada kurulmuştur." },
+            "Kilis": { region: "Güneydoğu Anadolu", plate: "79", pop: "140 Bin", history: "Ravanda Kalesi, Oylum Höyük, Kilis Evleri.", food: "Kilis Tavası, Cennet Çamuru.", events: "Suriye sınırında yer alan, zeytincilik ve bağcılıkla öne çıkan, tarihi İpek Yolu üzerindeki geçiş noktasıdır." },
+            "Osmaniye": { region: "Akdeniz Bölgesi", plate: "80", pop: "550 Bin", history: "Karatepe Aslantaş Açık Hava Müzesi, Toprakkale, Kastabala.", food: "Yer Fıstığı, Tirşik Çorbası.", events: "Çukurova'nın doğu kapısıdır. Hititler döneminden kalma Karatepe yazıtları ile dünya tarihine ışık tutmuştur." },
+            "Düzce": { region: "Karadeniz Bölgesi", plate: "81", pop: "400 Bin", history: "Güzeldere Şelalesi, Konuralp Antik Kenti (Prusias ad Hypium), Akçakoca.", food: "Düzce Köftesi, Melengücceği Tatlısı.", events: "İstanbul ve Ankara arasında önemli bir geçiş noktasıdır. 1999 depremleri sonrası yeniden inşa edilip il statüsü kazanmıştır." }
+        };
+
+        // LİSTEYİ BAŞLANGIÇTA DOLDURMA
+        const cityListElement = document.getElementById('cityList');
+        function renderList(filter = "") {
+            cityListElement.innerHTML = "";
+            let keys = Object.keys(cityDatabase);
+            
+            keys.forEach(city => {
+                if (city.toLowerCase().includes(filter.toLowerCase())) {
+                    let li = document.createElement("li");
+                    li.className = "hover-target";
+                    li.innerText = city;
+                    li.onclick = () => loadCityDetails(city);
+                    cityListElement.appendChild(li);
+                }
+            });
+        }
+
+        // ARAMA FİLTRESİ
+        function filterCities() {
+            let val = document.getElementById('citySearch').value;
+            renderList(val);
+        }
+
+        // ŞEHİR DETAYLARINI GÖSTERME
+        function loadCityDetails(cityName) {
+            let data = cityDatabase[cityName];
+            document.getElementById('d-name').innerText = cityName;
+            document.getElementById('d-region').innerText = data.region;
+            document.getElementById('d-plate').innerText = data.plate;
+            document.getElementById('d-pop').innerText = data.pop;
+            document.getElementById('d-history').innerText = data.history;
+            document.getElementById('d-food').innerText = data.food;
+            document.getElementById('d-events').innerText = data.events;
+
+            document.getElementById('searchContainer').style.display = 'none';
+            document.getElementById('detailsContainer').style.display = 'flex';
+        }
+
+        // ARAMA PANELİNE GERİ DÖN
+        function showSearchPanel() {
+            document.getElementById('detailsContainer').style.display = 'none';
+            document.getElementById('searchContainer').style.display = 'flex';
+            document.getElementById('citySearch').value = '';
+            renderList();
+        }
+
+        // YÜKLEME EKRANI
+        window.addEventListener('load', () => {
+            renderList();
+            setTimeout(() => {
+                const splash = document.getElementById('splash');
+                splash.style.opacity = '0';
+                setTimeout(() => splash.style.visibility = 'hidden', 800);
+            }, 1500);
+        });
+
+        // ÖZEL İMLEÇ
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        document.addEventListener('click', (e) => {
+            const ripple = document.createElement('div');
+            ripple.classList.add('click-ripple');
+            ripple.style.left = e.clientX + 'px';
+            ripple.style.top = e.clientY + 'px';
+            document.body.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 600);
+        });
+
+        // KÜLLER
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+        let particles = [];
+        for (let i = 0; i < 40; i++) {
+            particles.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, s: Math.random() * 2 + 1, sy: Math.random() * 1.5 + 0.5 });
+        }
+        function anim() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "rgba(255,0,0,0.4)";
+            particles.forEach(p => {
+                p.y -= p.sy; if (p.y < 0) p.y = canvas.height;
+                ctx.beginPath(); ctx.arc(p.x, p.y, p.s, 0, Math.PI * 2); ctx.fill();
+            });
+            requestAnimationFrame(anim);
+        }
+        anim();
+    </script>
+</body>
+</html>

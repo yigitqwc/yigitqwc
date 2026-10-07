@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>yigitqwc | Dünya Bilgi Bankası</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <style>
+        :root {
+            --bg-color: #030101;
+            --text-color: #ffffff;
+            --accent-red: #ff0000;
+        }
+
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            cursor: none;
+        }
+
+        body {
+            background-color: var(--bg-color); color: var(--text-color);
+            overflow: hidden; width: 100vw; height: 100vh; display: flex; flex-direction: column;
+        }
+
+        /* ÖZEL İMLEÇ */
+        .custom-cursor {
+            position: fixed; top: 0; left: 0; width: 16px; height: 16px;
+            background-color: transparent; border: 2px solid var(--accent-red);
+            pointer-events: none; z-index: 9999999;
+            transform: translate(-50%, -50%) rotate(45deg);
+            box-shadow: 0 0 10px var(--accent-red), inset 0 0 5px var(--accent-red);
+            transition: width 0.2s, height 0.2s;
+        }
+        .custom-cursor::after {
+            content: ''; position: absolute; top: 50%; left: 50%; width: 4px; height: 4px;
+            background: var(--accent-red); transform: translate(-50%, -50%);
+        }
+        .cursor-hover { width: 28px; height: 28px; background-color: rgba(255, 0, 0, 0.25); }
+
+        /* KAN DAMLASI EFEKTİ */
+        .click-ripple {
+            position: fixed; border-radius: 50%; border: 2px solid var(--accent-red);
+            pointer-events: none; transform: translate(-50%, -50%);
+            animation: rippleEffect 0.6s ease-out forwards; z-index: 99998;
+            box-shadow: 0 0 15px rgba(255,0,0,0.5);
+        }
+        @keyframes rippleEffect {
+            0% { width: 0; height: 0; opacity: 1; border-width: 4px; }
+            100% { width: 120px; height: 120px; opacity: 0; border-width: 1px; }
+        }
+
+        /* SHARINGAN YÜKLEME EKRANI */
+        #splash {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #000; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; z-index: 99999;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+        .sharingan {
+            width: 80px; height: 80px; margin-bottom: 25px;
+            animation: spin 2.5s linear infinite; filter: drop-shadow(0 0 15px rgba(255,0,0,0.8));
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* LOGO VE LAZER ÇİZGİSİ */
+        .logo-container {
+            position: relative; text-decoration: none; color: var(--text-color);
+            display: inline-block; padding-bottom: 4px;
+        }
+        .logo-text {
+            font-size: 2rem; font-weight: 800; letter-spacing: -0.5px;
+            display: inline-block; animation: glitch-anim 6s infinite;
+        }
+        @keyframes glitch-anim {
+            0%, 93%, 100% { text-shadow: 0 0 15px rgba(255,0,0,0.8); transform: translate(0); }
+            94% { text-shadow: 3px 0 0 red, -3px 0 0 white; transform: translate(3px, -2px); }
+            96% { text-shadow: -3px 0 0 red, 3px 0 0 white; transform: translate(-3px, 2px); }
+            98% { text-shadow: 3px 0 0 red, -3px 0 0 white; transform: translate(3px, 2px); }
+        }
+        .red-line-wrapper {
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 3px;
+            background: rgba(255, 0, 0, 0.2); border-radius: 2px; overflow: hidden;
+        }
+        .red-line-wrapper::after {
+            content: ''; position: absolute; top: 0; left: -50%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, #ff0000, #ffffff, #ff0000, transparent);
+            box-shadow: 0 0 8px #ff0000; animation: beamMove 2.5s infinite linear;
+        }
+        @keyframes beamMove { 0% { left: -50%; } 100% { left: 100%; } }
+
+        /* ARKA PLAN VE KÜLLER */
+        .hero-bg {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-image: url('bg.jpg'); background-size: cover; background-position: center;
+            filter: brightness(0.2); z-index: -2; pointer-events: none;
+        }
+        .vignette {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: radial-gradient(circle, rgba(0,0,0,0) 30%, rgba(0,0,0,0.95) 100%);
+            pointer-events: none; z-index: -1;
+        }
+        #particles-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
+
+        nav {
+            background-color: rgba(0, 0, 0, 0.7); backdrop-filter: blur(8px);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1rem 3rem; position: relative; z-index: 10;
+            border-bottom: 1px solid rgba(255, 0, 0, 0.15);
+        }
+        .back-link { color: #aaa; text-decoration: none; font-size: 1rem; font-weight: 600; transition: color 0.3s; }
+        .back-link:hover { color: var(--accent-red); }
+
+        .world-layout {
+            display: flex; flex-grow: 1; height: calc(100vh - 70px); position: relative; z-index: 5;
+        }
+
+        /* SOL UZUN BİLGİ PANELİ */
+        .info-panel {
+            width: 350px; background: rgba(12, 2, 2, 0.95); border-right: 2px solid #550000;
+            padding: 25px; display: flex; flex-direction: column; gap: 15px; box-shadow: 5px 0 25px rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px); z-index: 20; overflow-y: auto;
+        }
+        .info-panel h2 { color: #ff3333; font-size: 1.4rem; border-bottom: 1px solid #440000; padding-bottom: 8px; }
+        .info-content p { font-size: 0.95rem; color: #ccc; margin-bottom: 10px; line-height: 1.5; }
+        .info-content strong { color: #fff; }
+
+        /* HARİTA ALANI (%75 KAPLAYACAK ŞEKİLDE) */
+        .map-view-area {
+            flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; overflow: hidden; padding: 20px;
+        }
+
+        /* YENİ: ÜST ÜLKE SEÇİM ŞERİDİ */
+        .countries-top-bar {
+            width: 85vw; background: rgba(15, 0, 0, 0.85); border: 2px solid #660000;
+            border-radius: 12px; padding: 15px; display: flex; flex-wrap: wrap; justify-content: center;
+            gap: 12px; margin-bottom: 20px; box-shadow: 0 0 30px rgba(255,0,0,0.3); z-index: 10;
+        }
+
+        .country-btn {
+            background: rgba(255, 0, 0, 0.2); border: 1px solid #ff3333;
+            border-radius: 6px; padding: 8px 16px; font-size: 13px; font-weight: bold; color: #fff;
+            cursor: pointer; transition: 0.2s; text-shadow: 0 0 5px #000;
+        }
+        .country-btn:hover {
+            background: rgba(255, 0, 0, 0.9); border-color: #ffffff;
+            box-shadow: 0 0 15px red; transform: translateY(-3px);
+        }
+
+        .world-map-wrapper {
+            width: 85vw; height: 65vh; position: relative;
+            background-image: url('hr.jfif');
+            background-size: 100% 100%; background-position: center; background-repeat: no-repeat;
+            border: 3px solid #660000; border-radius: 12px; box-shadow: 0 0 60px rgba(255,0,0,0.5);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="custom-cursor" id="cursor"></div>
+
+    <div id="splash">
+        <svg class="sharingan" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="45" fill="#990000" stroke="#111" stroke-width="4"/>
+            <circle cx="50" cy="50" r="24" fill="none" stroke="#111" stroke-width="2" opacity="0.6"/>
+            <circle cx="50" cy="50" r="8" fill="#000"/>
+            <g>
+                <g transform="translate(50, 26)"><circle cx="0" cy="0" r="6" fill="#000"/><path d="M -6 0 Q -10 -15 5 -15 Q 0 -5 6 0 Z" fill="#000"/></g>
+                <g transform="translate(71, 62) rotate(120)"><circle cx="0" cy="0" r="6" fill="#000"/><path d="M -6 0 Q -10 -15 5 -15 Q 0 -5 6 0 Z" fill="#000"/></g>
+                <g transform="translate(29, 62) rotate(240)"><circle cx="0" cy="0" r="6" fill="#000"/><path d="M -6 0 Q -10 -15 5 -15 Q 0 -5 6 0 Z" fill="#000"/></g>
+            </g>
+        </svg>
+        <div class="logo-container">
+            <div class="logo-text" style="font-size:2rem;">yigitqwc</div>
+            <div class="red-line-wrapper"></div>
+        </div>
+    </div>
+
+    <div class="hero-bg"></div>
+    <div class="vignette"></div>
+    <canvas id="particles-canvas"></canvas>
+
+    <nav>
+        <a href="index.html" class="logo-container hover-target">
+            <div class="logo-text">yigitqwc</div>
+            <div class="red-line-wrapper"></div>
+        </a>
+        <a href="index4.html" class="back-link hover-target">← Atatürk Sayfası</a>
+    </nav>
+
+    <div class="world-layout">
+        <!-- SOL UZUN BİLGİ PANELİ -->
+        <div class="info-panel">
+            <h2>🌍 Ülke Bilgi Bankası</h2>
+            <div class="info-content" id="infoContent">
+                <p>Üst kısımdaki şeritten bir ülkenin üzerine imleci getirin.</p>
+                <p style="color:#777; font-size:0.85rem;">Dünyadaki önemli devletlerin coğrafi, demografik ve ekonomik verileri burada anlık olarak gösterilir.</p>
+            </div>
+        </div>
+
+        <!-- HARİTA VE ÜST MENÜ ALANI -->
+        <div class="map-view-area">
+            
+            <!-- ÜLKELER ÜST ŞERİDİ -->
+            <div class="countries-top-bar">
+             <div class="country-btn hover-target" onclick="window.location.href='index6.html'">Türkiye</div>
+                
+                <div class="country-btn hover-target" onmouseenter="showCountryInfo('Almanya')">Almanya</div>
+                <div class="country-btn hover-target" onmouseenter="showCountryInfo('Rusya')">Rusya</div>
+                <div class="country-btn hover-target" onmouseenter="showCountryInfo('Çin')">Çin</div>
+                <div class="country-btn hover-target" onmouseenter="showCountryInfo('ABD')">ABD</div>
+                <div class="country-btn hover-target" onmouseenter="showCountryInfo('İngiltere')">İngiltere</div>
+                <div class="country-btn hover-target" onmouseenter="showCountryInfo('Fransa')">Fransa</div>
+                <div class="country-btn hover-target" onmouseenter="showCountryInfo('Japonya')">Japonya</div>
+                <div class="country-btn hover-target" onmouseenter="showCountryInfo('Brezilya')">Brezilya</div>
+                <div class="country-btn hover-target" onmouseenter="showCountryInfo('Hindistan')">Hindistan</div>
+                <div class="country-btn hover-target" onmouseenter="showCountryInfo('Mısır')">Mısır</div>
+                <div class="country-btn hover-target" onmouseenter="showCountryInfo('Avustralya')">Avustralya</div>
+                <div class="country-btn hover-target" onmouseenter="showCountryInfo('İtalya')">İtalya</div>
+                <div class="country-btn hover-target" onmouseenter="showCountryInfo('Arjantin')">Arjantin</div>
+                <div class="country-btn hover-target" onmouseenter="showCountryInfo('Kanada')">Kanada</div>
+            </div>
+
+            <!-- TERTEMİZ DÜNYA HARİTASI -->
+            <div class="world-map-wrapper" id="worldMapWrapper"></div>
+            
+        </div>
+    </div>
+
+    <script>
+        const database = {
+            "Türkiye": { capital: "Ankara", pop: "85 Milyon", continent: "Asya / Avrupa", currency: "Türk Lirası", info: "Asya ile Avrupa'yı birbirine bağlayan stratejik köprü." },
+            "Almanya": { capital: "Berlin", pop: "84 Milyon", continent: "Avrupa", currency: "Euro", info: "Avrupa'nın en büyük sanayi ekonomisi." },
+            "Rusya": { capital: "Moskova", pop: "144 Milyon", continent: "Avrupa / Asya", currency: "Ruble", info: "Yüzölçümü bakımından dünyanın en büyük ülkesi." },
+            "Çin": { capital: "Pekin", pop: "1.4 Milyar", continent: "Asya", currency: "Yuan", info: "Dünyanın en kalabalık ülkelerinden, teknoloji devi." },
+            "ABD": { capital: "Washington", pop: "333 Milyon", continent: "Kuzey Amerika", currency: "Amerikan Doları", info: "Küresel ekonomik ve askeri süper güç." },
+            "İngiltere": { capital: "Londra", pop: "67 Milyon", continent: "Avrupa", currency: "İngiliz Sterlini", info: "Ada devleti, finans ve siyaset merkezi." },
+            "Fransa": { capital: "Paris", pop: "68 Milyon", continent: "Avrupa", currency: "Euro", info: "Sanat, moda ve gastronomi alanında öncü." },
+            "Japonya": { capital: "Tokyo", pop: "125 Milyon", continent: "Asya", currency: "Yen", info: "İleri teknoloji ve köklü kültüre sahip ada devleti." },
+            "Brezilya": { capital: "Brasilia", pop: "215 Milyon", continent: "Güney Amerika", currency: "Real", info: "Amazon ormanlarına ev sahipliği yapan Latin Amerika devi." },
+            "Hindistan": { capital: "Yeni Delhi", pop: "1.42 Milyar", continent: "Asya", currency: "Rupi", info: "Yazılım ve uzay teknolojilerinde hızla yükselen dev." },
+            "Mısır": { capital: "Kahire", pop: "110 Milyon", continent: "Afrika", currency: "Mısır Lirası", info: "Antik medeniyetlerin ve Nil nehrinin beşiği." },
+            "Avustralya": { capital: "Kanberra", pop: "26 Milyon", continent: "Okyanusya", currency: "Avustralya Doları", info: "Kıta ülkesi, eşsiz vahşi doğasıyla ünlüdür." },
+            "İtalya": { capital: "Roma", pop: "59 Milyon", continent: "Avrupa", currency: "Euro", info: "Tarihi Roma İmparatorluğu'nun merkezi." },
+            "Arjantin": { capital: "Buenos Aires", pop: "46 Milyon", continent: "Güney Amerika", currency: "Arjantin Pesosu", info: "Tango kültürü ve doğal güzellikleriyle meşhurdur." },
+            "Kanada": { capital: "Ottawa", pop: "38 Milyon", continent: "Kuzey Amerika", currency: "Kanada Doları", info: "Yüksek yaşam kalitesiyle Kuzey Amerika'nın buz devidir." }
+        };
+
+        function showCountryInfo(countryName) {
+            let data = database[countryName];
+            let box = document.getElementById('infoContent');
+            if (data) {
+                box.innerHTML = `
+                    <p style="color:#ff3333; font-size:1.1rem; font-weight:bold; margin-bottom:5px;">${countryName}</p>
+                    <p><strong>Başkent:</strong> ${data.capital}</p>
+                    <p><strong>Nüfus:</strong> ${data.pop}</p>
+                    <p><strong>Kıta:</strong> ${data.continent}</p>
+                    <p><strong>Para Birimi:</strong> ${data.currency}</p>
+                    <hr style="border-color:#440000; margin:10px 0;">
+                    <p>${data.info}</p>
+                `;
+            }
+        }
+
+        // YÜKLEME EKRANI
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const splash = document.getElementById('splash');
+                splash.style.opacity = '0';
+                setTimeout(() => splash.style.visibility = 'hidden', 800);
+            }, 1500);
+        });
+
+        // ÖZEL İMLEÇ
+        const cursor = document.getElementById('cursor');
+        const hoverTargets = document.querySelectorAll('.hover-target');
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        document.addEventListener('click', (e) => {
+            const ripple = document.createElement('div');
+            ripple.classList.add('click-ripple');
+            ripple.style.left = e.clientX + 'px';
+            ripple.style.top = e.clientY + 'px';
+            document.body.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 600);
+        });
+
+        hoverTargets.forEach(target => {
+            target.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
+            target.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
+        });
+
+        // KÜLLER (PARTICLES)
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+        let particles = [];
+        for (let i = 0; i < 40; i++) {
+            particles.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, s: Math.random() * 2 + 1, sy: Math.random() * 1.5 + 0.5 });
+        }
+        function anim() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "rgba(255,0,0,0.4)";
+            particles.forEach(p => {
+                p.y -= p.sy; if (p.y < 0) p.y = canvas.height;
+                ctx.beginPath(); ctx.arc(p.x, p.y, p.s, 0, Math.PI * 2); ctx.fill();
+            });
+            requestAnimationFrame(anim);
+        }
+        anim();
+    </script>
+</body>
+</html>
