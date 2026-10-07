@@ -90,11 +90,11 @@
         }
         @keyframes beamMove { 0% { left: -50%; } 100% { left: 100%; } }
 
-        /* ARKA PLAN VE PARÇACIKLAR - ORİJİNAL GÖRÜNÜM (FİLTRELER KALDIRILDI) */
+        /* ARKA PLAN VE PARÇACIKLAR */
         .hero-bg {
             position: absolute; top: -2%; left: -2%; width: 104%; height: 104%; 
             background-image: url('bg.jpg'); background-size: cover; background-position: center;
-            z-index: 1; /* Orijinal parlaklık ve netlik */
+            z-index: 1; 
         }
         .vignette {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -112,14 +112,8 @@
             box-shadow: 0 0 30px rgba(0,0,0,0.8);
         }
 
-        .nav-left-group {
-            display: flex; align-items: center; gap: 3rem;
-        }
-
-        /* SAYFA LİNKLERİ (HİZALAMA VE KAN KIRMIZISI EFEKT) */
-        .nav-links { 
-            display: flex; align-items: center; gap: 2.5rem; 
-        }
+        .nav-left-group { display: flex; align-items: center; gap: 3rem; }
+        .nav-links { display: flex; align-items: center; gap: 2.5rem; }
         
         .nav-link {
             color: #ddd; text-decoration: none; font-size: 1.2rem;
@@ -128,25 +122,22 @@
             display: flex; align-items: center; line-height: 1; margin: 0;
         }
         .nav-link:hover {
-            color: var(--accent-red); /* Kan Kırmızısı */
+            color: var(--accent-red);
             text-shadow: 0 0 15px rgba(255, 0, 0, 0.8), 0 0 30px rgba(255, 0, 0, 0.5);
             transform: translateY(-3px) scale(1.1);
         }
 
-        /* ÖZEL MKA LİNKİ (BEYAZ VE BEYAZ PARLAMA EFEKTİ) */
         .nav-link.mka-link {
-            font-size: 1.2rem;
-            font-weight: 800; color: #ffffff; /* BEYAZ */
+            font-size: 1.5rem; font-weight: 900; color: #ffffff;
             text-transform: uppercase; letter-spacing: 2px;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* HAFİF BEYAZ PARLAMA */
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5); 
         }
         .nav-link.mka-link:hover {
             color: #ffffff; 
-            text-shadow: 0 0 20px #ffffff, 0 0 40px #ffffff, 0 0 60px #ffffff; /* GÜÇLÜ BEYAZ PARLAMA */
+            text-shadow: 0 0 20px #ffffff, 0 0 40px #ffffff, 0 0 60px #ffffff; 
             transform: translateY(-3px) scale(1.15);
         }
 
-        /* SOSYAL MEDYA LİNKLERİ (KAN KIRMIZISI HOVER) */
         .socials { display: flex; gap: 2rem; align-items: center; }
         .social-link {
             display: flex; flex-direction: column; align-items: center; text-decoration: none;
@@ -157,11 +148,11 @@
         
         .social-link:hover { transform: scale(1.2) translateY(-4px); }
         .social-link:hover svg { 
-            fill: var(--accent-red); /* KAN KIRMIZISI */
+            fill: var(--accent-red); 
             filter: drop-shadow(0 0 15px var(--accent-red)) drop-shadow(0 0 25px var(--accent-red)); 
         }
         .social-link:hover span { 
-            color: var(--accent-red); /* KAN KIRMIZISI */
+            color: var(--accent-red); 
             text-shadow: 0 0 10px var(--accent-red), 0 0 20px var(--accent-red); 
         }
 
@@ -175,6 +166,67 @@
         .music-btn { background: none; border: none; color: white; font-size: 1.5rem; outline: none; transition: 0.3s; }
         .music-btn:hover { color: var(--accent-red); text-shadow: 0 0 10px red; }
         .music-text { font-size: 0.9rem; font-weight: bold; color: #ccc; }
+
+        /* YÖNETİCİ PANELİ (SAĞ ALT) */
+        .admin-trigger {
+            position: fixed; bottom: 30px; right: 30px; z-index: 100;
+            background: rgba(15, 0, 0, 0.8); border: 1px solid rgba(255, 0, 0, 0.4);
+            color: #aaa; padding: 10px 18px; border-radius: 8px; font-size: 0.85rem;
+            font-weight: bold; letter-spacing: 1px; transition: 0.3s; backdrop-filter: blur(5px);
+        }
+        .admin-trigger:hover {
+            color: #fff; border-color: var(--accent-red); background: rgba(40, 0, 0, 0.9);
+            box-shadow: 0 0 15px rgba(255,0,0,0.6); transform: scale(1.05);
+        }
+
+        /* TERMINAL PENCERESİ */
+        #terminal-modal {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px);
+            display: none; align-items: center; justify-content: center; z-index: 999999;
+        }
+        .terminal-box {
+            width: 550px; background: rgba(10, 2, 2, 0.95); border: 2px solid var(--accent-red);
+            border-radius: 12px; box-shadow: 0 0 40px rgba(255, 0, 0, 0.4); overflow: hidden;
+            display: flex; flex-direction: column;
+        }
+        .terminal-header {
+            background: #1a0000; padding: 10px 15px; display: flex; justify-content: space-between;
+            align-items: center; border-bottom: 1px solid #440000; font-size: 0.9rem; font-weight: bold; color: #ff4444;
+        }
+        .terminal-close { background: none; border: none; color: #aaa; font-size: 1.2rem; cursor: pointer; }
+        .terminal-close:hover { color: #fff; }
+        .terminal-body {
+            padding: 20px; height: 280px; overflow-y: auto; font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95rem; color: #00ff66; display: flex; flex-direction: column; gap: 8px;
+        }
+        .terminal-input-line {
+            display: flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.6);
+            padding: 10px 15px; border-top: 1px solid #330000; font-family: 'Courier New', Courier, monospace;
+        }
+        .terminal-input-line span { color: #ff3333; font-weight: bold; }
+        .terminal-input {
+            background: none; border: none; outline: none; color: #fff; font-size: 1rem; flex-grow: 1;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        /* MOBİL VE TABLET UYUMU */
+        @media (max-width: 1024px) {
+            nav { flex-direction: column; gap: 2rem; padding: 1.5rem; text-align: center; }
+            .nav-left-group { flex-direction: column; gap: 1.5rem; }
+            .nav-links { flex-wrap: wrap; justify-content: center; gap: 1.5rem; }
+            .socials { padding-left: 0; border-left: none; border-top: 1px solid rgba(255,0,0,0.3); padding-top: 1.5rem; width: 100%; justify-content: center; flex-wrap: wrap; }
+            body { overflow-y: auto; height: auto; min-height: 100vh; }
+            .hero-bg { position: fixed; }
+            .music-player { bottom: 15px; left: 15px; padding: 8px 15px; }
+            .admin-trigger { bottom: 15px; right: 15px; padding: 8px 14px; font-size: 0.75rem; }
+            .terminal-box { width: 90vw; }
+        }
+
+        @media (pointer: coarse) {
+            .custom-cursor { display: none !important; }
+            * { cursor: auto !important; }
+        }
     </style>
 </head>
 <body>
@@ -202,21 +254,19 @@
         </div>
     </div>
 
-    <!-- ARKA PLAN (ORİJİNAL RENK) -->
+    <!-- ARKA PLAN -->
     <div class="hero-bg" id="parallax-bg"></div>
     <div class="vignette"></div>
     <canvas id="particles-canvas"></canvas>
 
     <!-- ÜST MENÜ -->
     <nav>
-        <!-- SOL KISIM: LOGO VE LİNKLER -->
         <div class="nav-left-group">
             <a href="/" class="logo-container hover-target" onclick="window.location.reload(); return false;">
                 <div class="logo-text">yigitqwc</div>
                 <div class="red-line-wrapper"></div>
             </a>
 
-            <!-- SIRA: MKA, short, slot -->
             <div class="nav-links">
                 <a href="index4.html" class="nav-link mka-link hover-target">MKA</a>
                 <a href="index2.html" class="nav-link hover-target">short</a>
@@ -224,7 +274,6 @@
             </div>
         </div>
 
-        <!-- SAĞ KISIM: SOSYAL MEDYA LİNKLERİ -->
         <div class="socials">
             <a href="https://www.instagram.com/yigitqwc/" target="_blank" class="social-link hover-target">
                 <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm3.98-10.169a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
@@ -241,6 +290,28 @@
         </div>
     </nav>
 
+    <!-- SAĞ ALT YÖNETİCİ PANELİ BUTONU -->
+    <button class="admin-trigger hover-target" onclick="openTerminal()">Yönetici Paneli</button>
+
+    <!-- TERMINAL MODAL -->
+    <div id="terminal-modal">
+        <div class="terminal-box">
+            <div class="terminal-header">
+                <span>yigitqwc@root-terminal:~</span>
+                <button class="terminal-close hover-target" onclick="closeTerminal()">✕</button>
+            </div>
+            <div class="terminal-body" id="terminalBody">
+                <div>[SYSTEM] Güvenli terminal oturumu başlatıldı.</div>
+                <div>[SYSTEM] Yetki almak için yönetici şifresini // ile başlayarak girin</div>
+                <br>
+            </div>
+            <div class="terminal-input-line">
+                <span>></span>
+                <input type="text" id="terminalInput" class="terminal-input" placeholder="Şifre veya komut yazın..." autofocus autocomplete="off">
+            </div>
+        </div>
+    </div>
+
     <!-- MÜZİK OYNATICI -->
     <div class="music-player hover-target" id="musicToggle">
         <button class="music-btn" id="musicIcon">▶</button>
@@ -248,6 +319,80 @@
     </div>
 
     <script>
+        let isAuthenticated = false;
+        let actualInput = ""; // Gerçek şifreyi arka planda tutacağız
+
+        function openTerminal() {
+            document.getElementById('terminal-modal').style.display = 'flex';
+            setTimeout(() => { document.getElementById('terminalInput').focus(); }, 100);
+        }
+
+        function closeTerminal() {
+            document.getElementById('terminal-modal').style.display = 'none';
+        }
+
+        const terminalInput = document.getElementById('terminalInput');
+
+        // Şifre girerken // ile başlıyorsa ekranı sansürle (**)
+        terminalInput.addEventListener('input', function(e) {
+            let val = terminalInput.value;
+            
+            // Eğer yeni bir şeyler yazıldıysa gerçek değeri güncelle
+            if (val.length > actualInput.length) {
+                let addedChar = val.substring(actualInput.length);
+                actualInput += addedChar;
+            } else {
+                // Silme işlemi yapıldıysa
+                actualInput = actualInput.substring(0, val.length);
+            }
+
+            // Eğer şifre modundaysak (// ile başlıyorsa) ekranda yıldız göster
+            if (actualInput.startsWith('//') && !isAuthenticated) {
+                let stars = '//' + '*'.repeat(actualInput.length - 2);
+                terminalInput.value = stars;
+            }
+        });
+
+        terminalInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                let val = actualInput.trim();
+                let body = document.getElementById('terminalBody');
+
+                if (val === '') return;
+
+                // Ekrana komutun sansürlenmiş veya açık halini yaz
+                let displayVal = (val.startsWith('//') && !isAuthenticated) ? '//' + '*'.repeat(val.length - 2) : val;
+                body.innerHTML += `<div>> ${displayVal}</div>`;
+                
+                terminalInput.value = '';
+                actualInput = '';
+
+                if (!isAuthenticated) {
+                    // Şifre kontrolü (//yigit123 şeklinde girilmeli)
+                    if (val === '//yigitqwc123') {
+                        isAuthenticated = true;
+                        body.innerHTML += `<div style="color:#00ff66;">[SUCCESS] Şifre doğru. Yönetici yetkisi alındı.</div>`;
+                        body.innerHTML += `<div style="color:#ffcc00;">[INFO] cekiccell</div>`;
+                    } else {
+                        body.innerHTML += `<div style="color:#ff3333;">[ERROR] Hatalı şifre! </div>`;
+                    }
+                } else {
+                    if (val === '/koraybird') {
+                        body.innerHTML += `<div style="color:#00ff66;">[REDIRECT] KorayBird sayfasına yönlendiriliyorsunuz...</div>`;
+                        setTimeout(() => {
+                            window.location.href = 'index7.html';
+                        }, 1000);
+                    } else if (val === 'exit') {
+                        isAuthenticated = false;
+                        body.innerHTML += `<div>[SYSTEM] Oturum kapatıldı. Şifre tekrar isteniyor.</div>`;
+                    } else {
+                        body.innerHTML += `<div style="color:#ff3333;">[ERROR] Bilinmeyen komut: ${val}</div>`;
+                    }
+                }
+                body.scrollTop = body.scrollHeight;
+            }
+        });
+
         // Müzik Kontrolü
         const bgMusic = document.getElementById('bg-music');
         const musicToggle = document.getElementById('musicToggle');
@@ -287,24 +432,21 @@
             setTimeout(() => ripple.remove(), 600);
         });
 
-        hoverTargets.forEach(target => {
-            target.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
-            target.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
+        document.addEventListener('mouseover', (e) => {
+            if(e.target.closest('.hover-target')) { cursor.classList.add('cursor-hover'); }
+        });
+        document.addEventListener('mouseout', (e) => {
+            if(e.target.closest('.hover-target')) { cursor.classList.remove('cursor-hover'); }
         });
 
-        // Arka Plan Parçacık Animasyonu
+        // Parçacık Animasyonu
         const canvas = document.getElementById('particles-canvas');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth; canvas.height = window.innerHeight;
         let particles = [];
         
         for (let i = 0; i < 50; i++) {
-            particles.push({ 
-                x: Math.random() * canvas.width, 
-                y: Math.random() * canvas.height, 
-                s: Math.random() * 2.5 + 1, 
-                sy: Math.random() * 1.5 + 0.5 
-            });
+            particles.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, s: Math.random() * 2.5 + 1, sy: Math.random() * 1.5 + 0.5 });
         }
         
         function anim() {
@@ -312,17 +454,17 @@
             ctx.fillStyle = "rgba(255,0,0,0.5)";
             particles.forEach(p => {
                 p.y -= p.sy; 
-                if (p.y < 0) {
-                    p.y = canvas.height + 20;
-                    p.x = Math.random() * canvas.width;
-                }
-                ctx.beginPath(); 
-                ctx.arc(p.x, p.y, p.s, 0, Math.PI * 2); 
-                ctx.fill();
+                if (p.y < 0) { p.y = canvas.height + 20; p.x = Math.random() * canvas.width; }
+                ctx.beginPath(); ctx.arc(p.x, p.y, p.s, 0, Math.PI * 2); ctx.fill();
             });
             requestAnimationFrame(anim);
         }
         anim();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
     </script>
 </body>
 </html>
