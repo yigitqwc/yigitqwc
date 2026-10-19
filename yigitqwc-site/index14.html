@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>yigitqwc | Japonya Bilgi Bankası</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <style>
+        /* JAPONYA ÖZEL SAKURA KONSEPTİ RENK PALETİ */
+        :root {
+            --bg-color: #0f070a; /* Çok koyu, asil bir erik/siyah tonu */
+            --text-color: #ffffff;
+            --accent-pink: #ffb7c5; /* Sakura pembesi */
+            --accent-white: #f8f8ff; /* Hayalet beyazı */
+            --panel-bg: rgba(18, 8, 12, 0.95);
+            --border-color: #5a2e3d;
+        }
+
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            cursor: none;
+        }
+
+        body {
+            background-color: var(--bg-color); color: var(--text-color);
+            overflow: hidden; width: 100vw; height: 100vh; display: flex; flex-direction: column;
+        }
+
+        /* ÖZEL İMLEÇ VE EFEKTLER (BEYAZ VE PEMBE) */
+        .custom-cursor {
+            position: fixed; top: 0; left: 0; width: 16px; height: 16px;
+            background-color: transparent; border: 2px solid var(--accent-white);
+            pointer-events: none; z-index: 9999999;
+            transform: translate(-50%, -50%) rotate(45deg);
+            box-shadow: 0 0 10px var(--accent-pink), inset 0 0 5px var(--accent-pink);
+            transition: width 0.2s, height 0.2s;
+        }
+        .custom-cursor::after {
+            content: ''; position: absolute; top: 50%; left: 50%; width: 4px; height: 4px;
+            background: var(--accent-white); transform: translate(-50%, -50%);
+            box-shadow: 0 0 5px var(--accent-pink);
+        }
+        .cursor-hover { width: 28px; height: 28px; background-color: rgba(255, 183, 197, 0.25); border-color: var(--accent-pink); }
+
+        .click-ripple {
+            position: fixed; border-radius: 50%; border: 2px solid var(--accent-white);
+            pointer-events: none; transform: translate(-50%, -50%);
+            animation: rippleEffect 0.7s ease-out forwards; z-index: 99998;
+            box-shadow: 0 0 15px var(--accent-pink);
+        }
+        @keyframes rippleEffect {
+            0% { width: 0; height: 0; opacity: 1; border-width: 3px; }
+            100% { width: 130px; height: 130px; opacity: 0; border-width: 1px; }
+        }
+
+        /* SHARINGAN YÜKLEME EKRANI (SAKURA VERSİYONU) */
+        #splash {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #050203; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; z-index: 99999;
+            transition: opacity 1s ease, visibility 1s ease;
+        }
+        .sharingan {
+            width: 85px; height: 85px; margin-bottom: 25px;
+            animation: spin 3s cubic-bezier(0.4, 0, 0.2, 1) infinite; 
+            filter: drop-shadow(0 0 20px rgba(255, 183, 197, 0.6));
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .logo-container {
+            position: relative; text-decoration: none; color: var(--text-color); display: inline-block; padding-bottom: 4px;
+        }
+        .logo-text { font-size: 2.2rem; font-weight: 800; letter-spacing: 1px; display: inline-block; text-shadow: 0 0 15px rgba(255, 183, 197, 0.4); }
+        
+        .red-line-wrapper {
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background: rgba(255, 255, 255, 0.1); border-radius: 2px; overflow: hidden;
+        }
+        .red-line-wrapper::after {
+            content: ''; position: absolute; top: 0; left: -50%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, var(--accent-pink), #ffffff, var(--accent-pink), transparent);
+            box-shadow: 0 0 10px var(--accent-pink); animation: beamMove 2.5s infinite linear;
+        }
+        @keyframes beamMove { 0% { left: -50%; } 100% { left: 100%; } }
+
+        /* ARKA PLAN VE JAPONYA VİNYETİ */
+        .hero-bg {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-color: #0a0406; filter: brightness(0.25); z-index: -2; pointer-events: none;
+        }
+        .vignette {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: radial-gradient(circle, rgba(0,0,0,0) 20%, rgba(10,4,6,0.95) 100%); pointer-events: none; z-index: -1;
+        }
+        #particles-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
+
+        nav {
+            background-color: rgba(5, 2, 3, 0.85); backdrop-filter: blur(10px);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1rem 3rem; position: relative; z-index: 10;
+            border-bottom: 1px solid rgba(255, 183, 197, 0.2); box-shadow: 0 0 25px rgba(255, 183, 197, 0.1);
+        }
+        .back-link { color: #ccc; text-decoration: none; font-size: 1rem; font-weight: 600; letter-spacing: 0.5px; transition: color 0.3s, text-shadow 0.3s; }
+        .back-link:hover { color: var(--accent-white); text-shadow: 0 0 10px var(--accent-white); }
+
+        /* ANA DÜZEN */
+        .world-layout {
+            display: flex; flex-grow: 1; height: calc(100vh - 70px); position: relative; z-index: 5;
+        }
+
+        /* SOL PANEL (ARAMA VE BİLGİ) */
+        .info-panel {
+            width: 380px; background: var(--panel-bg); border-right: 1px solid var(--border-color);
+            padding: 25px; display: flex; flex-direction: column; gap: 15px; box-shadow: 5px 0 30px rgba(0,0,0,0.8);
+            backdrop-filter: blur(12px); z-index: 20; position: relative;
+        }
+        .info-panel h2 { 
+            color: var(--accent-white); font-size: 1.6rem; border-bottom: 1px solid var(--border-color); 
+            padding-bottom: 10px; margin-bottom: 5px; text-shadow: 0 0 10px var(--accent-pink); letter-spacing: 1px;
+        }
+
+        /* ARAMA KUTUSU VE LİSTE */
+        .search-container { display: flex; flex-direction: column; gap: 15px; flex-grow: 1; overflow: hidden; }
+        .search-box {
+            width: 100%; padding: 12px 15px; background: rgba(0,0,0,0.5); border: 1px solid var(--border-color);
+            color: #fff; border-radius: 8px; font-size: 1rem; outline: none; box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .search-box:focus { border-color: var(--accent-pink); box-shadow: 0 0 15px rgba(255, 183, 197, 0.3), inset 0 0 10px rgba(0,0,0,0.8); }
+        .search-box::placeholder { color: #888; font-style: italic; }
+
+        .city-list {
+            list-style: none; overflow-y: auto; flex-grow: 1; padding-right: 5px;
+        }
+        .city-list::-webkit-scrollbar { width: 4px; }
+        .city-list::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 2px; }
+        .city-list li {
+            padding: 12px 15px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 183, 197, 0.1);
+            margin-bottom: 8px; border-radius: 6px; color: #ddd; font-weight: 500; cursor: pointer; transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+        }
+        .city-list li:hover { 
+            background: rgba(255, 183, 197, 0.15); color: #fff; border-color: var(--accent-pink); 
+            transform: translateX(8px); box-shadow: 0 0 15px rgba(255, 183, 197, 0.2);
+        }
+
+        /* DETAY EKRANI */
+        .details-container { display: none; flex-direction: column; gap: 12px; flex-grow: 1; overflow-y: auto; padding-right: 5px; }
+        .details-container::-webkit-scrollbar { width: 4px; }
+        .details-container::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 2px; }
+        
+        .city-title { font-size: 2.2rem; color: #ffffff; text-shadow: 0 0 15px var(--accent-pink); font-weight: 900; margin-bottom: 10px; }
+        .info-row { background: rgba(0, 0, 0, 0.4); padding: 12px; border-radius: 8px; border-left: 3px solid var(--accent-pink); margin-bottom: 5px; }
+        .info-row span { color: var(--accent-pink); font-weight: bold; display: block; font-size: 0.85rem; margin-bottom: 4px; letter-spacing: 1px; text-transform: uppercase; }
+        .info-row p { color: #e0e0e0; font-size: 0.95rem; line-height: 1.6; }
+        
+        .back-btn {
+            background: rgba(255, 255, 255, 0.05); border: 1px solid var(--accent-pink); color: #fff; padding: 12px;
+            border-radius: 8px; font-weight: bold; cursor: pointer; text-align: center; margin-top: 10px; transition: all 0.3s;
+            letter-spacing: 1px;
+        }
+        .back-btn:hover { background: var(--accent-pink); color: #000; box-shadow: 0 0 20px rgba(255, 183, 197, 0.6); }
+
+        /* HARİTA ALANI (%75) */
+        .map-view-area {
+            flex-grow: 1; display: flex; justify-content: center; align-items: center; position: relative; overflow: hidden; padding: 20px;
+        }
+        .jp-map-wrapper {
+            width: 75vw; height: 75vh; position: relative;
+            background-image: url('jp.jfif'); /* JAPONYA HARİTASI İÇİN */
+            background-size: 100% 100%; background-position: center; background-repeat: no-repeat;
+            border: 2px solid rgba(255, 255, 255, 0.1); border-radius: 16px; 
+            box-shadow: 0 0 50px rgba(255, 183, 197, 0.15), inset 0 0 30px rgba(0,0,0,0.8);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="custom-cursor" id="cursor"></div>
+
+    <div id="splash">
+        <svg class="sharingan" viewBox="0 0 100 100">
+            <!-- SAKURA/BEYAZ TEMALI SHARINGAN -->
+            <circle cx="50" cy="50" r="45" fill="#2a161d" stroke="#ffb7c5" stroke-width="3"/>
+            <circle cx="50" cy="50" r="24" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.8"/>
+            <circle cx="50" cy="50" r="8" fill="#ffb7c5"/>
+            <g>
+                <g transform="translate(50, 26)"><circle cx="0" cy="0" r="5" fill="#ffffff"/><path d="M -5 0 Q -8 -12 4 -12 Q 0 -4 5 0 Z" fill="#ffffff"/></g>
+                <g transform="translate(71, 62) rotate(120)"><circle cx="0" cy="0" r="5" fill="#ffffff"/><path d="M -5 0 Q -8 -12 4 -12 Q 0 -4 5 0 Z" fill="#ffffff"/></g>
+                <g transform="translate(29, 62) rotate(240)"><circle cx="0" cy="0" r="5" fill="#ffffff"/><path d="M -5 0 Q -8 -12 4 -12 Q 0 -4 5 0 Z" fill="#ffffff"/></g>
+            </g>
+        </svg>
+        <div class="logo-container">
+            <div class="logo-text">yigitqwc</div>
+            <div class="red-line-wrapper"></div>
+        </div>
+    </div>
+
+    <div class="hero-bg"></div>
+    <div class="vignette"></div>
+    <canvas id="particles-canvas"></canvas>
+
+    <nav>
+        <a href="index.html" class="logo-container hover-target">
+            <div class="logo-text" style="font-size: 1.8rem;">yigitqwc</div>
+            <div class="red-line-wrapper"></div>
+        </a>
+        <a href="index5.html" class="back-link hover-target">← Dünya Haritası</a>
+    </nav>
+
+    <div class="world-layout">
+        <!-- SOL PANEL: ARAMA VE DETAYLAR -->
+        <div class="info-panel">
+            <h2>🇯🇵 Japonya Veritabanı</h2>
+            
+            <!-- ARAMA EKRANI -->
+            <div class="search-container" id="searchContainer">
+                <input type="text" id="citySearch" class="search-box hover-target" placeholder="Şehir ara (Örn: Tokyo)..." onkeyup="filterCities()">
+                <ul class="city-list" id="cityList">
+                    <!-- Javascript ile doldurulacak -->
+                </ul>
+            </div>
+
+            <!-- DETAY EKRANI -->
+            <div class="details-container" id="detailsContainer">
+                <div class="city-title" id="d-name">Tokyo</div>
+                <div class="info-row"><span>Konum (Bölge)</span><p id="d-region">-</p></div>
+                <div class="info-row"><span>Posta Kodu</span><p id="d-plate">-</p></div>
+                <div class="info-row"><span>Nüfus</span><p id="d-pop">-</p></div>
+                <div class="info-row"><span>Tarihi Eserler & Yerler</span><p id="d-history">-</p></div>
+                <div class="info-row"><span>Meşhur Yemekleri</span><p id="d-food">-</p></div>
+                <div class="info-row"><span>Tarihte Yaşanmış Önemli Olaylar</span><p id="d-events">-</p></div>
+                <div class="back-btn hover-target" onclick="showSearchPanel()">← Yeni Şehir Ara</div>
+            </div>
+        </div>
+
+        <!-- HARİTA ALANI (%75) -->
+        <div class="map-view-area">
+            <div class="jp-map-wrapper hover-target"></div>
+        </div>
+    </div>
+
+    <script>
+        // JAPONYA ŞEHİRLERİ VERİTABANI
+        const cityDatabase = {
+            "Tokyo": { region: "Kanto Bölgesi", plate: "100-0001", pop: "14 Milyon (Metropol 37 Milyon)", history: "Senso-ji Tapınağı, Tokyo Kulesi, Shibuya Kavşağı, İmparatorluk Sarayı.", food: "Edo tarzı Sushi, Ramen, Monjayaki, Tempura.", events: "Eski adıyla Edo'dur. Dünyanın en kalabalık metropol alanıdır. 1923 Büyük Kanto Depremi ve II. Dünya Savaşı bombardımanlarından sonra küllerinden yeniden modern bir dev olarak doğmuştur." },
+            "Kyoto": { region: "Kansai Bölgesi", plate: "600-8001", pop: "1.4 Milyon", history: "Kinkaku-ji (Altın Tapınak), Fushimi Inari Taisha, Arashiyama Bambu Ormanı, Kiyomizu-dera.", food: "Kaiseki Ryori (Geleneksel Şölen Yemekleri), Matcha (Yeşil Çay), Yatsuhashi.", events: "1000 yıldan fazla bir süre Japonya'nın imparatorluk başkenti olmuştur. II. Dünya Savaşı'nda tarihi dokusunun korunması için bombardımandan muaf tutulmuştur." },
+            "Osaka": { region: "Kansai Bölgesi", plate: "530-0001", pop: "2.7 Milyon", history: "Osaka Kalesi, Dotonbori Kanalı, Universal Studios Japan, Tsutenkaku.", food: "Takoyaki (Ahtapot Topları), Okonomiyaki, Kitsune Udon.", events: "Japonya'nın 'Milletin Mutfağı' (Tenka no Daidokoro) olarak anılır. Tarih boyunca tüccarların ve ticaretin kalbi olmuş canlı bir şehirdir." },
+            "Hiroşima": { region: "Chugoku Bölgesi", plate: "730-0000", pop: "1.2 Milyon", history: "Hiroşima Barış Anıtı (Atom Bombası Kubbesi), Miyajima Adası (Itsukushima Tapınağı), Hiroşima Kalesi.", food: "Hiroşima tarzı Okonomiyaki, İstiridye (Kaki).", events: "6 Ağustos 1945'te insanlık tarihinde nükleer silah saldırısına uğrayan ilk şehirdir. Günümüzde küresel barışın sembol kenti olarak yeniden inşa edilmiştir." },
+            "Hokkaido (Sapporo)": { region: "Hokkaido Adası", plate: "060-0000", pop: "1.9 Milyon", history: "Odori Parkı, Sapporo TV Kulesi, Hokkaido Tapınağı, Tarihi Bira Fabrikası.", food: "Miso Ramen, Jingisukan (Koyun Eti Barbekü), Taze Deniz Ürünleri.", events: "Japonya'nın en kuzeyindeki büyükşehirdir. Her yıl devasa kardan ve buzdan heykellerin sergilendiği dünyaca ünlü Sapporo Kar Festivali'ne ev sahipliği yapar." },
+            "Nara": { region: "Kansai Bölgesi", plate: "630-8580", pop: "350 Bin", history: "Todai-ji Tapınağı (Büyük Buda), Nara Parkı (Serbest dolaşan geyikler), Kasuga Taisha.", food: "Kakinoha Zushi (Trabzon hurması yaprağına sarılı sushi), Mochi.", events: "8. yüzyılda (710-784) Japonya'nın ilk kalıcı ve yerleşik başkenti (Heijo-kyo) olmuştur. Japon kültürünün ve Budizminin beşiğidir." },
+            "Okinawa (Naha)": { region: "Kyushu / Okinawa", plate: "900-0000", pop: "318 Bin", history: "Shuri Kalesi, Churaumi Akvaryumu, Kokusai Dori.", food: "Goya Chanpuru (Acı Kavun Yemeği), Okinawa Soba, Taco Rice.", events: "Tarihte bağımsız Ryukyu Krallığı olarak varlığını sürdürmüştür. II. Dünya Savaşı'nın en kanlı kara muharebelerinden birine (Okinawa Muharebesi) sahne olmuştur." },
+            "Fukuoka": { region: "Kyushu Bölgesi", plate: "810-0000", pop: "1.6 Milyon", history: "Ohori Parkı, Dazaifu Tenmangu Tapınağı, Fukuoka Kalesi kalıntıları.", food: "Hakata Tonkotsu Ramen, Motsunabe, Yatai (Sokak Yemek Arabaları).", events: "Kore ve Çin'e coğrafi yakınlığı nedeniyle binlerce yıldır Japonya'nın dış dünyaya açılan kapısıdır. 13. yüzyıldaki başarısız Moğol istilalarının (Kamikaze) yaşandığı yerdir." },
+            "Kobe": { region: "Kansai Bölgesi", plate: "650-0000", pop: "1.5 Milyon", history: "Kobe Liman Kulesi, Nunobiki Şelaleleri, Meriken Parkı, Kitano Mahallesi.", food: "Kobe Dana Eti (Dünyaca ünlü Wagyu), Sobameshi.", events: "Japonya'nın dış ticarete açılan ilk uluslararası liman kentlerinden biridir. 1995 yılındaki 7.2 büyüklüğündeki Büyük Hanshin Depremi'nde yıkılmış ve mucizevi bir hızla yeniden inşa edilmiştir." },
+            "Nagoya": { region: "Chubu Bölgesi", plate: "460-0000", pop: "2.3 Milyon", history: "Nagoya Kalesi, Atsuta Tapınağı, Toyota Endüstri ve Teknoloji Müzesi.", food: "Hitsumabushi (Izgara Yılanbalığı), Miso Katsu, Tebasaki (Tavuk Kanadı).", events: "Japonya'nın sanayi ve otomotiv devidir (Toyota'nın doğum yeri). Üç büyük Japon birleştiricisi; Oda Nobunaga, Toyotomi Hideyoshi ve Tokugawa Ieyasu'nun memleketidir." },
+            "Yokohama": { region: "Kanto Bölgesi", plate: "231-0000", pop: "3.7 Milyon", history: "Minato Mirai 21, Yokohama Çin Mahallesi (Chinatown), Sankeien Bahçesi, Landmark Tower.", food: "Iekei Ramen, Çin usulü buharda çörekler (Nikuman).", events: "Nüfus bakımından Japonya'nın en büyük ikinci şehridir. 1859'da dış ticarete açılan ilk liman olmuş ve modern Japonya'nın batılılaşma sürecini başlatmıştır." }
+        };
+
+        // LİSTEYİ BAŞLANGIÇTA DOLDURMA
+        const cityListElement = document.getElementById('cityList');
+        function renderList(filter = "") {
+            cityListElement.innerHTML = "";
+            let keys = Object.keys(cityDatabase);
+            
+            keys.forEach(city => {
+                if (city.toLowerCase().includes(filter.toLowerCase())) {
+                    let li = document.createElement("li");
+                    li.className = "hover-target";
+                    li.innerText = city;
+                    li.onclick = () => loadCityDetails(city);
+                    cityListElement.appendChild(li);
+                }
+            });
+        }
+
+        // ARAMA FİLTRESİ
+        function filterCities() {
+            let val = document.getElementById('citySearch').value;
+            renderList(val);
+        }
+
+        // ŞEHİR DETAYLARINI GÖSTERME
+        function loadCityDetails(cityName) {
+            let data = cityDatabase[cityName];
+            document.getElementById('d-name').innerText = cityName;
+            document.getElementById('d-region').innerText = data.region;
+            document.getElementById('d-plate').innerText = data.plate;
+            document.getElementById('d-pop').innerText = data.pop;
+            document.getElementById('d-history').innerText = data.history;
+            document.getElementById('d-food').innerText = data.food;
+            document.getElementById('d-events').innerText = data.events;
+
+            document.getElementById('searchContainer').style.display = 'none';
+            document.getElementById('detailsContainer').style.display = 'flex';
+        }
+
+        // ARAMA PANELİNE GERİ DÖN
+        function showSearchPanel() {
+            document.getElementById('detailsContainer').style.display = 'none';
+            document.getElementById('searchContainer').style.display = 'flex';
+            document.getElementById('citySearch').value = '';
+            renderList();
+        }
+
+        // YÜKLEME EKRANI
+        window.addEventListener('load', () => {
+            renderList();
+            setTimeout(() => {
+                const splash = document.getElementById('splash');
+                splash.style.opacity = '0';
+                setTimeout(() => splash.style.visibility = 'hidden', 1000);
+            }, 1800);
+        });
+
+        // ÖZEL İMLEÇ
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        document.addEventListener('click', (e) => {
+            const ripple = document.createElement('div');
+            ripple.classList.add('click-ripple');
+            ripple.style.left = e.clientX + 'px';
+            ripple.style.top = e.clientY + 'px';
+            document.body.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 700);
+        });
+
+        // YENİ EFEKT: SÜZÜLEN SAKURA YAPRAKLARI / BEYAZ NOKTALAR
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+        
+        let particles = [];
+        for (let i = 0; i < 60; i++) {
+            particles.push({ 
+                x: Math.random() * canvas.width, 
+                y: Math.random() * canvas.height, 
+                s: Math.random() * 2 + 1, // Boyut
+                sy: Math.random() * 1 + 0.5, // Düşme hızı (Yukarıdan aşağı)
+                angle: Math.random() * Math.PI * 2, // Salınım açısı
+                spin: (Math.random() * 0.05) - 0.025, // Salınım hızı
+                opacity: Math.random() * 0.6 + 0.2
+            });
+        }
+        
+        function anim() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            particles.forEach(p => {
+                // Sakura yaprağı gibi aşağı doğru süzülme ve rüzgarda salınım
+                p.y += p.sy; 
+                p.angle += p.spin;
+                p.x += Math.sin(p.angle) * 0.8;
+
+                // Ekrandan çıkınca yukarıdan tekrar başlat
+                if (p.y > canvas.height) { 
+                    p.y = -10; 
+                    p.x = Math.random() * canvas.width; 
+                }
+
+                // Beyaz/Hafif pembe çizim
+                ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity})`;
+                ctx.shadowBlur = 8;
+                ctx.shadowColor = "rgba(255, 183, 197, 0.8)";
+                
+                ctx.beginPath(); 
+                ctx.arc(p.x, p.y, p.s, 0, Math.PI * 2); 
+                ctx.fill();
+            });
+            requestAnimationFrame(anim);
+        }
+        anim();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>
