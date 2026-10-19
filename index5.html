@@ -130,7 +130,7 @@
             flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; overflow: hidden; padding: 20px;
         }
 
-        /* YENİ: ÜST ÜLKE SEÇİM ŞERİDİ */
+        /* ÜST ÜLKE SEÇİM ŞERİDİ */
         .countries-top-bar {
             width: 85vw; background: rgba(15, 0, 0, 0.85); border: 2px solid #660000;
             border-radius: 12px; padding: 15px; display: flex; flex-wrap: wrap; justify-content: center;
@@ -201,24 +201,23 @@
         <!-- HARİTA VE ÜST MENÜ ALANI -->
         <div class="map-view-area">
             
-            <!-- ÜLKELER ÜST ŞERİDİ -->
+            <!-- ÜLKELER ÜST ŞERİDİ (YÖNLENDİRMELER EKLENDİ) -->
             <div class="countries-top-bar">
-             <div class="country-btn hover-target" onclick="window.location.href='index6.html'">Türkiye</div>
-                
-                <div class="country-btn hover-target" onmouseenter="showCountryInfo('Almanya')">Almanya</div>
-                <div class="country-btn hover-target" onmouseenter="showCountryInfo('Rusya')">Rusya</div>
-                <div class="country-btn hover-target" onmouseenter="showCountryInfo('Çin')">Çin</div>
-                <div class="country-btn hover-target" onmouseenter="showCountryInfo('ABD')">ABD</div>
-                <div class="country-btn hover-target" onmouseenter="showCountryInfo('İngiltere')">İngiltere</div>
-                <div class="country-btn hover-target" onmouseenter="showCountryInfo('Fransa')">Fransa</div>
-                <div class="country-btn hover-target" onmouseenter="showCountryInfo('Japonya')">Japonya</div>
-                <div class="country-btn hover-target" onmouseenter="showCountryInfo('Brezilya')">Brezilya</div>
-                <div class="country-btn hover-target" onmouseenter="showCountryInfo('Hindistan')">Hindistan</div>
-                <div class="country-btn hover-target" onmouseenter="showCountryInfo('Mısır')">Mısır</div>
-                <div class="country-btn hover-target" onmouseenter="showCountryInfo('Avustralya')">Avustralya</div>
-                <div class="country-btn hover-target" onmouseenter="showCountryInfo('İtalya')">İtalya</div>
-                <div class="country-btn hover-target" onmouseenter="showCountryInfo('Arjantin')">Arjantin</div>
-                <div class="country-btn hover-target" onmouseenter="showCountryInfo('Kanada')">Kanada</div>
+                <div class="country-btn hover-target" onmouseenter="showCountryInfo('Türkiye')" onclick="window.location.href='index6.html'">Türkiye</div>
+                <div class="country-btn hover-target" onmouseenter="showCountryInfo('Almanya')" onclick="window.location.href='index8.html'">Almanya</div>
+                <div class="country-btn hover-target" onmouseenter="showCountryInfo('Rusya')" onclick="window.location.href='index9.html'">Rusya</div>
+                <div class="country-btn hover-target" onmouseenter="showCountryInfo('Çin')" onclick="window.location.href='index10.html'">Çin</div>
+                <div class="country-btn hover-target" onmouseenter="showCountryInfo('ABD')" onclick="window.location.href='index11.html'">ABD</div>
+                <div class="country-btn hover-target" onmouseenter="showCountryInfo('İngiltere')" onclick="window.location.href='index12.html'">İngiltere</div>
+                <div class="country-btn hover-target" onmouseenter="showCountryInfo('Fransa')" onclick="window.location.href='index13.html'">Fransa</div>
+                <div class="country-btn hover-target" onmouseenter="showCountryInfo('Japonya')" onclick="window.location.href='index14.html'">Japonya</div>
+                <div class="country-btn hover-target" onmouseenter="showCountryInfo('Brezilya')" onclick="window.location.href='index15.html'">Brezilya</div>
+                <div class="country-btn hover-target" onmouseenter="showCountryInfo('Hindistan')" onclick="window.location.href='index16.html'">Hindistan</div>
+                <div class="country-btn hover-target" onmouseenter="showCountryInfo('Mısır')" onclick="window.location.href='index17.html'">Mısır</div>
+                <div class="country-btn hover-target" onmouseenter="showCountryInfo('Avustralya')" onclick="window.location.href='index18.html'">Avustralya</div>
+                <div class="country-btn hover-target" onmouseenter="showCountryInfo('İtalya')" onclick="window.location.href='index19.html'">İtalya</div>
+                <div class="country-btn hover-target" onmouseenter="showCountryInfo('Arjantin')" onclick="window.location.href='index20.html'">Arjantin</div>
+                <div class="country-btn hover-target" onmouseenter="showCountryInfo('Kanada')" onclick="window.location.href='index21.html'">Kanada</div>
             </div>
 
             <!-- TERTEMİZ DÜNYA HARİTASI -->
@@ -258,6 +257,7 @@
                     <p><strong>Para Birimi:</strong> ${data.currency}</p>
                     <hr style="border-color:#440000; margin:10px 0;">
                     <p>${data.info}</p>
+                    <p style="margin-top:15px; font-size:0.8rem; color:#ffcc00;">* Detaylı veritabanı için tıklayınız.</p>
                 `;
             }
         }

@@ -210,6 +210,42 @@
             font-family: 'Courier New', Courier, monospace;
         }
 
+        /* HACK EFEKTLERİ VE GEÇİŞ EKRANI (SHARINGAN OVERLAY) */
+        #hack-transition {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background-color: #000; z-index: 9999999; display: none;
+            flex-direction: column; align-items: center; justify-content: center;
+        }
+        .matrix-code-rain {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            font-family: 'Courier New', monospace; color: #ff0000; font-size: 14px;
+            opacity: 0.25; pointer-events: none; overflow: hidden; white-space: pre; line-height: 1;
+        }
+        .hack-alert-box {
+            position: relative; z-index: 10; background: rgba(20, 0, 0, 0.9);
+            border: 3px solid #ff0000; padding: 30px 50px; border-radius: 10px;
+            text-align: center; box-shadow: 0 0 50px rgba(255, 0, 0, 0.8);
+            animation: alertPulse 0.5s infinite alternate;
+        }
+        @keyframes alertPulse {
+            0% { transform: scale(1); box-shadow: 0 0 30px rgba(255,0,0,0.6); }
+            100% { transform: scale(1.03); box-shadow: 0 0 60px rgba(255,0,0,1); }
+        }
+        .hack-alert-box h1 { color: #ff0000; font-size: 2.5rem; margin-bottom: 10px; letter-spacing: 2px; text-shadow: 0 0 15px red; }
+        .hack-alert-box p { color: #fff; font-size: 1.1rem; letter-spacing: 1px; }
+
+        /* SHARINGAN KAPLAMA */
+        #sharingan-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background-color: #000; z-index: 10000000; display: none;
+            flex-direction: column; align-items: center; justify-content: center;
+            opacity: 0; transition: opacity 0.8s ease;
+        }
+        .sharingan-big {
+            width: 120px; height: 120px; margin-bottom: 25px;
+            animation: spin 2s linear infinite; filter: drop-shadow(0 0 25px rgba(255,0,0,0.9));
+        }
+
         /* MOBİL VE TABLET UYUMU */
         @media (max-width: 1024px) {
             nav { flex-direction: column; gap: 2rem; padding: 1.5rem; text-align: center; }
@@ -254,12 +290,38 @@
         </div>
     </div>
 
+    <!-- HACK VE SHARINGAN GEÇİŞ EKRANI (KORAY BİRD İÇİN) -->
+    <div id="hack-transition">
+        <div class="matrix-code-rain" id="matrixRain"></div>
+        <div class="hack-alert-box">
+            <h1>SİSTEM HACKLENDİ</h1>
+            <p>Erişim Onaylandı. Yetki Devrediliyor...</p>
+        </div>
+    </div>
+
+    <div id="sharingan-overlay">
+        <svg class="sharingan-big" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="45" fill="#990000" stroke="#111" stroke-width="4"/>
+            <circle cx="50" cy="50" r="24" fill="none" stroke="#111" stroke-width="2" opacity="0.6"/>
+            <circle cx="50" cy="50" r="8" fill="#000"/>
+            <g>
+                <g transform="translate(50, 26)"><circle cx="0" cy="0" r="6" fill="#000"/><path d="M -6 0 Q -10 -15 5 -15 Q 0 -5 6 0 Z" fill="#000"/></g>
+                <g transform="translate(71, 62) rotate(120)"><circle cx="0" cy="0" r="6" fill="#000"/><path d="M -6 0 Q -10 -15 5 -15 Q 0 -5 6 0 Z" fill="#000"/></g>
+                <g transform="translate(29, 62) rotate(240)"><circle cx="0" cy="0" r="6" fill="#000"/><path d="M -6 0 Q -10 -15 5 -15 Q 0 -5 6 0 Z" fill="#000"/></g>
+            </g>
+        </svg>
+        <div class="logo-container">
+            <div class="logo-text" style="font-size:2rem;">yigitqwc</div>
+            <div class="red-line-wrapper"></div>
+        </div>
+    </div>
+
     <!-- ARKA PLAN -->
     <div class="hero-bg" id="parallax-bg"></div>
     <div class="vignette"></div>
     <canvas id="particles-canvas"></canvas>
 
-    <!-- ÜST MENÜ -->
+    <!-- ÜST MENÜ (SLOT KALDIRILDI) -->
     <nav>
         <div class="nav-left-group">
             <a href="/" class="logo-container hover-target" onclick="window.location.reload(); return false;">
@@ -270,7 +332,7 @@
             <div class="nav-links">
                 <a href="index4.html" class="nav-link mka-link hover-target">MKA</a>
                 <a href="index2.html" class="nav-link hover-target">short</a>
-                <a href="index3.html" class="nav-link hover-target">slot</a>
+                <!-- slot butonu buradan kaldırıldı -->
             </div>
         </div>
 
@@ -302,7 +364,7 @@
             </div>
             <div class="terminal-body" id="terminalBody">
                 <div>[SYSTEM] Güvenli terminal oturumu başlatıldı.</div>
-                <div>[SYSTEM] Yetki almak için yönetici şifresini // ile başlayarak girin</div>
+                <div>[SYSTEM] Yetki almak için yönetici şifresini // ile başlayarak girin (Örn: //yigit123).</div>
                 <br>
             </div>
             <div class="terminal-input-line">
@@ -319,6 +381,7 @@
     </div>
 
     <script>
+        // TERMINAL MANTIĞI VE HACK ANİMASYONU
         let isAuthenticated = false;
         let actualInput = ""; // Gerçek şifreyi arka planda tutacağız
 
@@ -353,6 +416,19 @@
             }
         });
 
+        // Matrix kod yağmuru efekti
+        function startMatrixRain() {
+            const rainContainer = document.getElementById('matrixRain');
+            let chars = "0101010101010101YIGITQWCROOTSYSTEMACCESSGRANTEDCORAYBIRD";
+            let interval = setInterval(() => {
+                let text = "";
+                for(let i=0; i<1500; i++) {
+                    text += chars.charAt(Math.floor(Math.random() * chars.length));
+                }
+                rainContainer.innerText = text;
+            }, 50);
+        }
+
         terminalInput.addEventListener('keydown', function(e) {
             if (e.key === 'Enter') {
                 let val = actualInput.trim();
@@ -368,20 +444,41 @@
                 actualInput = '';
 
                 if (!isAuthenticated) {
-                    // Şifre kontrolü (//yigit123 şeklinde girilmeli)
-                    if (val === '//yigitqwc123') {
+                    if (val === '//yigit123') {
                         isAuthenticated = true;
                         body.innerHTML += `<div style="color:#00ff66;">[SUCCESS] Şifre doğru. Yönetici yetkisi alındı.</div>`;
-                        body.innerHTML += `<div style="color:#ffcc00;">[INFO] cekiccell</div>`;
+                        body.innerHTML += `<div style="color:#ffcc00;">[INFO] Yönlendirme komutunu yazabilirsiniz (Örn: /koraybird, /slot).</div>`;
                     } else {
-                        body.innerHTML += `<div style="color:#ff3333;">[ERROR] Hatalı şifre! </div>`;
+                        body.innerHTML += `<div style="color:#ff3333;">[ERROR] Hatalı şifre! (//yigit123 şeklinde giriniz).</div>`;
                     }
                 } else {
                     if (val === '/koraybird') {
-                        body.innerHTML += `<div style="color:#00ff66;">[REDIRECT] KorayBird sayfasına yönlendiriliyorsunuz...</div>`;
+                        closeTerminal();
+                        // Hack Ekranı Başlat
+                        const hackScreen = document.getElementById('hack-transition');
+                        hackScreen.style.display = 'flex';
+                        startMatrixRain();
+
+                        // 2.5 saniye sonra Sharingan Yükleme Ekranına Geç
                         setTimeout(() => {
-                            window.location.href = 'index7.html';
+                            hackScreen.style.display = 'none';
+                            const sharinganScreen = document.getElementById('sharingan-overlay');
+                            sharinganScreen.style.display = 'flex';
+                            setTimeout(() => { sharinganScreen.style.opacity = '1'; }, 50);
+
+                            // 2 saniye sonra index7.html'e yönlendir
+                            setTimeout(() => {
+                                window.location.href = 'index7.html';
+                            }, 2000);
+                        }, 2500);
+
+                    } else if (val === '/slot') {
+                        // SLOT İÇİN HIZLI YÖNLENDİRME (HACK EKRANI YOK)
+                        body.innerHTML += `<div style="color:#00ff66;">[REDIRECT] index3.html sayfasına yönlendiriliyorsunuz...</div>`;
+                        setTimeout(() => {
+                            window.location.href = 'index3.html';
                         }, 1000);
+
                     } else if (val === 'exit') {
                         isAuthenticated = false;
                         body.innerHTML += `<div>[SYSTEM] Oturum kapatıldı. Şifre tekrar isteniyor.</div>`;
