@@ -6,6 +6,7 @@
     <title>yigitqwc | Mustafa Kemal Atatürk</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <style>
+        /* ORİJİNAL KLASİK RENKLER */
         :root {
             --bg-color: #050505;
             --text-color: #ffffff;
@@ -23,7 +24,7 @@
             overflow-x: hidden; width: 100vw; min-height: 100vh; display: flex; flex-direction: column;
         }
 
-        /* ÖZEL İMLEÇ */
+        /* KLASİK ÖZEL İMLEÇ */
         .custom-cursor {
             position: fixed; top: 0; left: 0; width: 16px; height: 16px;
             background-color: transparent; border: 2px solid var(--accent-red);
@@ -49,6 +50,7 @@
             100% { width: 120px; height: 120px; opacity: 0; border-width: 1px; }
         }
 
+        /* KLASİK SHARINGAN YÜKLEME EKRANI */
         #splash {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: #000; display: flex; flex-direction: column;
@@ -126,21 +128,38 @@
             position: relative; z-index: 5; width: 90%; max-width: 1000px; margin: 40px auto;
             display: flex; flex-direction: column; gap: 50px; padding-bottom: 60px;
         }
+
+        /* KLASİK KART TASARIMI - AKIŞKAN ANİMASYONLU */
         .section-card {
             background: rgba(15, 2, 2, 0.85); border: 2px solid rgba(255, 0, 0, 0.4);
             border-radius: 20px; padding: 40px; box-shadow: 0 0 35px rgba(255, 0, 0, 0.25);
             backdrop-filter: blur(10px); display: flex; flex-direction: column; align-items: center; text-align: center;
+            animation: slideUp 0.8s cubic-bezier(0.165, 0.84, 0.44, 1) both;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+        .section-card:nth-child(1) { animation-delay: 0.1s; }
+        .section-card:nth-child(2) { animation-delay: 0.3s; }
+        .section-card:nth-child(3) { animation-delay: 0.5s; }
+
+        .section-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 45px rgba(255, 0, 0, 0.4);
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
-        /* FOTOĞRAFLARA BÜYÜME VE BEYAZ PARLAMA EFEKTİ EKLENDİ */
+        /* FOTOĞRAFLARA İSTENİLEN DEVASA BÜYÜME EFEKTİ */
         .mka-img {
             width: 320px; height: 400px; object-fit: cover; border-radius: 14px;
             border: 4px solid #ffffff; box-shadow: 0 0 30px rgba(255, 255, 255, 0.3); margin-bottom: 30px;
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
         }
         .mka-img:hover {
-            transform: scale(1.08); /* Fotoğraf %8 oranında büyür */
-            box-shadow: 0 0 50px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.5); /* Güçlü beyaz parlama */
+            transform: scale(1.15); /* Çok daha fazla büyüyor */
+            box-shadow: 0 0 50px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.5);
             z-index: 10;
         }
 
@@ -151,13 +170,20 @@
             padding: 15px 20px; margin: 15px 0; border-radius: 0 8px 8px 0;
             font-style: italic; color: #ffeedd; font-size: 1.15rem; width: 100%; text-align: left;
         }
+        
         .principles-grid {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 15px; width: 100%; margin-top: 15px;
         }
         .principle-item {
             background: rgba(25, 0, 0, 0.7); border: 1px solid #550000; padding: 18px; border-radius: 10px; text-align: left;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
-        .principle-item h4 { color: #ffffff; margin-bottom: 6px; font-size: 1.15rem; }
+        .principle-item:hover {
+            transform: translateY(-5px); box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+            border-color: var(--accent-red);
+        }
+        .principle-item h4 { color: #ffffff; margin-bottom: 6px; font-size: 1.15rem; transition: color 0.3s; }
+        .principle-item:hover h4 { color: var(--accent-red); }
         .principle-item p { font-size: 0.95rem; color: #ccc; }
     </style>
 </head>
@@ -193,6 +219,8 @@
                 <div class="red-line-wrapper"></div>
             </a>
             <a href="index5.html" class="nav-link hover-target">world</a>
+            <!-- YENİ BAĞLANTI BURADA -->
+            <a href="index22.html" class="nav-link hover-target">philosophy</a>
         </div>
         <a href="index.html" class="back-link hover-target">← Ana Sayfa</a>
     </nav>
@@ -219,12 +247,12 @@
                 "Ey yükselen yeni nesil, istikbal sizindir. Cumhuriyeti biz kurduk, onu yükseltecek ve yaşatacak olan sizlersiniz."
             </div>
             <div class="principles-grid">
-                <div class="principle-item"><h4>Cumhuriyetçilik</h4><p>Milli egemenliğin millette olduğu, yönetimin halka dayandığı rejim.</p></div>
-                <div class="principle-item"><h4>Laiklik</h4><p>Din ve devlet işlerinin birbirinden ayrılması, akıl ve bilimin rehber alınması.</p></div>
-                <div class="principle-item"><h4>Milliyetçilik</h4><p>Milli birlik, beraberlik ve ulusal bilincin her şeyin üzerinde tutulması.</p></div>
-                <div class="principle-item"><h4>İnkılapçılık</h4><p>Çağın gerekliliklerine ayak uydurmak için sürekli yenilik ve gelişim.</p></div>
-                <div class="principle-item"><h4>Devletçilik</h4><p>Ekonomik alanda devletin öncülük etmesi, yatırımların devlet eliyle yapılması.</p></div>
-                <div class="principle-item"><h4>Halkçılık</h4><p>Milletin kanun önünde eşit olması, sınıfsız ve kaynaşmış toplum yapısı.</p></div>
+                <div class="principle-item hover-target"><h4>Cumhuriyetçilik</h4><p>Milli egemenliğin millette olduğu, yönetimin halka dayandığı rejim.</p></div>
+                <div class="principle-item hover-target"><h4>Laiklik</h4><p>Din ve devlet işlerinin birbirinden ayrılması, akıl ve bilimin rehber alınması.</p></div>
+                <div class="principle-item hover-target"><h4>Milliyetçilik</h4><p>Milli birlik, beraberlik ve ulusal bilincin her şeyin üzerinde tutulması.</p></div>
+                <div class="principle-item hover-target"><h4>İnkılapçılık</h4><p>Çağın gerekliliklerine ayak uydurmak için sürekli yenilik ve gelişim.</p></div>
+                <div class="principle-item hover-target"><h4>Devletçilik</h4><p>Ekonomik alanda devletin öncülük etmesi, yatırımların devlet eliyle yapılması.</p></div>
+                <div class="principle-item hover-target"><h4>Halkçılık</h4><p>Milletin kanun önünde eşit olması, sınıfsız ve kaynaşmış toplum yapısı.</p></div>
             </div>
         </section>
 
