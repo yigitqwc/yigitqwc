@@ -156,16 +156,85 @@
             text-shadow: 0 0 10px var(--accent-red), 0 0 20px var(--accent-red); 
         }
 
-        /* MÜZİK OYNATICI */
-        .music-player {
-            position: fixed; bottom: 30px; left: 30px; z-index: 100; display: flex; align-items: center; gap: 12px;
-            background: rgba(10, 0, 0, 0.7); padding: 12px 20px; border: 1px solid rgba(255, 0, 0, 0.3);
-            border-radius: 30px; backdrop-filter: blur(8px); transition: 0.3s;
+        /* YENİ GELİŞMİŞ MÜZİK OYNATICI (SOL ALT KÖŞE - YUKARI GENİŞLEYEN) */
+        .music-player-container {
+            position: fixed; bottom: 30px; left: 30px; z-index: 100;
+            display: flex; flex-direction: column-reverse; /* Buton altta, panel üstte */
+            align-items: flex-start; gap: 12px;
         }
-        .music-player:hover { border-color: var(--accent-red); box-shadow: 0 0 20px rgba(255,0,0,0.5); transform: scale(1.05); }
-        .music-btn { background: none; border: none; color: white; font-size: 1.5rem; outline: none; transition: 0.3s; }
-        .music-btn:hover { color: var(--accent-red); text-shadow: 0 0 10px red; }
-        .music-text { font-size: 0.9rem; font-weight: bold; color: #ccc; }
+
+        .music-toggle-btn {
+            background: rgba(10, 0, 0, 0.7); border: 1px solid rgba(255, 0, 0, 0.4);
+            padding: 10px 25px; border-radius: 30px; backdrop-filter: blur(8px);
+            color: #fff; font-size: 1rem; font-weight: bold; letter-spacing: 1px;
+            cursor: pointer; transition: all 0.3s ease; box-shadow: 0 0 15px rgba(0,0,0,0.8);
+            display: flex; align-items: center; gap: 8px; text-transform: uppercase;
+        }
+        .music-toggle-btn:hover {
+            border-color: var(--accent-red); box-shadow: 0 0 20px rgba(255,0,0,0.6);
+            transform: scale(1.05); color: var(--accent-red); text-shadow: 0 0 10px red;
+        }
+
+        .music-panel {
+            background: rgba(15, 2, 2, 0.9); border: 1px solid var(--accent-red);
+            border-radius: 15px; width: 260px; padding: 15px;
+            backdrop-filter: blur(12px); box-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
+            
+            /* Animasyon İçin Hazırlık */
+            max-height: 0; opacity: 0; overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s ease, padding 0.4s ease;
+            padding-top: 0; padding-bottom: 0; border-width: 0;
+        }
+
+        .music-panel.active {
+            max-height: 120px; opacity: 1; padding: 15px; border-width: 1px;
+        }
+
+        /* Panel İçi Düzen */
+        .song-info {
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid #440000; padding-bottom: 10px; margin-bottom: 10px;
+        }
+        .current-song-text {
+            color: #fff; font-size: 0.85rem; font-weight: bold; font-family: monospace;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 160px;
+            text-shadow: 0 0 5px rgba(255,255,255,0.5);
+        }
+
+        /* RİTİM ÇUBUKLARI (Panel İçinde) */
+        .equalizer {
+            display: flex; align-items: flex-end; gap: 3px; height: 18px;
+            opacity: 0.2; transition: opacity 0.3s;
+        }
+        .equalizer.playing { opacity: 1; }
+        .eq-bar {
+            width: 4px; background: var(--accent-red); border-radius: 2px;
+            box-shadow: 0 0 8px red; transform-origin: bottom;
+        }
+        .equalizer.playing .eq-bar { animation: eqAnim 0.5s infinite alternate ease-in-out; }
+        .equalizer.playing .eq-bar:nth-child(1) { animation-duration: 0.4s; height: 10px; }
+        .equalizer.playing .eq-bar:nth-child(2) { animation-duration: 0.6s; height: 18px; }
+        .equalizer.playing .eq-bar:nth-child(3) { animation-duration: 0.5s; height: 12px; }
+        .equalizer.playing .eq-bar:nth-child(4) { animation-duration: 0.7s; height: 16px; }
+
+        @keyframes eqAnim {
+            0% { transform: scaleY(0.2); }
+            100% { transform: scaleY(1); }
+        }
+
+        /* Şarkı Kontrolleri */
+        .song-controls {
+            display: flex; align-items: center; justify-content: center; gap: 20px;
+        }
+        .nav-song-btn {
+            background: none; border: none; color: #aaa; font-size: 1.2rem; cursor: pointer;
+            transition: 0.2s; outline: none; display: flex; align-items: center; justify-content: center;
+        }
+        .nav-song-btn:hover { color: var(--accent-red); text-shadow: 0 0 10px red; transform: scale(1.2); }
+        .play-pause-btn {
+            color: #fff; font-size: 1.8rem;
+        }
+        .play-pause-btn:hover { color: var(--accent-red); }
 
         /* YÖNETİCİ PANELİ (SAĞ ALT) */
         .admin-trigger {
@@ -210,29 +279,44 @@
             font-family: 'Courier New', Courier, monospace;
         }
 
-        /* HACK EFEKTLERİ VE GEÇİŞ EKRANI (SHARINGAN OVERLAY) */
+        /* YENİ EFSANE HACK EFEKTLERİ VE GEÇİŞ EKRANI (Canvas Matrix) */
         #hack-transition {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background-color: #000; z-index: 9999999; display: none;
+            background-color: #000000; z-index: 9999999; display: none;
             flex-direction: column; align-items: center; justify-content: center;
         }
-        .matrix-code-rain {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            font-family: 'Courier New', monospace; color: #ff0000; font-size: 14px;
-            opacity: 0.25; pointer-events: none; overflow: hidden; white-space: pre; line-height: 1;
+        #matrixCanvas {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;
         }
         .hack-alert-box {
-            position: relative; z-index: 10; background: rgba(20, 0, 0, 0.9);
-            border: 3px solid #ff0000; padding: 30px 50px; border-radius: 10px;
-            text-align: center; box-shadow: 0 0 50px rgba(255, 0, 0, 0.8);
-            animation: alertPulse 0.5s infinite alternate;
+            position: relative; z-index: 10; text-align: center;
+            display: flex; flex-direction: column; align-items: center; gap: 15px;
         }
-        @keyframes alertPulse {
-            0% { transform: scale(1); box-shadow: 0 0 30px rgba(255,0,0,0.6); }
-            100% { transform: scale(1.03); box-shadow: 0 0 60px rgba(255,0,0,1); }
+        .hack-alert-box h1 { 
+            color: #ff0000; font-size: 3rem; font-family: 'Courier New', monospace; font-weight: 900;
+            letter-spacing: 5px; text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 40px #ff0000; 
+            margin: 0; animation: glitchText 0.2s infinite;
         }
-        .hack-alert-box h1 { color: #ff0000; font-size: 2.5rem; margin-bottom: 10px; letter-spacing: 2px; text-shadow: 0 0 15px red; }
-        .hack-alert-box p { color: #fff; font-size: 1.1rem; letter-spacing: 1px; }
+        .hack-alert-box p { 
+            color: #ff3333; font-size: 1.2rem; font-family: 'Courier New', monospace; font-weight: bold;
+            letter-spacing: 3px; text-shadow: 0 0 10px #ff0000; margin: 0; text-transform: uppercase;
+        }
+        .hack-alert-box .diamond {
+            color: #ff0000; font-size: 2rem; text-shadow: 0 0 20px #ff0000; animation: pulseDiamond 1s infinite alternate;
+        }
+
+        @keyframes pulseDiamond {
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(1.3); opacity: 1; text-shadow: 0 0 30px #ff0000, 0 0 50px #ff0000; }
+        }
+        @keyframes glitchText {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
 
         /* SHARINGAN KAPLAMA */
         #sharingan-overlay {
@@ -243,7 +327,7 @@
         }
         .sharingan-big {
             width: 120px; height: 120px; margin-bottom: 25px;
-            animation: spin 2s linear infinite; filter: drop-shadow(0 0 25px rgba(255,0,0,0.9));
+            animation: spin 2s linear infinite; filter: drop-shadow(0 0 35px rgba(255,0,0,1));
         }
 
         /* MOBİL VE TABLET UYUMU */
@@ -254,7 +338,7 @@
             .socials { padding-left: 0; border-left: none; border-top: 1px solid rgba(255,0,0,0.3); padding-top: 1.5rem; width: 100%; justify-content: center; flex-wrap: wrap; }
             body { overflow-y: auto; height: auto; min-height: 100vh; }
             .hero-bg { position: fixed; }
-            .music-player { bottom: 15px; left: 15px; padding: 8px 15px; }
+            .music-player-container { bottom: 15px; left: 15px; }
             .admin-trigger { bottom: 15px; right: 15px; padding: 8px 14px; font-size: 0.75rem; }
             .terminal-box { width: 90vw; }
         }
@@ -267,8 +351,8 @@
 </head>
 <body>
 
-    <!-- MÜZİK -->
-    <audio id="bg-music" loop crossorigin="anonymous"><source src="music.mp3" type="audio/mpeg"></audio>
+    <!-- MÜZİK SİSTEMİ (Görünmez Audio Elementi) -->
+    <audio id="bg-music" crossorigin="anonymous"></audio>
 
     <div class="custom-cursor" id="cursor"></div>
 
@@ -290,12 +374,13 @@
         </div>
     </div>
 
-    <!-- HACK VE SHARINGAN GEÇİŞ EKRANI (KORAY BİRD İÇİN) -->
+    <!-- YENİ HACK VE SHARINGAN GEÇİŞ EKRANI (CANVAS MATRIX) -->
     <div id="hack-transition">
-        <div class="matrix-code-rain" id="matrixRain"></div>
+        <canvas id="matrixCanvas"></canvas>
         <div class="hack-alert-box">
             <h1>SİSTEM HACKLENDİ</h1>
-            <p>Erişim Onaylandı. Yetki Devrediliyor...</p>
+            <p>KOD PROTOKOLÜNE GEÇİLİYOR...</p>
+            <div class="diamond">♦</div>
         </div>
     </div>
 
@@ -321,7 +406,7 @@
     <div class="vignette"></div>
     <canvas id="particles-canvas"></canvas>
 
-    <!-- ÜST MENÜ (SLOT KALDIRILDI) -->
+    <!-- ÜST MENÜ -->
     <nav>
         <div class="nav-left-group">
             <a href="/" class="logo-container hover-target" onclick="window.location.reload(); return false;">
@@ -332,7 +417,6 @@
             <div class="nav-links">
                 <a href="index4.html" class="nav-link mka-link hover-target">MKA</a>
                 <a href="index2.html" class="nav-link hover-target">short</a>
-                <!-- slot butonu buradan kaldırıldı -->
             </div>
         </div>
 
@@ -374,16 +458,136 @@
         </div>
     </div>
 
-    <!-- MÜZİK OYNATICI -->
-    <div class="music-player hover-target" id="musicToggle">
-        <button class="music-btn" id="musicIcon">▶</button>
-        <span class="music-text">Sesi Aç</span>
+    <!-- YENİ: MÜZİK ÇALAR KAPSAYICISI (SOL ALT - YUKARI GENİŞLEYEN) -->
+    <div class="music-player-container">
+        
+        <!-- ÜST PANEL: ŞARKI SEÇİCİ VE EKOLAYZER -->
+        <div class="music-panel" id="musicPanel">
+            <div class="song-info">
+                <span class="current-song-text" id="songNameDisplay">Loading...</span>
+                <!-- Çalarken Ritim Oynayan Ekolayzer -->
+                <div class="equalizer" id="equalizerAnim">
+                    <div class="eq-bar"></div>
+                    <div class="eq-bar"></div>
+                    <div class="eq-bar"></div>
+                    <div class="eq-bar"></div>
+                </div>
+            </div>
+            <div class="song-controls">
+                <button class="nav-song-btn hover-target" onclick="prevSong()">◀</button>
+                <button class="nav-song-btn play-pause-btn hover-target" id="panelPlayBtn" onclick="togglePlayPause()">▶</button>
+                <button class="nav-song-btn hover-target" onclick="nextSong()">▶</button>
+            </div>
+        </div>
+
+        <!-- ALT BUTON: MENÜYÜ AÇIP KAPATAN ANA TETİKLEYİCİ -->
+        <div class="music-toggle-btn hover-target" onclick="toggleMusicPanel()">
+            <span class="music-label">Müzik 🎵</span>
+        </div>
+
     </div>
 
     <script>
-        // TERMINAL MANTIĞI VE HACK ANİMASYONU
+        // MÜZİK SİSTEMİ MANTIĞI VE EKSİKSİZ OYNATICI LİSTESİ
+        const playlist = [
+            { name: "Music 1", file: "music.mp3" },
+            { name: "Music 2", file: "music2.mp3" },
+            { name: "Music 3", file: "music3.mp3" },
+            { name: "Music 4", file: "music4.mp3" },
+            { name: "Music 5", file: "music5.mp3" },
+            { name: "Music 7", file: "music7.mp3" },
+            { name: "Music 8", file: "music8.mp3" },
+            { name: "Music 9", file: "music9.mp3" },
+            { name: "Music 10", file: "music10.mp3" },
+            { name: "Music 11", file: "music11.mp3" },
+            { name: "Jeff Redd - PSYCHO", file: "Jeff Redd - PSYCHO [Official Video].mp3" },
+            { name: "Jeff Redd - O Adam ft Stabil", file: "Jeff Redd - O Adam feat Stabil (Official Audio).mp3" },
+            { name: "Ah Be Kader", file: "Ah Be Kader.mp3" },
+            { name: "No.1 - Canavar", file: "No.1 - Canavar (Official Video).mp3" },
+            { name: "Tame Impala - Loser", file: "Tame Impala - Loser (Türkçe Çeviri).mp3" },
+            { name: "wutiwant (SLOWD)", file: "wutiwant (SLOWD).mp3" },
+            { name: "NO1 - Dünya Gül Bana", file: "NO1 - Dünya Gül Bana ft. Ceza x Sagopa Kajmer x Stabil X Uzi mixbykado.mp3" },
+            { name: "UZİ - SAHİDEN BEAT", file: "UZİ - SAHİDEN BEAT.mp3" },
+            { name: "CANDY SHOP MİX", file: "UZİ x BLOK3 x BABY GANG x JEFF REDD x ORGANİZE x LVBEL C5 - CANDY SHOP MİX (mixed by. batuzane).mp3" }
+        ];
+
+        let currentSongIndex = 0;
+        let isMusicPlaying = false;
+        let isPanelOpen = false;
+        
+        // Ses nesnesini oluştur
+        const audioPlayer = document.getElementById('bg-music');
+        audioPlayer.src = playlist[currentSongIndex].file;
+
+        const musicPanel = document.getElementById('musicPanel');
+        const songNameDisplay = document.getElementById('songNameDisplay');
+        const equalizerAnim = document.getElementById('equalizerAnim');
+        const panelPlayBtn = document.getElementById('panelPlayBtn');
+
+        // İlk şarkı ismini ekrana yaz
+        songNameDisplay.innerText = playlist[currentSongIndex].name;
+
+        // "Müzik" Butonuna Tıklanınca Çalışan Fonksiyon (Sadece Paneli Açar/Kapatır)
+        function toggleMusicPanel() {
+            if (!isPanelOpen) {
+                musicPanel.classList.add('active');
+                isPanelOpen = true;
+            } else {
+                musicPanel.classList.remove('active');
+                isPanelOpen = false;
+            }
+        }
+
+        // Şarkıyı Oynat / Duraklat (Panel İçindeki Buton)
+        function togglePlayPause() {
+            if (isMusicPlaying) {
+                audioPlayer.pause();
+                isMusicPlaying = false;
+                panelPlayBtn.innerText = '▶';
+                equalizerAnim.classList.remove('playing');
+            } else {
+                audioPlayer.play().catch(e => console.log("Ses oynatılamadı. Etkileşim gerekli."));
+                isMusicPlaying = true;
+                panelPlayBtn.innerText = '⏸';
+                equalizerAnim.classList.add('playing');
+            }
+        }
+
+        // Önceki Şarkıya Geç
+        function prevSong() {
+            currentSongIndex--;
+            if (currentSongIndex < 0) {
+                currentSongIndex = playlist.length - 1;
+            }
+            loadAndPlayNewSong();
+        }
+
+        // Sonraki Şarkıya Geç
+        function nextSong() {
+            currentSongIndex++;
+            if (currentSongIndex >= playlist.length) {
+                currentSongIndex = 0;
+            }
+            loadAndPlayNewSong();
+        }
+
+        // Şarkı bitince otomatik sonrakine geç
+        audioPlayer.addEventListener('ended', function() {
+            nextSong();
+        });
+
+        function loadAndPlayNewSong() {
+            songNameDisplay.innerText = playlist[currentSongIndex].name;
+            audioPlayer.src = playlist[currentSongIndex].file;
+            if (isMusicPlaying) {
+                audioPlayer.play().catch(e => console.log("Ses oynatılamadı."));
+            }
+        }
+
+
+        // TERMINAL MANTIĞI VE MATRIX HACK ANİMASYONU
         let isAuthenticated = false;
-        let actualInput = ""; // Gerçek şifreyi arka planda tutacağız
+        let actualInput = ""; 
 
         function openTerminal() {
             document.getElementById('terminal-modal').style.display = 'flex';
@@ -396,47 +600,63 @@
 
         const terminalInput = document.getElementById('terminalInput');
 
-        // Şifre girerken // ile başlıyorsa ekranı sansürle (**)
         terminalInput.addEventListener('input', function(e) {
             let val = terminalInput.value;
-            
-            // Eğer yeni bir şeyler yazıldıysa gerçek değeri güncelle
             if (val.length > actualInput.length) {
                 let addedChar = val.substring(actualInput.length);
                 actualInput += addedChar;
             } else {
-                // Silme işlemi yapıldıysa
                 actualInput = actualInput.substring(0, val.length);
             }
-
-            // Eğer şifre modundaysak (// ile başlıyorsa) ekranda yıldız göster
             if (actualInput.startsWith('//') && !isAuthenticated) {
                 let stars = '//' + '*'.repeat(actualInput.length - 2);
                 terminalInput.value = stars;
             }
         });
 
-        // Matrix kod yağmuru efekti
+        // CANVAS MATRIX KOD YAĞMURU
         function startMatrixRain() {
-            const rainContainer = document.getElementById('matrixRain');
-            let chars = "0101010101010101YIGITQWCROOTSYSTEMACCESSGRANTEDCORAYBIRD";
-            let interval = setInterval(() => {
-                let text = "";
-                for(let i=0; i<1500; i++) {
-                    text += chars.charAt(Math.floor(Math.random() * chars.length));
+            const canvas = document.getElementById('matrixCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            
+            const letters = "0101010101010101YIGITQWCROOTSYSTEMACCESSGRANTEDCORAYBIRD";
+            const fontSize = 16;
+            const columns = canvas.width / fontSize;
+            const drops = [];
+            
+            for(let x = 0; x < columns; x++) drops[x] = 1; 
+            
+            function draw() {
+                // Arkada hafif iz bırakan siyah arka plan
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Matris Harfleri (Kan Kırmızısı)
+                ctx.fillStyle = '#ff0000';
+                ctx.font = fontSize + 'px monospace';
+                
+                for(let i = 0; i < drops.length; i++) {
+                    const text = letters.charAt(Math.floor(Math.random() * letters.length));
+                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                    
+                    if(drops[i] * fontSize > canvas.height && Math.random() > 0.975)
+                        drops[i] = 0;
+                    drops[i]++;
                 }
-                rainContainer.innerText = text;
-            }, 50);
+                requestAnimationFrame(draw);
+            }
+            draw();
         }
 
         terminalInput.addEventListener('keydown', function(e) {
             if (e.key === 'Enter') {
                 let val = actualInput.trim();
                 let body = document.getElementById('terminalBody');
-
                 if (val === '') return;
 
-                // Ekrana komutun sansürlenmiş veya açık halini yaz
                 let displayVal = (val.startsWith('//') && !isAuthenticated) ? '//' + '*'.repeat(val.length - 2) : val;
                 body.innerHTML += `<div>> ${displayVal}</div>`;
                 
@@ -454,30 +674,21 @@
                 } else {
                     if (val === '/koraybird') {
                         closeTerminal();
-                        // Hack Ekranı Başlat
                         const hackScreen = document.getElementById('hack-transition');
                         hackScreen.style.display = 'flex';
-                        startMatrixRain();
-
-                        // 2.5 saniye sonra Sharingan Yükleme Ekranına Geç
+                        startMatrixRain(); // Canvas animasyonunu başlat
+                        
                         setTimeout(() => {
                             hackScreen.style.display = 'none';
                             const sharinganScreen = document.getElementById('sharingan-overlay');
                             sharinganScreen.style.display = 'flex';
                             setTimeout(() => { sharinganScreen.style.opacity = '1'; }, 50);
-
-                            // 2 saniye sonra index7.html'e yönlendir
-                            setTimeout(() => {
-                                window.location.href = 'index7.html';
-                            }, 2000);
-                        }, 2500);
+                            setTimeout(() => { window.location.href = 'index7.html'; }, 2000);
+                        }, 3000);
 
                     } else if (val === '/slot') {
-                        // SLOT İÇİN HIZLI YÖNLENDİRME (HACK EKRANI YOK)
                         body.innerHTML += `<div style="color:#00ff66;">[REDIRECT] index3.html sayfasına yönlendiriliyorsunuz...</div>`;
-                        setTimeout(() => {
-                            window.location.href = 'index3.html';
-                        }, 1000);
+                        setTimeout(() => { window.location.href = 'index3.html'; }, 1000);
 
                     } else if (val === 'exit') {
                         isAuthenticated = false;
@@ -490,19 +701,6 @@
             }
         });
 
-        // Müzik Kontrolü
-        const bgMusic = document.getElementById('bg-music');
-        const musicToggle = document.getElementById('musicToggle');
-        const musicIcon = document.getElementById('musicIcon');
-        const musicText = document.querySelector('.music-text');
-        let isPlaying = false;
-
-        musicToggle.addEventListener('click', () => {
-            if (isPlaying) { bgMusic.pause(); musicIcon.innerText = '▶'; musicText.innerText = 'Sesi Aç'; }
-            else { bgMusic.play(); musicIcon.innerText = '⏸'; musicText.innerText = 'Sesi Kapat'; }
-            isPlaying = !isPlaying;
-        });
-
         // Yükleme Ekranı
         window.addEventListener('load', () => {
             setTimeout(() => {
@@ -513,13 +711,10 @@
 
         // İmleç ve Tıklama Efektleri
         const cursor = document.getElementById('cursor');
-        const hoverTargets = document.querySelectorAll('.hover-target');
-
         document.addEventListener('mousemove', (e) => {
             cursor.style.left = e.clientX + 'px';
             cursor.style.top = e.clientY + 'px';
         });
-
         document.addEventListener('click', (e) => {
             const ripple = document.createElement('div');
             ripple.classList.add('click-ripple');
@@ -528,7 +723,6 @@
             document.body.appendChild(ripple);
             setTimeout(() => ripple.remove(), 600);
         });
-
         document.addEventListener('mouseover', (e) => {
             if(e.target.closest('.hover-target')) { cursor.classList.add('cursor-hover'); }
         });
@@ -536,31 +730,36 @@
             if(e.target.closest('.hover-target')) { cursor.classList.remove('cursor-hover'); }
         });
 
-        // Parçacık Animasyonu
-        const canvas = document.getElementById('particles-canvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-        let particles = [];
+        // Parçacık Animasyonu (Arka plan külleri)
+        const bgCanvas = document.getElementById('particles-canvas');
+        const bgCtx = bgCanvas.getContext('2d');
+        bgCanvas.width = window.innerWidth; bgCanvas.height = window.innerHeight;
+        let bgParticles = [];
         
         for (let i = 0; i < 50; i++) {
-            particles.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, s: Math.random() * 2.5 + 1, sy: Math.random() * 1.5 + 0.5 });
+            bgParticles.push({ x: Math.random() * bgCanvas.width, y: Math.random() * bgCanvas.height, s: Math.random() * 2.5 + 1, sy: Math.random() * 1.5 + 0.5 });
         }
         
-        function anim() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = "rgba(255,0,0,0.5)";
-            particles.forEach(p => {
+        function bgAnim() {
+            bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
+            bgCtx.fillStyle = "rgba(255,0,0,0.5)";
+            bgParticles.forEach(p => {
                 p.y -= p.sy; 
-                if (p.y < 0) { p.y = canvas.height + 20; p.x = Math.random() * canvas.width; }
-                ctx.beginPath(); ctx.arc(p.x, p.y, p.s, 0, Math.PI * 2); ctx.fill();
+                if (p.y < 0) { p.y = bgCanvas.height + 20; p.x = Math.random() * bgCanvas.width; }
+                bgCtx.beginPath(); bgCtx.arc(p.x, p.y, p.s, 0, Math.PI * 2); bgCtx.fill();
             });
-            requestAnimationFrame(anim);
+            requestAnimationFrame(bgAnim);
         }
-        anim();
+        bgAnim();
 
         window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+            bgCanvas.width = window.innerWidth;
+            bgCanvas.height = window.innerHeight;
+            const matrixCanvas = document.getElementById('matrixCanvas');
+            if(matrixCanvas) {
+                matrixCanvas.width = window.innerWidth;
+                matrixCanvas.height = window.innerHeight;
+            }
         });
     </script>
 </body>
