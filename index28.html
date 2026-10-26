@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#050101">
+<meta name="description" content="yigitqwc VTAB - JPG, PNG, WEBP, PDF, DOCX, TXT ve MP3/WAV dosya dönüştürücü">
+<title>yigitqwc | Dosya Dönüştürücü Stüdyosu</title>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<style>
+:root{--bg:#050101;--panel:rgba(16,3,6,.88);--panel2:rgba(24,4,8,.88);--red:#ed183c;--red-soft:#9c263b;--border:rgba(255,55,76,.23);--muted:#a18f94;--white:#f8f1f3;--green:#44d6a0;--gold:#ffd18b}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--white);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;min-height:100vh;overflow-x:hidden}button,input,select{font:inherit}button,a,select{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.4}a{color:inherit;text-decoration:none}::selection{background:#9e223b;color:white}
+.background{position:fixed;inset:0;z-index:-4;background:radial-gradient(ellipse at 50% -10%,#2d0710 0%,transparent 48%),radial-gradient(ellipse at 90% 88%,#17040a,transparent 54%),#050101}
+.grid-bg{position:fixed;inset:0;z-index:-3;pointer-events:none;background-image:linear-gradient(rgba(194,38,59,.032) 1px,transparent 1px),linear-gradient(90deg,rgba(194,38,59,.032) 1px,transparent 1px);background-size:56px 56px;mask-image:linear-gradient(to bottom,black,transparent 90%)}
+.vignette{position:fixed;inset:0;z-index:-2;pointer-events:none;background:radial-gradient(circle,transparent 22%,rgba(0,0,0,.55))}
+#particles-canvas{position:fixed;inset:0;z-index:-1;pointer-events:none;width:100%;height:100%}
+.custom-cursor{position:fixed;left:-30px;top:-30px;width:16px;height:16px;border:2px solid #ff2449;pointer-events:none;z-index:99999;transform:translate(-50%,-50%) rotate(45deg);box-shadow:0 0 13px rgba(255,18,52,.8),inset 0 0 6px #da1432;transition:width .2s,height .2s,background .2s;mix-blend-mode:screen}.custom-cursor:after{content:"";position:absolute;inset:4px;background:#ff2244}.custom-cursor.hover{width:26px;height:26px;background:rgba(255,0,50,.17)}.click-ripple{position:fixed;pointer-events:none;z-index:99998;width:12px;height:12px;border:1px solid #f13555;border-radius:50%;transform:translate(-50%,-50%);animation:ripple .55s ease-out forwards}@keyframes ripple{to{width:105px;height:105px;opacity:0}}
+#splash{position:fixed;z-index:100000;inset:0;background:radial-gradient(circle at center,#1e0409,#020000 67%);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:22px;transition:opacity .55s,visibility .55s}#splash.hide{opacity:0;visibility:hidden}.sharingan{width:78px;height:78px;animation:spin 2.7s linear infinite;filter:drop-shadow(0 0 20px #ce1131)}@keyframes spin{to{transform:rotate(360deg)}}.splash-title{font-size:22px;font-weight:900;letter-spacing:3px;text-shadow:0 0 20px #ac1435}.splash-sub{color:#aa747e;font-size:10px;letter-spacing:3px}
+nav{z-index:20;position:relative;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:17px clamp(20px,4vw,56px);background:rgba(6,0,2,.88);border-bottom:1px solid var(--border);backdrop-filter:blur(18px)}.nav-left{display:flex;gap:20px;align-items:center;min-width:0;flex-wrap:wrap}.logo-container{position:relative;display:inline-flex;padding-bottom:7px}.logo-text{font-size:25px;font-weight:900;letter-spacing:-1px;text-shadow:0 0 15px rgba(255,0,40,.7);animation:glitch 9s infinite}.red-line-wrapper{height:3px;position:absolute;bottom:0;left:0;right:0;overflow:hidden;background:#4e101b;border-radius:8px}.red-line-wrapper:after{content:"";position:absolute;width:45%;height:100%;left:-50%;background:linear-gradient(90deg,transparent,#fd1748,#fff,#ff2048,transparent);animation:laser 2.5s linear infinite}@keyframes laser{to{left:110%}}@keyframes glitch{0%,94%,98%,100%{transform:none}95%{transform:translate(2px,-1px);text-shadow:2px 0 #f20,-2px 0 #fff}97%{transform:translate(-2px,1px)}}.module-badge{font-size:11px;letter-spacing:1.6px;color:#ffaeb9;font-weight:800;border:1px solid rgba(255,56,91,.4);padding:8px 12px;border-radius:40px;background:rgba(203,15,50,.12)}.back-link{color:#d2bfc4;font-size:12px;font-weight:700;transition:color .2s}.back-link:hover{color:#ff4264}
+.container{max-width:1160px;margin:0 auto;padding:56px 24px 60px}.hero{text-align:center;margin-bottom:37px}.eyebrow{display:inline-flex;align-items:center;gap:10px;text-transform:uppercase;letter-spacing:3px;font-size:10px;font-weight:900;color:#f37a90}.eyebrow:before,.eyebrow:after{content:"";height:1px;width:30px;background:linear-gradient(90deg,transparent,#cc3752)}.eyebrow:after{transform:rotate(180deg)}h1{font-size:clamp(37px,6.5vw,73px);margin:16px 0 12px;letter-spacing:-2px;line-height:1.06;font-weight:950;text-shadow:0 0 40px rgba(176,18,56,.18)}h1 span{background:linear-gradient(105deg,#fc4663,#9f112f 65%,#f25976);background-size:230% 100%;background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:shine 8s infinite alternate}@keyframes shine{to{background-position:100% 0}}.hero p{font-size:14px;color:var(--muted);line-height:1.7;margin:0 auto;max-width:650px}.stat-row{margin-top:21px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}.chip{border:1px solid var(--border);color:#e6bfc7;background:rgba(123,19,42,.13);padding:8px 12px;border-radius:30px;font-size:11px;font-weight:700}.chip .check{color:#64d8a5;margin-right:5px}
+.workspace{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(320px,.9fr);align-items:start;gap:22px}.card{min-width:0;background:var(--panel);border:1px solid var(--border);border-radius:20px;box-shadow:0 22px 65px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.03);backdrop-filter:blur(16px);overflow:hidden}.card-head{padding:21px 24px;border-bottom:1px solid rgba(255,71,96,.13);display:flex;justify-content:space-between;align-items:center;gap:8px}.card-head h2{font-size:15px;margin:0;font-weight:850}.small-id{font-family:ui-monospace,SFMono-Regular,monospace;color:#995865;font-size:10px;letter-spacing:1px}.card-content{padding:24px}
+.dropzone{position:relative;border:1.5px dashed rgba(235,65,91,.46);border-radius:17px;min-height:225px;padding:32px 14px;display:flex;align-items:center;justify-content:center;flex-direction:column;background:radial-gradient(circle at 50% 20%,rgba(141,18,48,.13),transparent 70%),rgba(14,2,6,.54);text-align:center;transition:background .25s,border-color .25s,transform .25s;outline:none}.dropzone.dragover,.dropzone:hover,.dropzone:focus-visible{border-color:#ff4e70;background:rgba(142,22,47,.2)}.upload-icon{width:68px;height:68px;display:grid;place-items:center;border-radius:20px;background:rgba(238,24,61,.09);border:1px solid rgba(238,24,61,.25);box-shadow:0 0 35px rgba(255,19,63,.08);margin-bottom:17px}.upload-icon svg{width:30px;stroke:#ff6381}.dropzone strong{font-size:15px;margin-bottom:8px}.dropzone p{font-size:12px;color:var(--muted);margin:0;line-height:1.65}.browse{border:1px solid rgba(255,79,110,.4);border-radius:9px;padding:9px 18px;margin-top:14px;font-size:12px;font-weight:800;background:rgba(160,19,46,.25);transition:.25s}.browse:hover{background:rgba(237,24,60,.37)}#fileInput{display:none}
+.upload-footer{display:flex;justify-content:space-between;align-items:center;color:#977e86;font-size:10px;margin-top:12px;gap:12px}.file-list{margin-top:15px;display:grid;gap:8px}.file-item{border:1px solid rgba(255,65,91,.17);background:rgba(0,0,0,.28);border-radius:11px;display:flex;align-items:center;gap:10px;padding:10px 12px;min-width:0}.file-icon{width:35px;height:35px;border-radius:9px;display:grid;place-items:center;background:rgba(197,32,59,.17);color:#ff8297;font-size:11px;font-weight:850;flex-shrink:0}.file-info{min-width:0;flex:1}.file-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px;font-weight:700}.file-meta{font-size:10px;color:#997d85;margin-top:3px}.remove-file{background:transparent;border:0;color:#c18b99;padding:5px;font-size:18px}.remove-file:hover{color:#ff6780}.empty-state{font-size:11px;text-align:center;padding:12px;color:#806e74}
+.label{display:block;color:#cab1b9;font-size:11px;font-weight:800;letter-spacing:1.2px;margin-bottom:10px;text-transform:uppercase}.format-row{display:grid;grid-template-columns:1fr 1fr;gap:15px}.field{min-width:0}.select-wrap{position:relative}.format-box{border:1px solid rgba(255,74,99,.28);border-radius:11px;min-height:50px;width:100%;padding:13px 14px;background:#100508;color:#fff;font-weight:800;outline:0;appearance:none}.format-box:focus{border-color:#ea3a57}.select-wrap:after{content:"⌄";pointer-events:none;position:absolute;right:14px;top:13px;color:#e2526a;font-size:20px}.from-box{display:flex;align-items:center;min-height:50px;padding:13px 14px;background:#100508;border:1px solid rgba(255,74,99,.16);border-radius:11px;font-weight:800;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.arrow-between{color:#ee3c58;align-self:center;font-size:18px}.options{display:grid;gap:15px;margin-top:19px}.opt-row{display:flex;gap:13px;align-items:center;justify-content:space-between}.opt-row .label{margin:0}.quality-value{color:#f4687e;font-size:11px}.range{width:50%;accent-color:#ed244c}.tip{margin-top:14px;border:1px solid rgba(255,169,80,.21);background:rgba(200,109,27,.07);border-radius:10px;padding:12px 13px;color:#c7a894;font-size:11px;line-height:1.6;min-height:42px}.tip strong{color:#f4c49b}.convert-btn{position:relative;isolation:isolate;border:0;border-radius:12px;width:100%;padding:17px 20px;margin-top:19px;background:linear-gradient(105deg,#c21335,#ee2a50 55%,#a40e2e);color:white;font-weight:900;font-size:13px;letter-spacing:1.3px;box-shadow:0 9px 30px rgba(227,16,53,.2);transition:transform .25s,filter .25s}.convert-btn:not(:disabled):hover{transform:translateY(-2px);filter:brightness(1.14)}.convert-btn:not(:disabled):active{transform:scale(.99)}.progress-area{margin-top:16px;display:none}.progress-area.show{display:block}.progress-top{display:flex;justify-content:space-between;gap:10px;font-size:11px;color:#d3afb8;margin-bottom:9px}.bar{height:7px;border-radius:10px;background:#2b0b15;overflow:hidden}.bar>div{height:100%;width:0;background:linear-gradient(90deg,#9b1033,#fe5273);border-radius:10px;transition:width .15s}.error-msg{margin-top:15px;color:#ff9fac;font-size:12px;line-height:1.6;padding:12px;border-radius:10px;border:1px solid rgba(255,44,75,.33);background:rgba(160,12,37,.12);display:none}.error-msg.show{display:block}
+.results{display:grid;gap:11px}.result-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;min-height:290px;color:#a2838b}.result-empty svg{opacity:.55;stroke:#ee4466}.result-empty strong{font-size:13px;color:#ebc6ce}.result-empty p{font-size:11px;line-height:1.7;margin:0;max-width:250px}.result-item{padding:13px;border:1px solid rgba(72,210,153,.25);border-radius:12px;background:rgba(30,85,65,.09);display:flex;align-items:center;gap:11px}.result-icon{color:var(--green);font-size:22px}.result-name{font-size:12px;font-weight:800;overflow-wrap:anywhere}.result-size{color:#83a897;font-size:10px;margin-top:3px}.download-btn{flex-shrink:0;padding:9px 12px;background:rgba(32,134,91,.19);border:1px solid rgba(74,231,156,.43);color:#b0ffcf;border-radius:8px;font-size:11px;font-weight:800}.download-btn:hover{background:rgba(58,180,118,.28)}.result-message{color:#c7a7b0;font-size:11px;line-height:1.6;margin:0}.foot-note{font-size:10px;color:#78666c;line-height:1.7;padding-top:15px;border-top:1px solid var(--border)}.feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-top:23px}.feature{padding:22px;border:1px solid rgba(255,64,90,.13);border-radius:15px;background:rgba(16,4,7,.61)}.feature-icon{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;color:#ff6683;background:rgba(200,26,57,.13);font-size:18px;margin-bottom:12px}.feature h3{font-size:13px;margin:0 0 7px}.feature p{font-size:11px;margin:0;color:#917f85;line-height:1.7}.footer{text-align:center;color:#735f66;font-size:10px;letter-spacing:1px;padding:20px 15px 35px}.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+@media (pointer:fine){body,a,button,select,.dropzone{cursor:none}}@media (pointer:coarse){.custom-cursor{display:none}}
+@media(max-width:880px){.workspace{grid-template-columns:1fr}.feature-grid{grid-template-columns:1fr 1fr}.container{padding-top:40px}}@media(max-width:560px){nav{padding:14px 16px}.logo-text{font-size:20px}.module-badge{font-size:9px}.back-link{font-size:11px}.container{padding:32px 13px}.card-content{padding:16px}.card-head{padding:18px 16px}.hero{margin-bottom:28px}.hero h1{letter-spacing:-1px}.feature-grid{grid-template-columns:1fr}.dropzone{min-height:205px}.format-row{gap:10px}.stat-row{gap:6px}.chip{font-size:10px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+
+/* =============================================================
+   YIGITQWC ANASAYFA TASARIMI - index(4).html ile birebir ortak
+   kaynak: Sharingan, mouse, click ripple, logo, bg.jpg, kuleler.
+   ============================================================= */
+:root {
+ --bg-color:#030101;--text-color:#ffffff;--accent-red:#ff1111;
+ --bg:#030101;--panel:rgba(12,1,1,.88);--panel2:rgba(14,1,1,.90);
+ --red:#ff1111;--red-soft:#b60000;--border:rgba(255,0,0,.35);
+ --muted:#b0a3a3;--white:#ffffff;--green:#00ff66;--gold:#ffcc00;
+}
+body{background:#030101;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;}
+/* Orijinal ana sayfanın efekt stilleri aşağıdadır. */
+.click-ripple {
+            position: fixed; border-radius: 50%; border: 2px solid var(--accent-red);
+            pointer-events: none; transform: translate(-50%, -50%);
+            animation: rippleEffect 0.6s ease-out forwards; z-index: 99998;
+            box-shadow: 0 0 15px rgba(255,0,0,0.5);
+        }
+@keyframes rippleEffect {
+            0% { width: 0; height: 0; opacity: 1; border-width: 4px; }
+            100% { width: 120px; height: 120px; opacity: 0; border-width: 1px; }
+        }
+.custom-cursor {
+            position: fixed; top: 0; left: 0; width: 16px; height: 16px;
+            background-color: transparent; border: 2px solid var(--accent-red);
+            pointer-events: none; z-index: 99999;
+            transform: translate(-50%, -50%) rotate(45deg);
+            transition: width 0.2s, height 0.2s;
+            box-shadow: 0 0 10px var(--accent-red), inset 0 0 5px var(--accent-red);
+        }
+.custom-cursor::after {
+            content: ""; position: absolute; top: 50%; left: 50%; width: 4px; height: 4px;
+            background: var(--accent-red); transform: translate(-50%, -50%);
+        }
+.cursor-hover { width: 32px; height: 32px; background-color: rgba(255, 0, 0, 0.2); }
+#splash {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #000; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; z-index: 100000;
+            transition: opacity 1s ease, visibility 1s ease;
+        }
+.sharingan {
+            width: 90px; height: 90px; margin-bottom: 25px;
+            animation: spin 2.5s linear infinite; filter: drop-shadow(0 0 20px rgba(255,0,0,0.9));
+        }
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+.logo-container {
+            position: relative; text-decoration: none; color: var(--text-color);
+            display: inline-block; padding-bottom: 4px;
+        }
+.logo-text {
+            font-size: 2.4rem;
+            font-weight: 900; letter-spacing: -0.5px;
+            display: inline-block; animation: glitch-anim 6s infinite;
+        }
+@keyframes glitch-anim {
+            0%, 93%, 100% { text-shadow: 0 0 15px rgba(255,0,0,0.8); transform: translate(0); }
+            94% { text-shadow: 3px 0 0 red, -3px 0 0 white; transform: translate(3px, -2px); }
+            96% { text-shadow: -3px 0 0 red, 3px 0 0 white; transform: translate(-3px, 2px); }
+            98% { text-shadow: 3px 0 0 red, -3px 0 0 white; transform: translate(3px, 2px); }
+        }
+.red-line-wrapper {
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 3px;
+            background: rgba(255, 0, 0, 0.2); border-radius: 2px; overflow: hidden;
+        }
+.red-line-wrapper::after {
+            content: ""; position: absolute; top: 0; left: -50%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, #ff0000, #ffffff, #ff0000, transparent);
+            box-shadow: 0 0 8px #ff0000; animation: beamMove 2.5s infinite linear;
+        }
+@keyframes beamMove { 0% { left: -50%; } 100% { left: 100%; } }
+.hero-bg {
+            position: absolute; top: -2%; left: -2%; width: 104%; height: 104%; 
+            background-image: url("bg.jpg"); background-size: cover; background-position: center;
+            z-index: 1; 
+        }
+.vignette {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, rgba(0,0,0,0) 40%, rgba(0,0,0,0.8) 100%);
+            pointer-events: none; z-index: 2;
+        }
+#particles-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 3; pointer-events: none; }
+/* Ana sayfada kullanılan aynı bg.jpg, filtre ve radial karartma. */
+.hero-bg{position:fixed;top:-2%;left:-2%;width:104%;height:104%;background-image:url('bg.jpg');background-size:cover;background-position:center;z-index:0;pointer-events:none;}
+.vignette{position:fixed;inset:0;z-index:1;background:radial-gradient(circle,rgba(0,0,0,0) 40%,rgba(0,0,0,.8) 100%);pointer-events:none;}
+#particles-canvas{position:fixed;inset:0;width:100%;height:100%;z-index:2;pointer-events:none;}
+/* Orijinal açılışın süreleri, logosu, SVG'si ve siyah zemini. */
+#splash{position:fixed;inset:0;z-index:100000;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 1s ease,visibility 1s ease;gap:0;}
+#splash.hide{opacity:0;visibility:hidden;}
+#splash .sharingan{width:90px;height:90px;margin-bottom:25px;animation:spin 2.5s linear infinite;filter:drop-shadow(0 0 20px rgba(255,0,0,.9));}
+#splash .logo-container{display:inline-block;padding-bottom:4px;}
+#splash .logo-text{font-size:2.4rem;}
+.custom-cursor{mix-blend-mode:normal;}
+/* Aynı anasayfa çubuk düzeni ve kırmızı tema. */
+nav{position:relative;z-index:100;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1.5rem 3rem;background:rgba(5,0,0,.6);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,0,0,.2);box-shadow:0 0 30px rgba(0,0,0,.8);}
+.nav-left{display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;}
+nav .logo-container{display:inline-block;padding-bottom:4px;}
+nav .logo-text{font-size:2rem;font-weight:900;letter-spacing:-.5px;}
+.module-badge{color:#ddd;background:rgba(25,0,0,.7);border:1px solid rgba(255,0,0,.3);border-radius:20px;font-size:.82rem;font-weight:700;letter-spacing:1px;padding:7px 16px;}
+.back-link{font-size:.9rem;color:#aaa;font-weight:600;transition:color .3s;}
+.back-link:hover{color:var(--accent-red);}
+.container,.footer{position:relative;z-index:5;}
+.hero .eyebrow{color:#ff4444;}
+.hero h1{color:white;letter-spacing:-1px;text-shadow:0 0 15px rgba(255,0,0,.15);}
+.hero h1 span{background:none;background-clip:initial;-webkit-background-clip:initial;-webkit-text-fill-color:#ff2222;color:#ff2222;animation:none;text-shadow:0 0 22px rgba(255,0,0,.4);}
+.hero p{color:#c6bcbc;}
+.chip{background:rgba(25,0,0,.7);color:#ddd;border:1px solid rgba(255,0,0,.3);}
+.chip .check{color:#00ff66;}
+.card{background:rgba(12,1,1,.90);border:1px solid rgba(255,0,0,.35);border-radius:15px;box-shadow:0 0 27px rgba(0,0,0,.8);backdrop-filter:blur(10px);}
+.card-head{border-bottom:1px solid rgba(255,0,0,.2);}
+.card-head h2{color:#fff;}
+.small-id{color:#bd7777;}
+.dropzone{background:rgba(12,1,1,.55);border:1.5px dashed rgba(255,0,0,.4);}
+.dropzone:hover,.dropzone.dragover,.dropzone:focus-visible{border-color:#ff1111;background:rgba(66,0,0,.65);}
+.upload-icon{background:rgba(255,0,0,.12);border-color:rgba(255,0,0,.35);}
+.upload-icon svg{stroke:#ff3333;}
+.browse{border:1px solid rgba(255,0,0,.45);background:rgba(45,0,0,.85);color:#fff;}
+.browse:hover{background:rgba(100,0,0,.85);}
+.file-item,.feature{border-color:rgba(255,0,0,.25);background:rgba(12,1,1,.88);}
+.file-icon,.feature-icon{color:#ff4444;background:rgba(255,0,0,.12);}
+.label{color:#ddd;}
+.from-box,.format-box{background:rgba(12,1,1,.95);border-color:rgba(255,0,0,.3);color:white;}
+.format-box:focus{border-color:#ff1111;}
+.select-wrap:after,.quality-value{color:#ff3333;}
+.range{accent-color:#ff0000;}
+.convert-btn{background:linear-gradient(105deg,#770000,#dc0000 55%,#8e0000);border:1px solid rgba(255,60,60,.6);box-shadow:0 0 22px rgba(255,0,0,.22);}
+.bar{background:#2d0505;}.bar>div{background:linear-gradient(90deg,#800000,#ff0000);}
+.result-empty svg{stroke:#ff1111;}
+.result-empty strong{color:#fff;}
+.feature-icon{border:1px solid rgba(255,0,0,.2);}
+@media(max-width:700px){nav{padding:1rem 1.2rem;flex-wrap:wrap;} .nav-left{gap:10px;}.module-badge{font-size:.7rem;}}
+@media(pointer:coarse){.custom-cursor{display:none!important;}*{cursor:auto!important;}}
+
+
+/* IMLEC AKICILIGI: anasayfa geometrisi, GPU uzerinden pozisyonlama. */
+@media (pointer:fine) {
+    *, *::before, *::after { cursor: none !important; }
+    .custom-cursor {
+        left: 0;
+        top: 0;
+        width: 16px;
+        height: 16px;
+        transform: translate3d(-100px,-100px,0) translate(-50%,-50%) rotate(45deg);
+        will-change: transform;
+        transition: width .2s ease, height .2s ease, background-color .2s ease;
+    }
+    .custom-cursor.cursor-hover {
+        width: 32px;
+        height: 32px;
+        background-color: rgba(255,0,0,.2);
+    }
+}
+
+
+/* YIGITQWC HOVER CANLANDIRMA — imlec buyurken hedef de canlanir. */
+@media (hover: hover) and (pointer: fine) {
+    :is(.card, .feature, .file-item, .result-item, .chip, .module-badge,
+        .dropzone, .browse, .from-box, .tip, .format-box,
+        .convert-btn, .download-btn, .remove-file, .back-link,
+        .logo-container, .range, .label) {
+        transition: transform .24s cubic-bezier(.2,.8,.2,1),
+                    border-color .24s ease, background .24s ease,
+                    box-shadow .24s ease, color .24s ease,
+                    filter .24s ease;
+    }
+
+    /* Buyuk kartlar hafif buyur; yan yana panellerin dengesi bozulmaz. */
+    .card:hover {
+        transform: scale(1.012);
+        border-color: rgba(255, 30, 43, .78);
+        background: rgba(31, 1, 4, .96);
+        box-shadow: 0 0 26px rgba(255, 0, 0, .23),
+                    0 22px 65px rgba(0, 0, 0, .5);
+        position: relative;
+        z-index: 2;
+    }
+    .feature:hover {
+        transform: translateY(-3px) scale(1.025);
+        border-color: rgba(255, 24, 24, .85);
+        background: rgba(57, 2, 4, .94);
+        box-shadow: 0 0 23px rgba(255, 0, 0, .25);
+    }
+
+    /* Her kucuk kutu da fare yaklastiginda buyur ve kirmizilasir. */
+    .dropzone:hover, .dropzone:focus-visible {
+        transform: scale(1.016);
+        border-color: #ff2020;
+        background: rgba(83, 2, 4, .77);
+        box-shadow: 0 0 23px rgba(255, 0, 0, .22);
+    }
+    :is(.file-item, .result-item):hover {
+        transform: scale(1.022);
+        border-color: rgba(255, 25, 35, .82);
+        background: rgba(68, 3, 6, .93);
+        box-shadow: 0 0 17px rgba(255, 0, 0, .18);
+    }
+    :is(.chip, .module-badge, .browse, .from-box, .tip):hover {
+        transform: scale(1.05);
+        border-color: rgba(255, 28, 28, .85);
+        background: rgba(89, 3, 6, .88);
+        color: #fff;
+        box-shadow: 0 0 18px rgba(255, 0, 0, .25);
+    }
+    .format-box:not(:disabled):hover,
+    .format-box:focus-visible {
+        transform: scale(1.035);
+        border-color: #ff2020;
+        background: rgba(79, 2, 5, .96);
+        box-shadow: 0 0 16px rgba(255, 0, 0, .23);
+    }
+    .convert-btn:not(:disabled):hover {
+        transform: translateY(-2px) scale(1.035);
+        background: linear-gradient(105deg,#990000,#ff1616 55%,#b90000);
+        box-shadow: 0 0 28px rgba(255, 0, 0, .43);
+        filter: brightness(1.06);
+    }
+    :is(.download-btn, .remove-file):hover {
+        transform: scale(1.10);
+        border-color: rgba(255, 25, 25, .88);
+        background: rgba(125, 4, 8, .85);
+        color: #fff;
+        box-shadow: 0 0 16px rgba(255, 0, 0, .28);
+    }
+    :is(.back-link, .logo-container):hover {
+        transform: translateY(-2px) scale(1.07);
+        color: #ff3030;
+        filter: drop-shadow(0 0 9px rgba(255, 0, 0, .45));
+    }
+    .range:hover {
+        transform: scale(1.045);
+        accent-color: #ff2020;
+        filter: drop-shadow(0 0 6px rgba(255,0,0,.45));
+    }
+    .label:hover {
+        transform: scale(1.035);
+        transform-origin: left center;
+        color: #ff3d3d;
+    }
+}
+
+
+
+/* URL EKLE: mevcut index28 tema ve hover davranisi ile uyumlu */
+.url-import{margin-top:18px;padding:17px;border:1px solid rgba(255,0,0,.27);border-radius:13px;background:rgba(12,1,1,.77);transition:transform .24s cubic-bezier(.2,.8,.2,1),border-color .24s ease,background .24s ease,box-shadow .24s ease}
+.url-heading{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-bottom:11px;flex-wrap:wrap}
+.url-heading strong{font-size:12px;letter-spacing:1px;color:#fff}
+.url-heading small{color:#c18b8b;font-size:10px}
+.url-fields{display:flex;gap:9px;align-items:stretch}
+.url-input{background:rgba(5,0,0,.92);border:1px solid rgba(255,0,0,.3);border-radius:9px;padding:12px;outline:0;color:#fff;flex:1;min-width:0;font-size:12px;transition:border-color .24s ease,box-shadow .24s ease,transform .24s ease,background .24s ease}
+.url-input::placeholder{color:#887272}
+.url-input:focus-visible{border-color:#ff3030;box-shadow:0 0 14px rgba(255,0,0,.15)}
+.url-add-btn{background:linear-gradient(115deg,#540000,#b50000);border:1px solid rgba(255,56,56,.55);color:#fff;border-radius:9px;padding:11px 14px;font-size:11px;letter-spacing:.6px;font-weight:850;white-space:nowrap;transition:transform .24s ease,background .24s ease,border-color .24s ease,box-shadow .24s ease}
+.url-add-btn:disabled{opacity:.55;cursor:not-allowed}
+.url-help{margin:10px 0 0;color:#af9595;line-height:1.55;font-size:10px}
+.url-status{margin-top:9px;min-height:0;color:#d0bbbb;line-height:1.5;font-size:11px;overflow-wrap:anywhere}
+.url-status:empty{display:none}
+.url-status[data-state="error"]{color:#ff9c9c}
+.url-status[data-state="success"]{color:#a6f0b9}
+@media(hover:hover) and (pointer:fine){
+  .url-import:hover{transform:scale(1.015);background:rgba(48,2,3,.9);border-color:rgba(255,26,26,.78);box-shadow:0 0 22px rgba(255,0,0,.21)}
+  .url-input:hover,.url-input:focus-visible{transform:scale(1.015);background:rgba(37,0,0,.92);border-color:#ff2626;box-shadow:0 0 15px rgba(255,0,0,.17)}
+  .url-add-btn:not(:disabled):hover{transform:scale(1.06);background:linear-gradient(115deg,#a50000,#f31b1b);border-color:#ff3030;box-shadow:0 0 17px rgba(255,0,0,.33)}
+}
+@media(max-width:490px){.url-fields{flex-direction:column}.url-add-btn{min-height:42px}}
+@media(pointer:fine){.url-add-btn,.url-input{cursor:none}}
+
+/* Ana site temasi korunarak yetkili YouTube sunucu ayarlari */
+.permission-row{margin-top:12px;display:flex;align-items:flex-start;gap:10px;border:1px solid rgba(255,0,0,.25);background:rgba(9,0,0,.72);padding:12px;border-radius:11px;color:#d2baba;line-height:1.55;font-size:11px;transition:transform .24s ease,border-color .24s ease,box-shadow .24s ease,background .24s ease}
+.permission-row input{accent-color:#ff1212;min-width:16px;width:16px;height:16px;margin-top:1px}
+.backend-details{margin-top:12px;border:1px solid rgba(255,0,0,.3);background:rgba(7,0,0,.82);border-radius:11px;overflow:hidden;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease,background .25s ease}
+.backend-details summary{list-style:none;padding:12px 14px;font-size:11px;color:#f1c0c0;font-weight:800;letter-spacing:.3px;cursor:pointer;user-select:none}
+.backend-details summary::-webkit-details-marker{display:none}
+.backend-details summary::after{content:' +';color:#ff3737}
+.backend-details[open] summary::after{content:' −'}
+.backend-body{padding:0 13px 13px}
+.backend-body label{display:block;font-size:10px;color:#c89898;margin:0 0 8px}
+.backend-body .url-fields{flex-wrap:wrap}
+.backend-body .url-input{min-width:200px}
+@media(hover:hover) and (pointer:fine){.permission-row:hover,.backend-details:hover{transform:scale(1.014);border-color:#ff2424;background:rgba(55,2,4,.9);box-shadow:0 0 22px rgba(255,0,0,.2)}}
+
+</style>
+<!-- Yalnızca dönüştürme kütüphaneleri CDN'den yüklenir. Kullanıcı dosyaları yerelde işlenir. -->
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.13.0/mammoth.browser.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/DOMPurify/3.2.6/purify.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/lamejs/1.2.0/lame.min.js"></script>
+</head>
+<body>
+<div class="hero-bg" id="parallax-bg"></div>
+<div class="vignette"></div>
+<canvas id="particles-canvas" aria-hidden="true"></canvas>
+<div class="custom-cursor" id="cursor"></div>
+    <!-- ANA SAYFAYLA AYNI SHARINGAN AÇILIŞI -->
+    <div id="splash">
+        <svg class="sharingan" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="45" fill="#990000" stroke="#111" stroke-width="4"/>
+            <circle cx="50" cy="50" r="24" fill="none" stroke="#111" stroke-width="2" opacity="0.6"/>
+            <circle cx="50" cy="50" r="8" fill="#000"/>
+            <g>
+                <g transform="translate(50, 26)"><circle cx="0" cy="0" r="6" fill="#000"/><path d="M -6 0 Q -10 -15 5 -15 Q 0 -5 6 0 Z" fill="#000"/></g>
+                <g transform="translate(71, 62) rotate(120)"><circle cx="0" cy="0" r="6" fill="#000"/><path d="M -6 0 Q -10 -15 5 -15 Q 0 -5 6 0 Z" fill="#000"/></g>
+                <g transform="translate(29, 62) rotate(240)"><circle cx="0" cy="0" r="6" fill="#000"/><path d="M -6 0 Q -10 -15 5 -15 Q 0 -5 6 0 Z" fill="#000"/></g>
+            </g>
+        </svg>
+        <div class="logo-container">
+            <div class="logo-text">yigitqwc</div>
+            <div class="red-line-wrapper"></div>
+        </div>
+    </div>
+
+
+<nav><div class="nav-left"><a class="logo-container hover-target" href="index.html" aria-label="Ana sayfaya dön"><div class="logo-text">yigitqwc</div><div class="red-line-wrapper"></div></a><span class="module-badge">◆ VTAB / DÖNÜŞTÜRÜCÜ</span></div><a class="back-link hover-target" href="index24.html">← Vtab'a Dön</a></nav>
+<main class="container">
+ <header class="hero"><div class="eyebrow">VTAB DIGITAL STUDIO</div><h1>DOSYA <span>DÖNÜŞTÜRÜCÜ</span></h1><p>Görsellerini, belgelerini ve ses dosyalarını istediğin formata dönüştür. Dosyanı bırak, hedef formatını seç ve sonucu indir.</p><div class="stat-row"><span class="chip"><span class="check">●</span> Tarayıcıda işleme</span><span class="chip">JPG · PNG · WEBP</span><span class="chip">PDF · DOCX · TXT</span><span class="chip">MP3 · WAV</span></div></header>
+ <section class="workspace" aria-label="Dönüştürme alanı">
+  <article class="card"><div class="card-head"><h2>01 / DOSYANI YÜKLE</h2><span class="small-id">LOCAL CONVERSION</span></div><div class="card-content">
+   <div class="dropzone hover-target" id="dropzone" tabindex="0" role="button" aria-label="Dosya yüklemek için tıkla veya dosyayı buraya sürükle"><div class="upload-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a2 2 0 002 2h12a2 2 0 002-2v-3"/></svg></div><strong>Dosyaları buraya sürükle & bırak</strong><p>Veya bilgisayarından seç<br>JPG, PNG, WEBP, PDF, DOCX, TXT, MP3, WAV, M4A, OGG</p><span class="browse">＋ DOSYA SEÇ</span></div>
+   <input id="fileInput" type="file" multiple accept=".jpg,.jpeg,.png,.webp,.pdf,.docx,.txt,.mp3,.wav,.m4a,.aac,.ogg,.oga,.webm,image/jpeg,image/png,image/webp,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain,audio/*">
+
+   <!-- URL ile dosya ekleme: dogrudan dosya veya izinli YouTube sunucusu -->
+   <div class="url-import" id="urlImport">
+     <div class="url-heading"><strong>🔗 URL EKLE</strong><small>SES DOSYASI / İZİNLİ YOUTUBE</small></div>
+     <div class="url-fields">
+       <input id="fileUrl" class="url-input hover-target" type="url" inputmode="url" autocomplete="url" autocapitalize="off" spellcheck="false" placeholder="https://youtu.be/... veya https://ornek.com/ses.mp3" aria-label="YouTube ya da doğrudan dosya URL bağlantısı">
+       <button type="button" id="addUrlBtn" class="url-add-btn hover-target">＋ URL EKLE</button>
+     </div>
+     <p class="url-help">Doğrudan ses/dosya bağlantıları tarayıcıda işlenir. YouTube bağlantılarından MP3 oluşturma, yalnızca YouTube ve ilgili hak sahiplerinin indirme ve dönüştürme izni verdiği içeriklerde ve ayrı Render sunucusu kurulduğunda çalışır. Spotify şarkıları MP3 olarak indirilemez.</p>
+     <label class="permission-row hover-target"><input type="checkbox" id="permissionCheck"><span>Bu YouTube içeriğini indirme ve dönüştürme konusunda platformun ve hak sahiplerinin gerekli izinlerine sahibim.</span></label>
+     <details class="backend-details" id="backendDetails"><summary class="hover-target">⚙ YouTube MP3 sunucu bağlantısını ayarla</summary>
+       <div class="backend-body"><label for="backendUrl">Render Web Service adresi</label>
+       <div class="url-fields"><input id="backendUrl" class="url-input hover-target" type="url" spellcheck="false" placeholder="https://servisim.onrender.com" aria-label="Render servisi adresi"><button id="healthCheckBtn" type="button" class="url-add-btn hover-target">BAĞLANTIYI TEST ET</button></div>
+       <p class="url-help">Sunucunun adresi bu tarayıcıda saklanır. Önce paketteki <code>server/</code> klasörünü Render'a kur, sonra çıkan HTTPS adresini buraya yaz. GitHub Pages tek başına YouTube'dan MP3 üretemez.</p></div>
+     </details>
+     <div class="url-status" id="urlStatus" role="status" aria-live="polite"></div>
+   </div>
+   <div class="upload-footer"><span>Birden fazla aynı tür dosya seçebilirsin.</span><span>Dosya başına en çok 40 MB</span></div>
+   <div id="fileList" class="file-list" aria-live="polite"><div class="empty-state">Henüz dosya seçilmedi.</div></div>
+  </div></article>
+  <div class="right-column" style="display:grid;gap:20px">
+   <article class="card"><div class="card-head"><h2>02 / DÖNÜŞÜM AYARLARI</h2><span class="small-id">FORMAT SELECT</span></div><div class="card-content">
+     <div class="format-row"><div class="field"><label class="label">KAYNAK FORMAT</label><div class="from-box" id="sourceFormat">Dosya bekleniyor</div></div><div class="field"><label class="label" for="outputFormat">HEDEF FORMAT</label><div class="select-wrap"><select id="outputFormat" class="format-box hover-target" disabled><option value="">Önce dosya yükle</option></select></div></div></div>
+     <div class="options" id="optionsPanel"><div class="opt-row"><label class="label" for="quality">GÖRSEL / MP3 KALİTESİ</label><span class="quality-value" id="qualityLabel">90%</span></div><input class="range hover-target" id="quality" type="range" min="50" max="100" value="90" step="5" aria-label="Görsel kalitesi"><div id="pageOption" style="display:none" class="field"><label class="label" for="pdfPages">PDF SAYFALARI</label><div class="select-wrap"><select id="pdfPages" class="format-box hover-target"><option value="all">Tüm sayfalar (ZIP)</option><option value="first">Yalnızca ilk sayfa</option></select></div></div></div>
+     <div class="tip" id="conversionNote"><strong>Bilgi:</strong> Dönüştürmek istediğin dosyayı yüklediğinde kullanılabilir formatlar listelenecek.</div>
+     <button type="button" class="convert-btn hover-target" id="convertBtn" disabled>✦ DÖNÜŞTÜRMEYİ BAŞLAT</button>
+     <div id="progressArea" class="progress-area" aria-live="polite"><div class="progress-top"><span id="progressText">Dönüştürülüyor...</span><span id="progressPct">0%</span></div><div class="bar"><div id="progressFill"></div></div></div>
+     <div id="errorMsg" class="error-msg" role="alert"></div>
+   </div></article>
+   <article class="card"><div class="card-head"><h2>03 / DOSYALARIN HAZIR</h2><span class="small-id">EXPORT CENTER</span></div><div class="card-content"><div class="results" id="results" aria-live="polite"><div class="result-empty"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.2" width="43" height="43"><path d="M12 3v12m-4-4 4 4 4-4M4 17v3h16v-3" stroke-linecap="round" stroke-linejoin="round"/></svg><strong>İndirmeler burada görünecek</strong><p>Dönüşüm tamamlandığında dosyanı bu alandan indirebilirsin.</p></div></div><p class="foot-note">Yüklediğin dosyalar tarayıcıda işlenir. İzinli YouTube içerikleri, ayarladığın ayrı sunucuda MP3 olarak hazırlanır. Sunucu kapalıysa veya erişim kısıtlıysa işlem yapılamaz.</p></div></article>
+  </div>
+ </section>
+ <section class="feature-grid"><div class="feature"><div class="feature-icon">◈</div><h3>Görsel Atölyesi</h3><p>JPG, PNG ve WEBP arasında dönüşüm yap. Tek veya birden fazla görseli PDF'e aktar.</p></div><div class="feature"><div class="feature-icon">▤</div><h3>Belge Dönüştürme</h3><p>PDF sayfalarını görsele çevir; PDF ve DOCX belgelerini farklı formatlarda dışa aktar.</p></div><div class="feature"><div class="feature-icon">♫</div><h3>Ses Stüdyosu</h3><p>Yüklediğin ses dosyalarını MP3 ya da WAV'a dönüştür, bilgisayarına indir.</p></div></section>
+</main>
+<footer class="footer">yigitqwc © 2026 • VTAB DOSYA DÖNÜŞTÜRÜCÜ</footer>
+<script>
+"use strict";
+(function () {
+const $=id=>document.getElementById(id);
+const formats={image:["png","jpg","webp","pdf"],pdf:["png","jpg","webp","txt","docx"],docx:["pdf","txt","html"],txt:["pdf","docx"],audio:["mp3","wav"]};
+const labels={png:"PNG Görsel",jpg:"JPG Görsel",webp:"WEBP Görsel",pdf:"PDF Belge",docx:"DOCX (Word)",txt:"TXT Metin",html:"HTML Belge",mp3:"MP3 Ses",wav:"WAV Ses"};
+let files=[],results=[],busy=false,sourceType="";
+const MAX_SIZE=40*1024*1024, MAX_FILES=12, MAX_PDF_PAGES=40, MAX_PIXELS=28000000;
+const extensions={jpg:"image",jpeg:"image",png:"image",webp:"image",pdf:"pdf",docx:"docx",txt:"txt",mp3:"audio",wav:"audio",m4a:"audio",aac:"audio",ogg:"audio",oga:"audio",webm:"audio"};
+function ext(f){return (f.name.split(".").pop()||"").toLowerCase()}
+function typeOf(f){return extensions[ext(f)]||null}
+function mp3Bitrate(v){const choices=[128,160,192,224,256,320];return choices[Math.max(0,Math.min(5,Math.floor((Number(v)-50)/10)))]}
+function sizeText(n){return n<1024?`${n} B`:n<1048576?`${(n/1024).toFixed(1)} KB`:`${(n/1048576).toFixed(2)} MB`}
+function stem(name){return name.replace(/\.[^.]+$/,"").replace(/[\\/:*?"<>|\u0000-\u001f]/g,"_").slice(0,90)||"donusturulen"}
+function requireLib(name,test){if(!test)throw new Error(`${name} kütüphanesi yüklenemedi. İnternet bağlantını kontrol et ve sayfayı yenile.`)}
+function note(msg){$("conversionNote").innerHTML="";const b=document.createElement("strong");b.textContent="Bilgi: ";$("conversionNote").append(b,document.createTextNode(msg))}
+function error(msg){$("errorMsg").textContent=msg;$("errorMsg").classList.add("show")}
+function clearError(){$("errorMsg").classList.remove("show");$("errorMsg").textContent=""}
+function updateProgress(value,msg){$("progressArea").classList.add("show");const pct=Math.max(0,Math.min(100,Math.round(value)));$("progressFill").style.width=pct+"%";$("progressPct").textContent=pct+"%";$("progressText").textContent=msg}
+function nextFrame(){return new Promise(r=>requestAnimationFrame(()=>setTimeout(r,0)))}
+function selectFiles(input){if(busy)return;clearError();const chosen=Array.from(input);if(!chosen.length)return;if(chosen.length>MAX_FILES){error(`Tek seferde en fazla ${MAX_FILES} dosya eklenebilir.`);return}const cat=typeOf(chosen[0]);if(!cat||chosen.some(f=>typeOf(f)!==cat)){error("Lütfen aynı kategorideki desteklenen dosyaları birlikte yükle. (Görsel, PDF, Word, metin veya ses)");return}if(chosen.some(f=>f.size>MAX_SIZE)){error("Dosya başına 40 MB sınırı aşıldı. Daha küçük dosya seç.");return}files=chosen;sourceType=cat;renderFiles();resetResults();updateFormats();}
+
+/* URL ile dosya aktarma. HTML/video sayfaları ve CORS engeli aşılmaz. */
+let urlBusy=false;
+const SUPPORTED_CONTENT_TYPES={
+  "audio/mpeg":"mp3","audio/mp3":"mp3","audio/x-mpeg":"mp3",
+  "audio/wav":"wav","audio/wave":"wav","audio/x-wav":"wav","audio/vnd.wave":"wav",
+  "audio/mp4":"m4a","audio/x-m4a":"m4a","audio/aac":"aac","audio/ogg":"ogg","audio/webm":"webm",
+  "image/jpeg":"jpg","image/png":"png","image/webp":"webp",
+  "application/pdf":"pdf","application/vnd.openxmlformats-officedocument.wordprocessingml.document":"docx",
+  "text/plain":"txt"
+};
+function urlStatus(message,state="info"){
+  const el=$("urlStatus");el.textContent=message;el.dataset.state=state;
+}
+function isForbiddenPage(u){
+  const host=u.hostname.toLowerCase().replace(/^www\./,"");
+  return ["youtube.com","youtu.be","youtube-nocookie.com","spotify.com","open.spotify.com","music.apple.com","music.youtube.com","deezer.com","soundcloud.com"].some(domain=>host===domain||host.endsWith("."+domain));
+}
+// YouTube video IDs disinda herhangi bir host/sayfa kabul edilmez.
+function youtubeVideoId(u){
+  const host=u.hostname.toLowerCase().replace(/^www\./,"");
+  const match=id=>/^[A-Za-z0-9_-]{11}$/.test(id||"")?id:null;
+  if(host==="youtu.be")return match(u.pathname.split("/")[1]);
+  if(["youtube.com","m.youtube.com","music.youtube.com","youtube-nocookie.com"].includes(host)){
+    if(u.pathname==="/watch")return match(u.searchParams.get("v"));
+    const bits=u.pathname.split("/").filter(Boolean);
+    if(["shorts","live","embed"].includes(bits[0]))return match(bits[1]);
+  }
+  return null;
+}
+function isYoutubeHost(u){const h=u.hostname.toLowerCase().replace(/^www\./,"");return ["youtube.com","m.youtube.com","music.youtube.com","youtube-nocookie.com","youtu.be"].includes(h)}
+function serverBase(){
+  const raw=$("backendUrl").value.trim().replace(/\/+$/,"");
+  if(!raw)throw Error("Önce 'YouTube MP3 sunucu bağlantısını ayarla' bölümüne Render sunucunun adresini gir.");
+  let u;try{u=new URL(raw)}catch(e){throw Error("Render adresi geçersiz. https://servisim.onrender.com biçiminde olmalı.")}
+  const local=["localhost","127.0.0.1"].includes(u.hostname);
+  if((u.protocol!=="https:" && !(local&&u.protocol==="http:"))||u.username||u.password||u.search||u.hash||u.pathname!=="/")throw Error("Render adresi yalnızca HTTPS kök adresi olmalı (ör. https://servisim.onrender.com).");
+  try{localStorage.setItem("yigitqwc_mp3_backend",u.origin)}catch(e){}
+  return u.origin;
+}
+try{$("backendUrl").value=localStorage.getItem("yigitqwc_mp3_backend")||""}catch(e){}
+$("backendUrl").addEventListener("change",()=>{try{serverBase()}catch(e){urlStatus(e.message,"error")}});
+$("healthCheckBtn").addEventListener("click",async()=>{
+  let base;try{base=serverBase()}catch(e){urlStatus(e.message,"error");$("backendDetails").open=true;return}
+  const button=$("healthCheckBtn");button.disabled=true;button.textContent="TEST EDİLİYOR...";
+  const timer=new AbortController();const tid=setTimeout(()=>timer.abort(),80000);
+  try{urlStatus("Sunucu kontrol ediliyor. Render ücretsiz servisi uykudaysa açılması biraz sürebilir...");
+    const r=await fetch(base+"/api/health",{signal:timer.signal,credentials:"omit"});
+    if(!r.ok)throw Error("Sunucu yanıtı: HTTP "+r.status);
+    const d=await r.json();if(!d.ready)throw Error("Sunucu ayakta ama FFmpeg veya yt-dlp hazır değil.");
+    urlStatus("✓ MP3 sunucusuna bağlanıldı. İzinli YouTube URL'sini ekleyebilirsin.","success")
+  }catch(e){urlStatus("Sunucuya erişilemedi: "+(e.name==="AbortError"?"Zaman aşımı":e.message)+". Render adresini ve SITE_ORIGINS ayarını kontrol et.","error")}
+  finally{clearTimeout(tid);button.disabled=false;button.textContent="BAĞLANTIYI TEST ET"}
+});
+async function convertPermittedYoutube(u,videoId){
+  if(!$("permissionCheck").checked)throw Error("Bu indirme/dönüştürme için platform ve hak sahiplerinin izni olduğunu onaylamalısın.");
+  const base=serverBase();
+  const controller=new AbortController();const timeout=setTimeout(()=>controller.abort(),210000);
+  try{
+    urlStatus("İzinli YouTube içeriği sunucuya gönderiliyor; MP3 hazırlanıyor. Bu işlem videonun uzunluğuna göre sürebilir...");
+    const r=await fetch(base+"/api/convert",{
+      method:"POST",mode:"cors",credentials:"omit",signal:controller.signal,
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({url:u.href,permission_confirmed:true})
+    });
+    if(!r.ok){let msg="HTTP "+r.status;try{const d=await r.json();msg=d.error||msg}catch(e){}throw Error(msg)}
+    const len=Number(r.headers.get("Content-Length"))||0;
+    if(len>MAX_SIZE)throw Error("Sunucu MP3'ü 40 MB sınırını aşıyor.");
+    const chunks=[];let total=0;
+    if(r.body){const reader=r.body.getReader();try{while(true){const {done,value}=await reader.read();if(done)break;total+=value.byteLength;if(total>MAX_SIZE){await reader.cancel();throw Error("MP3, 40 MB sınırını aşıyor.")}chunks.push(value);urlStatus("MP3 indiriliyor: "+sizeText(total)+(len?" / "+sizeText(len):""))}}finally{reader.releaseLock()}}
+    else{const data=await r.arrayBuffer();total=data.byteLength;chunks.push(data)}
+    if(!total)throw Error("Sunucu boş MP3 dosyası gönderdi.");
+    const blob=new Blob(chunks,{type:"audio/mpeg"});
+    const fileName="youtube_"+videoId+".mp3";
+    addResult(fileName,blob);renderResults();
+    urlStatus("✓ "+fileName+" hazır ("+sizeText(total)+"). Sağdaki 'DOSYALARIN HAZIR' alanından indir.","success");
+    $("results").scrollIntoView({behavior:"smooth",block:"nearest"});
+  }finally{clearTimeout(timeout)}
+}
+
+function urlFileName(u,contentType){
+  let base="";
+  try{base=decodeURIComponent(u.pathname.split("/").pop()||"")}catch(e){base=u.pathname.split("/").pop()||""}
+  base=base.replace(/[\\/:*?"<>|\u0000-\u001f]/g,"_").slice(0,115);
+  const candidateExt=(base.split(".").pop()||"").toLowerCase();
+  const mimeExt=SUPPORTED_CONTENT_TYPES[contentType];
+  const useExt=extensions[candidateExt]?candidateExt:mimeExt;
+  if(!useExt)throw new Error("Bu bağlantı, desteklenen bir dosya türü belirtmiyor. MP3/WAV gibi doğrudan dosya URL'si kullan.");
+  if(!base||!extensions[candidateExt])base=(base&&base!==candidateExt?stem(base):"baglantidan_gelen_dosya")+"."+useExt;
+  if(!extensions[ext({name:base})])throw new Error("Bağlantıdaki dosya formatı desteklenmiyor.");
+  return base;
+}
+async function importFromUrl(){
+  if(busy||urlBusy)return;
+  const raw=$("fileUrl").value.trim();
+  let parsed;
+  try{
+    parsed=new URL(raw);
+    if(!["https:","http:"].includes(parsed.protocol)||parsed.username||parsed.password)throw Error("URL biçimi hatalı.");
+    if(!isYoutubeHost(parsed) && isForbiddenPage(parsed))throw Error("Spotify ve diğer yayın platformlarının sayfa bağlantılarından MP3 indirilemiyor. Sahip olduğun ses dosyasını yükle.");
+  }catch(e){urlStatus(e instanceof TypeError?"Geçerli bir http/https dosya bağlantısı gir.":e.message,"error");return}
+  urlBusy=true;clearError();$("addUrlBtn").disabled=true;$("addUrlBtn").textContent="EKLENİYOR...";
+  $("fileUrl").disabled=true;
+  const controller=new AbortController();
+  const timeout=setTimeout(()=>controller.abort(),90000);
+  try{
+    if(isYoutubeHost(parsed)){
+      const id=youtubeVideoId(parsed);
+      if(!id)throw Error("Geçerli bir tekil YouTube video/Shorts bağlantısı gir (liste, kanal veya canlı yayın değil).");
+      $("addUrlBtn").textContent="MP3 HAZIRLANIYOR...";
+      await convertPermittedYoutube(parsed,id);
+      return;
+    }
+    urlStatus("Bağlantı kontrol ediliyor ve dosya indiriliyor...");
+    const response=await fetch(parsed.href,{method:"GET",mode:"cors",credentials:"omit",redirect:"follow",signal:controller.signal});
+    if(!response.ok)throw Error(`Sunucu dosyayı vermedi (HTTP ${response.status}).`);
+    if(response.type==="opaque")throw Error("Bu bağlantının dosyası tarayıcı tarafından okunamıyor (CORS).");
+    const contentType=(response.headers.get("content-type")||"").split(";")[0].trim().toLowerCase();
+    if(["text/html","application/xhtml+xml","application/json","application/xml","text/xml"].includes(contentType)||contentType.startsWith("video/")){
+      throw Error("Bu URL bir web sayfasına veya videoya işaret ediyor. Doğrudan erişilebilir ses/dosya bağlantısı gir.");
+    }
+    const declaredSize=Number(response.headers.get("content-length"));
+    if(Number.isFinite(declaredSize)&&declaredSize>MAX_SIZE)throw Error("Bu URL'deki dosya 40 MB sınırını aşıyor.");
+    const fileName=urlFileName(new URL(response.url||parsed.href),contentType);
+    const chunks=[];let total=0;
+    if(response.body){
+      const reader=response.body.getReader();
+      try{
+        while(true){
+          const {done,value}=await reader.read();if(done)break;
+          total+=value.byteLength;
+          if(total>MAX_SIZE){await reader.cancel();throw Error("Bu URL'deki dosya 40 MB sınırını aşıyor.")}
+          chunks.push(value);
+          const label=declaredSize>0?` (%${Math.min(100,Math.round(total/declaredSize*100))})`:"";
+          urlStatus(`Dosya aktarılıyor: ${sizeText(total)}${label}`);
+        }
+      }finally{reader.releaseLock()}
+    }else{
+      const ab=await response.arrayBuffer();total=ab.byteLength;
+      if(total>MAX_SIZE)throw Error("Bu URL'deki dosya 40 MB sınırını aşıyor.");
+      chunks.push(ab);
+    }
+    if(total===0)throw Error("Bağlantıdan boş dosya geldi.");
+    // Yanıltıcı .mp3 uzantısıyla HTML sayfası yüklemeyi önle.
+    const sample=new Uint8Array(await new Blob(chunks).slice(0,96).arrayBuffer());
+    const prefix=new TextDecoder().decode(sample).trimStart().toLowerCase();
+    if(prefix.startsWith("<!doctype html")||prefix.startsWith("<html")||prefix.startsWith("<?xml"))throw Error("Bağlantı doğrudan dosya yerine HTML/XML sayfası döndürdü.");
+    const file=new File(chunks,fileName,{type:contentType||"application/octet-stream",lastModified:Date.now()});
+    selectFiles([file]);
+    if(files[0]!==file)throw Error("Dosya eklendi ancak formatı kabul edilmedi.");
+    if(sourceType==="audio"){
+      const out=$("outputFormat");out.value="mp3";updateTarget();
+    }
+    urlStatus(`✓ ${fileName} eklendi (${sizeText(total)}). Hedef formatını seç ve DÖNÜŞTÜRMEYİ BAŞLAT'a bas.`,"success");
+  }catch(e){
+    const isAbort=e.name==="AbortError";
+    const isNetwork=e instanceof TypeError;
+    urlStatus(isAbort?"Dosya aktarımı zaman aşımına uğradı. Daha küçük bir bağlantı dene.":isNetwork?"Bağlantı okunamadı. Render veya dosya sunucusu CORS erişimine izin vermiyor olabilir.":e.message||"URL'den dosya alınamadı.","error");
+  }finally{
+    clearTimeout(timeout);urlBusy=false;
+    $("addUrlBtn").disabled=false;$("addUrlBtn").textContent="＋ URL EKLE";
+    $("fileUrl").disabled=false;
+  }
+}
+$("addUrlBtn").addEventListener("click",importFromUrl);
+$("fileUrl").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();importFromUrl()}});
+
+function renderFiles(){const list=$("fileList");list.innerHTML="";if(!files.length){list.innerHTML='<div class="empty-state">Henüz dosya seçilmedi.</div>';return}for(let i=0;i<files.length;i++){const f=files[i],row=document.createElement("div");row.className="file-item";const icon=document.createElement("div");icon.className="file-icon";icon.textContent=ext(f).toUpperCase().slice(0,4);const info=document.createElement("div");info.className="file-info";const name=document.createElement("div");name.className="file-name";name.textContent=f.name;name.title=f.name;const meta=document.createElement("div");meta.className="file-meta";meta.textContent=sizeText(f.size);info.append(name,meta);const remove=document.createElement("button");remove.type="button";remove.className="remove-file hover-target";remove.setAttribute("aria-label",`${f.name} dosyasını kaldır`);remove.textContent="×";remove.onclick=()=>{files.splice(i,1);if(!files.length)sourceType="";renderFiles();updateFormats();resetResults()};row.append(icon,info,remove);list.append(row)}}
+function updateFormats(){const select=$("outputFormat");select.innerHTML="";$("sourceFormat").textContent=files.length===0?"Dosya bekleniyor":sourceType==="image"?"GÖRSEL (JPG/PNG/WEBP)":sourceType==="audio"?"SES (MP3/WAV/... )":sourceType.toUpperCase();select.disabled=!files.length;for(const target of formats[sourceType]||[]){const option=document.createElement("option");option.value=target;option.textContent=labels[target];select.append(option)}$("convertBtn").disabled=!files.length;updateTarget()}
+function updateTarget(){const target=$("outputFormat").value;const isImage=sourceType==="image"||sourceType==="pdf"&&["png","jpg","webp"].includes(target);const isAudio=sourceType==="audio"&&target==="mp3";$("quality").disabled=!(isImage||isAudio);$("quality").parentElement.style.opacity=isImage||isAudio?"1":".35";$("qualityLabel").textContent=isAudio?`${mp3Bitrate($("quality").value)} kbps`:`${$("quality").value}%`;$("pageOption").style.display=sourceType==="pdf"&&["png","jpg","webp"].includes(target)?"block":"none";
+ if(sourceType==="audio")note("Dosya veya doğrudan erişilebilir ses URL’si ekleyebilirsin. İzinli YouTube MP3 için ayrı Render sunucusu gerekir; Spotify indirmeleri desteklenmez.");
+ else if(sourceType==="docx"&&target==="pdf")note("DOCX → PDF dönüştürmede metin ve görseller korunmaya çalışılır; karmaşık Word sayfa düzeni birebir aynı olmayabilir.");
+ else if(sourceType==="pdf"&&target==="docx")note("PDF → DOCX, yalnızca seçilebilir metni çıkarır; taranmış PDF'ler ve özgün sayfa biçimi korunmaz.");
+ else if(sourceType==="pdf"&&target==="txt")note("PDF → TXT yalnızca seçilebilir metni çıkarır. Görsel/taranmış PDF'ler için OCR bulunmuyor.");
+ else if(sourceType==="pdf")note("Çok sayfalı PDF'ler seçtiğin formata sayfa sayfa çevrilir ve ZIP olarak indirilir.");
+ else if(sourceType==="image"&&target==="jpg")note("JPEG saydamlık desteklemez; şeffaf bölgeler beyaz arka plana dönüştürülür.");
+ else if(sourceType==="image"&&target==="pdf")note("Birden çok görsel tek bir PDF'de art arda sayfalara yerleştirilir.");
+ else note("İşlem tamamlandığında yeni dosyanı indirme panelinden alabilirsin.")}
+function resetResults(){for(const item of results)if(item.url)URL.revokeObjectURL(item.url);results=[];$("results").innerHTML='<div class="result-empty"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.2" width="43" height="43"><path d="M12 3v12m-4-4 4 4 4-4M4 17v3h16v-3" stroke-linecap="round" stroke-linejoin="round"/></svg><strong>İndirmeler burada görünecek</strong><p>Dönüşüm tamamlandığında dosyanı bu alandan indirebilirsin.</p></div>';$("progressArea").classList.remove("show")}
+function addResult(name,blob){const url=URL.createObjectURL(blob);results.push({name,blob,url})}
+function renderResults(){const root=$("results");root.innerHTML="";for(const item of results){const row=document.createElement("div");row.className="result-item";const icon=document.createElement("div");icon.className="result-icon";icon.textContent="✓";const info=document.createElement("div");info.className="file-info";const n=document.createElement("div");n.className="result-name";n.textContent=item.name;const s=document.createElement("div");s.className="result-size";s.textContent=sizeText(item.blob.size)+" · Hazır";info.append(n,s);const a=document.createElement("a");a.className="download-btn hover-target";a.href=item.url;a.download=item.name;a.textContent="↓ İndir";row.append(icon,info,a);root.append(row)}if(results.length===0)root.innerHTML='<p class="result-message">Henüz çıktı üretilemedi.</p>'}
+function canvasFromImage(f){return new Promise((resolve,reject)=>{const url=URL.createObjectURL(f);const img=new Image();img.onload=()=>{URL.revokeObjectURL(url);if(img.naturalWidth*img.naturalHeight>MAX_PIXELS){reject(new Error("Görsel boyutları çok büyük (en fazla 28 milyon piksel)."));return}const canvas=document.createElement("canvas");canvas.width=img.naturalWidth;canvas.height=img.naturalHeight;const ctx=canvas.getContext("2d");if(!ctx){reject(new Error("Canvas oluşturulamadı."));return}ctx.drawImage(img,0,0);resolve(canvas)};img.onerror=()=>{URL.revokeObjectURL(url);reject(new Error("Görsel okunamadı veya desteklenmiyor."))};img.src=url})}
+function canvasToBlob(canvas,mime,quality){return new Promise((resolve,reject)=>canvas.toBlob(blob=>blob?resolve(blob):reject(new Error("Görsel dönüştürülemedi. Tarayıcı bu formatı desteklemiyor olabilir.")),mime,quality))}
+function drawOpaque(canvas){const out=document.createElement("canvas");out.width=canvas.width;out.height=canvas.height;const c=out.getContext("2d");c.fillStyle="#fff";c.fillRect(0,0,out.width,out.height);c.drawImage(canvas,0,0);return out}
+function pageSizeForImage(pdf,w,h){const a4w=210,a4h=297;const landscape=w>h;return {pw:landscape?a4h:a4w,ph:landscape?a4w:a4h,orientation:landscape?"l":"p"}}
+async function imagesToPdf(arr){requireLib("jsPDF",window.jspdf&&window.jspdf.jsPDF);let pdf=null;for(let i=0;i<arr.length;i++){const canvas=drawOpaque(await canvasFromImage(arr[i]));const {pw,ph,orientation}=pageSizeForImage(null,canvas.width,canvas.height);if(!pdf)pdf=new jspdf.jsPDF({orientation,unit:"mm",format:"a4",compress:true});else pdf.addPage("a4",orientation);const margin=8,ratio=Math.min((pw-2*margin)/canvas.width,(ph-2*margin)/canvas.height);const w=canvas.width*ratio,h=canvas.height*ratio;const data=canvas.toDataURL("image/jpeg",.92);pdf.addImage(data,"JPEG",(pw-w)/2,(ph-h)/2,w,h,undefined,"FAST");updateProgress(10+85*(i+1)/arr.length,`Görsel ${i+1}/${arr.length} PDF'e ekleniyor`);await nextFrame()}return pdf.output("blob")}
+async function imageConversions(arr,target,quality){if(target==="pdf"){addResult((arr.length===1?stem(arr[0].name):"yigitqwc_gorseller")+".pdf",await imagesToPdf(arr));return}const mime={jpg:"image/jpeg",png:"image/png",webp:"image/webp"}[target];for(let i=0;i<arr.length;i++){let canvas=await canvasFromImage(arr[i]);if(target==="jpg")canvas=drawOpaque(canvas);const blob=await canvasToBlob(canvas,mime,quality);addResult(`${stem(arr[i].name)}.${target}`,blob);updateProgress(10+85*(i+1)/arr.length,`Görsel ${i+1}/${arr.length} dönüştürülüyor`);await nextFrame()}}
+async function loadPdf(f){requireLib("PDF.js",window.pdfjsLib);pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";const bytes=new Uint8Array(await f.arrayBuffer());return pdfjsLib.getDocument({data:bytes}).promise}
+async function pdfText(pdf){const parts=[];for(let p=1;p<=pdf.numPages;p++){const page=await pdf.getPage(p);const text=await page.getTextContent();let lines=[],previousY=null,line="";for(const item of text.items){if(typeof item.str!=="string")continue;const y=Math.round(item.transform?.[5]||0);if(previousY!==null&&Math.abs(y-previousY)>3){if(line.trim())lines.push(line.trim());line=""}line+=item.str+(item.hasEOL?"\n":" ");previousY=y;if(item.hasEOL){lines.push(line.trim());line="";previousY=null}}if(line.trim())lines.push(line.trim());parts.push(lines.join("\n"));updateProgress(10+78*p/pdf.numPages,`PDF metni çıkarılıyor (${p}/${pdf.numPages})`);await nextFrame()}return parts}
+async function makeDocxFromText(text){requireLib("JSZip",window.JSZip);const zip=new JSZip();const xmlEsc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&apos;");const paragraphs=text.split(/\r?\n/).map(line=>`<w:p><w:r><w:rPr><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">${xmlEsc(line)}</w:t></w:r></w:p>`).join("");zip.file("[Content_Types].xml",`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/></Types>`);zip.folder("_rels").file(".rels",`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>`);zip.folder("word").file("document.xml",`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body>${paragraphs}<w:sectPr><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="1200" w:right="1200" w:bottom="1200" w:left="1200"/></w:sectPr></w:body></w:document>`);return zip.generateAsync({type:"blob",mimeType:"application/vnd.openxmlformats-officedocument.wordprocessingml.document",compression:"DEFLATE"})}
+async function pdfConversions(arr,target,quality){let out=0;for(let i=0;i<arr.length;i++){const f=arr[i],pdf=await loadPdf(f);try{if(target==="txt"||target==="docx"){const text=(await pdfText(pdf)).join("\n\n--- SAYFA SONU ---\n\n");const blob=target==="txt"?new Blob([text],{type:"text/plain;charset=utf-8"}):await makeDocxFromText(text);addResult(`${stem(f.name)}.${target}`,blob)}else{const first=$("pdfPages").value==="first";const pages=first?1:pdf.numPages;if(pages>MAX_PDF_PAGES)throw new Error(`Çok sayfalı PDF için en çok ${MAX_PDF_PAGES} sayfa desteklenir. İlk sayfa seçeneğini kullan.`);if(pages>1)requireLib("JSZip",window.JSZip);const zip=pages>1?new JSZip():null;for(let p=1;p<=pages;p++){const page=await pdf.getPage(p),viewport0=page.getViewport({scale:1});const scale=Math.min(2,Math.sqrt(MAX_PIXELS/(viewport0.width*viewport0.height)));const viewport=page.getViewport({scale});const canvas=document.createElement("canvas");canvas.width=Math.floor(viewport.width);canvas.height=Math.floor(viewport.height);const ctx=canvas.getContext("2d");await page.render({canvasContext:ctx,viewport,background:"rgb(255,255,255)"}).promise;const mime={png:"image/png",jpg:"image/jpeg",webp:"image/webp"}[target];const b=await canvasToBlob(canvas,mime,quality);const filename=`${stem(f.name)}_sayfa_${String(p).padStart(2,"0")}.${target}`;if(zip)zip.file(filename,b);else addResult(filename,b);canvas.width=canvas.height=1;updateProgress(5+90*((i+(p/pages))/arr.length),`PDF sayfa ${p}/${pages} dönüştürülüyor`);await nextFrame()}if(zip)addResult(`${stem(f.name)}_sayfalar.zip`,await zip.generateAsync({type:"blob"}))}}finally{await pdf.destroy()}out++;updateProgress(10+85*out/arr.length,`Belge ${out}/${arr.length} tamamlandı`)}}
+function createPrintableDoc(html){const wrapper=document.createElement("div");wrapper.style.cssText="position:fixed;left:-12000px;top:0;width:760px;padding:36px 42px;color:#161616;background:#fff;font:15px/1.6 Arial,sans-serif;overflow-wrap:anywhere;z-index:-1";wrapper.innerHTML=html;wrapper.querySelectorAll("img").forEach(img=>{img.style.maxWidth="100%";img.style.height="auto"});wrapper.querySelectorAll("table").forEach(table=>{table.style.width="100%";table.style.borderCollapse="collapse"});document.body.append(wrapper);return wrapper}
+async function htmlToPdfBlob(html){requireLib("html2pdf",window.html2pdf);const node=createPrintableDoc(html);try{await nextFrame();return await html2pdf().set({margin:8,filename:"converted.pdf",image:{type:"jpeg",quality:.96},html2canvas:{scale:1.6,useCORS:false,backgroundColor:"#ffffff",logging:false},jsPDF:{unit:"mm",format:"a4",orientation:"portrait"},pagebreak:{mode:["css","legacy"]}}).from(node).outputPdf("blob")}finally{node.remove()}}
+async function docxConversions(arr,target){requireLib("Mammoth",window.mammoth);for(let i=0;i<arr.length;i++){const buffer=await arr[i].arrayBuffer();let blob;if(target==="txt"){const converted=await mammoth.extractRawText({arrayBuffer:buffer});blob=new Blob([converted.value],{type:"text/plain;charset=utf-8"})}else{requireLib("DOMPurify",window.DOMPurify);const result=await mammoth.convertToHtml({arrayBuffer:buffer});const safe=DOMPurify.sanitize(result.value,{USE_PROFILES:{html:true}});if(target==="html")blob=new Blob([`<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>${stem(arr[i].name).replace(/&/g,"&amp;").replace(/</g,"&lt;")}</title><style>body{font:16px/1.65 system-ui;max-width:820px;margin:40px auto;padding:0 20px}img{max-width:100%;height:auto}table{border-collapse:collapse}td,th{border:1px solid #bbb;padding:6px}</style></head><body>${safe}</body></html>`],{type:"text/html;charset=utf-8"});else blob=await htmlToPdfBlob(safe)}addResult(`${stem(arr[i].name)}.${target}`,blob);updateProgress(10+85*(i+1)/arr.length,`Word belgesi ${i+1}/${arr.length} tamamlandı`);await nextFrame()}}
+async function txtConversions(arr,target){for(let i=0;i<arr.length;i++){const text=await arr[i].text();let blob;if(target==="docx")blob=await makeDocxFromText(text);else{const el=document.createElement("div");el.textContent=text;el.style.whiteSpace="pre-wrap";el.style.overflowWrap="anywhere";blob=await htmlToPdfBlob(el.outerHTML)}addResult(`${stem(arr[i].name)}.${target}`,blob);updateProgress(10+85*(i+1)/arr.length,`Metin ${i+1}/${arr.length} tamamlandı`);await nextFrame()}}
+function floatToPcm(channel){const pcm=new Int16Array(channel.length);for(let i=0;i<channel.length;i++){const x=Math.max(-1,Math.min(1,channel[i]));pcm[i]=x<0?x*32768:x*32767}return pcm}
+function waveBlob(audio){const n=audio.length,chs=Math.min(2,audio.numberOfChannels),sr=audio.sampleRate,buf=new ArrayBuffer(44+n*chs*2),v=new DataView(buf);let o=0;const str=x=>{for(let j=0;j<x.length;j++)v.setUint8(o++,x.charCodeAt(j))},u16=x=>{v.setUint16(o,x,true);o+=2},u32=x=>{v.setUint32(o,x,true);o+=4};str("RIFF");u32(36+n*chs*2);str("WAVE");str("fmt ");u32(16);u16(1);u16(chs);u32(sr);u32(sr*chs*2);u16(chs*2);u16(16);str("data");u32(n*chs*2);const channels=Array.from({length:chs},(_,i)=>audio.getChannelData(i));for(let i=0;i<n;i++)for(let c=0;c<chs;c++){const s=Math.max(-1,Math.min(1,channels[c][i]));v.setInt16(o,s<0?s*32768:s*32767,true);o+=2}return new Blob([buf],{type:"audio/wav"})}
+async function mp3Blob(audio,bitrate){requireLib("LAME MP3",window.lamejs&&window.lamejs.Mp3Encoder);let buf=audio;const sr=audio.sampleRate;if(sr>48000||sr<32000){const target=44100,offline=new OfflineAudioContext(Math.min(audio.numberOfChannels,2),Math.ceil(audio.duration*target),target);const source=offline.createBufferSource();source.buffer=audio;source.connect(offline.destination);source.start(0);buf=await offline.startRendering()}const n=Math.min(2,buf.numberOfChannels),encoder=new lamejs.Mp3Encoder(n,buf.sampleRate,bitrate);const left=floatToPcm(buf.getChannelData(0)),right=n===2?floatToPcm(buf.getChannelData(1)):null;const chunks=[],block=1152;for(let i=0;i<left.length;i+=block){const slice=left.subarray(i,i+block);const data=n===2?encoder.encodeBuffer(slice,right.subarray(i,i+block)):encoder.encodeBuffer(slice);if(data.length)chunks.push(new Uint8Array(data));if(i%(block*45)===0){updateProgress(10+85*(i/Math.max(1,left.length)),`MP3 kodlanıyor: ${Math.round(100*i/Math.max(1,left.length))}%`);await nextFrame()}}const last=encoder.flush();if(last.length)chunks.push(new Uint8Array(last));return new Blob(chunks,{type:"audio/mpeg"})}
+async function audioConversions(arr,target){for(let i=0;i<arr.length;i++){const Ctx=window.AudioContext||window.webkitAudioContext;if(!Ctx)throw new Error("Bu tarayıcı ses dönüştürmeyi desteklemiyor.");const ctx=new Ctx();try{const data=await arr[i].arrayBuffer();
+        // MP3->MP3 veya WAV->WAV: tekrar kodlamak yerine orijinal veriyi koru.
+        const originalExt=ext(arr[i]);
+        if(originalExt===target){
+            const originalMime=target==="mp3"?"audio/mpeg":"audio/wav";
+            addResult(`${stem(arr[i].name)}.${target}`,new Blob([data],{type:originalMime}));
+            updateProgress(10+85*(i+1)/arr.length,`Ses ${i+1}/${arr.length} hazır`);
+            await nextFrame();
+            continue;
+        }
+        const decoded=await ctx.decodeAudioData(data.slice(0));if(decoded.duration>600)throw new Error("Ses dosyası çok uzun. Tarayıcıda 10 dakikadan kısa dosya kullan.");const bitrate=mp3Bitrate($("quality").value);const blob=target==="mp3"?await mp3Blob(decoded,bitrate):waveBlob(decoded);addResult(`${stem(arr[i].name)}.${target}`,blob);updateProgress(10+85*(i+1)/arr.length,`Ses ${i+1}/${arr.length} dönüştürüldü`);await nextFrame()}catch(e){if(e.name==="EncodingError")throw new Error("Ses çözümlenemedi. Tarayıcının desteklediği MP3/WAV/M4A/OGG dosyası yükle.");throw e}finally{await ctx.close()}}}
+async function convert(){if(busy||!files.length)return;busy=true;clearError();resetResults();$("convertBtn").disabled=true;$("fileInput").disabled=true;const chosen=[...files],target=$("outputFormat").value;updateProgress(3,"Dönüştürme başlatılıyor");await nextFrame();try{if(sourceType==="image")await imageConversions(chosen,target,Number($("quality").value)/100);else if(sourceType==="pdf")await pdfConversions(chosen,target,Number($("quality").value)/100);else if(sourceType==="docx")await docxConversions(chosen,target);else if(sourceType==="txt")await txtConversions(chosen,target);else if(sourceType==="audio")await audioConversions(chosen,target);if(results.length>1){requireLib("JSZip",window.JSZip);const zip=new JSZip();for(const item of results)zip.file(item.name,item.blob);const blob=await zip.generateAsync({type:"blob"});addResult("yigitqwc_toplu_donusum.zip",blob)}updateProgress(100,`${results.length} indirme hazır ✓`);renderResults();$("results").scrollIntoView({behavior:"smooth",block:"nearest"})}catch(e){console.error("Dönüştürme hatası:",e);error(e?.message||"Dönüştürme başarısız oldu. Dosyanın bozuk olmadığından emin ol.");renderResults();$("progressArea").classList.remove("show")}finally{busy=false;$("convertBtn").disabled=!files.length;$("fileInput").disabled=false}}
+$("fileInput").onchange=e=>{selectFiles(e.target.files);e.target.value=""};$("dropzone").onclick=()=>!busy&&$("fileInput").click();$("dropzone").onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();if(!busy)$("fileInput").click()}};for(const ev of ["dragenter","dragover"]){$("dropzone").addEventListener(ev,e=>{e.preventDefault();$("dropzone").classList.add("dragover")})}for(const ev of ["dragleave","drop"]){$("dropzone").addEventListener(ev,e=>{e.preventDefault();$("dropzone").classList.remove("dragover")})}$("dropzone").addEventListener("drop",e=>selectFiles(e.dataTransfer.files));$("outputFormat").addEventListener("change",()=>{clearError();resetResults();updateTarget()});$("quality").addEventListener("input",updateTarget);$("convertBtn").addEventListener("click",convert);
+// === YIGITQWC ANA SAYFA EFEKTLERI / DOSYA DONUSTURME MOTORUNDAN BAGIMSIZ ===
+// Açılış süresi CDN bekleme süresinden bağımsızdır; görünüm ana sayfayla aynı.
+setTimeout(() => {
+    document.getElementById('splash').style.opacity = '0';
+    setTimeout(() => document.getElementById('splash').style.visibility = 'hidden', 1000);
+}, 1200);
+// Kütüphane hata verdiğinde açılış ekranı takılı kalmasın.
+setTimeout(() => { const splash = document.getElementById('splash'); if(splash) splash.style.visibility = 'hidden'; }, 4500);
+const cursor = document.getElementById('cursor');
+// Mevcut elmas imlec fareyi birebir takip eder; hizli olaylarda tek cizim/kare.
+const hoverables = 'a,button,select,input:not([type="hidden"]),label,textarea,[role="button"],.hover-target,.card,.feature,.file-item,.result-item,.chip,.module-badge,.browse,.from-box,.tip,.url-import';
+let cursorX = -100;
+let cursorY = -100;
+let cursorFrame = 0;
+function drawCursor() {
+    cursorFrame = 0;
+    cursor.style.transform = `translate3d(${cursorX}px, ${cursorY}px, 0) translate(-50%, -50%) rotate(45deg)`;
+}
+function cursorOnTarget(target) {
+    return target instanceof Element && !!target.closest(hoverables);
+}
+document.addEventListener('pointermove', (e) => {
+    if (e.pointerType !== 'mouse' && e.pointerType !== 'pen') return;
+    cursorX = e.clientX;
+    cursorY = e.clientY;
+    cursor.classList.toggle('cursor-hover', cursorOnTarget(e.target));
+    if (!cursorFrame) cursorFrame = requestAnimationFrame(drawCursor);
+}, {passive:true});
+document.addEventListener('pointerover', (e) => {
+    if (e.pointerType === 'mouse' || e.pointerType === 'pen') {
+        cursor.classList.toggle('cursor-hover', cursorOnTarget(e.target));
+    }
+}, {passive:true});
+document.addEventListener('pointerout', (e) => {
+    if (e.pointerType === 'mouse' || e.pointerType === 'pen') {
+        cursor.classList.toggle('cursor-hover', cursorOnTarget(e.relatedTarget));
+    }
+}, {passive:true});
+document.addEventListener('click', (e) => {
+    const ripple = document.createElement('div');
+    ripple.classList.add('click-ripple');
+    ripple.style.left = e.clientX + 'px';
+    ripple.style.top = e.clientY + 'px';
+    document.body.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 600);
+});
+// Anasayfayla AYNI 50 parlak kirmizi kul parcacigi.
+const bgCanvas = document.getElementById('particles-canvas');
+const bgCtx = bgCanvas.getContext('2d');
+bgCanvas.width = window.innerWidth;
+bgCanvas.height = window.innerHeight;
+let bgParticles = [];
+for (let i=0; i<50; i++) {
+    bgParticles.push({ x:Math.random()*bgCanvas.width, y:Math.random()*bgCanvas.height, s:Math.random()*2.5+1, sy:Math.random()*1.5+0.5 });
+}
+const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+let lastParticleTime = performance.now();
+function bgAnim(now = performance.now()) {
+    // Kare dususlerinde parcacik hizi zamanla normalize edilir; gorunum aynidir.
+    const frameScale = Math.min(2, Math.max(0, (now - lastParticleTime) / (1000/60)));
+    lastParticleTime = now;
+    bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
+    bgCtx.fillStyle = 'rgba(255,0,0,0.5)';
+    bgParticles.forEach(p => {
+        p.y -= p.sy * frameScale;
+        if (p.y < 0) { p.y = bgCanvas.height + 20; p.x = Math.random()*bgCanvas.width; }
+        bgCtx.beginPath(); bgCtx.arc(p.x,p.y,p.s,0,Math.PI*2); bgCtx.fill();
+    });
+    if(!reducedMotion) requestAnimationFrame(bgAnim);
+}
+bgAnim();
+window.addEventListener('resize', () => {
+    bgCanvas.width=window.innerWidth;
+    bgCanvas.height=window.innerHeight;
+});
+})();
+</script>
+</body>
+</html>
