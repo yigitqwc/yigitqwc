@@ -146,7 +146,7 @@
             color: #bbb; font-size: 1.05rem; max-width: 680px; margin: 0 auto; line-height: 1.5;
         }
 
-        /* 4 ARAÇ KARTI IZGARASI */
+        /* 6 ARAÇ KARTI IZGARASI */
         .tools-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -175,6 +175,8 @@
         .tool-card:nth-child(2) { animation-delay: 0.2s; }
         .tool-card:nth-child(3) { animation-delay: 0.3s; }
         .tool-card:nth-child(4) { animation-delay: 0.4s; }
+        .tool-card:nth-child(5) { animation-delay: 0.5s; }
+        .tool-card:nth-child(6) { animation-delay: 0.6s; }
 
         .tool-card::before {
             content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 3px;
@@ -250,6 +252,9 @@
         .status-dot::before {
             content: ''; width: 8px; height: 8px; border-radius: 50%;
             background: #00ff66; box-shadow: 0 0 8px #00ff66;
+        }
+        .status-dot.upcoming::before {
+            background: var(--accent-red); box-shadow: 0 0 8px var(--accent-red);
         }
 
         .launch-btn {
@@ -437,6 +442,61 @@
                 <div class="card-footer">
                     <span class="status-dot">Modül Hazır</span>
                     <span class="launch-btn">Aracı Başlat →</span>
+                </div>
+            </a>
+
+            <!-- 5. SHORT / UCHIHA MINI OYUNLAR -> index2.html -->
+            <a href="index2.html" class="tool-card hover-target">
+                <div class="card-top">
+                    <div class="tool-icon-box">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M7 6h10a5 5 0 0 1 4.85 3.78l.97 4.3a3.5 3.5 0 0 1-5.28 3.72L15 16H9l-2.54 1.8a3.5 3.5 0 0 1-5.28-3.72l.97-4.3A5 5 0 0 1 7 6zm0 3a1 1 0 0 0-1 1v1H5a1 1 0 0 0 0 2h1v1a1 1 0 0 0 2 0v-1h1a1 1 0 0 0 0-2H8v-1a1 1 0 0 0-1-1zm9 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm3 3a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/>
+                        </svg>
+                    </div>
+                    <span class="route-tag">MODÜL // index2.html</span>
+                </div>
+
+                <div class="card-body">
+                    <h2>Short</h2>
+                    <p>Uchiha Mabedi'ndeki mini oyunları ve interaktif deneyimleri keşfet. Refleksini ve hızını sınayabileceğin eğlenceli bölüme geç.</p>
+                    <div class="feature-pills">
+                        <span class="f-pill">🎮 Mini Oyunlar</span>
+                        <span class="f-pill">⚡ Refleks &amp; Hız</span>
+                        <span class="f-pill">◆ Uchiha Mabedi</span>
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <span class="status-dot">Modül Hazır</span>
+                    <span class="launch-btn">Aracı Başlat →</span>
+                </div>
+            </a>
+
+            <!-- 6. CLOCK / ODAKLANMA VE ZAMANLAYICI -> index29.html -->
+            <a href="index29.html" class="tool-card hover-target">
+                <div class="card-top">
+                    <div class="tool-icon-box">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2a8 8 0 1 1 0 16 8 8 0 0 1 0-16zm-1 2h2v5.6l3.6 2.2-1 1.7L11 12.7V6z"/>
+                        </svg>
+                    </div>
+                    <span class="route-tag">MODÜL // index29.html</span>
+                </div>
+
+                <div class="card-body">
+                    <h2>Clock</h2>
+                    <p>Pomodoro ile odaklan, kronometre ve geri sayım araçlarını kullan. Çalışma istatistiklerini animasyonlu ilerleme halkalarıyla takip et.</p>
+                    <div class="feature-pills">
+                        <span class="f-pill">⏱️ Pomodoro &amp; Kronometre</span>
+                        <span class="f-pill">⏳ Geri Sayım</span>
+                        <span class="f-pill">📊 Çalışma İstatistikleri</span>
+                        <span class="f-pill">🔴 İlerleme Halkaları</span>
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <span class="status-dot upcoming">Yakında</span>
+                    <span class="launch-btn">Clock'a Git →</span>
                 </div>
             </a>
 
