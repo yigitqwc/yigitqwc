@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>yigitqwc | Altın (XAU/USD) & Terminal</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <style>
+        /* ORİJİNAL KLASİK KIRMIZI / SİYAH RENK PALETİ */
+        :root {
+            --bg-color: #030101;
+            --text-color: #ffffff;
+            --accent-red: #ff0000;
+            --accent-gold: #ffcc00;
+            --panel-bg: rgba(10, 1, 1, 0.92);
+            --border-red: rgba(255, 0, 0, 0.35);
+        }
+
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            cursor: none;
+        }
+
+        body {
+            background-color: var(--bg-color); color: var(--text-color);
+            overflow: hidden; width: 100vw; height: 100vh; display: flex; flex-direction: column;
+        }
+
+        /* KLASİK ÖZEL İMLEÇ */
+        .custom-cursor {
+            position: fixed; top: 0; left: 0; width: 16px; height: 16px;
+            background-color: transparent; border: 2px solid var(--accent-red);
+            pointer-events: none; z-index: 9999999;
+            transform: translate(-50%, -50%) rotate(45deg);
+            box-shadow: 0 0 10px var(--accent-red), inset 0 0 5px var(--accent-red);
+            transition: width 0.2s, height 0.2s, opacity 0.2s;
+        }
+        .custom-cursor::after {
+            content: ''; position: absolute; top: 50%; left: 50%; width: 4px; height: 4px;
+            background: var(--accent-red); transform: translate(-50%, -50%);
+        }
+        .cursor-hover { width: 28px; height: 28px; background-color: rgba(255, 0, 0, 0.25); }
+
+        .click-ripple {
+            position: fixed; border-radius: 50%; border: 2px solid var(--accent-red);
+            pointer-events: none; transform: translate(-50%, -50%);
+            animation: rippleEffect 0.6s ease-out forwards; z-index: 99998;
+            box-shadow: 0 0 15px rgba(255,0,0,0.5);
+        }
+        @keyframes rippleEffect {
+            0% { width: 0; height: 0; opacity: 1; border-width: 4px; }
+            100% { width: 120px; height: 120px; opacity: 0; border-width: 1px; }
+        }
+
+        /* KLASİK SHARINGAN YÜKLEME EKRANI */
+        #splash {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #000; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; z-index: 999999;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+        .sharingan {
+            width: 80px; height: 80px; margin-bottom: 25px;
+            animation: spin 2.5s linear infinite; filter: drop-shadow(0 0 15px rgba(255,0,0,0.8));
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .logo-container {
+            position: relative; text-decoration: none; color: var(--text-color);
+            display: inline-block; padding-bottom: 4px;
+        }
+        .logo-text {
+            font-size: 1.8rem; font-weight: 800; letter-spacing: -0.5px;
+            display: inline-block; animation: glitch-anim 6s infinite;
+        }
+        @keyframes glitch-anim {
+            0%, 93%, 100% { text-shadow: 0 0 15px rgba(255,0,0,0.8); transform: translate(0); }
+            94% { text-shadow: 3px 0 0 red, -3px 0 0 white; transform: translate(3px, -2px); }
+            96% { text-shadow: -3px 0 0 red, 3px 0 0 white; transform: translate(-3px, 2px); }
+            98% { text-shadow: 3px 0 0 red, -3px 0 0 white; transform: translate(3px, 2px); }
+        }
+        .red-line-wrapper {
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 3px;
+            background: rgba(255, 0, 0, 0.2); border-radius: 2px; overflow: hidden;
+        }
+        .red-line-wrapper::after {
+            content: ''; position: absolute; top: 0; left: -50%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, #ff0000, #ffffff, #ff0000, transparent);
+            box-shadow: 0 0 8px #ff0000; animation: beamMove 2.5s infinite linear;
+        }
+        @keyframes beamMove { 0% { left: -50%; } 100% { left: 100%; } }
+
+        /* ARKA PLAN VE KÜLLER */
+        .hero-bg {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-color: #020000; z-index: -2; pointer-events: none;
+        }
+        .vignette {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: radial-gradient(circle, rgba(0,0,0,0) 30%, rgba(0,0,0,0.98) 100%);
+            pointer-events: none; z-index: -1;
+        }
+        #particles-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
+
+        /* ÜST PANEL: LOGO + YATAY MERSİN/YENİŞEHİR HAVA DURUMU PANELİ */
+        header.top-bar {
+            background-color: rgba(6, 0, 0, 0.92); backdrop-filter: blur(10px);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0.7rem 2rem; position: relative; z-index: 20;
+            border-bottom: 1px solid var(--border-red);
+            box-shadow: 0 2px 25px rgba(255, 0, 0, 0.2);
+            gap: 1.5rem; flex-wrap: wrap;
+        }
+
+        /* YATAY MODERN HAVA DURUMU WIDGET'I */
+        .weather-strip {
+            display: flex; align-items: center; gap: 18px;
+            background: rgba(18, 2, 2, 0.85); border: 1px solid #550000;
+            padding: 8px 18px; border-radius: 10px;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.15);
+            flex-wrap: wrap;
+        }
+        .weather-loc {
+            display: flex; flex-direction: column; border-right: 1px solid #440000; padding-right: 14px;
+        }
+        .weather-loc-title {
+            font-size: 0.9rem; font-weight: 800; color: #ff3333; letter-spacing: 0.5px;
+        }
+        .weather-date {
+            font-size: 0.78rem; color: #bbb; font-weight: 600;
+        }
+        .weather-main {
+            display: flex; align-items: center; gap: 10px; border-right: 1px solid #440000; padding-right: 14px;
+        }
+        .weather-icon { font-size: 1.8rem; line-height: 1; }
+        .weather-temp-group { display: flex; flex-direction: column; }
+        .weather-temp { font-size: 1.35rem; font-weight: 900; color: #fff; line-height: 1.1; }
+        .weather-desc { font-size: 0.8rem; color: #ffcc00; font-weight: 700; }
+
+        .weather-metrics {
+            display: flex; align-items: center; gap: 16px; font-size: 0.82rem; color: #ddd;
+        }
+        .w-metric { display: flex; flex-direction: column; }
+        .w-metric span.label { font-size: 0.7rem; color: #888; text-transform: uppercase; font-weight: 700; }
+        .w-metric span.val { font-weight: 800; color: #fff; }
+
+        .weather-error {
+            color: #ff4444; font-size: 0.85rem; font-weight: 700;
+        }
+
+        .back-link {
+            color: #aaa; text-decoration: none; font-size: 0.95rem; font-weight: 700;
+            transition: color 0.3s; white-space: nowrap;
+        }
+        .back-link:hover { color: var(--accent-red); text-shadow: 0 0 10px red; }
+
+        /* ANA GÖVDE DÜZENİ: SOL PANEL + ORTA BÜYÜK TRADINGVIEW GRAFİĞİ */
+        .terminal-layout {
+            display: flex; flex-grow: 1; height: calc(100vh - 72px); position: relative; z-index: 10; overflow: hidden;
+        }
+
+        /* SOL PANEL (NOT DEFTERİ VE RESMİ PİYASA WIDGET SEKMESİ) */
+        .left-panel {
+            width: 370px; min-width: 340px; background: var(--panel-bg);
+            border-right: 2px solid #550000; display: flex; flex-direction: column;
+            box-shadow: 5px 0 25px rgba(0,0,0,0.9); z-index: 15;
+        }
+
+        .panel-tabs {
+            display: flex; border-bottom: 1px solid #440000; background: rgba(20, 0, 0, 0.7);
+        }
+        .panel-tab-btn {
+            flex: 1; padding: 12px 10px; background: none; border: none;
+            color: #888; font-size: 0.85rem; font-weight: 800; text-transform: uppercase;
+            letter-spacing: 0.5px; transition: 0.25s; border-bottom: 3px solid transparent;
+        }
+        .panel-tab-btn.active {
+            color: #fff; border-bottom-color: var(--accent-red);
+            background: rgba(255, 0, 0, 0.12); text-shadow: 0 0 10px rgba(255,0,0,0.6);
+        }
+        .panel-tab-btn:hover { color: #fff; }
+
+        .tab-content {
+            display: none; flex-direction: column; flex-grow: 1; padding: 18px; gap: 12px; overflow: hidden;
+        }
+        .tab-content.active { display: flex; }
+
+        /* NOT DEFTERİ TASARIMI */
+        .notepad-header {
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .notepad-header h3 {
+            font-size: 1.05rem; color: #ff3333; font-weight: 800;
+        }
+        .save-status {
+            font-size: 0.75rem; font-weight: 700; padding: 3px 8px; border-radius: 4px;
+            background: rgba(0, 255, 102, 0.12); color: #00ff66; border: 1px solid rgba(0, 255, 102, 0.3);
+            transition: opacity 0.3s;
+        }
+        .save-status.saving {
+            background: rgba(255, 204, 0, 0.15); color: #ffcc00; border-color: rgba(255, 204, 0, 0.4);
+        }
+
+        .note-info-banner {
+            font-size: 0.76rem; color: #999; background: rgba(25, 0, 0, 0.5);
+            border-left: 3px solid var(--accent-red); padding: 8px 10px; border-radius: 4px; line-height: 1.4;
+        }
+
+        .quick-scratchpad-label {
+            font-size: 0.78rem; color: #bbb; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
+        }
+
+        .scratchpad-textarea {
+            width: 100%; height: 135px; background: #050000; border: 1px solid #660000;
+            color: #fff; border-radius: 8px; padding: 12px; font-size: 0.92rem; line-height: 1.5;
+            outline: none; resize: none; transition: border-color 0.25s, box-shadow 0.25s;
+        }
+        .scratchpad-textarea:focus {
+            border-color: var(--accent-red); box-shadow: 0 0 12px rgba(255,0,0,0.35);
+        }
+
+        .note-creator {
+            display: flex; gap: 8px;
+        }
+        .note-input {
+            flex-grow: 1; background: #050000; border: 1px solid #660000; color: #fff;
+            padding: 9px 12px; border-radius: 6px; font-size: 0.88rem; outline: none;
+        }
+        .note-input:focus { border-color: var(--accent-red); }
+        .note-btn {
+            background: #2b0505; border: 1px solid #ff3333; color: #fff;
+            padding: 9px 14px; border-radius: 6px; font-weight: 800; font-size: 0.82rem;
+            transition: 0.2s; white-space: nowrap;
+        }
+        .note-btn:hover { background: var(--accent-red); box-shadow: 0 0 12px rgba(255,0,0,0.5); }
+
+        .notes-list {
+            list-style: none; overflow-y: auto; flex-grow: 1; display: flex; flex-direction: column; gap: 8px; padding-right: 4px;
+        }
+        .notes-list::-webkit-scrollbar { width: 5px; }
+        .notes-list::-webkit-scrollbar-thumb { background: #550000; border-radius: 3px; }
+
+        .note-item {
+            background: rgba(22, 0, 0, 0.65); border: 1px solid #3a0000; border-radius: 7px;
+            padding: 10px 12px; display: flex; flex-direction: column; gap: 6px;
+        }
+        .note-item-text {
+            font-size: 0.88rem; color: #eee; line-height: 1.45; word-break: break-word;
+        }
+        .note-item-footer {
+            display: flex; justify-content: space-between; align-items: center;
+            border-top: 1px solid rgba(255,0,0,0.12); padding-top: 6px;
+        }
+        .note-time { font-size: 0.7rem; color: #777; }
+        .note-actions { display: flex; gap: 6px; }
+        .mini-btn {
+            background: rgba(40, 0, 0, 0.8); border: 1px solid #660000; color: #ccc;
+            padding: 3px 8px; border-radius: 4px; font-size: 0.72rem; font-weight: 700; transition: 0.2s;
+        }
+        .mini-btn:hover { background: var(--accent-red); color: #fff; border-color: #ff3333; }
+
+        /* RESMİ TRADINGVIEW PİYASA ÖZETİ SEKME İÇERİĞİ */
+        .tv-market-wrapper {
+            flex-grow: 1; width: 100%; border: 1px solid #440000; border-radius: 8px; overflow: hidden; background: #000;
+        }
+
+        /* ORTA BÜYÜK ALAN: TRADINGVIEW ADVANCED CHART (OANDA:XAUUSD) */
+        .center-chart-area {
+            flex-grow: 1; display: flex; flex-direction: column; padding: 14px; gap: 10px;
+            position: relative; overflow: hidden;
+        }
+
+        .chart-top-strip {
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(15, 0, 0, 0.85); border: 1px solid #550000;
+            padding: 8px 16px; border-radius: 8px; flex-wrap: wrap; gap: 10px;
+        }
+        .chart-title-group {
+            display: flex; align-items: center; gap: 12px;
+        }
+        .gold-badge {
+            background: linear-gradient(135deg, #ffcc00, #cc9900); color: #000;
+            font-weight: 900; font-size: 0.8rem; padding: 4px 10px; border-radius: 5px;
+            letter-spacing: 0.5px;
+        }
+        .chart-main-title {
+            font-size: 1.05rem; font-weight: 800; color: #fff;
+        }
+        .data-notice {
+            font-size: 0.76rem; color: #aaa;
+        }
+        .data-notice strong { color: #ffcc00; }
+
+        .chart-frame-wrapper {
+            flex-grow: 1; width: 100%; position: relative;
+            border: 2px solid #660000; border-radius: 10px; overflow: hidden;
+            box-shadow: 0 0 45px rgba(255, 0, 0, 0.35); background: #000;
+        }
+        #tv_chart_container {
+            width: 100%; height: 100%;
+        }
+
+        /* Iframe üzerinde rahat grafik çizimi yapılabilmesi için normal imleç */
+        .chart-frame-wrapper, .chart-frame-wrapper * , .tv-market-wrapper, .tv-market-wrapper * {
+            cursor: auto !important;
+        }
+
+        @media (max-width: 1024px) {
+            body { overflow-y: auto; height: auto; }
+            .terminal-layout { flex-direction: column; height: auto; }
+            .left-panel { width: 100%; height: 480px; border-right: none; border-bottom: 2px solid #550000; }
+            .center-chart-area { height: 75vh; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="custom-cursor" id="cursor"></div>
+
+    <!-- KLASİK SHARINGAN AÇILIŞ EKRANI -->
+    <div id="splash">
+        <svg class="sharingan" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="45" fill="#990000" stroke="#111" stroke-width="4"/>
+            <circle cx="50" cy="50" r="24" fill="none" stroke="#111" stroke-width="2" opacity="0.6"/>
+            <circle cx="50" cy="50" r="8" fill="#000"/>
+            <g>
+                <g transform="translate(50, 26)"><circle cx="0" cy="0" r="6" fill="#000"/><path d="M -6 0 Q -10 -15 5 -15 Q 0 -5 6 0 Z" fill="#000"/></g>
+                <g transform="translate(71, 62) rotate(120)"><circle cx="0" cy="0" r="6" fill="#000"/><path d="M -6 0 Q -10 -15 5 -15 Q 0 -5 6 0 Z" fill="#000"/></g>
+                <g transform="translate(29, 62) rotate(240)"><circle cx="0" cy="0" r="6" fill="#000"/><path d="M -6 0 Q -10 -15 5 -15 Q 0 -5 6 0 Z" fill="#000"/></g>
+            </g>
+        </svg>
+        <div class="logo-container">
+            <div class="logo-text" style="font-size:2rem;">yigitqwc</div>
+            <div class="red-line-wrapper"></div>
+        </div>
+    </div>
+
+    <div class="hero-bg"></div>
+    <div class="vignette"></div>
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- ÜST BAR: LOGO + MERSİN / YENİŞEHİR HAVA DURUMU (OPEN-METEO GERÇEK API) -->
+    <header class="top-bar">
+        <a href="index.html" class="logo-container hover-target">
+            <div class="logo-text">yigitqwc</div>
+            <div class="red-line-wrapper"></div>
+        </a>
+
+        <!-- MERSİN / YENİŞEHİR YATAY HAVA DURUMU PANELİ -->
+        <div class="weather-strip" id="weatherStrip">
+            <div class="weather-loc">
+                <span class="weather-loc-title">📍 Mersin / Yenişehir</span>
+                <span class="weather-date" id="w-date">--</span>
+            </div>
+            <div class="weather-main" id="w-main-box">
+                <span class="weather-icon" id="w-icon">⏳</span>
+                <div class="weather-temp-group">
+                    <span class="weather-temp" id="w-temp">--°C</span>
+                    <span class="weather-desc" id="w-desc">Veri alınıyor...</span>
+                </div>
+            </div>
+            <div class="weather-metrics" id="w-metrics-box">
+                <div class="w-metric">
+                    <span class="label">Hissedilen</span>
+                    <span class="val" id="w-feels">--°C</span>
+                </div>
+                <div class="w-metric">
+                    <span class="label">Maks / Min</span>
+                    <span class="val" id="w-highlow">--° / --°</span>
+                </div>
+                <div class="w-metric">
+                    <span class="label">Yağış İhtimali</span>
+                    <span class="val" id="w-rain">%--</span>
+                </div>
+            </div>
+        </div>
+
+        <a href="index.html" class="back-link hover-target">← Ana Sayfa</a>
+    </header>
+
+    <!-- ANA TERMINAL GÖVDESİ -->
+    <div class="terminal-layout">
+        
+        <!-- SOL BÖLÜM: NOT DEFTERİ VE RESMİ TRADINGVIEW PİYASA SEKMESİ -->
+        <aside class="left-panel">
+            <div class="panel-tabs">
+                <button class="panel-tab-btn active hover-target" id="tabBtnNotes" onclick="switchLeftTab('notes')">📝 Not Defteri</button>
+                <button class="panel-tab-btn hover-target" id="tabBtnMarket" onclick="switchLeftTab('market')">📊 Canlı Piyasa (TV)</button>
+            </div>
+
+            <!-- SEKME 1: OTOMATİK KAYDEDİLEN NOT DEFTERİ (LOCALSTORAGE) -->
+            <div class="tab-content active" id="tabNotes">
+                <div class="notepad-header">
+                    <h3>📌 Analiz & Not Defteri</h3>
+                    <span class="save-status" id="saveStatusBadge">Kaydedildi ✓</span>
+                </div>
+
+                <div class="note-info-banner">
+                    Serbest notlarınız ve kayıtlı maddeleriniz tarayıcı hafızasında (<strong>localStorage</strong>) otomatik saklanır; sayfa yenilense bile kaybolmaz.
+                </div>
+
+                <label class="quick-scratchpad-label" for="freeformPad">Serbest Çalışma Notu (Anlık Otomatik Kayıt):</label>
+                <textarea id="freeformPad" class="scratchpad-textarea hover-target" placeholder="XAU/USD destek/direnç seviyeleri, işlem planı veya günlük notlarınızı buraya yazın..."></textarea>
+
+                <label class="quick-scratchpad-label">Kayıtlı Not Kartları (Düzenle / Sil):</label>
+                <div class="note-creator">
+                    <input type="text" id="newNoteInput" class="note-input hover-target" placeholder="Yeni başlık veya not ekle...">
+                    <button class="note-btn hover-target" onclick="addNoteItem()">+ Ekle</button>
+                </div>
+
+                <ul class="notes-list" id="notesList"></ul>
+            </div>
+
+            <!-- SEKME 2: RESMİ TRADINGVIEW PİYASA WIDGET'I (SAHTE VERİ İÇERMEZ) -->
+            <div class="tab-content" id="tabMarket">
+                <div class="note-info-banner">
+                    <strong>Resmi Veri Kaynağı:</strong> Fiyatlar doğrudan TradingView resmi widget'ı üzerinden çekilmektedir. Borsa İstanbul (BIST 100) veya yerel sağlayıcı kısıtlamaları nedeniyle bazı semboller üçüncü parti sitelerde gecikmeli/kısıtlı olabilir.
+                </div>
+                <div class="tv-market-wrapper" id="tvMarketWidgetContainer">
+                    <div class="tradingview-widget-container" style="height:100%; width:100%;">
+                        <div class="tradingview-widget-container__widget" style="height:calc(100% - 32px); width:100%;"></div>
+                        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-market-overview.js" async>
+                        {
+                            "colorTheme"; "dark",
+                            "dateRange"; "1D",
+                            "showChart"; false,
+                            "locale"; "tr",
+                            "largeChartUrl"; "",
+                            "isTransparent"; true,
+                            "showSymbolLogo"; true,
+                            "showFloatingTooltip"; false,
+                            "width"; "100%",
+                            "height"; "100%",
+                            "tabs"; [
+                                {
+                                    "title": "Değerli Maden & Döviz",
+                                    "symbols": [
+                                        { "s": "OANDA:XAUUSD", "d": "Ons Altın (XAU/USD)" },
+                                        { "s": "FX_IDC:XAUTRYG", "d": "Gram Altın (TRY)" },
+                                        { "s": "OANDA:XAGUSD", "d": "Gümüş (XAG/USD)" },
+                                        { "s": "FX:USDTRY", "d": "USD / TRY" },
+                                        { "s": "FX:EURTRY", "d": "EUR / TRY" },
+                                        { "s": "BITSTAMP:BTCUSD", "d": "Bitcoin (BTC/USD)" },
+                                        { "s": "BIST:XU100", "d": "BIST 100" }
+                                    ]
+                                }
+                            ]
+                        }
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ORTA BÜYÜK ALAN: TRADINGVIEW RESMİ ADVANCED CHART (OANDA:XAUUSD) -->
+        <main class="center-chart-area">
+            <div class="chart-top-strip">
+                <div class="chart-title-group">
+                    <span class="gold-badge">OANDA:XAUUSD</span>
+                    <span class="chart-main-title">Altın / ABD Doları — Profesyonel Mum (Candlestick) Grafiği</span>
+                </div>
+                <div class="data-notice">
+                    <strong>Veri Bildirimi:</strong> Resmi TradingView & OANDA veri akışı (1dk, 5dk, 15dk, 1s, 4s, 1G, 1H). Borsa kurallarına göre veriler anlık veya sağlayıcı politikası gereği gecikmeli olabilir.
+                </div>
+            </div>
+
+            <div class="chart-frame-wrapper" id="chartFrameWrapper">
+                <div id="tv_chart_container"></div>
+            </div>
+        </main>
+
+    </div>
+
+    <!-- TRADINGVIEW RESMİ TV.JS KÜTÜPHANESİ -->
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+    <script>
+        // 1. TRADINGVIEW ADVANCED CHART BAŞLATMA (OANDA:XAUUSD - MUM GRAFİĞİ)
+        function initTradingViewChart() {
+            if (typeof TradingView !== 'undefined') {
+                new TradingView.widget({
+                    "autosize": true,
+                    "symbol": "OANDA:XAUUSD",
+                    "interval": "15",
+                    "timezone": "Europe/Istanbul",
+                    "theme": "dark",
+                    "style": "1", // 1 = Mum (Candlestick) formatı
+                    "locale": "tr",
+                    "toolbar_bg": "#0a0101",
+                    "enable_publishing": false,
+                    "withdateranges": true, // Alt kısımda ve üst barda zaman dilimi seçimi (1m, 5m, 15m, 1h, 4h, D, W)
+                    "hide_side_toolbar": false, // Teknik analiz ve çizim araçları açık
+                    "allow_symbol_change": true,
+                    "save_image": true,
+                    "details": true,
+                    "hotlist": false,
+                    "calendar": false,
+                    "supported_resolutions": ["1", "5", "15", "60", "240", "1D", "1W"],
+                    "container_id": "tv_chart_container"
+                });
+            } else {
+                document.getElementById('tv_chart_container').innerHTML = `
+                    <div style="height:100%; display:flex; align-items:center; justify-content:center; color:#ff4444; font-weight:bold; padding:20px; text-align:center;">
+                        ⚠️ TradingView grafik sunucusuna şu anda bağlanılamadı. Lütfen internet bağlantınızı kontrol edin.
+                    </div>
+                `;
+            }
+        }
+
+        // 2. MERSİN / YENİŞEHİR HAVA DURUMU (OPEN-METEO GERÇEK API)
+        function formatTurkishDate() {
+            const now = new Date();
+            const options = { day: 'numeric', month: 'long', year: 'numeric', weekday: 'long' };
+            return now.toLocaleDateString('tr-TR', options);
+        }
+
+        function mapWmoCode(code) {
+            if (code === 0) return { text: "Güneşli / Açık", icon: "☀️" };
+            if (code === 1 || code === 2) return { text: "Parçalı Bulutlu", icon: "⛅" };
+            if (code === 3) return { text: "Bulutlu", icon: "☁️" };
+            if (code === 45 || code === 48) return { text: "Sisli", icon: "🌫️" };
+            if ([51, 53, 55, 56, 57].includes(code)) return { text: "Hafif Yağmurlu", icon: "🌦️" };
+            if ([61, 63, 65, 66, 67, 80, 81, 82].includes(code)) return { text: "Yağmurlu", icon: "🌧️" };
+            if ([71, 73, 75, 77, 85, 86].includes(code)) return { text: "Kar Yağışlı", icon: "❄️" };
+            if ([95, 96, 99].includes(code)) return { text: "Fırtınalı", icon: "⛈️" };
+            return { text: "Bulutlu", icon: "🌤️" };
+        }
+
+        async function fetchMersinWeather() {
+            document.getElementById('w-date').innerText = formatTurkishDate();
+
+            // Mersin / Yenişehir Koordinatları: 36.7794, 34.5764
+            const url = "https://api.open-meteo.com/v1/forecast?latitude=36.7794&longitude=34.5764&current=temperature_2m,apparent_temperature,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=auto&forecast_days=1";
+
+            try {
+                const res = await fetch(url);
+                if (!res.ok) throw new Error("API yanıt vermedi");
+                const data = await res.json();
+
+                if (!data.current || !data.daily) throw new Error("Eksik veri");
+
+                const currentTemp = Math.round(data.current.temperature_2m);
+                const feelsLike = Math.round(data.current.apparent_temperature);
+                const wmo = mapWmoCode(data.current.weather_code);
+                const maxTemp = Math.round(data.daily.temperature_2m_max[0]);
+                const minTemp = Math.round(data.daily.temperature_2m_min[0]);
+                const rainProb = data.daily.precipitation_probability_max[0] ?? 0;
+
+                document.getElementById('w-icon').innerText = wmo.icon;
+                document.getElementById('w-temp').innerText = `${currentTemp}°C`;
+                document.getElementById('w-desc').innerText = wmo.text;
+                document.getElementById('w-feels').innerText = `${feelsLike}°C`;
+                document.getElementById('w-highlow').innerText = `${maxTemp}°C / ${minTemp}°C`;
+                document.getElementById('w-rain').innerText = `%${rainProb}`;
+            } catch (err) {
+                // Uydurma veri göstermemek için gerçek hata bildirimi
+                document.getElementById('w-main-box').innerHTML = `<span class="weather-error">⚠️ Open-Meteo hava durumu servisine ulaşılamadı.</span>`;
+                document.getElementById('w-metrics-box').style.display = 'none';
+            }
+        }
+
+        // 3. SOL PANEL SEKME GEÇİŞİ VE LOCALSTORAGE NOT DEFTERİ
+        function switchLeftTab(tab) {
+            const btnNotes = document.getElementById('tabBtnNotes');
+            const btnMarket = document.getElementById('tabBtnMarket');
+            const tabNotes = document.getElementById('tabNotes');
+            const tabMarket = document.getElementById('tabMarket');
+
+            if (tab === 'notes') {
+                btnNotes.classList.add('active');
+                btnMarket.classList.remove('active');
+                tabNotes.classList.add('active');
+                tabMarket.classList.remove('active');
+            } else {
+                btnMarket.classList.add('active');
+                btnNotes.classList.remove('active');
+                tabMarket.classList.add('active');
+                tabNotes.classList.remove('active');
+            }
+        }
+
+        const STORAGE_KEY_PAD = "yigitqwc_gold_scratchpad_v1";
+        const STORAGE_KEY_LIST = "yigitqwc_gold_notelist_v1";
+
+        const freeformPad = document.getElementById('freeformPad');
+        const saveStatusBadge = document.getElementById('saveStatusBadge');
+        const notesListEl = document.getElementById('notesList');
+        const newNoteInput = document.getElementById('newNoteInput');
+
+        let savedNotes = [];
+        let saveTimeout = null;
+
+        function showSaveIndicator() {
+            saveStatusBadge.innerText = "Kaydediliyor...";
+            saveStatusBadge.classList.add('saving');
+            clearTimeout(saveTimeout);
+            saveTimeout = setTimeout(() => {
+                const nowStr = new Date().toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                saveStatusBadge.innerText = `Kaydedildi ✓ (${nowStr})`;
+                saveStatusBadge.classList.remove('saving');
+            }, 350);
+        }
+
+        function loadNotesFromStorage() {
+            const padText = localStorage.getItem(STORAGE_KEY_PAD);
+            if (padText !== null) {
+                freeformPad.value = padText;
+            }
+
+            const rawList = localStorage.getItem(STORAGE_KEY_LIST);
+            if (rawList) {
+                try {
+                    savedNotes = JSON.parse(rawList);
+                } catch (e) {
+                    savedNotes = [];
+                }
+            }
+            renderNotesList();
+        }
+
+        freeformPad.addEventListener('input', () => {
+            localStorage.setItem(STORAGE_KEY_PAD, freeformPad.value);
+            showSaveIndicator();
+        });
+
+        function saveListToStorage() {
+            localStorage.setItem(STORAGE_KEY_LIST, JSON.stringify(savedNotes));
+            showSaveIndicator();
+            renderNotesList();
+        }
+
+        function addNoteItem() {
+            const text = newNoteInput.value.trim();
+            if (!text) return;
+            const timeStr = new Date().toLocaleString('tr-TR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+            savedNotes.unshift({ id: Date.now(), text: text, time: timeStr });
+            newNoteInput.value = '';
+            saveListToStorage();
+        }
+
+        newNoteInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') addNoteItem();
+        });
+
+        function editNoteItem(id) {
+            const item = savedNotes.find(n => n.id === id);
+            if (!item) return;
+            const updated = prompt("Notu düzenleyin:", item.text);
+            if (updated !== null && updated.trim() !== "") {
+                item.text = updated.trim();
+                item.time = new Date().toLocaleString('tr-TR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }) + " (Düzenlendi)";
+                saveListToStorage();
+            }
+        }
+
+        function deleteNoteItem(id) {
+            savedNotes = savedNotes.filter(n => n.id !== id);
+            saveListToStorage();
+        }
+
+        function renderNotesList() {
+            notesListEl.innerHTML = "";
+            if (savedNotes.length === 0) {
+                notesListEl.innerHTML = `<li style="color:#666; font-size:0.82rem; text-align:center; padding:15px 0;">Henüz kayıtlı not kartı yok. Üstteki kutudan ekleyebilirsiniz.</li>`;
+                return;
+            }
+            savedNotes.forEach(note => {
+                const li = document.createElement('li');
+                li.className = 'note-item';
+
+                const textDiv = document.createElement('div');
+                textDiv.className = 'note-item-text';
+                textDiv.textContent = note.text;
+
+                const footerDiv = document.createElement('div');
+                footerDiv.className = 'note-item-footer';
+
+                const timeSpan = document.createElement('span');
+                timeSpan.className = 'note-time';
+                timeSpan.textContent = note.time;
+
+                const actionsDiv = document.createElement('div');
+                actionsDiv.className = 'note-actions';
+
+                const editBtn = document.createElement('button');
+                editBtn.className = 'mini-btn hover-target';
+                editBtn.textContent = 'Düzenle';
+                editBtn.onclick = () => editNoteItem(note.id);
+
+                const delBtn = document.createElement('button');
+                delBtn.className = 'mini-btn hover-target';
+                delBtn.textContent = 'Sil';
+                delBtn.onclick = () => deleteNoteItem(note.id);
+
+                actionsDiv.appendChild(editBtn);
+                actionsDiv.appendChild(delBtn);
+                footerDiv.appendChild(timeSpan);
+                footerDiv.appendChild(actionsDiv);
+
+                li.appendChild(textDiv);
+                li.appendChild(footerDiv);
+                notesListEl.appendChild(li);
+            });
+        }
+
+        // 4. YÜKLEME EKRANI, İMLEÇ VE ARKA PLAN KÜLLERİ
+        window.addEventListener('load', () => {
+            initTradingViewChart();
+            fetchMersinWeather();
+            // Hava durumunu her 10 dakikada bir otomatik güncelle
+            setInterval(fetchMersinWeather, 10 * 60 * 1000);
+            loadNotesFromStorage();
+
+            setTimeout(() => {
+                const splash = document.getElementById('splash');
+                splash.style.opacity = '0';
+                setTimeout(() => splash.style.visibility = 'hidden', 800);
+            }, 1200);
+        });
+
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // Grafik iframe'i üzerine gelindiğinde özel imleci gizle ki grafik çizim araçları rahat kullanılsın
+        const chartWrapper = document.getElementById('chartFrameWrapper');
+        const tvMarketWrapper = document.getElementById('tvMarketWidgetContainer');
+        [chartWrapper, tvMarketWrapper].forEach(el => {
+            if (el) {
+                el.addEventListener('mouseenter', () => { cursor.style.opacity = '0'; });
+                el.addEventListener('mouseleave', () => { cursor.style.opacity = '1'; });
+            }
+        });
+
+        document.addEventListener('click', (e) => {
+            const ripple = document.createElement('div');
+            ripple.classList.add('click-ripple');
+            ripple.style.left = e.clientX + 'px';
+            ripple.style.top = e.clientY + 'px';
+            document.body.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 600);
+        });
+
+        document.addEventListener('mouseover', (e) => {
+            if (e.target.closest('.hover-target')) cursor.classList.add('cursor-hover');
+        });
+        document.addEventListener('mouseout', (e) => {
+            if (e.target.closest('.hover-target')) cursor.classList.remove('cursor-hover');
+        });
+
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+        let particles = [];
+        for (let i = 0; i < 40; i++) {
+            particles.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, s: Math.random() * 2 + 1, sy: Math.random() * 1.5 + 0.5 });
+        }
+        function anim() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "rgba(255,0,0,0.4)";
+            particles.forEach(p => {
+                p.y -= p.sy; if (p.y < 0) p.y = canvas.height;
+                ctx.beginPath(); ctx.arc(p.x, p.y, p.s, 0, Math.PI * 2); ctx.fill();
+            });
+            requestAnimationFrame(anim);
+        }
+        anim();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>
