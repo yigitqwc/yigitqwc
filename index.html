@@ -138,6 +138,10 @@
             transform: translateY(-3px) scale(1.15);
         }
 
+        .nav-link.vtab-link {
+            text-transform: none;
+        }
+
         .socials { display: flex; gap: 2rem; align-items: center; }
         .social-link {
             display: flex; flex-direction: column; align-items: center; text-decoration: none;
@@ -396,7 +400,7 @@
     <div class="vignette"></div>
     <canvas id="particles-canvas"></canvas>
 
-    <!-- ÜST MENÜ -->
+    <!-- ÜST MENÜ (Vtab EKLENDİ) -->
     <nav>
         <div class="nav-left-group">
             <a href="/" class="logo-container hover-target" onclick="window.location.reload(); return false;">
@@ -407,6 +411,7 @@
             <div class="nav-links">
                 <a href="index4.html" class="nav-link mka-link hover-target">MKA</a>
                 <a href="index2.html" class="nav-link hover-target">short</a>
+                <a href="index24.html" class="nav-link vtab-link hover-target">Vtab</a>
             </div>
         </div>
 
@@ -555,7 +560,7 @@
             }
         }
 
-        // TERMINAL MANTIĞI VE /trade gold YÖNLENDİRMESİ
+        // TERMINAL MANTIĞI
         let isAuthenticated = false;
         let actualInput = ""; 
 
@@ -625,7 +630,6 @@
                 terminalInput.value = '';
                 actualInput = '';
 
-                // /trade gold komutu doğrudan veya giriş sonrası yazıldığında çalışır
                 if (val.toLowerCase() === '/trade gold') {
                     body.innerHTML += `<div style="color:#ffcc00;">[REDIRECT] Altın & Piyasa Terminaline (index23.html) yönlendiriliyorsunuz...</div>`;
                     body.scrollTop = body.scrollHeight;

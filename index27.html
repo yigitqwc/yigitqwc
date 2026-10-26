@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>yigitqwc | Tarihte Bugün - 365 Günlük Ansiklopedi</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <style>
+        :root {
+            --bg-color: #030101;
+            --text-color: #ffffff;
+            --accent-red: #ff0000;
+            --accent-gold: #ffcc00;
+            --panel-bg: rgba(12, 1, 1, 0.9);
+            --border-red: rgba(255, 0, 0, 0.35);
+        }
+
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            cursor: none;
+        }
+
+        body {
+            background-color: var(--bg-color); color: var(--text-color);
+            overflow-x: hidden; min-height: 100vh; display: flex; flex-direction: column;
+        }
+
+        /* KLASİK ÖZEL İMLEÇ VE TIKLAMA EFEKTİ */
+        .custom-cursor {
+            position: fixed; top: 0; left: 0; width: 16px; height: 16px;
+            background-color: transparent; border: 2px solid var(--accent-red);
+            pointer-events: none; z-index: 9999999;
+            transform: translate(-50%, -50%) rotate(45deg);
+            box-shadow: 0 0 10px var(--accent-red), inset 0 0 5px var(--accent-red);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+        .custom-cursor::after {
+            content: ''; position: absolute; top: 50%; left: 50%; width: 4px; height: 4px;
+            background: var(--accent-red); transform: translate(-50%, -50%);
+        }
+        .cursor-hover { width: 30px; height: 30px; background-color: rgba(255, 0, 0, 0.25); }
+
+        .click-ripple {
+            position: fixed; border-radius: 50%; border: 2px solid var(--accent-red);
+            pointer-events: none; transform: translate(-50%, -50%);
+            animation: rippleEffect 0.6s ease-out forwards; z-index: 99998;
+            box-shadow: 0 0 15px rgba(255,0,0,0.5);
+        }
+        @keyframes rippleEffect {
+            0% { width: 0; height: 0; opacity: 1; border-width: 4px; }
+            100% { width: 120px; height: 120px; opacity: 0; border-width: 1px; }
+        }
+
+        /* KLASİK SHARINGAN YÜKLEME EKRANI */
+        #splash {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #000; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; z-index: 100000;
+            transition: opacity 0.7s ease, visibility 0.7s ease;
+        }
+        .sharingan {
+            width: 85px; height: 85px; margin-bottom: 25px;
+            animation: spin 2.5s linear infinite; filter: drop-shadow(0 0 20px rgba(255,0,0,0.9));
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* LOGO EFEKTLERİ */
+        .logo-container {
+            position: relative; text-decoration: none; color: var(--text-color);
+            display: inline-block; padding-bottom: 4px;
+        }
+        .logo-text {
+            font-size: 2rem; font-weight: 900; letter-spacing: -0.5px;
+            display: inline-block; animation: glitch-anim 6s infinite;
+        }
+        @keyframes glitch-anim {
+            0%, 93%, 100% { text-shadow: 0 0 15px rgba(255,0,0,0.8); transform: translate(0); }
+            94% { text-shadow: 3px 0 0 red, -3px 0 0 white; transform: translate(3px, -2px); }
+            96% { text-shadow: -3px 0 0 red, 3px 0 0 white; transform: translate(-3px, 2px); }
+            98% { text-shadow: 3px 0 0 red, -3px 0 0 white; transform: translate(3px, 2px); }
+        }
+        .red-line-wrapper {
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 3px;
+            background: rgba(255, 0, 0, 0.2); border-radius: 2px; overflow: hidden;
+        }
+        .red-line-wrapper::after {
+            content: ''; position: absolute; top: 0; left: -50%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, #ff0000, #ffffff, #ff0000, transparent);
+            box-shadow: 0 0 8px #ff0000; animation: beamMove 2.5s infinite linear;
+        }
+        @keyframes beamMove { 0% { left: -50%; } 100% { left: 100%; } }
+
+        /* ARKA PLAN VE KÜLLER */
+        .hero-bg {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-image: url('bg.jpg'); background-size: cover; background-position: center;
+            filter: brightness(0.18) blur(2px); z-index: -2; pointer-events: none;
+        }
+        .vignette {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: radial-gradient(circle, rgba(0,0,0,0) 20%, rgba(0,0,0,0.96) 100%);
+            pointer-events: none; z-index: -1;
+        }
+        #particles-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
+
+        /* ÜST MENÜ */
+        nav {
+            background-color: rgba(5, 0, 0, 0.9); backdrop-filter: blur(12px);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1rem 3rem; position: sticky; top: 0; z-index: 100;
+            border-bottom: 1px solid var(--border-red);
+            box-shadow: 0 4px 25px rgba(255, 0, 0, 0.25);
+        }
+        .nav-left { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
+        .module-badge {
+            background: rgba(255, 0, 0, 0.15); border: 1px solid var(--accent-red);
+            color: #fff; font-weight: 800; font-size: 0.82rem; padding: 5px 14px;
+            border-radius: 20px; letter-spacing: 1px; text-transform: uppercase;
+            box-shadow: 0 0 12px rgba(255, 0, 0, 0.4);
+        }
+        .nav-right { display: flex; align-items: center; gap: 1.5rem; }
+        .back-link {
+            color: #ccc; text-decoration: none; font-size: 0.95rem; font-weight: 700;
+            transition: color 0.3s, text-shadow 0.3s;
+        }
+        .back-link:hover { color: var(--accent-red); text-shadow: 0 0 10px var(--accent-red); }
+
+        /* ANA KONTEYNER */
+        .history-container {
+            position: relative; z-index: 5; width: 95%; max-width: 1440px;
+            margin: 30px auto 70px auto; display: flex; flex-direction: column; gap: 35px;
+        }
+
+        /* 1. BÖLÜM: SEÇİLİ GÜNÜN DERİN TARİH ANSİKLOPEDİ DOSYASI */
+        .spotlight-panel {
+            background: var(--panel-bg); border: 2px solid var(--accent-red);
+            border-radius: 18px; padding: 30px;
+            box-shadow: 0 0 45px rgba(255, 0, 0, 0.28);
+            backdrop-filter: blur(14px);
+            display: flex; flex-direction: column; gap: 24px;
+        }
+
+        .spotlight-header {
+            display: flex; justify-content: space-between; align-items: flex-start;
+            border-bottom: 1px solid #440000; padding-bottom: 18px; flex-wrap: wrap; gap: 15px;
+        }
+        .spotlight-date-box {
+            display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
+        }
+        .day-counter-badge {
+            background: var(--accent-red); color: #fff; font-weight: 900;
+            padding: 10px 16px; border-radius: 12px; font-size: 1.1rem;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.7); text-align: center;
+            font-family: 'Courier New', monospace;
+        }
+        .spotlight-titles h1 {
+            font-size: 2.3rem; font-weight: 900; color: #fff;
+            text-shadow: 0 0 15px rgba(255, 0, 0, 0.8); letter-spacing: 0.5px;
+        }
+        .spotlight-titles p {
+            color: #ff8888; font-size: 0.95rem; font-weight: 700; margin-top: 4px;
+        }
+
+        .spotlight-controls {
+            display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+        }
+        .ctrl-btn {
+            background: rgba(30, 0, 0, 0.85); border: 1px solid var(--accent-red);
+            color: #fff; padding: 9px 16px; border-radius: 8px; font-weight: 800;
+            font-size: 0.85rem; transition: all 0.25s;
+        }
+        .ctrl-btn:hover {
+            background: var(--accent-red); box-shadow: 0 0 18px rgba(255, 0, 0, 0.8);
+            transform: translateY(-2px);
+        }
+
+        /* ANA MAKALE KUTUSU */
+        .master-article-card {
+            background: linear-gradient(135deg, rgba(28, 2, 2, 0.9) 0%, rgba(8, 0, 0, 0.95) 100%);
+            border: 1px solid #550000; border-left: 5px solid var(--accent-red);
+            border-radius: 12px; padding: 25px;
+            display: flex; flex-direction: column; gap: 15px;
+        }
+        .master-meta {
+            display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+        }
+        .year-pill {
+            background: var(--accent-gold); color: #000; font-weight: 900;
+            padding: 4px 12px; border-radius: 6px; font-size: 0.9rem;
+        }
+        .cat-pill {
+            background: rgba(255, 0, 0, 0.2); border: 1px solid var(--accent-red);
+            color: #ffaaaa; font-weight: 800; padding: 4px 12px; border-radius: 6px; font-size: 0.82rem;
+        }
+        .tr-special-pill {
+            background: #e30a17; color: #fff; font-weight: 900;
+            padding: 4px 14px; border-radius: 6px; font-size: 0.85rem;
+            box-shadow: 0 0 15px rgba(227, 10, 23, 0.9);
+        }
+        .master-article-card h2 {
+            font-size: 1.65rem; color: #fff; font-weight: 900; line-height: 1.3;
+        }
+        .master-article-text {
+            font-size: 1.05rem; color: #e2e2e2; line-height: 1.85; text-align: justify;
+            display: flex; flex-direction: column; gap: 14px;
+        }
+
+        /* CANLI WIKIMEDIA GÖRSELLİ ARŞİV BÖLÜMÜ */
+        .wiki-archive-section {
+            display: flex; flex-direction: column; gap: 15px;
+            border-top: 1px solid #440000; padding-top: 20px;
+        }
+        .wiki-tabs-bar {
+            display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+        }
+        .wiki-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+        .wiki-tab-btn {
+            background: rgba(25, 0, 0, 0.7); border: 1px solid #550000;
+            color: #bbb; padding: 8px 16px; border-radius: 20px; font-weight: 800; font-size: 0.82rem;
+            transition: 0.25s;
+        }
+        .wiki-tab-btn.active, .wiki-tab-btn:hover {
+            background: var(--accent-red); color: #fff; border-color: var(--accent-red);
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
+        }
+        .wiki-status { font-size: 0.82rem; color: #aaa; font-weight: 700; }
+
+        .wiki-cards-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+            gap: 16px; max-height: 460px; overflow-y: auto; padding-right: 6px;
+        }
+        .wiki-cards-grid::-webkit-scrollbar { width: 5px; }
+        .wiki-cards-grid::-webkit-scrollbar-thumb { background: var(--accent-red); border-radius: 3px; }
+
+        .wiki-card {
+            background: rgba(18, 0, 0, 0.75); border: 1px solid #3a0000;
+            border-radius: 10px; padding: 15px; display: flex; gap: 14px;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .wiki-card:hover {
+            border-color: var(--accent-red); transform: translateY(-3px);
+            box-shadow: 0 5px 18px rgba(255, 0, 0, 0.25);
+        }
+        .wiki-thumb {
+            width: 82px; height: 95px; object-fit: cover; border-radius: 7px;
+            border: 1px solid var(--accent-red); flex-shrink: 0; background: #0a0000;
+        }
+        .wiki-card-body { display: flex; flex-direction: column; gap: 6px; }
+        .wiki-year-tag {
+            color: var(--accent-gold); font-weight: 900; font-size: 0.85rem; font-family: monospace;
+        }
+        .wiki-card-text {
+            color: #ddd; font-size: 0.88rem; line-height: 1.55; text-align: left;
+        }
+
+        /* 2. BÖLÜM: 365 GÜNLÜK TAM TARİH TABLOSU VE KONTROLLERİ */
+        .table-section-panel {
+            background: var(--panel-bg); border: 2px solid #550000;
+            border-radius: 18px; padding: 30px;
+            box-shadow: 0 10px 45px rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(12px);
+            display: flex; flex-direction: column; gap: 22px;
+        }
+
+        .table-top-header {
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 15px; border-bottom: 1px solid #440000; padding-bottom: 16px;
+        }
+        .table-top-header h2 {
+            font-size: 1.75rem; font-weight: 900; color: #fff;
+            text-shadow: 0 0 12px rgba(255, 0, 0, 0.7);
+        }
+        .table-top-header h2 span { color: var(--accent-red); }
+
+        .view-mode-switch { display: flex; gap: 8px; }
+
+        /* AY SEKMELERİ VE ARAMA ÇUBUĞU */
+        .filter-toolbar {
+            display: flex; flex-direction: column; gap: 14px;
+        }
+        .month-tabs {
+            display: flex; flex-wrap: wrap; gap: 7px;
+        }
+        .month-btn {
+            background: rgba(22, 0, 0, 0.8); border: 1px solid #440000;
+            color: #ccc; padding: 8px 14px; border-radius: 8px;
+            font-weight: 800; font-size: 0.82rem; transition: all 0.2s;
+        }
+        .month-btn.active, .month-btn:hover {
+            background: var(--accent-red); color: #fff; border-color: #ff4444;
+            box-shadow: 0 0 14px rgba(255, 0, 0, 0.6);
+        }
+
+        .search-bar-row {
+            display: flex; justify-content: space-between; align-items: center; gap: 15px; flex-wrap: wrap;
+        }
+        .table-search-input {
+            flex-grow: 1; min-width: 260px; background: #050000; border: 1px solid #660000;
+            color: #fff; padding: 12px 18px; border-radius: 10px; font-size: 0.95rem;
+            outline: none; transition: border-color 0.25s, box-shadow 0.25s;
+        }
+        .table-search-input:focus {
+            border-color: var(--accent-red); box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
+        }
+        .count-summary {
+            font-size: 0.9rem; font-weight: 800; color: #bbb;
+            background: rgba(25, 0, 0, 0.8); border: 1px solid #440000;
+            padding: 10px 16px; border-radius: 10px;
+        }
+        .count-summary strong { color: var(--accent-red); }
+
+        /* 365 GÜNLÜK ANA TABLO TASARIMI */
+        .table-scroll-wrapper {
+            width: 100%; overflow-x: auto; max-height: 780px; overflow-y: auto;
+            border: 1px solid #440000; border-radius: 12px; background: rgba(5, 0, 0, 0.85);
+        }
+        .table-scroll-wrapper::-webkit-scrollbar { width: 7px; height: 7px; }
+        .table-scroll-wrapper::-webkit-scrollbar-thumb { background: var(--accent-red); border-radius: 4px; }
+
+        table.history-365-table {
+            width: 100%; border-collapse: collapse; text-align: left;
+        }
+        table.history-365-table thead th {
+            position: sticky; top: 0; z-index: 10;
+            background: #180000; color: #ff4444; font-size: 0.85rem;
+            font-weight: 900; text-transform: uppercase; letter-spacing: 1px;
+            padding: 15px 16px; border-bottom: 2px solid var(--accent-red);
+            white-space: nowrap;
+        }
+        table.history-365-table tbody tr {
+            border-bottom: 1px solid rgba(255, 0, 0, 0.14);
+            transition: background 0.2s;
+        }
+        table.history-365-table tbody tr:hover {
+            background: rgba(255, 0, 0, 0.12);
+        }
+        table.history-365-table tbody tr.selected-day-row {
+            background: rgba(255, 0, 0, 0.22);
+            border-left: 4px solid var(--accent-red);
+        }
+        table.history-365-table td {
+            padding: 16px; vertical-align: top;
+        }
+
+        .col-daynum {
+            font-family: 'Courier New', monospace; font-weight: 900;
+            color: #888; font-size: 0.9rem; width: 75px; white-space: nowrap;
+        }
+        .col-date {
+            font-weight: 900; color: #fff; font-size: 1.02rem; width: 135px; white-space: nowrap;
+        }
+        .col-year {
+            font-family: 'Courier New', monospace; font-weight: 900;
+            color: var(--accent-gold); font-size: 0.95rem; width: 105px; white-space: nowrap;
+        }
+        .col-title {
+            width: 240px; font-weight: 800; color: #ff5555; font-size: 1rem; line-height: 1.4;
+        }
+        .col-narrative {
+            color: #ddd; font-size: 0.94rem; line-height: 1.7; text-align: justify; min-width: 380px;
+        }
+        .col-action {
+            width: 120px; text-align: center; vertical-align: middle !important;
+        }
+
+        .inspect-btn {
+            background: rgba(255, 0, 0, 0.18); border: 1px solid var(--accent-red);
+            color: #fff; padding: 8px 14px; border-radius: 8px;
+            font-size: 0.8rem; font-weight: 800; white-space: nowrap; transition: 0.2s;
+        }
+        .inspect-btn:hover {
+            background: var(--accent-red); box-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
+            transform: scale(1.05);
+        }
+
+        /* 365 GÜNLÜK KOMPAKT TAKVİM MATRİSİ GÖRÜNÜMÜ */
+        .matrix-365-grid {
+            display: none; grid-template-columns: repeat(auto-fill, minmax(115px, 1fr));
+            gap: 8px; max-height: 650px; overflow-y: auto; padding: 6px;
+        }
+        .matrix-day-cell {
+            background: rgba(20, 0, 0, 0.75); border: 1px solid #3a0000;
+            border-radius: 8px; padding: 10px; display: flex; flex-direction: column;
+            gap: 4px; transition: all 0.2s;
+        }
+        .matrix-day-cell:hover, .matrix-day-cell.active-cell {
+            background: rgba(255, 0, 0, 0.28); border-color: var(--accent-red);
+            transform: translateY(-2px); box-shadow: 0 0 12px rgba(255, 0, 0, 0.5);
+        }
+        .m-cell-top { display: flex; justify-content: space-between; font-size: 0.72rem; color: #999; font-weight: 800; }
+        .m-cell-date { font-size: 0.92rem; font-weight: 900; color: #fff; }
+        .m-cell-title { font-size: 0.74rem; color: #ff8888; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+        @media (max-width: 900px) {
+            nav { padding: 1rem 1.5rem; }
+            .spotlight-titles h1 { font-size: 1.7rem; }
+            .spotlight-panel, .table-section-panel { padding: 18px; }
+        }
+        @media (pointer: coarse) {
+            .custom-cursor { display: none !important; }
+            * { cursor: auto !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="custom-cursor" id="cursor"></div>
+
+    <!-- SHARINGAN AÇILIŞ EKRANI -->
+    <div id="splash">
+        <svg class="sharingan" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="45" fill="#990000" stroke="#111" stroke-width="4"/>
+            <circle cx="50" cy="50" r="24" fill="none" stroke="#111" stroke-width="2" opacity="0.6"/>
+            <circle cx="50" cy="50" r="8" fill="#000"/>
+            <g>
+                <g transform="translate(50, 26)"><circle cx="0" cy="0" r="6" fill="#000"/><path d="M -6 0 Q -10 -15 5 -15 Q 0 -5 6 0 Z" fill="#000"/></g>
+                <g transform="translate(71, 62) rotate(120)"><circle cx="0" cy="0" r="6" fill="#000"/><path d="M -6 0 Q -10 -15 5 -15 Q 0 -5 6 0 Z" fill="#000"/></g>
+                <g transform="translate(29, 62) rotate(240)"><circle cx="0" cy="0" r="6" fill="#000"/><path d="M -6 0 Q -10 -15 5 -15 Q 0 -5 6 0 Z" fill="#000"/></g>
+            </g>
+        </svg>
+        <div class="logo-container">
+            <div class="logo-text">yigitqwc</div>
+            <div class="red-line-wrapper"></div>
+        </div>
+    </div>
+
+    <div class="hero-bg"></div>
+    <div class="vignette"></div>
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- ÜST MENÜ -->
+    <nav>
+        <div class="nav-left">
+            <a href="index.html" class="logo-container hover-target">
+                <div class="logo-text">yigitqwc</div>
+                <div class="red-line-wrapper"></div>
+            </a>
+            <span class="module-badge">🏛️ Tarihte Bugün // 365 Gün Ansiklopedisi</span>
+        </div>
+        <div class="nav-right">
+            <a href="index24.html" class="back-link hover-target">← Vtab Merkezi</a>
+            <a href="index.html" class="back-link hover-target">Ana Sayfa</a>
+        </div>
+    </nav>
+
+    <!-- ANA İÇERİK -->
+    <main class="history-container">
+
+        <!-- 1. SEÇİLİ GÜNÜN UZUN TARİHSEL DOSYASI VE GÖRSELLİ WIKIMEDIA ARŞİVİ -->
+        <section class="spotlight-panel" id="spotlightPanel">
+            <div class="spotlight-header">
+                <div class="spotlight-date-box">
+                    <div class="day-counter-badge" id="spDayNumber">GÜN #001 / 365</div>
+                    <div class="spotlight-titles">
+                        <h1 id="spDateTitle">1 Ocak — Tarihte Bugün</h1>
+                        <p id="spSubtitle">Yılın Kronolojik Ansiklopedik Kaydı ve Dönüm Noktası</p>
+                    </div>
+                </div>
+                <div class="spotlight-controls">
+                    <button class="ctrl-btn hover-target" onclick="navigateDay(-1)">◀ Önceki Gün</button>
+                    <button class="ctrl-btn hover-target" onclick="jumpToToday()">📍 Bugüne Git</button>
+                    <button class="ctrl-btn hover-target" onclick="navigateDay(1)">Sonraki Gün ▶</button>
+                </div>
+            </div>
+
+            <!-- YERLEŞİK UZUN TARİHSEL MAKALE -->
+            <article class="master-article-card">
+                <div class="master-meta" id="spMetaRow">
+                    <span class="year-pill" id="spYear">YIL</span>
+                    <span class="cat-pill" id="spCategory">KATEGORİ</span>
+                </div>
+                <h2 id="spEventTitle">Olay Başlığı</h2>
+                <div class="master-article-text" id="spLongNarrative">
+                    <!-- JavaScript ile çok paragraflı detaylı tarihsel anlatım buraya dolar -->
+                </div>
+            </article>
+
+            <!-- WIKIMEDIA CANLI GÖRSELLİ OLAYLAR / DOĞUMLAR / VEFATLAR -->
+            <div class="wiki-archive-section">
+                <div class="wiki-tabs-bar">
+                    <div class="wiki-tabs">
+                        <button class="wiki-tab-btn active hover-target" id="wTabSelected" onclick="switchWikiTab('selected')">🌟 Öne Çıkan Tarihi Olaylar</button>
+                        <button class="wiki-tab-btn hover-target" id="wTabEvents" onclick="switchWikiTab('events')">📜 Tüm Tarihi Olaylar</button>
+                        <button class="wiki-tab-btn hover-target" id="wTabBirths" onclick="switchWikiTab('births')">👶 Tarihte Bugün Doğanlar</button>
+                        <button class="wiki-tab-btn hover-target" id="wTabDeaths" onclick="switchWikiTab('deaths')">🕯️ Tarihte Bugün Vefat Edenler</button>
+                    </div>
+                    <span class="wiki-status" id="wikiStatusText">Wikimedia Küresel Tarih Arşivi Bağlantısı Aktif</span>
+                </div>
+                <div class="wiki-cards-grid" id="wikiCardsGrid"></div>
+            </div>
+        </section>
+
+        <!-- 2. TAM 365 GÜNLÜK TARİH TABLOSU -->
+        <section class="table-section-panel">
+            <div class="table-top-header">
+                <h2>📅 <span>365 GÜNLÜK</span> TAM KRONOLOJİK TARİH TABLOSU (1 OCAK – 31 ARALIK)</h2>
+                <div class="view-mode-switch">
+                    <button class="ctrl-btn hover-target" id="btnViewTable" onclick="toggleDisplayMode('table')" style="background:var(--accent-red);">📋 Detaylı Tablo Görünümü</button>
+                    <button class="ctrl-btn hover-target" id="btnViewMatrix" onclick="toggleDisplayMode('matrix')">🗓️ 365 Gün Matris Görünümü</button>
+                </div>
+            </div>
+
+            <div class="filter-toolbar">
+                <div class="month-tabs" id="monthTabsContainer">
+                    <button class="month-btn active hover-target" onclick="filterByMonth(0, this)">Tüm Yıl (365 Gün)</button>
+                    <button class="month-btn hover-target" onclick="filterByMonth(1, this)">Ocak (31)</button>
+                    <button class="month-btn hover-target" onclick="filterByMonth(2, this)">Şubat (28)</button>
+                    <button class="month-btn hover-target" onclick="filterByMonth(3, this)">Mart (31)</button>
+                    <button class="month-btn hover-target" onclick="filterByMonth(4, this)">Nisan (30)</button>
+                    <button class="month-btn hover-target" onclick="filterByMonth(5, this)">Mayıs (31)</button>
+                    <button class="month-btn hover-target" onclick="filterByMonth(6, this)">Haziran (30)</button>
+                    <button class="month-btn hover-target" onclick="filterByMonth(7, this)">Temmuz (31)</button>
+                    <button class="month-btn hover-target" onclick="filterByMonth(8, this)">Ağustos (31)</button>
+                    <button class="month-btn hover-target" onclick="filterByMonth(9, this)">Eylül (30)</button>
+                    <button class="month-btn hover-target" onclick="filterByMonth(10, this)">Ekim (31)</button>
+                    <button class="month-btn hover-target" onclick="filterByMonth(11, this)">Kasım (30)</button>
+                    <button class="month-btn hover-target" onclick="filterByMonth(12, this)">Aralık (31)</button>
+                </div>
+
+                <div class="search-bar-row">
+                    <input type="text" id="tableSearchInput" class="table-search-input hover-target" placeholder="365 gün içinde olay, tarih, yıl, imparatorluk, savaş veya lider ara (Örn: Atatürk, 1453, Roma, Uzay)..." oninput="renderHistoryTable()">
+                    <div class="count-summary" id="tableCountSummary">Gösterilen: <strong>365 / 365 Gün</strong></div>
+                </div>
+            </div>
+
+            <!-- 365 GÜNLÜK DETAYLI TABLO -->
+            <div class="table-scroll-wrapper" id="tableWrapperBox">
+                <table class="history-365-table">
+                    <thead>
+                        <tr>
+                            <th>Gün #</th>
+                            <th>Tarih</th>
+                            <th>Kırılma Yılı</th>
+                            <th>Ana Tarihsel Başlık & Kategori</th>
+                            <th>Uzun Tarihsel Anlatım, Arka Plan ve Küresel Etkileri</th>
+                            <th>Ansiklopedi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="historyTableBody">
+                        <!-- 365 Günün tamamı JavaScript tarafından buraya eksiksiz basılır -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 365 GÜNLÜK MATRİS KUTULARI -->
+            <div class="matrix-365-grid" id="matrixWrapperBox"></div>
+        </section>
+
+    </main>
+
+    <script>
+        // ============================================================================
+        // TAM 365 GÜNLÜK GERÇEK TARİHSEL VERİTABANI (1 OCAK - 31 ARALIK)
+        // Her ayın tüm günleri (31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 = 365 Gün)
+        // ============================================================================
+        const MONTHS_TR = [
+            "", "Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran",
+            "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"
+        ];
+
+        const RAW_365_EVENTS = {
+            1: [
+                ["MÖ 45", "Jülyen Takviminin Yürürlüğe Girişi", "Takvim & Bilim", "Roma İmparatoru Jül Sezar tarafından İskenderiyeli astronom Sosigenes'e hazırlatılan Jülyen Takvimi ilk kez yürürlüğe girdi. Güneş yılı esasına dayanan bu düzenleme, yüzyıllar boyunca Batı dünyasının zaman algısını şekillendirdi ve modern Miladi takvimin temelini oluşturdu."],
+                ["1492", "Gırnata Emirliği'nin Düşüşü ve Reconquista'nın Sonu", "Siyasi Tarih", "Endülüs'teki son İslam devleti olan Gırnata (Granada) Emirliği, İspanyol hükümdarları Ferdinand ve Isabella'nın ordularına teslim oldu. Böylece İber Yarımadası'nda yaklaşık sekiz asır süren Endülüs İslam medeniyeti siyasi olarak sona erdi ve Avrupa'da yeni bir imparatorluk çağı başladı."],
+                ["1517", "Martin Luther'in Aforoz Edilmesi", "Din & Reform", "Papalık makamı, Katolik Kilisesi'nin endüljans satışlarına ve otoritesine karşı 95 Tez'ini yayınlayan Alman rahip Martin Luther'i resmen aforoz etti. Bu kırılma noktası, Avrupa'yı sarsan Protestan Reformu'nu geri dönülmez bir yola sokarak mezhep savaşlarını ve modern sekülerleşmeyi tetikledi."],
+                ["1643", "Isaac Newton'un Doğumu (Eski Takvim)", "Bilim & Fizik", "Evrensel kütleçekim yasasını ve hareket kanunlarını keşfederek klasik fiziğin temellerini atan İngiliz bilim insanı Sir Isaac Newton dünyaya geldi. 'Principia Mathematica' adlı eseriyle insanlığın evreni ve doğa yasalarını matematiksel kesinlikle anlama biçimini kökten değiştirdi."],
+                ["1922", "🇹🇷 Adana'nın Düşman İşgalinden Kurtuluşu", "Milli Mücadele", "Kurtuluş Savaşı'nın Güney Cephesi'nde verilen destansı Kuvâ-yi Milliye direnişi ve Ankara Antlaşması sonucunda Fransız birlikleri Çukurova ve Adana'yı terk etti. Toroslar'dan Akdeniz'e uzanan stratejik vatan toprakları yeniden Türk bayrağına kavuştu."],
+                ["1838", "Samuel Morse'un Telgraf Sistemini Tanıtması", "Teknoloji", "Samuel Morse ve Alfred Vail, geliştirdikleri elektrikli telgraf sistemini ve nokta-çizgilerden oluşan Mors alfabesini ilk kez kamuoyuna başarıyla tanıttı. Bu buluş, bilginin fiziksel ulaşım hızından bağımsız olarak kıtalar arasında anında iletilmesini sağlayarak iletişim devrimini başlattı."],
+                ["1610", "Galileo Galilei'nin Jüpiter'in Uydularını Keşfi", "Astronomi", "İtalyan astronom Galileo Galilei, kendi geliştirdiği teleskopla Jüpiter'i gözlemlerken gezegenin etrafında dönen dört büyük uyduyu (Io, Europa, Ganymede, Callisto) keşfetti. Bu gözlem, tüm gök cisimlerinin Dünya etrafında döndüğünü savunan Aristotelesçi-Batlamyusçu evren modelini yıktı."],
+                ["1918", "ABD Başkanı Woodrow Wilson'ın 14 İlkeleri", "Diplomasi", "ABD Başkanı Woodrow Wilson, I. Dünya Savaşı sonrası dünya düzenini belirlemek amacıyla Kongre'de 'Wilson İlkeleri' olarak bilinen 14 maddelik bildirgesini sundu. Ulusların kendi kaderini tayin hakkı ve Milletler Cemiyeti fikri bu konuşmayla uluslararası siyasetin merkezine yerleşti."],
+                ["1792", "Yaş Antlaşması'nın İmzalanması", "Osmanlı Tarihi", "1787-1792 Osmanlı-Rus Savaşı'nı sona erdiren Yaş Antlaşması imzalandı. Bu antlaşma ile Osmanlı İmparatorluğu Kırım'ın Rusya'ya ait olduğunu resmen kabul etmek zorunda kaldı ve Karadeniz'deki güç dengesi kalıcı olarak değişmeye başladı."],
+                ["1921", "🇹🇷 I. İnönü Zaferi'nin Kazanılması", "Kurtuluş Savaşı", "Türkiye Büyük Millet Meclisi tarafından kurulan düzenli ordunun Batı Cephesi'ndeki ilk büyük sınavı olan I. İnönü Muharebesi, Albay İsmet Bey komutasındaki Türk birliklerinin zaferiyle sonuçlandı. Bu zafer, içte TBMM'nin otoritesini güçlendirirken dışta Londra Konferansı'nın kapısını açtı."],
+                ["1922", "İnsülinin İlk Kez İnsan Üzerinde Kullanılması", "Tıp Tarihi", "Kanada'nın Toronto şehrinde 14 yaşındaki diyabet hastası Leonard Thompson'a, Frederick Banting ve Charles Best tarafından saflaştırılan ilk insülin enjeksiyonu yapıldı. Ölümcül bir hastalık olan Tip 1 diyabet, bu tarihten itibaren tedavi ve kontrol edilebilir bir duruma geldi."],
+                ["1920", "🇹🇷 Son Osmanlı Mebusan Meclisi'nin İstanbul'da Toplanması", "Milli Mücadele", "Amasya Görüşmeleri sonrasında yapılan seçimlerle belirlenen Son Osmanlı Mebusan Meclisi İstanbul'da çalışmalarına başladı. Bu meclis kısa süre sonra Türk milletinin bağımsızlık sınırlarını çizen tarihi Misak-ı Milli kararlarını oybirliğiyle kabul edecekti."],
+                ["532", "Bizans'ta Nika Ayaklanması'nın Başlaması", "İmparatorluklar", "Konstantinopolis Hipodromu'nda Mavi ve Yeşil araba yarışı gruplarının birleşmesiyle İmparator I. Justinianus'a karşı tarihin en kanlı kentsel isyanlarından biri olan Nika Ayaklanması patlak verdi. Şehrin yarısı küle dönerken, isyan bastırıldıktan sonra bugünkü görkemli Ayasofya inşa edildi."],
+                ["1943", "Kazablanka Konferansı'nın Başlaması", "II. Dünya Savaşı", "ABD Başkanı Franklin D. Roosevelt ile İngiltere Başbakanı Winston Churchill, II. Dünya Savaşı'nın küresel stratejisini belirlemek üzere Fas'ın Kazablanka kentinde bir araya geldi. Görüşmeler sonunda Mihver devletlerinden 'kayıtsız şartsız teslimiyet' talep edilmesi kararlaştırıldı."],
+                ["1902", "🇹🇷 Türk Edebiyatının Usta Şairi Nâzım Hikmet'in Doğumu", "Edebiyat", "Türk şiirinde serbest nazmın öncüsü, 'Memleketimden İnsan Manzaraları' ve 'Kuvâyi Milliye Destanı' gibi ölümsüz eserlerin yazarı Nâzım Hikmet Ran Selanik'te dünyaya geldi. Coşkulu dili ve toplumsal gerçekçi üslubuyla dünya edebiyatında derin izler bıraktı."],
+                ["MÖ 27", "Octavianus'a 'Augustus' Unvanının Verilmesi ve Roma İmparatorluğu", "Antik Tarih", "Roma Senatosu, Jül Sezar'ın evlatlığı Octavianus'a 'Augustus' (Kutsal/Yüce) unvanını verdi. Bu olay, iç savaşlarla yıpranan Roma Cumhuriyeti'nin fiilen sona erip yüzyıllar boyunca Akdeniz dünyasına hükmedecek olan Roma İmparatorluğu'nun (Principatus) başlamasını simgeler."],
+                ["1875", "İstanbul'da Dünyanın En Eski İkinci Metrosu 'Tünel' Hizmete Girdi", "Ulaşım Tarihi", "Fransız mühendis Eugène-Henri Gavand tarafından projelendirilen ve Karaköy ile Beyoğlu'nu birbirine bağlayan 'Tünel', görkemli bir törenle açıldı. Londra metrosundan sonra dünyanın en eski ikinci yeraltı toplu taşıma sistemi olarak tarihe geçti."],
+                ["1919", "Paris Barış Konferansı'nın Açılması", "Diplomasi", "I. Dünya Savaşı'nı kazanan İtilaf Devletleri, yenilen devletlerle yapılacak barış antlaşmalarının şartlarını hazırlamak ve dünya haritasını yeniden çizmek üzere Paris'te toplandı. Konferansta alınan ağır kararlar, Avrupa ve Orta Doğu'da onlarca yıl sürecek yeni çatışmaların tohumlarını ekti."],
+                ["1809", "Modern Polisiye ve Gotik Edebiyatın Öncüsü Edgar Allan Poe Doğdu", "Edebiyat", "Korku, gizem ve psikolojik gerilim edebiyatının kurucu isimlerinden Amerikalı şair ve yazar Edgar Allan Poe Boston'da doğdu. 'Kuzgun' (The Raven) şiiri ve dedektiflik öyküleriyle dünya edebiyatında yepyeni bir tür yarattı."],
+                ["1921", "🇹🇷 İlk Anayasa Olan 'Teşkilât-ı Esasiye Kanunu' Kabul Edildi", "Anayasa Tarihi", "Türkiye Büyük Millet Meclisi, yeni Türk devletinin ilk anayasası niteliğindeki 1921 Teşkilât-ı Esasiye Kanunu'nu kabul etti. Birinci maddesinde yer alan 'Hâkimiyet bilâkaydüşart milletindir' hükmüyle ulusal egemenlik ilkesi ilk kez anayasal güvenceye kavuştu."],
+                ["1793", "Fransa Kralı XVI. Louis'nin Giyotinle İdamı", "Fransız İhtilali", "Fransız İhtilali'nin en radikal döneminde vatana ihanet suçlamasıyla yargılanan Fransa Kralı XVI. Louis, Paris'teki Devrim Meydanı'nda giyotinle idam edildi. Bu olay Avrupa monarşilerini dehşete düşürürken Fransa'da mutlakiyetçi krallık dönemini kapattı."],
+                ["1517", "🇹🇷 Ridaniye Muharebesi ve Osmanlı'nın Mısır Seferi Zaferi", "Osmanlı Tarihi", "Yavuz Sultan Selim komutasındaki Osmanlı ordusu, Kahire yakınlarındaki Ridaniye'de Tumanbay komutasındaki Memlûk ordusunu kesin bir yenilgiye uğrattı. Bu zaferle Memlûk Devleti yıkıldı, Hicaz ve Mısır Osmanlı hakimiyetine girdi ve Halifelik makamı Osmanlı hanedanına geçti."],
+                ["1556", "Tarihin En Ölümcül Depremi: Şensi (Shaanxi) Depremi", "Doğa Tarihi", "Çin'in Şensi eyaletinde meydana gelen ve büyüklüğü yaklaşık 8.0 olarak tahmin edilen yıkıcı depremde, lös kayalıklarındaki mağara evlerin çökmesi sonucu yaklaşık 830 bin insan hayatını kaybetti. Bu felaket, insanlık tarihinin bilinen en çok can kaybına yol açan depremi oldu."],
+                ["1993", "🇹🇷 Gazeteci ve Yazar Uğur Mumcu Suikastı", "Yakın Tarih", "Türk basınının araştırmacı gazetecilik öncülerinden, Cumhuriyet gazetesi yazarı Uğur Mumcu, Ankara'da evinin önünde aracına yerleştirilen bombanın patlaması sonucu hayatını kaybetti. Kalemiyle aydınlanma ve bağımsızlık mücadelesi veren Mumcu, yüz binlerce yurttaş tarafından uğurlandı."],
+                ["1924", "Tarihin İlk Kış Olimpiyat Oyunları Chamonix'de Başladı", "Spor Tarihi", "Fransa'nın Alp Dağları eteklerindeki Chamonix kentinde düzenlenen 'Uluslararası Kış Sporları Haftası', Uluslararası Olimpiyat Komitesi tarafından I. Kış Olimpiyat Oyunları olarak tescil edildi. 16 ülkeden sporcular buz ve kar üstünde ilk kez olimpik madalya için yarıştı."],
+                ["1699", "Karlofça Antlaşması'nın İmzalanması", "Osmanlı Tarihi", "II. Viyana Kuşatması sonrasındaki 16 yıllık Kutsal İttifak Savaşları'nı sona erdiren Karlofça Antlaşması imzalandı. Osmanlı İmparatorluğu ilk kez büyük çapta toprak kaybederek Orta Avrupa'daki üstünlüğünü kaybetti ve gerileme/savunma stratejisine geçti."],
+                ["1299", "🇹🇷 Osmanlı Beyliği'nin Kuruluşu", "Türk Tarihi", "Söğüt ve Domaniç çevresinde uç beyi olan Osman Gazi, Bizans'a karşı kazandığı zaferler ve bağımsızlık adımlarıyla üç kıtaya altı asır boyunca hükmedecek olan Osmanlı İmparatorluğu'nun temellerini attı."],
+                ["1920", "🇹🇷 Son Osmanlı Mebusan Meclisi'nde Misak-ı Milli Kabul Edildi", "Milli Mücadele", "Mustafa Kemal Paşa'nın Erzurum ve Sivas Kongrelerinde belirlediği ilkeler doğrultusunda hazırlanan 'Misak-ı Milli' (Ulusal Ant), İstanbul'daki Mebusan Meclisi'nin gizli oturumunda kabul edildi. Böylece Türk milletinin kabul edebileceği asgari barış şartları ve vatan sınırları dünyaya ilan edildi."],
+                ["1886", "Karl Benz İlk İçten Yanmalı Otomobil Patentini Aldı", "Teknoloji", "Alman mühendis Karl Benz, benzinli motorla çalışan üç tekerlekli 'Benz Patent-Motorwagen' aracı için 37435 numaralı patenti aldı. Bu tarih, modern otomobil endüstrisinin ve küresel kara ulaşımının resmi doğum günü olarak kabul edilir."],
+                ["1948", "Hindistan Bağımsızlık Lideri Mahatma Gandhi Suikastı", "Dünya Tarihi", "Hindistan'ın İngiliz sömürge yönetimine karşı yürüttüğü şiddetsiz direniş (Satyagraha) hareketinin ruhani ve siyasi lideri Mahatma Gandhi, Yeni Delhi'de bir dua toplantısına giderken radikal bir fanatik tarafından vurularak öldürüldü."],
+                ["1958", "ABD İlk uydusu Explorer 1'i Uzaya Fırlattı ve Van Allen Kuşakları Keşfedildi", "Uzay Çağı", "Sovyetler Birliği'nin Sputnik hamlesine yanıt olarak ABD, ilk başarılı uydusu Explorer 1'i yörüngeye gönderdi. Uydu üzerindeki kozmik ışın dedektörleri, Dünya'yı saran manyetik radyasyon kuşaklarının (Van Allen Kuşakları) keşfedilmesini sağladı."]
+            ],
+            2: [
+                ["2003", "Columbia Uzay Mekiği Faciası", "Uzay Tarihi", "NASA'nın Columbia Uzay Mekiği, 16 günlük bilimsel görevini tamamlayıp Dünya atmosferine yeniden giriş yaptığı sırada Teksas semalarında parçalandı. Kalkış esnasında sol kanadındaki ısı kalkanının hasar görmesi nedeniyle yaşanan faciada 7 astronot hayatını kaybetti."],
+                ["1943", "Stalingrad Muharebesi'nin Sona Ermesi", "II. Dünya Savaşı", "İnsanlık tarihinin en kanlı çarpışmalarından biri olan Stalingrad Muharebesi, kuşatma altındaki Alman 6. Ordusu'nun Mareşal Friedrich Paulus komutasında Sovyet Kızıl Ordusu'na teslim olmasıyla sona erdi. Bu kırılma noktası, Nazi Almanyası'nın Doğu Cephesi'ndeki ilerleyişini durdurdu."],
+                ["1468", "Matbaanın Mucidi Johannes Gutenberg'in Ölümü", "Kültür & Bilim", "Avrupa'da hareketli metal harflerle baskı tekniğini (matbaayı) geliştirerek bilginin çoğaltılmasını ucuzlatan ve Rönesans ile Bilimsel Devrim'in hızlanmasını sağlayan Johannes Gutenberg, Almanya'nın Mainz şehrinde hayatını kaybetti."],
+                ["1945", "Yalta Konferansı'nın Başlaması", "Diplomasi", "II. Dünya Savaşı'nın son aşamasında ABD Başkanı Roosevelt, İngiltere Başbakanı Churchill ve Sovyet lideri Stalin, Kırım'ın Yalta kentinde bir araya geldi. Konferansta savaş sonrası Avrupa'nın paylaşımı, Almanya'nın silahsızlandırılması ve Birleşmiş Milletler'in kuruluş ilkeleri belirlendi."],
+                ["1937", "🇹🇷 Laiklik ve Diğer Atatürk İlkeleri Anayasaya Eklendi", "Cumhuriyet Tarihi", "Türkiye Büyük Millet Meclisi'nde yapılan tarihi anayasa değişikliği ile Cumhuriyetçilik, Milliyetçilik, Halkçılık, Devletçilik, Laiklik ve İnkılapçılık ilkeleri Teşkilât-ı Esasiye Kanunu'nun 2. maddesine eklenerek Türkiye Cumhuriyeti'nin temel nitelikleri anayasal güvenceye alındı."],
+                ["1919", "Weimar Cumhuriyeti'nin Kurulması", "Avrupa Tarihi", "I. Dünya Savaşı yenilgisi ve Alman İmparatorluğu'nun çöküşünün ardından, Almanya'nın Weimar kentinde toplanan Ulusal Meclis demokratik parlamenter cumhuriyet rejimini kurdu. Ancak ekonomik krizler ve ağır Versay şartları bu cumhuriyetin 1933'te yıkılmasına yol açacaktı."],
+                ["1984", "Uzayda İlk Kez Kablosuz Serbest Yürüyüş Gerçekleştirildi", "Uzay Çağı", "NASA astronotu Bruce McCandless II, Challenger uzay mekiğinden hiçbir güvenlik kablosuna bağlı olmadan, sırtındaki itkili manevra ünitesiyle (MMU) açık uzay boşluğunda 98 metre uzaklaşarak tarihin ilk serbest uzay yürüyüşünü gerçekleştirdi."],
+                ["1904", "Rus-Japon Savaşı'nın Başlaması", "Askeri Tarih", "Japon İmparatorluk Donanması'nın Mançurya'daki Port Arthur Rus deniz üssüne düzenlediği ani gece baskınıyla Rus-Japon Savaşı başladı. Savaşın sonunda modern çağda ilk kez bir Asya devleti, büyük bir Avrupalı imparatorluğu hem karada hem denizde mağlup etti."],
+                ["1920", "🇹🇷 Fransız Birliklerinin Maraş'tan Çekilmeye Başlaması", "Milli Mücadele", "Sütçü İmam'ın ilk kurşunuyla başlayan ve Maraş halkının 22 gün 22 gece süren destansı şehir savunması karşısında tutunamayan Fransız işgal kuvvetleri, ağırlıklarını bırakarak şehri terk etmeye başladı."],
+                ["1258", "Moğol Ordularının Bağdat'ı İşgali ve Abbasi Halifeliğinin Sonu", "Orta Çağ Tarihi", "Hülagû Han komutasındaki Moğol ordusu, İslam dünyasının ilim ve kültür başkenti Bağdat'ı kuşatarak ele geçirdi. Beytü'l-Hikme (Bilgelik Evi) kütüphanesindeki yüz binlerce el yazması eser Dicle Nehri'ne atıldı ve 500 yıllık Abbasi Halifeliği yıkıldı."],
+                ["1990", "Nelson Mandela 27 Yıl Sonra Hapisten Çıktı", "İnsan Hakları", "Güney Afrika'daki ırkçı Apartheid rejimine karşı yürüttüğü mücadele nedeniyle 27 yıl boyunca Robben Adası ve diğer hapishanelerde tutulan Nelson Mandela özgürlüğüne kavuştu. Dört yıl sonra ülkenin ilk siyahi devlet başkanı seçilecekti."],
+                ["1809", "Evrim Kuramının Kurucusu Charles Darwin Doğdu", "Bilim & Biyoloji", "Beagle gemisiyle yaptığı 5 yıllık dünya yolculuğundaki gözlemlerine dayanarak 'Türlerin Kökeni' adlı eserini yazan ve doğal seçilim yoluyla evrim kuramını ortaya koyan İngiliz doğa bilimci Charles Darwin dünyaya geldi."],
+                ["1633", "Galileo Galilei Engizisyon Mahkemesi Önüne Çıktı", "Bilim Tarihi", "Dünya'nın Güneş etrafında döndüğünü savunduğu 'İki Büyük Dünya Sistemi Hakkında Diyalog' kitabı nedeniyle suçlanan İtalyan bilim insanı Galileo Galilei, yargılanmak üzere Roma'ya gelerek Engizisyon önüne çıktı."],
+                ["1946", "Dünyanın İlk Genel Amaçlı Elektronik Bilgisayarı ENIAC Tanıtıldı", "Bilişim Tarihi", "Pennsylvania Üniversitesi'nde John Mauchly ve J. Presper Eckert tarafından geliştirilen, 30 ton ağırlığında ve 17.468 vakum tüpünden oluşan ENIAC kamuoyuna tanıtıldı. Saniyede 5.000 toplama işlemi yapabilen ENIAC, modern bilgisayar çağını başlattı."],
+                ["1564", "Modern Bilimin Babası Galileo Galilei Doğdu", "Bilim Tarihi", "Gözlemsel astronominin, modern fiziğin ve bilimsel yöntemin kurucusu İtalyan bilgin Galileo Galilei Pisa'da doğdu. Teleskobu gökyüzüne çevirerek insanlığın evrendeki yerini yeniden tanımladı."],
+                ["1923", "Firavun Tutankamon'un Mezar Odası Açıldı", "Arkeoloji", "İngiliz arkeolog Howard Carter, Mısır'ın Krallar Vadisi'nde keşfettiği genç firavun Tutankamon'un 3.200 yıl boyunca hiç soyulmadan kalmış hazinelerle dolu mezar odasının mührünü kırdı ve altın lahde ulaştı."],
+                ["1926", "🇹🇷 Türk Medeni Kanunu TBMM'de Kabul Edildi", "Cumhuriyet Devrimleri", "Hukuk devriminin en önemli adımı olan Türk Medeni Kanunu kabul edildi. Bu kanunla aile hukukunda kadın-erkek eşitliği sağlandı, tek eşli resmi nikah zorunluluğu getirildi, miras ve şahitlikte kadınlara erkeklerle eşit haklar tanındı."],
+                ["1930", "Plüton Gök Cismi Clyde Tombaugh Tarafından Keşfedildi", "Astronomi", "Amerikalı genç astronom Clyde Tombaugh, Lowell Gözlemevi'nde çektiği gökyüzü fotoğraflarını karşılaştırırken Güneş Sistemi'nin dış sınırlarında hareket eden Plüton'u keşfetti."],
+                ["1473", "Günmerkezli Evren Kuramcısı Nicolaus Copernicus Doğdu", "Astronomi", "Dünya'nın değil Güneş'in evrenin (Güneş Sistemi'nin) merkezinde yer aldığını matematiksel olarak açıklayan 'Göksel Kürelerin Dönüşleri Üzerine' adlı eseriyle Bilimsel Devrim'i başlatan Polonyalı astronom Kopernik dünyaya geldi."],
+                ["1962", "John Glenn Dünya Yörüngesinde Dönen İlk Amerikalı Astronot Oldu", "Uzay Tarihi", "Mercury-Atlas 6 görevinde Friendship 7 kapsülüyle uzaya çıkan John Glenn, Dünya'nın etrafında üç tam tur atarak yörünge uçuşu gerçekleştiren ilk Amerikalı astronot unvanını kazandı."],
+                ["1848", "Karl Marx ve Friedrich Engels 'Komünist Manifesto'yu Yayınladı", "Siyaset Felsefesi", "Karl Marx ve Friedrich Engels tarafından kaleme alınan Komünist Manifesto Londra'da basıldı. Tarihin sınıf mücadeleleri tarihi olduğunu savunan bu metin, 19. ve 20. yüzyıl dünya siyasetini derinden etkiledi."],
+                ["1997", "İlk Klonlanan Memeli Hayvan 'Koyun Dolly' Dünyaya Duyuruldu", "Genetik & Biyoloji", "İskoçya'daki Roslin Enstitüsü bilim insanları, yetişkin bir somatik hücreden klonlanan ilk memeli olan Koyun Dolly'nin başarıyla dünyaya geldiğini açıkladı. Bu gelişme genetik mühendisliği ve kök hücre araştırmalarında çığır açtı."],
+                ["1945", "🇹🇷 Türkiye'nin II. Dünya Savaşı'nda Almanya ve Japonya'ya Savaş İlanı", "Diplomasi", "Türkiye Cumhuriyeti, Yalta Konferansı kararları uyarınca kurulacak olan Birleşmiş Milletler Teşkilatı'nın kurucu üyeleri arasında yer alabilmek amacıyla Mihver devletleri olan Almanya ve Japonya'ya resmen savaş ilan etti."],
+                ["1582", "Papa XIII. Gregorius Miladi (Gregoryen) Takvimi İlan Etti", "Takvim Tarihi", "Jülyen takvimindeki 10 günlük mevsim kaymasını düzeltmek amacıyla Papa XIII. Gregorius, papalık fermanı 'Inter gravissimas' ile bugün tüm dünyada kullanılan Gregoryen (Miladi) takvimi resmen yürürlüğe koydu."],
+                ["1932", "🇹🇷 Halkevleri Atatürk'ün Direktifiyle 14 İlde Açıldı", "Kültür & Eğitim", "Cumhuriyet devrimlerini halka anlatmak, ulusal kültürü araştırmak, okuma-yazma ve sanat eğitimini Anadolu'nun dört bir yanına yaymak amacıyla kurulan Halkevleri, ilk olarak 14 merkezde faaliyetlerine başladı."],
+                ["1815", "Napolyon Bonapart Elbe Adası Sürgününden Kaçtı", "Avrupa Tarihi", "Yenilgisinin ardından Akdeniz'deki Elbe Adası'na sürgüne gönderilen Fransız İmparatoru Napolyon Bonapart, bin kişilik muhafız birliğiyle adadan kaçarak Fransa kıyılarına çıktı ve 'Yüz Gün' sürecek son iktidar yürüyüşünü başlattı."],
+                ["1933", "Almanya'da Reichstag (Parlamento) Yangını", "II. Dünya Savaşı Öncesi", "Berlin'deki Alman Parlamento binası Reichstag kundaklama sonucu yandı. Bu olayı bahane eden Adolf Hitler, sivil özgürlükleri askıya alan kararnameleri çıkartarak Almanya'da mutlak diktatörlüğünü kurdu."],
+                ["1953", "James Watson ve Francis Crick DNA'nın Çift Sarmal Yapısını Keşfetti", "Biyoloji & Genetik", "Cambridge Üniversitesi araştırmacıları James Watson ve Francis Crick, Rosalind Franklin'in X-ışını kırınım verilerinden de yararlanarak yaşamın genetik şifresini taşıyan DNA molekülünün çift sarmal yapısını çözdü. (Artık yıllarda 29 Şubat: 1504'te Kristof Kolomb tam Ay tutulmasını önceden hesaplayarak Jamaika'da mürettebatını kurtardı.)"]
+            ],
+            3: [
+                ["1921", "🇹🇷 Mehmet Âkif Ersoy'un İstiklâl Marşı İlk Kez TBMM Kürsüsünden Okundu", "Milli Mücadele", "Kurtuluş Savaşı'nın ruhunu ve Türk milletinin bağımsızlık kararlılığını destanlaştıran İstiklâl Marşı, Maarif Vekili Hamdullah Suphi Tanrıöver tarafından TBMM kürsüsünden ilk kez okundu ve milletvekillerince ayakta alkışlandı."],
+                ["1969", "Süpersonik Yolcu Uçağı Concorde İlk Test Uçuşunu Yaptı", "Havacılık", "İngiliz-Fransız ortak yapımı olan ve ses hızının iki katına (Mach 2.04) çıkabilen süpersonik yolcu uçağı Concorde, Fransa'nın Toulouse kentinden havalanarak ilk başarılı uçuşunu gerçekleştirdi."],
+                ["1924", "🇹🇷 Halifeliğin Kaldırılması ve Tevhid-i Tedrisat Kanunu", "Cumhuriyet Devrimleri", "TBMM'de kabul edilen tarihi devrim yasalarıyla Halifelik kaldırıldı, Osmanlı hanedanı yurt dışına çıkarıldı, Şer'iye ve Evkaf Vekâleti yerine Diyanet İşleri Başkanlığı kuruldu ve Tevhid-i Tedrisat (Öğretim Birliği) Kanunu ile tüm okullar Milli Eğitim Bakanlığı'na bağlandı."],
+                ["1193", "Kudüs Fatihi Sultan Selahaddin Eyyubi'nin Vefatı", "İslam & Orta Çağ Tarihi", "1187 Hıttin Muharebesi ile Haçlıları mağlup ederek Kudüs'ü yeniden İslam hakimiyetine kazandıran ve adaletiyle hem Doğu hem Batı dünyasında büyük saygı gören Eyyubiler Devleti'nin kurucusu Selahaddin Eyyubi Şam'da vefat etti."],
+                ["1946", "Winston Churchill'in 'Demir Perde' Konuşması", "Soğuk Savaş", "Eski İngiltere Başbakanı Winston Churchill, ABD'nin Fulton kentinde yaptığı konuşmada 'Baltık'taki Stettin'den Adriyatik'teki Trieste'ye kadar kıta boyunca bir Demir Perde indi' diyerek Soğuk Savaş döneminin ideolojik bölünmesini tanımladı."],
+                ["1475", "Rönesans Dehası Michelangelo'nun Doğumu", "Sanat Tarihi", "Davut heykeli, Pietà ve Sistina Şapeli tavan freskleri gibi insanlık sanat tarihinin en görkemli başyapıtlarına imza atan İtalyan heykeltıraş, ressam ve mimar Michelangelo Buonarroti dünyaya geldi."],
+                ["1876", "Alexander Graham Bell Telefonun Patentini Aldı", "İletişim Tarihi", "İskoç asıllı bilim insanı Alexander Graham Bell, insan sesini elektrik sinyalleri aracılığıyla teller üzerinden ileten 'telefon' icadı için ABD Patent Ofisi'nden 174465 numaralı resmi patenti aldı."],
+                ["1917", "Rusya'da Şubat Devrimi ve Dünya Kadınlar Günü'nün Kökeni", "Dünya Tarihi", "1857'de New York'taki dokuma işçisi kadınların grevi ve 8 Mart 1917'de (Jülyen 23 Şubat) Petrograd'da kadın işçilerin 'Ekmek ve Barış' talebiyle başlattığı gösteriler Çarlık rejiminin yıkılmasını tetikledi ve 8 Mart Dünya Emekçi Kadınlar Günü olarak simgeleşti."],
+                ["1934", "Uzaya Çıkan İlk İnsan Yuri Gagarin Doğdu", "Uzay Tarihi", "12 Nisan 1961'de Vostok 1 uzay aracıyla Dünya yörüngesine çıkarak uzay boşluğuna ulaşan ilk insan unvanını kazanan Sovyet kozmonot Yuri Alekseyeviç Gagarin dünyaya geldi."],
+                ["1876", "Telefonla İlk Resmi Sesli Görüşme Yapıldı", "Teknoloji", "Alexander Graham Bell, laboratuvarında asistanı Thomas Watson'a telefon hattı üzerinden 'Bay Watson, buraya gelin, sizi görmek istiyorum' diyerek tarihin ilk anlaşılır telefon konuşmasını gerçekleştirdi."],
+                ["1917", "İngiliz Birliklerinin Bağdat'ı İşgali", "I. Dünya Savaşı", "I. Dünya Savaşı'nın Irak Cephesi'nde Kut'ül Amare zaferinden sonra takviye alan General Maude komutasındaki İngiliz ordusu Bağdat'a girdi ve bölgedeki dört asırlık Osmanlı yönetimi sona erdi."],
+                ["1921", "🇹🇷 İstiklâl Marşı TBMM'de Milli Marş Olarak Resmiyet Kazandı", "Milli Mücadele", "Mehmet Âkif Ersoy'un Türk ordusuna ithaf ettiği ve kazanılan para ödülünü Darülmesai vakfına bağışladığı İstiklâl Marşı, TBMM'nin 12 Mart 1921 tarihli oturumunda büyük bir coşkuyla Türkiye'nin resmi Milli Marşı olarak kabul edildi."],
+                ["1781", "William Herschel Uranüs Gezegenini Keşfetti", "Astronomi", "İngiliz astronom William Herschel, kendi yaptığı teleskopla gökyüzünü tararken antik çağlardan beri bilinen gezegenlerin ötesinde ilk kez yeni bir gezegen olan Uranüs'ü keşfederek bilinen Güneş Sistemi sınırlarını iki katına çıkardı."],
+                ["1879", "Modern Fiziğin Dehası Albert Einstein Doğdu", "Bilim & Fizik", "Özel ve Genel Görelilik kuramlarıyla Newton mekaniğinin mutlak uzay-zaman anlayışını yıkan, kütle-enerji eşdeğerliği ($E=mc^2$) ve fotoelektrik etki çalışmalarıyla Nobel Fizik Ödülü kazanan Albert Einstein Almanya'nın Ulm kentinde doğdu."],
+                ["MÖ 44", "Roma Diktatörü Jül Sezar Senato'da Suikasta Uğradı", "Antik Tarih", "Roma Cumhuriyeti'nin ömür boyu diktatörü ilan edilen Jül Sezar, 'Mart'ın İd'i' olarak bilinen 15 Mart günü Brutus ve Cassius önderliğindeki senatörler tarafından 23 bıçak darbesiyle öldürüldü. Suikast Roma'yı yeni bir iç savaşa sürükledi."],
+                ["1920", "🇹🇷 İtilaf Devletleri Tarafından İstanbul'un Resmen İşgali", "Milli Mücadele", "Son Osmanlı Mebusan Meclisi'nin Misak-ı Milli kararlarını kabul etmesi üzerine İngiliz, Fransız ve İtalyan birlikleri İstanbul'u resmen işgal etti, Şehzadebaşı Karakolu'nu bastı ve meclisi dağıtarak milletvekillerini Malta'ya sürgüne gönderdi. Bu olay Ankara'da TBMM'nin açılmasını hızlandırdı."],
+                ["1861", "İtalya Krallığı Resmen İlan Edildi", "Avrupa Tarihi", "Giuseppe Garibaldi, Kont Cavour ve Kral II. Vittorio Emanuele'nin yürüttüğü 'Risorgimento' (Yeniden Yükseliş) hareketi başarıya ulaştı ve parçalanmış şehir devletleri birleşerek İtalya Krallığı kuruldu."],
+                ["1915", "🇹🇷 18 Mart Çanakkale Deniz Zaferi", "Türk Askeri Tarihi", "İtilaf Devletleri'nin dönemin en büyük zırhlı donanmasıyla Çanakkale Boğazı'nı geçerek İstanbul'u ele geçirmek için başlattığı büyük taarruz; Nusret Mayın Gemisi'nin döktüğü mayınlar ve Türk topçusunun direnişiyle bozguna uğratıldı. 'Çanakkale Geçilmez' destanı tarihe kazındı."],
+                ["1915", "Plüton İlk Kez Fotoğraflandı", "Astronomi", "Resmi keşfinden 15 yıl önce Lowell Gözlemevi'nde çekilen gökyüzü plakalarında Plüton'un görüntüsü ilk kez kayda geçti ancak o tarihte henüz bir gezegen olduğu fark edilemedi."],
+                ["1727", "Büyük Bilim İnsanı Sir Isaac Newton Hayatını Kaybetti", "Bilim Tarihi", "Kalkülüsü bulan, ışığın prizmadaki kırılmasını açıklayan ve kütleçekim yasasıyla evrenin işleyişini çözen İngiliz fizikçi ve matematikçi Isaac Newton 84 yaşında Londra'da öldü ve Westminster Manastırı'na defnedildi."],
+                ["1804", "Fransa'da Napolyon Yasaları (Code Napoléon) Yürürlüğe Girdi", "Hukuk Tarihi", "Feodal ayrıcalıkları kaldıran, kanun önünde eşitliği, mülkiyet hakkını ve laik hukuk ilkelerini getiren Fransız Medeni Kanunu yürürlüğe girdi. Bu kanun kıta Avrupası hukuk sistemlerinin temel taşı oldu."],
+                ["1945", "Arap Birliği Kahire'de Kuruldu", "Orta Doğu Tarihi", "Mısır, Irak, Ürdün, Lübnan, Suudi Arabistan ve Suriye temsilcileri Kahire'de bir araya gelerek üye ülkeler arasındaki siyasi ve ekonomik işbirliğini güçlendirmek amacıyla Arap Birliği'ni kurdu."],
+                ["1919", "İtalya'da Benito Mussolini Faşist Hareketi Kurdu", "Dünya Tarihi", "Benito Mussolini, Milano'da 'Fasci Italiani di Combattimento' örgütünü kurarak İtalya'yı 1922'den II. Dünya Savaşı'nın sonuna kadar yönetecek olan totaliter faşist rejimin temelini attı."],
+                ["1882", "Robert Koch Verem (Tüberküloz) Bakterisini Keşfettiğini Açıkladı", "Tıp Tarihi", "Alman hekim ve mikrobiyolog Robert Koch, yüzyıllar boyunca insanlığın en büyük ölüm nedenlerinden biri olan verem hastalığına yol açan 'Mycobacterium tuberculosis' bakterisini izole ettiğini bilim dünyasına duyurdu."],
+                ["1957", "Avrupa Ekonomik Topluluğu'nu (AB) Kuran Roma Antlaşması İmzalandı", "Avrupa Tarihi", "Batı Almanya, Fransa, İtalya, Belçika, Hollanda ve Lüksemburg liderleri Roma'da bir araya gelerek bugünkü Avrupa Birliği'nin temelini oluşturan Avrupa Ekonomik Topluluğu (AET) antlaşmasını imzaladı."],
+                ["1827", "Klasik Müziğin Dev İsmi Ludwig van Beethoven Hayatını Kaybetti", "Sanat & Müzik", "İşitme yetisini tamamen kaybetmesine rağmen 9. Senfoni gibi insanlık tarihinin en görkemli müzik eserlerini besteleyen Alman besteci Ludwig van Beethoven Viyana'da 56 yaşında hayata veda etti."],
+                ["1845", "X-Işınlarını Keşfeden Wilhelm Conrad Röntgen Doğdu", "Fizik & Tıp", "İnsan vücudunun içinin cerrahi müdahale olmadan görüntülenmesini sağlayan X-ışınlarını (Röntgen ışınlarını) 1895 yılında keşfederek tarihin ilk Nobel Fizik Ödülü'nü kazanan Alman fizikçi Röntgen dünyaya geldi."],
+                ["1930", "🇹🇷 Yabancı Dillerde Kullanılan Şehir İsimleri resmen Türkçeleştirildi", "Cumhuriyet Tarihi", "Türkiye Cumhuriyeti hükümeti, uluslararası posta ve diplomatik yazışmalarda Constantinople, Angora, Smyrna, Adrianople gibi yabancı adların kullanımını sonlandırarak İstanbul, Ankara, İzmir ve Edirne adlarının kullanılmasını zorunlu kıldı."],
+                ["1432", "🇹🇷 Cihan Padişahı Fatih Sultan Mehmet Edirne'de Doğdu", "Osmanlı Tarihi", "21 yaşında İstanbul'u fethederek Orta Çağ'ı kapatıp Yeni Çağ'ı açan, yedi dil bilen, bilime ve sanata verdiği değerle imparatorluğu küresel bir güce dönüştüren Osmanlı Padişahı II. Mehmet (Fatih) Edirne'de dünyaya geldi."],
+                ["1856", "Kırım Savaşı'nı Bitiren Paris Antlaşması İmzalandı", "Diplomasi", "Osmanlı İmparatorluğu, İngiltere, Fransa ve Piyemonte ittifakının Rusya'ya karşı kazandığı Kırım Savaşı sonunda Paris Antlaşması imzalandı. Osmanlı Devleti ilk kez bir Avrupa devleti sayılarak toprak bütünlüğü Avrupa güvencesine alındı."],
+                ["1889", "Paris'in Simgesi Eyfel Kulesi Resmi Olarak Açıldı", "Mimarlık", "Fransız İhtilali'nin 100. yılı ve 1889 Paris Dünya Fuarı onuruna Gustave Eiffel tarafından inşa edilen 300 metre yüksekliğindeki demir kule, dönemin en yüksek insan yapımı yapısı olarak açıldı."]
+            ],
+            4: [
+                ["1921", "🇹🇷 II. İnönü Zaferi'nin Kazanılması", "Kurtuluş Savaşı", "Yunan ordusunun Ankara'ya ulaşmak ve Sevr'i kabul ettirmek için başlattığı taarruz, İsmet Paşa komutasındaki Batı Cephesi birliklerinin direnişiyle kırıldı. Mustafa Kemal Paşa, 'Siz orada yalnız düşmanı değil, milletin makûs talihini de yendiniz' telgrafını gönderdi."],
+                ["1982", "Falkland Savaşı'nın Başlaması", "Askeri Tarih", "Arjantin askeri cuntasının Güney Atlantik'te İngiliz kontrolündeki Falkland (Malvinas) Adaları'na çıkarma yapması üzerine Birleşik Krallık bölgeye donanma gönderdi ve 74 gün sürecek savaş başladı."],
+                ["1930", "🇹🇷 Türk Kadınlarına Belediye Seçimlerinde Seçme ve Seçilme Hakkı Verildi", "Cumhuriyet Devrimleri", "TBMM'de kabul edilen Yeni Belediyeler Kanunu ile Türk kadınları belediye seçimlerinde oy kullanma ve aday olma hakkını elde etti. Böylece Türkiye, kadınlara siyasal haklar tanıyan öncü ülkeler arasına girdi."],
+                ["1949", "Kuzey Atlantik Antlaşması Örgütü (NATO) Kuruldu", "Küresel Siyaset", "Soğuk Savaş'ın başlangıcında Sovyet yayılmacılığına karşı ortak savunma paktı oluşturmak amacıyla ABD, Kanada ve 10 Batı Avrupa ülkesi Washington'da Kuzey Atlantik Antlaşması'nı imzalayarak NATO'yu kurdu."],
+                ["1804", "Tarihte Kaydedilen İlk Meteorit İncelemesi (Possil Meteoriti)", "Astronomi", "İskoçya'nın Glasgow kenti yakınlarına düşen göktaşı, bilim insanları tarafından incelenerek taşların gerçekten uzaydan Dünya'ya düştüğünün modern bilimce kabul edilmesine katkı sağladı."],
+                ["1896", "İlk Modern Olimpiyat Oyunları Atina'da Başladı", "Spor Tarihi", "Fransız eğitimci Baron Pierre de Coubertin'in girişimleriyle yeniden canlandırılan Olimpiyat Oyunları, Antik Yunan'daki oyunlardan 1500 yıl sonra ilk kez Atina'daki Panathinaiko Stadyumu'nda başladı."],
+                ["1948", "Dünya Sağlık Örgütü (WHO) Kuruldu", "Sağlık Tarihi", "Birleşmiş Milletler çatısı altında küresel salgınlarla mücadele etmek ve insanlığın sağlık standartlarını yükseltmek amacıyla Dünya Sağlık Örgütü (DSÖ) kuruldu ve 7 Nisan Dünya Sağlık Günü ilan edildi."],
+                ["1973", "Kübizm Akımının Kurucusu Pablo Picasso Hayatını Kaybetti", "Sanat Tarihi", "20. yüzyıl modern sanatının en etkili ismi, 'Guernica' ve 'Avignonlu Kızlar' tablolarının yaratıcısı İspanyol ressam ve heykeltıraş Pablo Picasso 91 yaşında Fransa'da öldü."],
+                ["1588", "🇹🇷 Büyük Osmanlı Mimarı Mimar Sinan Vefat Etti", "Mimarlık Tarihi", "Süleymaniye ve Edirne Selimiye camileri başta olmak üzere Osmanlı coğrafyasına yüzlerce cami, köprü, su kemeri ve külliye kazandıran Başmimar Koca Mi'mâr Sinân Âğâ 98 yaşında İstanbul'da vefat etti."],
+                ["1928", "🇹🇷 Anayasadan 'Devletin Dini İslam'dır' Maddesi Çıkarıldı", "Laiklik & Hukuk", "1924 Anayasası'nda yapılan değişiklikle devletin resmi dini ibaresi kaldırıldı ve milletvekillerinin yemin metni laikleştirilerek Türkiye Cumhuriyeti'nin laik hukuk devleti kimliği pekiştirildi."],
+                ["1970", "Apollo 13 Ay Görevi Fırlatıldı", "Uzay Tarihi", "NASA'nın üçüncü insanlı Ay'a iniş görevi olan Apollo 13 fırlatıldı. İki gün sonra oksijen tankının patlamasıyla uzay aracında büyük bir kriz yaşanacak ancak mürettebat üstün mühendislik çabasıyla Dünya'ya sağ döndürülecekti."],
+                ["1961", "Yuri Gagarin Uzaya Çıkan İlk İnsan Oldu", "Uzay Çağı", "Sovyet kozmonot Yuri Gagarin, Vostok 1 uzay aracıyla Baykonur Üssü'nden fırlatılarak Dünya yörüngesinde 108 dakika süren bir uçuş gerçekleştirdi ve insanlığın uzay çağını resmen başlattı."],
+                ["1598", "Fransa'da Din Savaşlarını Bitiren Nantes Fermanı İmzalandı", "Avrupa Tarihi", "Fransa Kralı IV. Henri, ülkede Katolikler ile Protestanlar (Huguenotlar) arasında onlarca yıl süren kanlı mezhep savaşlarını sona erdirmek ve inanç özgürlüğü tanımak amacıyla Nantes Fermanı'nı yayımladı."],
+                ["1912", "Titanik Transatlantiği Kuzey Atlantik'te Buzdağına Çarptı", "Denizcilik Tarihi", "'Asla batmaz' denilen dev İngiliz yolcu gemisi RMS Titanic, Southampton'dan New York'a yaptığı ilk seferinde gece saat 23:40'ta dev bir buzdağına çarptı ve yaklaşık 2 saat 40 dakika içinde sulara gömüldü."],
+                ["1931", "🇹🇷 Atatürk Tarafından Türk Tarih Kurumu Kuruldu", "Kültür & Bilim", "Türk tarihini İslam öncesi dönemlerden başlayarak bilimsel yöntemlerle ve ana kaynaklardan araştırmak amacıyla Mustafa Kemal Atatürk'ün direktifiyle Türk Tarihi Tetkik Cemiyeti (Türk Tarih Kurumu) kuruldu."],
+                ["1917", "Lenin Sürgünden Petrograd'a Döndü ve Nisan Tezleri'ni Açıkladı", "Rus Devrimi", "Bolşevik lider Vladimir Lenin, İsviçre sürgününden mühürlü bir trenle Rusya'ya döndü ve tüm iktidarın Sovyetlere geçmesini talep eden Nisan Tezleri'ni ilan ederek Ekim Devrimi'nin yolunu açtı."],
+                ["1453", "🇹🇷 Fatih Sultan Mehmet İstanbul Adalarını Fethetti", "İstanbul'un Fethi", "İstanbul kuşatması sürerken Kaptan-ı Derya Baltaoğlu Süleyman Bey komutasındaki Osmanlı donanması, Bizans'ın Marmara'daki direnek noktaları olan Prens Adaları'nı (Kınalı, Burgaz, Heybeli, Büyükada) ele geçirdi."],
+                ["1906", "Büyük San Francisco Depremi ve Yangını", "Doğa Tarihi", "ABD'nin Kaliforniya eyaletindeki San Francisco kenti sabah saatlerinde 7.9 büyüklüğündeki yıkıcı bir depremle sarsıldı. Deprem ve ardından günlerce süren yangınlar şehrin %80'ini harabeye çevirdi."],
+                ["1775", "Amerikan Bağımsızlık Savaşı Lexington ve Concord'da Başladı", "Dünya Tarihi", "On Üç Koloni milisleri ile İngiliz Kraliyet birlikleri arasında Lexington ve Concord'da patlak veren silahlı çatışma, ABD'nin kuruluşuyla sonuçlanacak olan Amerikan Bağımsızlık Savaşı'nı başlattı."],
+                ["1924", "🇹🇷 1924 Anayasası (Teşkilât-ı Esasiye) TBMM'de Kabul Edildi", "Anayasa Tarihi", "Cumhuriyetin ilanından sonra yeni devletin kurumlarını ve temel hakları düzenleyen 1924 Anayasası kabul edildi ve 1961 yılına kadar yürürlükte kaldı."],
+                ["MÖ 753", "Efsaneye Göre Roma Kenti Romulus Tarafından Kuruldu", "Antik Tarih", "Romalı tarihçi Varro'nun hesaplamalarına göre Romulus ve Remus kardeşler Tiber Nehri kıyısında Roma şehrinin temellerini attı. Bu tarih Roma takviminin (Ab urbe condita) başlangıç noktası kabul edildi."],
+                ["1500", "Portekizli Kaşif Pedro Álvares Cabral Brezilya Kıyılarına Ulaştı", "Coğrafi Keşifler", "Hindistan yolunu takip ederken batıya açılan Portekizli denizci Pedro Álvares Cabral, Güney Amerika kıtasındaki bugünkü Brezilya topraklarına ayak basarak bölgeyi Portekiz Krallığı adına talep etti."],
+                ["1920", "🇹🇷 23 Nisan: Türkiye Büyük Millet Meclisi Açıldı (Ulusal Egemenlik ve Çocuk Bayramı)", "Milli Bayram", "Mustafa Kemal Paşa önderliğinde Ankara'da dualarla ve büyük bir heyecanla Türkiye Büyük Millet Meclisi açıldı. Egemenliğin padişahtan alınarak kayıtsız şartsız millete verildiği bu tarihi gün, Atatürk tarafından dünya çocuklarına bayram olarak armağan edildi."],
+                ["1990", "Hubble Uzay Teleskobu Yörüngeye Yerleştirildi", "Astronomi", "NASA ve ESA ortaklığıyla geliştirilen Hubble Uzay Teleskobu, Discovery uzay mekiğiyle Dünya atmosferinin dışındaki yörüngesine fırlatıldı ve derin uzayın milyarlarca ışık yılı ötesindeki galaksileri görüntüledi."],
+                ["1915", "🇹🇷 Çanakkale Kara Savaşları (Arıburnu ve Seddülbahir Çıkarmaları) Başladı", "Türk Askeri Tarihi", "18 Mart'ta denizden geçemeyen İtilaf Devletleri, Gelibolu Yarımadası'na büyük bir kara çıkarması başlattı. Yarbay Mustafa Kemal, 19. Tümen ve 57. Alay ile Conkbayırı'nda düşmanı durdurarak 'Ben size taarruz emretmiyorum, ölmeyi emrediyorum' tarihi emrini verdi."],
+                ["1986", "Çernobil Nükleer Santrali Faciası", "Yakın Tarih", "Sovyetler Birliği'ne bağlı Ukrayna'nın Pripyat kenti yakınlarındaki Çernobil Nükleer Santrali'nin 4 numaralı reaktöründe yapılan güvenlik testi sırasında patlama meydana geldi. Tarihin en büyük nükleer kazalarından biri yaşandı."],
+                ["1521", "Kaşif Ferdinand Macellan Filipinler'de Öldürüldü", "Coğrafi Keşifler", "Dünyanın çevresini dolaşan ilk deniz seferine liderlik eden ve Büyük Okyanus'u aşan Portekizli denizci Ferdinand Macellan, Filipinler'deki Mactan Adası yerlileriyle girdiği çatışmada hayatını kaybetti."],
+                ["1916", "🇹🇷 Kut'ül Amare Zaferi: İngiliz Tümeni Osmanlı Ordusuna Teslim Oldu", "I. Dünya Savaşı", "I. Dünya Savaşı'nın Irak Cephesi'nde Halil (Kut) Paşa komutasındaki Osmanlı 6. Ordusu, Kut'ül Amare kasabasında yaklaşık 5 ay boyunca kuşattığı General Townshend dahil 13.300 kişilik İngiliz birliğini kayıtsız şartsız teslim aldı."],
+                ["1945", "Dachau Toplama Kampı Kurtarıldı ve Berlin'de Savaş Son Aşamaya Girdi", "II. Dünya Savaşı", "Müttefik birlikleri Nazi toplama kamplarını özgürleştirirken, Sovyet birlikleri Berlin'in merkezindeki Reichstag binasına doğru son taarruzunu başlattı."],
+                ["1945", "Adolf Hitler Berlin'deki Sığınağında İntihar Etti", "II. Dünya Savaşı", "Sovyet Kızıl Ordusu'nun Berlin'in merkezine girmesi ve Üçüncü Reich'ın tamamen çökmesi üzerine Adolf Hitler, Führerbunker adlı yeraltı sığınağında intihar etti; bir hafta sonra Almanya resmen teslim oldu."]
+            ],
+            5: [
+                ["1886", "Chicago'da İşçilerin 8 Saatlik İş Günü Grevi (1 Mayıs Emek ve Dayanışma Günü)", "Sosyal Tarih", "ABD'nin Chicago kentinde yüz binlerce işçi, günlük çalışma süresinin 8 saate indirilmesi talebiyle genel greve çıktı. Haymarket Olayları ile tarihe geçen bu mücadele, tüm dünyada 1 Mayıs Emek ve Dayanışma Günü'nün simgesi oldu."],
+                ["1519", "Rönesans'ın Evrensel Dehası Leonardo da Vinci Hayatını Kaybetti", "Sanat & Bilim", "Mona Lisa ve Son Akşam Yemeği tablolarının yanı sıra anatomi, uçuş makineleri, optik ve mühendislik çizimleriyle çağının yüzyıllarca ilerisinde yaşayan İtalyan bilgin Leonardo da Vinci Fransa'nın Amboise kentinde öldü."],
+                ["1944", "🇹🇷 Türkiye'de 3 Mayıs Türkçülük Günü Olayları", "Yakın Tarih", "Hüseyin Nihal Atsız'ın yargılandığı davalar sürecinde Ankara'da binlerce gencin katılımıyla yapılan yürüyüşler Türk milliyetçiliği tarihinde 3 Mayıs Türkçülük Günü olarak anılmaya başlandı."],
+                ["1919", "Çin'de 4 Mayıs Hareketi Başladı", "Dünya Tarihi", "Versay Antlaşması'nda Çin'in Şantung eyaletinin Japonya'ya bırakılmasına tepki gösteren binlerce Pekinli öğrenci Tiananmen Meydanı'nda protesto başlattı; bu hareket modern Çin'in siyasi ve kültürel dönüşümünü tetikledi."],
+                ["1821", "Fransız İmparatoru Napolyon Bonapart Saint Helena Adası'nda Öldü", "Avrupa Tarihi", "Waterloo Savaşı'ndaki yenilgisinin ardından Güney Atlantik'teki ıssız Saint Helena Adası'na sürgün edilen Fransız İmparatoru ve askeri stratejist Napolyon Bonapart 51 yaşında hayatını kaybetti."],
+                ["1937", "Dev Zeplin Hindenburg ABD'de İniş Sırasında Yandı", "Havacılık Tarihi", "Almanya'dan havalanarak Atlas Okyanusu'nu aşan 245 metre uzunluğundaki hidrojen dolu dev yolcu zeplini LZ 129 Hindenburg, New Jersey'deki Lakehurst Deniz Üssü'ne iniş yaparken alev alarak 36 saniye içinde kül oldu ve zeplin çağı kapandı."],
+                ["1915", "İngiliz Yolcu Gemisi Lusitania Alman Denizaltısı Tarafından Batırıldı", "I. Dünya Savaşı", "Alman U-20 denizaltısı, İrlanda açıklarında İngiliz transatlantiği RMS Lusitania'yı torpilleyerek batırdı. Gemideki 1.198 kişinin (aralarında 128 ABD vatandaşı) ölmesi, ABD'nin I. Dünya Savaşı'na girmesine giden süreci hızlandırdı."],
+                ["1945", "Avrupa'da II. Dünya Savaşı'nın Sona Ermesi (Zafer Günü / V-E Day)", "II. Dünya Savaşı", "Nazi Almanyası'nın kayıtsız şartsız teslimiyet belgesini imzalamasıyla Avrupa kıtasında 6 yıl süren ve milyonlarca insanın ölümüne yol açan II. Dünya Savaşı resmen sona erdi."],
+                ["1950", "Avrupa Birliği'nin Temeli Sayılan Schuman Bildirgesi Açıklandı", "Avrupa Tarihi", "Fransa Dışişleri Bakanı Robert Schuman, Avrupa'da yeni bir savaşı imkansız kılmak amacıyla Fransa ve Batı Almanya'nın kömür ve çelik üretimlerini ortak bir üst kurum altında birleştirmesini önerdi."],
+                ["1994", "Nelson Mandela Güney Afrika'nın İlk Siyahi Devlet Başkanı Olarak Göreve Başladı", "Dünya Tarihi", "Ülkede yapılan ilk demokratik ve tüm ırkların katıldığı seçimleri kazanan Nelson Mandela, Pretoria'da düzenlenen törenle yemin ederek Apartheid sonrası Güney Afrika'nın ilk devlet başkanı oldu."],
+                ["330", "Konstantinopolis (İstanbul) Roma İmparatorluğu'nun Yeni Başkenti İlan Edildi", "Antik & Bizans Tarihi", "Roma İmparatoru I. Konstantin (Büyük Konstantin), antik Byzantion kenti üzerine inşa ettirdiği şehri 'Yeni Roma' (Nova Roma / Konstantinopolis) adıyla imparatorluğun resmen yeni başkenti ilan etti."],
+                ["1820", "Modern Hemşireliğin Kurucusu Florence Nightingale Doğdu", "Tıp Tarihi", "Kırım Savaşı sırasında İstanbul'daki Selimiye Kışlası'nda yaralı askerlerin bakımında uyguladığı hijyen ve hastane düzenlemeleriyle ölüm oranlarını düşüren 'Lambalı Kadın' Florence Nightingale doğdu."],
+                ["1277", "🇹🇷 Karamanoğlu Mehmet Bey'in Türkçe Fermanı", "Türk Dili Tarihi", "Karamanoğlu Mehmet Bey, Konya'da yayınladığı tarihi fermanla 'Bugünden sonra divanda, dergâhta ve bargâhta, mecliste ve meydanda Türkçeden başka dil kullanılmayacaktır' diyerek Türkçeyi resmi devlet dili ilan etti."],
+                ["1796", "Edward Jenner İlk Çiçek Aşısını Uyguladı", "Tıp & Bilim", "İngiliz hekim Edward Jenner, sütçü kızlardan aldığı sığır çiçeği sıvısını 8 yaşındaki James Phipps'e aşılayarak ölümcül çiçek hastalığına karşı bağışıklık kazandırdı ve tarihin ilk aşısını geliştirdi."],
+                ["1919", "🇹🇷 İzmir'in İşgali ve Gazeteci Hasan Tahsin'in İlk Kurşunu", "Milli Mücadele", "İtilaf Devletleri'nin desteğiyle Yunan ordusu İzmir'e asker çıkardı. Hukuk-u Beşer gazetesi başyazarı Hasan Tahsin (Osman Nevres), Kordonboyu'nda işgal kuvvetlerine ilk kurşunu sıkarak şehit düştü ve ulusal direniş ateşini yaktı."],
+                ["1926", "🇹🇷 Vahdettin (VI. Mehmet) İtalya'nın Sanremo Kentinde Öldü", "Osmanlı Tarihi", "Saltanatın kaldırılmasının ardından Kasım 1922'de İngiliz zırhlısı Malaya ile İstanbul'dan ayrılan 36. ve son Osmanlı Padişahı VI. Mehmet Vahdettin, İtalya'nın Sanremo kentinde 65 yaşında hayatını kaybetti."],
+                ["1792", "New York Menkul Kıymetler Borsası'nın (Wall Street) Temeli Atıldı", "Ekonomi Tarihi", "New York'ta 24 borsa simsarı, Wall Street 68 numaradaki bir çınar ağacının altında 'Buttonwood Anlaşması'nı imzalayarak bugünkü dünyanın en büyük borsası olan NYSE'nin temelini attı."],
+                ["1980", "ABD'de St. Helens Yanardağı Büyük Bir Patlamayla Faaliyete Geçti", "Doğa Tarihi", "Washington eyaletindeki St. Helens Yanardağı'nda meydana gelen şiddetli patlama, dağın zirvesini 400 metre alçalttı ve ABD tarihinin en yıkıcı volkanik felaketine yol açtı."],
+                ["1919", "🇹🇷 19 Mayıs: Mustafa Kemal Paşa'nın Samsun'a Çıkışı (Atatürk'ü Anma, Gençlik ve Spor Bayramı)", "Milli Bayram", "9. Ordu Müfettişi Mustafa Kemal Paşa, 16 Mayıs'ta İstanbul'dan hareket eden Bandırma Vapuru ile 19 Mayıs 1919 sabahı Samsun'a ayak bastı. Türk Kurtuluş Savaşı'nın fiilen başladığı bu tarihi gün, Atatürk'ün 'Ben 19 Mayıs'ta doğdum' sözüyle Türk gençliğine armağan edildi."],
+                ["1498", "Vasco da Gama Ümit Burnu'nu Dolaşarak Hindistan'a Ulaştı", "Coğrafi Keşifler", "Portekizli denizci Vasco da Gama, Afrika kıtasının güneyini dolaşarak Hindistan'ın Kalikut limanına ulaştı. Bu keşif, Akdeniz ve İpek Yolu ticaretini sarsarak okyanus ticareti çağını başlattı."],
+                ["1927", "Charles Lindbergh Atlas Okyanusu'nu Tek Başına Duraksız Geçti", "Havacılık", "Amerikalı pilot Charles Lindbergh, 'Spirit of St. Louis' adlı tek motorlu uçağıyla New York'tan havalanıp 33.5 saat süren tehlikeli bir uçuşun ardından Paris'e inerek Atlantik'i tek başına geçen ilk insan oldu."],
+                ["1960", "Şili'de 9.5 Büyüklüğünde Valdivia Depremi (Tarihin En Büyük Depremi)", "Doğa Tarihi", "Şili'nin Valdivia bölgesinde aletli ölçüm tarihinin kaydedilen en büyük depremi (9.5 Mw) meydana geldi. Depremin oluşturduğu dev tsunami dalgaları Büyük Okyanus'u aşarak Hawaii ve Japonya kıyılarını bile vurdu."],
+                ["1618", "Avrupa'yı Yıkan Otuz Yıl Savaşları 'Prag Pencereden Atma Olayı' ile Başladı", "Avrupa Tarihi", "Bohemyalı Protestan soyluların Prag Kalesi'ndeki Katolik İmparatorluk elçilerini pencereden aşağı atmasıyla Orta Avrupa nüfusunun üçte birini yok edecek olan Otuz Yıl Savaşları patlak verdi."],
+                ["1883", "New York'taki Brooklyn Köprüsü 14 Yıllık İnşaatın Ardından Açıldı", "Mühendislik", "Manhattan ile Brooklyn'i East River üzerinden birbirine bağlayan ve o dönemde dünyanın en uzun çelik kablolu asma köprüsü olan Brooklyn Köprüsü hizmete açıldı."],
+                ["1961", "ABD Başkanı John F. Kennedy 'On Yıl Bitmeden Ay'a İnsan İndirme' Hedefini Açıkladı", "Uzay Çağı", "Başkan Kennedy, ABD Kongresi'nde yaptığı tarihi konuşmada 1960'lı yıllar sona ermeden Ay'a bir insan indirip Dünya'ya sağ salim döndürme sözü vererek Apollo programını başlattı."],
+                ["1940", "Dunkirk Tahliyesi (Dinamo Operasyonu) Başladı", "II. Dünya Savaşı", "Fransa'nın Dunkirk kıyılarında Alman ordusu tarafından kuşatılan 338 binden fazla İngiliz ve Fransız askeri, yüzlerce sivil balıkçı teknesi ve savaş gemisinin katıldığı mucizevi operasyonla İngiltere'ye tahliye edildi."],
+                ["1960", "🇹🇷 Türkiye'de 27 Mayıs Askeri Müdahalesi", "Yakın Tarih", "Türk Silahlı Kuvvetleri içerisindeki Milli Birlik Komitesi, ülke yönetimini devraldı; TBMM feshedildi ve yeni bir anayasa (1961 Anayasası) hazırlık süreci başladı."],
+                ["MÖ 585", "Thales'in Önceden Hesapladığı Güneş Tutulması ve Lidya-Med Savaşı'nın Durması", "Bilim & Antik Tarih", "Miletli filozof Thales'in önceden tahmin ettiği tam Güneş tutulması, Anadolu'da Kızılırmak kıyısında savaşmakta olan Lidyalılar ile Medler arasında gerçekleşti. Gündüzün geceye dönmesinden korkan iki ordu savaşı derhal durdurup barış antlaşması imzaladı."],
+                ["1453", "🇹🇷 29 Mayıs: İstanbul'un Fethi (Çağ Açıp Çağ Kapatan Zafer)", "Türk & Dünya Tarihi", "21 yaşındaki Osmanlı Padişahı Fatih Sultan Mehmet (II. Mehmet), 53 gün süren kuşatmanın, gemilerin karadan Haliç'e indirilmesinin ve şahi toplarının surları dövmesinin ardından 29 Mayıs 1453 sabahı Konstantinopolis'i fethetti. 1123 yıllık Doğu Roma (Bizans) İmparatorluğu yıkıldı, Orta Çağ kapanıp Yeni Çağ başladı."],
+                ["1431", "Fransız Ulusal Kahramanı Jeanne d'Arc Rouen'de Yakılarak İdam Edildi", "Avrupa Tarihi", "Yüzyıl Savaşları sırasında İngilizlere karşı Fransız ordusuna liderlik eden ve Orléans kuşatmasını kaldıran 19 yaşındaki köylü kızı Jeanne d'Arc, İngiliz yanlısı mahkemece yargılanarak Rouen meydanında yakıldı."],
+                ["1911", "Titanik Gemisi Belfast Tersanesinde Denize İndirildi", "Denizcilik", "Dönemin en büyük ve lüks yolcu gemisi olan RMS Titanic'in gövdesi, Kuzey İrlanda'nın Belfast kentindeki Harland and Wolff tersanesinde yüz binlerce kişinin izlediği törenle suya indirildi."]
+            ],
+            6: [
+                ["1929", "🇹🇷 Türkiye'de Latin Esaslı Yeni Türk Harfleriyle Resmi İşlemler Zorunlu Oldu", "Cumhuriyet Devrimleri", "1 Kasım 1928'de kabul edilen Harf İnkılabı'nın geçiş süreci tamamlandı ve 1 Haziran 1929 itibarıyla tüm devlet dairelerinde, mahkemelerde ve resmi kayıtlarda yalnızca yeni Türk alfabesinin kullanılması yürürlüğe girdi."],
+                ["1946", "İtalya'da Halk Oylamasıyla Monarşi Kaldırıldı ve Cumhuriyet İlan Edildi", "Avrupa Tarihi", "II. Dünya Savaşı sonrasında İtalya'da düzenlenen ve kadınların da ilk kez oy kullandığı referandumda halk monarşinin kaldırılması yönünde oy verdi; Savoy Hanedanı ülkeyi terk etti ve İtalya Cumhuriyeti kuruldu."],
+                ["1965", "Amerikalı Astronot Ed White Uzayda Yürüyen İlk ABD'li Oldu", "Uzay Tarihi", "Gemini 4 görevi sırasında kapsül dışına çıkan astronot Edward White, elindeki basınçlı oksijen tabancasıyla uzay boşluğunda 23 dakika boyunca manevra yaparak ABD'nin ilk uzay yürüyüşünü gerçekleştirdi."],
+                ["1989", "Pekin'de Tiananmen Meydanı Olayları", "Dünya Tarihi", "Çin'in başkenti Pekin'deki Tiananmen Meydanı'nda haftalarca süren öğrenci ve reform gösterilerine ordu birlikleri müdahale etti; olaylar uluslararası siyasette derin yankı uyandırdı."],
+                ["1967", "Orta Doğu'da Altı Gün Savaşı Başladı", "Orta Doğu Tarihi", "İsrail Hava Kuvvetleri'nin Mısır, Suriye ve Ürdün hava üslerine düzenlediği ani saldırıyla başlayan ve yalnızca altı gün süren savaş sonunda Sina Yarımadası, Gazze, Batı Şeria, Doğu Kudüs ve Golan Tepeleri el değiştirdi."],
+                ["1944", "Normandiya Çıkarması (D-Day): Tarihin En Büyük Amfibi Harekatı", "II. Dünya Savaşı", "General Dwight D. Eisenhower komutasındaki Müttefik Kuvvetler, Nazi işgali altındaki Fransa'nın Normandiya kıyılarına 5.000'den fazla gemi ve 156.000 askerle çıkarma yaptı. Batı Cephesi'nin açılması Nazi Almanyası'nın sonunu hızlandırdı."],
+                ["1494", "İspanya ve Portekiz Arasında Dünyayı Paylaşan Tordesillas Antlaşması", "Coğrafi Keşifler", "Yeni keşfedilen topraklar üzerindeki rekabeti önlemek isteyen İspanya ve Portekiz, Atlas Okyanusu'ndan geçen hayali bir meridyen çizgisiyle Avrupa dışındaki dünyayı kendi aralarında ikiye bölen Tordesillas Antlaşması'nı imzaladı."],
+                ["632", "İslam Peygamberi Hz. Muhammed Medine'de Vefat Etti", "İslam Tarihi", "İslam dinini tebliğ ederek Arap Yarımadası'nda siyasi ve dini birliği kuran Hz. Muhammed 63 yaşında Medine'de vefat etti. Ardından Hz. Ebubekir'in seçilmesiyle Dört Halife (Hulefâ-yi Râşidîn) dönemi başladı."],
+                ["68", "Roma İmparatoru Neron İntihar Etti ve Julio-Claudian Hanedanı Sona Erdi", "Antik Tarih", "Roma Senatosu tarafından halk düşmanı ilan edilen ve ordunun desteğini kaybeden İmparator Neron intihar etti. Ölümüyle Augustus'un kurduğu ilk imparatorluk hanedanı son buldu ve Roma'da 'Dört İmparator Yılı' başladı."],
+                ["MÖ 323", "Makedonya Kralı Büyük İskender Babil'de Hayatını Kaybetti", "Antik Tarih", "Yunanistan'dan Mısır'a ve Hindistan sınırlarına kadar uzanan devasa bir imparatorluk kuran ve Helenistik Çağ'ı başlatan Büyük İskender, henüz 32 yaşındayken Babil'de yakalandığı ateşli hastalık sonucu öldü."],
+                ["1868", "🇹🇷 Kızılay (Osmanlı Yaralı ve Hasta Askerlere Yardım Cemiyeti) Kuruldu", "Sosyal Tarih", "Dr. Marko Paşa, Dr. Abdullah Bey ve Kırımlı Aziz Bey'in girişimleriyle savaş alanındaki yaralılara ayrım gözetmeksizin yardım etmek amacıyla bugünkü Türk Kızılayı'nın temeli olan cemiyet İstanbul'da kuruldu."],
+                ["1898", "Filipinler İspanya'dan Bağımsızlığını İlan Etti", "Dünya Tarihi", "Emilio Aguinaldo önderliğindeki Filipinli devrimciler, üç yüzyılı aşkın İspanyol sömürge yönetimine karşı yürüttükleri mücadele sonucunda Filipinler'in bağımsızlığını ilan etti."],
+                ["1966", "ABD Yüksek Mahkemesi 'Miranda Hakları' Kararını Verdi", "Hukuk Tarihi", "Gözaltına alınan şüphelilere sessiz kalma ve avukat talep etme haklarının polis tarafından açıkça bildirilmesini zorunlu kılan tarihi 'Miranda v. Arizona' kararı alındı."],
+                ["1940", "II. Dünya Savaşı'nda Alman Birlikleri Paris'e Girdi", "II. Dünya Savaşı", "Fransa Seferi'nde Majino Hattı'nın etrafından dolaşarak hızla ilerleyen Alman Wehrmacht birlikleri, 'açık şehir' ilan edilen başkent Paris'e çatışmasız girdi."],
+                ["1215", "İngiltere'de Kralın Yetkilerini Sınırlayan 'Magna Carta' İmzalandı", "Hukuk & Demokrasi", "İngiltere Kralı Yurtsuz John, Runnymede çayırında baronların baskısıyla Magna Carta Libertatum (Büyük Özgürlük Fermanı) belgesini mühürledi. Kralın da hukukun üstünde olmadığını belirten bu belge, anayasal demokrasinin ilk adımı sayılır."],
+                ["1963", "Valentina Tereşkova Uzaya Çıkan İlk Kadın Oldu", "Uzay Tarihi", "Sovyet kozmonot Valentina Tereşkova, Vostok 6 uzay aracıyla tek başına yörüngeye fırlatıldı ve Dünya etrafında 48 tur atarak uzaya çıkan ilk kadın olarak tarihe geçti."],
+                ["1944", "İzlanda Danimarka'dan Ayrılıp Bağımsız Cumhuriyet İlan Etti", "Avrupa Tarihi", "Yapılan halk oylamasında %97'nin üzerinde evet oyu çıkmasının ardından İzlanda, Danimarka Krallığı ile olan birliğini feshederek bağımsız İzlanda Cumhuriyeti'ni kurdu."],
+                ["1815", "Waterloo Muharebesi: Napolyon Bonapart'ın Son Yenilgisi", "Askeri Tarih", "Elbe Adası'ndan dönen Napolyon komutasındaki Fransız ordusu, Belçika'nın Waterloo kasabası yakınlarında Wellington Dükü ve Mareşal Blücher komutasındaki İngiliz-Prusya müttefik ordularına yenildi ve Napolyon Savaşları kesin olarak sona erdi."],
+                ["1910", "Dünyada İlk Kez Babalar Günü Kutlandı", "Kültür Tarihi", "ABD'nin Washington eyaletindeki Spokane kentinde, annelerinin ölümünden sonra 6 çocuğunu tek başına büyüten bir İç Savaş gazisinin kızı olan Sonora Smart Dodd'un girişimiyle ilk resmi Babalar Günü kutlandı."],
+                ["1789", "Fransız İhtilali'ni Ateşleyen 'Tenis Kortu Yemini' Edildi", "Fransız İhtilali", "Fransa Kralı XVI. Louis tarafından toplantı salonları kapatılan Üçüncü Meclis (Halk) temsilcileri, Versay Sarayı yakınlarındaki kapalı tenis kortunda toplanarak Fransa'ya yeni bir anayasa yazana kadar dağılmama yemini etti."],
+                ["1934", "🇹🇷 Soyadı Kanunu TBMM'de Kabul Edildi", "Cumhuriyet Devrimleri", "Toplumsal ilişkilerde ve resmi kayıtlarda karışıklığa yol açan dini, sosyal ve ailevi unvanların yerine her Türk vatandaşının öz Türkçe bir soyadı taşımasını zorunlu kılan Soyadı Kanunu kabul edildi."],
+                ["1919", "🇹🇷 Amasya Genelgesi Yayınlandı: 'Milletin İstiklâlini Yine Milletin Azim ve Kararı Kurtaracaktır'", "Milli Mücadele", "Mustafa Kemal Paşa tarafından Amasya'da hazırlanan ve Rauf Orbay, Refet Bele, Ali Fuat Cebesoy ile Kazım Karabekir Paşa tarafından da onaylanan Amasya Genelgesi yayınlandı. Kurtuluş Savaşı'nın gerekçesi, amacı ve yöntemi ilk kez ulusal egemenlik temeliyle açıklandı."],
+                ["1939", "🇹🇷 Hatay'ın Anavatana Katılmasına İlişkin Antlaşma İmzalandı", "Cumhuriyet Tarihi", "Atatürk'ün 'Kırk asırlık Türk yurdu düşman elinde esir kalamaz' diyerek bizzat yürüttüğü kararlı diplomasi sonucunda Fransa ile Türkiye arasında Hatay'ın Türkiye'ye katılmasını sağlayan antlaşma Ankara'da imzalandı."],
+                ["1812", "Napolyon'un 600 Bin Kişilik Büyük Ordusu (Grande Armée) Rusya Seferine Başladı", "Askeri Tarih", "Fransız İmparatoru Napolyon Bonapart, Niemen Nehri'ni geçerek Rusya topraklarına girdi. Ancak Rusların geri çekilerek uyguladığı yakıp yıkma taktiği ve dondurucu Rus kışı, bu dev ordunun neredeyse tamamen yok olmasına yol açacaktı."],
+                ["1950", "Kore Savaşı Başladı", "Soğuk Savaş", "Kuzey Kore birliklerinin 38. paraleli geçerek Güney Kore'ye saldırmasıyla Soğuk Savaş'ın ilk sıcak çatışması olan Kore Savaşı başladı. Türkiye de Birleşmiş Milletler çağrısına uyarak bölgeye Tugay gönderdi."],
+                ["1945", "Birleşmiş Milletler Antlaşması San Francisco'da 50 Ülke Tarafından İmzalandı", "Diplomasi", "II. Dünya Savaşı'nın yıkımının ardından uluslararası barışı ve güvenliği korumak amacıyla Türkiye'nin de aralarında bulunduğu 50 kurucu devlet San Francisco Konferansı'nda BM Şartı'nı imzaladı."],
+                ["1954", "Dünyanın İlk Nükleer Enerji Santrali Obninsk'te Elektrik Üretimine Başladı", "Enerji & Bilim", "Moskova yakınlarındaki Obninsk kentinde kurulan nükleer reaktör, sivil elektrik şebekesine enerji veren dünyanın ilk nükleer güç santrali olarak faaliyete geçti."],
+                ["1914", "Avusturya-Macaristan Veliahtı Franz Ferdinand Saraybosna'da Öldürüldü (I. Dünya Savaşı'nın Kıvılcımı)", "I. Dünya Savaşı", "Avusturya-Macaristan İmparatorluğu Veliahtı Arşidük Franz Ferdinand ve eşi, Saraybosna ziyareti sırasında Gavrilo Princip tarafından vurularak öldürüldü. Bu suikast, ittifak bloklarını harekete geçirerek I. Dünya Savaşı'nı başlattı."],
+                ["1925", "🇹🇷 Şeyh Said Ayaklanması İstiklal Mahkemesi Kararlarıyla Sonuçlandı", "Cumhuriyet Tarihi", "Doğu Anadolu'da genç cumhuriyete karşı başlayan ayaklanma bastırıldı ve Diyarbakır Şark İstiklal Mahkemesi'nin aldığı kararlarla süreç kapatıldı."],
+                ["1908", "Sibirya'da Gizemli 'Tunguska Olayı' (Göktaşı Patlaması) Meydana Geldi", "Astronomi & Doğa", "Sibirya'nın Podkamennaya Tunguska Irmağı yakınlarında atmosfere giren dev bir asteroit veya kuyruklu yıldız parçası havada patladı. Hiroşima bombasından yaklaşık 1000 kat güçlü olan patlama 2.000 kilometrekarelik tayga ormanında 80 milyon ağacı dümdüz etti."]
+            ],
+            7: [
+                ["1926", "🇹🇷 Kabotaj Kanunu Yürürlüğe Girdi (Denizcilik ve Kabotaj Bayramı)", "Cumhuriyet Tarihi", "Osmanlı döneminde kapitülasyonlarla yabancı devletlere verilen Türk kıyılarında deniz ticareti ve liman işletme hakkı, Kabotaj Kanunu ile tamamen Türk bayrağı taşıyan gemilere ve Türk vatandaşlarına devredildi."],
+                ["1937", "Havacı Amelia Earhart Dünya Turu Sırasında Pasifik Okyanusu'nda Kayboldu", "Havacılık", "Atlas Okyanusu'nu tek başına uçarak geçen ilk kadın pilot olan Amelia Earhart, ekvator rotası üzerinden dünya turu yaparken Lockheed Electra uçağıyla Howland Adası yakınlarında telsiz irtibatını kaybetti ve sırra kadem bastı."],
+                ["1863", "Amerikan İç Savaşı'nın Dönüm Noktası: Gettysburg Muharebesi Sona Erdi", "Askeri Tarih", "General Robert E. Lee komutasındaki Konfederasyon (Güney) ordusunun Kuzey'e yaptığı son büyük taarruz, üç gün süren kanlı Gettysburg Muharebesi'nde Birlik (Kuzey) ordusu tarafından durduruldu."],
+                ["1776", "Amerikan Bağımsızlık Bildirgesi Kabul Edildi", "Dünya Tarihi", "Thomas Jefferson tarafından kaleme alınan ve tüm insanların yaşam, özgürlük ve mutluluğu arama haklarıyla eşit yaratıldığını vurgulayan Amerikan Bağımsızlık Bildirgesi, Kıta Kongresi tarafından Philadelphia'da onaylandı."],
+                ["1687", "Isaac Newton 'Principia Mathematica' Eserini Yayımladı", "Bilim Tarihi", "Bilim tarihinin en önemli kitabı kabul edilen 'Philosophiæ Naturalis Principia Mathematica' yayımlandı. Newton bu eserde evrensel kütleçekim yasasını ve üç hareket kanununu ortaya koyarak modern mühendislik ve fiziğin temelini attı."],
+                ["1885", "Louis Pasteur Kuduz Aşısını İlk Kez Bir İnsan Üzerinde Başarıyla Uyguladı", "Tıp Tarihi", "Fransız mikrobiyolog Louis Pasteur, kuduz bir köpek tarafından 14 yerinden ısırılan 9 yaşındaki Joseph Meister'a geliştirdiği kuduz aşısını uygulayarak çocuğun hayatını kurtardı."],
+                ["1770", "Çeşme Deniz Baskını: Osmanlı Donanması Yakıldı", "Osmanlı Tarihi", "1768-1774 Osmanlı-Rus Savaşı sırasında Baltık Denizi'nden Cebelitarık'ı geçerek Akdeniz'e gelen Rus donanması, İzmir'in Çeşme limanına sıkıştırdığı Osmanlı donanmasını ateş gemileriyle yakarak imha etti."],
+                ["1497", "Vasco da Gama 4 Gemilik Filosuyla Lizbon'dan Hindistan Seferine Çıktı", "Coğrafi Keşifler", "Portekiz Kralı I. Manuel'in emriyle Avrupa'dan Hindistan'a doğrudan deniz yolu bulmak üzere Vasco da Gama komutasındaki 170 kişilik mürettebat Lizbon'dan yelken açtı."],
+                ["1922", "Johnny Weissmuller 100 Metre Serbest Yüzmede 1 Dakikanın Altına İnen İlk İnsan Oldu", "Spor Tarihi", "Daha sonra sinemada Tarzan rolüyle de ünlenecek olan yüzücü Johnny Weissmuller, 100 metre serbest stili 58.6 saniyede yüzerek tarihte 1 dakika barajını kıran ilk sporcu oldu."],
+                ["1856", "Elektrik ve Alternatif Akımın Dehası Nikola Tesla Doğdu", "Bilim & Teknoloji", "Alternatif akım (AC) elektrik sistemi, asenkron motor, Tesla bobini ve kablosuz enerji aktarımı çalışmalarıyla modern dünyayı aydınlatan Sırp kökenli mucit ve mühendis Nikola Tesla Hırvatistan'ın Smiljan köyünde doğdu."],
+                ["1995", "Srebrenitsa Katliamı: Avrupa'da II. Dünya Savaşı Sonrası En Büyük İnsanlık Suçu", "Yakın Tarih", "Bosna Savaşı sırasında Birleşmiş Milletler tarafından 'güvenli bölge' ilan edilen Srebrenitsa'ya giren Ratko Mladiç komutasındaki Sırp birlikleri, en az 8.372 Boşnak sivili katletti."],
+                ["MÖ 100", "Romalı Komutan ve Devlet Adamı Jül Sezar Doğdu", "Antik Tarih", "Galya'yı fetheden, Rubicon Nehri'ni geçerek Roma'nın kaderini değiştiren ve Roma Cumhuriyeti'nden İmparatorluğa geçişin mimarı olan Gaius Julius Caesar Roma'da dünyaya geldi."],
+                ["1878", "93 Harbi Sonrası 'Berlin Antlaşması' İmzalandı", "Osmanlı Tarihi", "1877-1878 Osmanlı-Rus Savaşı (93 Harbi) sonrasında Ayastefanos Antlaşması'nın yerine imzalanan Berlin Antlaşması ile Sırbistan, Karadağ ve Romanya bağımsız oldu; Kıbrıs'ın yönetimi geçici olarak İngiltere'ye bırakıldı."],
+                ["1789", "Bastille Hapishanesi Baskını ve Fransız İhtilali'nin Başlaması", "Dünya Tarihi", "Paris halkı, krallık istibdadının simgesi olan Bastille Hapishanesi ve cephaneliğini basarak ele geçirdi. Özgürlük, eşitlik ve kardeşlik sloganlarıyla başlayan Fransız İhtilali, tüm dünyada ulus-devlet ve demokrasi çağını başlattı."],
+                ["1799", "Mısır Hiyerogliflerinin Şifresini Çözen 'Rosetta Taşı' Bulundu", "Arkeoloji", "Napolyon'un Mısır Seferi sırasında Fransız askerleri Reşid (Rosetta) kasabasında aynı metnin Hiyeroglif, Demotik ve Antik Yunanca olarak kazındığı bazalt taşı buldu. Jean-François Champollion bu taş sayesinde antik Mısır yazısını çözdü."],
+                ["1945", "Tarihin İlk Nükleer Bombası 'Trinity Testi' ile New Mexico Çölü'nde Patlatıldı", "Askeri & Bilim Tarihi", "J. Robert Oppenheimer yönetimindeki Manhattan Projesi kapsamında geliştirilen ilk plütonyum atom bombası, ABD'nin New Mexico eyaletindeki Alamogordo test sahasında patlatıldı ve dünya Nükleer Çağ'a girdi."],
+                ["1918", "Son Rus Çarı II. Nikolay ve Romanov Ailesi Yekaterinburg'da Kurşuna Dizildi", "Rus Tarihi", "Bolşevik İhtilali'nin ardından tahttan çekilen ve Yekaterinburg'daki İpatyev Evi'nde tutulan Çar II. Nikolay, eşi ve beş çocuğu sabaha karşı Bolşevik muhafızlar tarafından infaz edildi ve 300 yıllık Romanov Hanedanı son buldu."],
+                ["64", "Büyük Roma Yangını Başladı", "Antik Tarih", "İmparator Neron döneminde Circus Maximus yakınlarındaki dükkanlarda başlayan büyük yangın 6 gün 7 gece boyunca sürerek Roma'nın 14 bölgesinden 10'unu kül etti."],
+                ["1980", "Moskova Yaz Olimpiyat Oyunları Batı Blokunun Boykotu Altında Başladı", "Spor & Siyaset", "Sovyetler Birliği'nin Afganistan'ı işgalini protesto eden ABD ve 60'tan fazla ülkenin boykot ettiği 1980 Yaz Olimpiyatları Moskova'da açıldı."],
+                ["1969", "Apollo 11 Ay'a İndi: Neil Armstrong Ay Yüzeyine Ayak Basan İlk İnsan Oldu", "Uzay Çağı", "NASA'nın Apollo 11 görevinde Kartal (Eagle) Ay modülü Sessizlik Denizi'ne indi. Komutan Neil Armstrong, 'Bu, bir insan için küçük, ancak insanlık için dev bir adımdır' diyerek Dünya dışında bir gök cismine ayak basan ilk insan oldu."],
+                ["MÖ 356", "Dünyanın Yedi Harikasından Biri Olan Efes Artemis Tapınağı Kundaklandı", "Antik Anadolu", "İzmir'in Selçuk ilçesindeki antik Efes kentinde bulunan görkemli Artemis Tapınağı, yalnızca adını tarihe geçirmek isteyen Herostratos adlı bir kişi tarafından yakıldı. Efsaneye göre aynı gece Büyük İskender dünyaya geldi."],
+                ["1822", "Modern Genetiğin Babası Gregor Mendel Doğdu", "Biyoloji", "Manastır bahçesinde bezelye bitkileri üzerinde yaptığı çaprazlama deneyleriyle kalıtım yasalarını (Mendel Genetiği) keşfeden bilim insanı Gregor Johann Mendel dünyaya geldi."],
+                ["1939", "🇹🇷 Hatay Devleti Meclisi Anavatana Katılma Kararını Uygulayarak Türk Bayrağını Çekti", "Cumhuriyet Tarihi", "Hatay Millet Meclisi'nin oybirliğiyle aldığı karar doğrultusunda son Fransız birlikleri de Antakya'dan ayrıldı ve Hatay resmen Türkiye Cumhuriyeti'nin ili oldu."],
+                ["1923", "🇹🇷 24 Temmuz: Türkiye Cumhuriyeti'nin Tapu Senedi 'Lozan Barış Antlaşması' İmzalandı", "Cumhuriyet Tarihi", "İsmet Paşa başkanlığındaki Türk heyeti ile İtilaf Devletleri arasında İsviçre'nin Lozan kentinde 8 ay süren çetin müzakereler sonucunda Lozan Barış Antlaşması imzalandı. Sevr Antlaşması tarihin çöplüğüne atıldı, kapitülasyonlar kaldırıldı ve yeni Türk devletinin tam bağımsızlığı tüm dünyaca tanındı."],
+                ["1909", "Louis Blériot Manş Denizi'ni Uçakla Geçen İlk İnsan Oldu", "Havacılık", "Fransız havacı Louis Blériot, kendi tasarladığı Blériot XI uçağıyla Fransa'nın Calais kentinden havalanıp 37 dakikada İngiltere'nin Dover kıyılarına inerek Manş Denizi'ni uçakla aşan ilk pilot oldu."],
+                ["1956", "Mısır Lideri Cemal Abdülnasır Süveyş Kanalı'nı Millileştirdi", "Orta Doğu Tarihi", "Mısır Devlet Başkanı Nasır, Asvan Barajı'nın finansmanı için İngiliz ve Fransız kontrolündeki Süveyş Kanalı'nı millileştirdiğini ilan etti; bu karar 1956 Süveyş Krizi'ne yol açtı."],
+                ["1953", "Kore Savaşı'nı Durduran Panmunjom Ateşkes Antlaşması İmzalandı", "Askeri Tarih", "Üç yıl süren ve milyonlarca insanın hayatına mal olan Kore Savaşı, Panmunjom'da imzalanan ateşkesle durduruldu ve Kore Yarımadası 38. paralel boyunca askerden arındırılmış bölgeyle ikiye bölündü."],
+                ["1914", "I. Dünya Savaşı Resmen Başladı", "I. Dünya Savaşı", "Saraybosna Suikastı'ndan tam bir ay sonra Avusturya-Macaristan İmparatorluğu'nun Sırbistan'a savaş ilan etmesi ve Belgrad'ı topa tutmasıyla insanlık tarihini kökten değiştirecek olan I. Dünya Savaşı başladı."],
+                ["1958", "ABD Ulusal Havacılık ve Uzay Dairesi (NASA) Kuruldu", "Uzay Tarihi", "ABD Başkanı Dwight D. Eisenhower'ın Ulusal Havacılık ve Uzay Yasası'nı imzalamasıyla sivil uzay araştırmalarını ve Apollo görevlerini yürütecek olan NASA resmen kuruldu."],
+                ["1930", "Tarihin İlk FIFA Dünya Kupası Finalini Uruguay Kazandı", "Spor Tarihi", "Başkent Montevideo'daki Centenario Stadyumu'nda oynanan ilk Dünya Kupası finalinde ev sahibi Uruguay, Arjantin'i 4-2 mağlup ederek tarihin ilk dünya şampiyonu oldu."],
+                ["1971", "Apollo 15 Astronotları Ay Yüzeyinde İlk Kez 'Ay Aracı' (Lunar Rover) Kullandı", "Uzay Çağı", "Astronotlar David Scott ve James Irwin, pille çalışan dört tekerlekli Lunar Roving Vehicle (LRV) ile Ay yüzeyinde 27.9 kilometre sürüş yaparak insanlığın başka bir gök cismindeki ilk araçlı keşfini gerçekleştirdi."]
+            ],
+            8: [
+                ["1933", "🇹🇷 Darülfünun Kaldırılarak Modern 'İstanbul Üniversitesi' Kuruldu", "Eğitim & Bilim", "Atatürk'ün başlattığı 1933 Üniversite Reformu kapsamında Osmanlı'dan kalan Darülfünun kapatılarak yerine çağdaş bilimsel standartlarda eğitim veren İstanbul Üniversitesi açıldı; Nazi Almanyası'ndan kaçan pek çok bilim insanı da kadroya katıldı."],
+                ["MÖ 216", "Cannae Muharebesi: Kartacalı Komutan Hannibal'ın Askeri Dehası", "Antik Askeri Tarih", "İkinci Pön Savaşı sırasında Kartacalı komutan Hannibal Barca, kendisinden sayıcaเกือบ iki kat üstün olan 86 bin kişilik Roma ordusunu çift yönlü kuşatma (hilal) taktiğiyle imha etti. Cannae, dünya askeri akademilerinde hâlâ okutulan en kusursuz kuşatma savaşı oldu."],
+                ["1492", "Kristof Kolomb 3 Gemisiyle İspanya'nın Palos Limanından Denize Açıldı", "Coğrafi Keşifler", "Hep batıya giderek Hindistan'a ulaşabileceğine inanan Cenevizli denizci Kristof Kolomb; Santa Maria, Pinta ve Niña adlı üç gemiyle Atlas Okyanusu'na yelken açtı ve iki ay sonra Amerika kıtasına ulaştı."],
+                ["1914", "Almanya'nın Belçika'yı İşgali Üzerine İngiltere Almanya'ya Savaş İlan Etti", "I. Dünya Savaşı", "Alman ordusunun Schlieffen Planı uyarınca tarafsız Belçika topraklarına girmesi üzerine Birleşik Krallık Almanya'ya savaş ilan etti ve savaş küresel bir boyuta ulaştı."],
+                ["1921", "🇹🇷 Mustafa Kemal Paşa TBMM Tarafından 'Başkomutan' Seçildi", "Kurtuluş Savaşı", "Sakarya Meydan Muharebesi öncesinde ordunun tüm gücünü hızla seferber edebilmek amacıyla TBMM, üç ay süreyle kendi yetkilerini de kapsayan Başkomutanlık görevini Mustafa Kemal Paşa'ya verdi."],
+                ["1945", "Hiroşima'ya İlk Atom Bombası ('Little Boy') Atıldı", "II. Dünya Savaşı", "ABD'ye ait Enola Gay adlı B-29 bombardıman uçağı, Japonya'nın Hiroşima kentine tarihte savaşta kullanılan ilk nükleer silahı attı. Patlama anında ve takip eden aylarda radyasyon nedeniyle 140 binden fazla sivil hayatını kaybetti."],
+                ["1921", "🇹🇷 Başkomutan Mustafa Kemal Paşa 'Tekâlif-i Milliye Emirleri'ni Yayınladı", "Kurtuluş Savaşı", "Türk ordusunun Sakarya Savaşı öncesinde silah, cephane, giyecek ve ulaşım ihtiyacını karşılamak üzere yayınlanan Tekâlif-i Milliye Emirleri ile Türk milleti elindeki çoraptan çarığa, öküz arabasından silaha kadar her şeyini ordusuyla paylaştı."],
+                ["1974", "Watergate Skandalı Sonucu ABD Başkanı Richard Nixon İstifa Etti", "Siyasi Tarih", "Demokrat Parti merkezine dinleme cihazı yerleştirilmesiyle patlak veren Watergate Skandalı'nda suç delillerini kararttığı ortaya çıkan Richard Nixon, Amerikan tarihinde görevdeyken istifa eden ilk başkan oldu."],
+                ["1945", "Nagazaki'ye İkinci Atom Bombası ('Fat Man') Atıldı", "II. Dünya Savaşı", "Hiroşima'dan yalnızca üç gün sonra ABD, Japonya'nın sanayi ve liman kenti Nagazaki'ye plütonyum çekirdekli ikinci atom bombasını attı; yaklaşık 74 bin kişi hayatını kaybetti ve Japonya teslim olmak zorunda kaldı."],
+                ["1915", "🇹🇷 Anafartalar Zaferi: Albay Mustafa Kemal Conkbayırı'nda Süngü Hücumuyla Düşmanı Durdurdu", "Çanakkale Savaşı", "Anafartalar Grubu Komutanı Albay Mustafa Kemal, Conkbayırı'nda sabahın ilk ışıklarıyla başlattığı süngü hücumuyla İtilaf kuvvetlerini geri püskürttü. Savaş sırasında göğsüne isabet eden şarapnel parçası cebindeki saate çarparak hayatını kurtardı."],
+                ["1473", "🇹🇷 Otlukbeli Muharebesi: Fatih Sultan Mehmet Akkoyunlu Hükümdarı Uzun Hasan'ı Mağlup Etti", "Osmanlı Tarihi", "Doğu Anadolu'da hakimiyet mücadelesi veren Osmanlı Padişahı Fatih Sultan Mehmet ile Akkoyunlu hükümdarı Uzun Hasan, Erzincan yakınlarındaki Otlukbeli'nde karşılaştı. Ateşli silah üstünlüğünü kullanan Osmanlı ordusu kesin zafer kazandı."],
+                ["1981", "IBM İlk Kişisel Bilgisayarı 'IBM PC (5150)' Modelini Piyasaya Sürdü", "Bilişim Tarihi", "IBM, açık mimariye ve Microsoft'un MS-DOS işletim sistemine sahip 5150 modelini tanıttı. Bu hamle, bilgisayarların sadece dev şirketlerden çıkıp her eve ve ofise girmesini sağladı."],
+                ["1961", "Soğuk Savaş'ın Simgesi 'Berlin Duvarı' İnşa Edilmeye Başlandı", "Soğuk Savaş", "Doğu Almanya yönetimi, Batı Berlin'e geçişleri engellemek amacıyla bir gecede şehri dikenli teller ve beton bloklarla ikiye bölmeye başladı. Berlin Duvarı 28 yıl boyunca iki kutuplu dünyanın en somut sembolü oldu."],
+                ["1947", "Pakistan ve Hindistan İngiliz Sömürge Yönetiminden Bağımsızlığını Kazandı", "Dünya Tarihi", "İngiliz Hindistanı'nın bölünmesiyle Muhammed Ali Cinnah önderliğinde Pakistan (14 Ağustos) ve ertesi gün Hindistan bağımsız devletler olarak tarih sahnesine çıktı."],
+                ["1461", "🇹🇷 Fatih Sultan Mehmet Trabzon İmparatorluğu'na Son Verdi", "Osmanlı Tarihi", "Karadeniz'de tam hakimiyet kurmak amacıyla zorlu Zigana Dağları'nı aşarak sefere çıkan Fatih Sultan Mehmet, Komnenos Hanedanı'nın yönettiği Trabzon Rum İmparatorluğu'nu fethederek Osmanlı topraklarına kattı."],
+                ["1960", "Kıbrıs Cumhuriyeti Zürih ve Londra Antlaşmaları Uyarınca Kuruldu", "Yakın Tarih", "Türkiye, Yunanistan ve Birleşik Krallık'ın garantörlüğünde, Kıbrıs Türk ve Rum toplumlarının ortaklığına dayanan bağımsız Kıbrıs Cumhuriyeti resmen ilan edildi."],
+                ["1999", "🇹🇷 17 Ağustos 1999 Gölcük / Marmara Depremi", "Yakın Tarih", "Saat 03:02'de merkez üssü Kocaeli Gölcük olan 7.4 büyüklüğündeki yıkıcı deprem bütün Marmara Bölgesi'ni sarstı. 45 saniye süren depremde resmi rakamlara göre 17 binden fazla yurttaşımız hayatını kaybetti."],
+                ["1868", "Fransız Astronom Pierre Janssen Güneş Tutulması Sırasında 'Helyum' Elementini Keşfetti", "Bilim & Kimya", "Hindistan'da tam Güneş tutulmasını spektroskopla gözlemleyen Janssen, Güneş'in kromosferinde parlak sarı bir çizgi fark etti. Böylece Helyum, Dünya'da bulunmadan önce uzayda (Güneş'te) keşfedilen ilk element oldu."],
+                ["1839", "Fransız Bilimler Akademisi Fotoğrafçılık Tekniği 'Dagerreyotipi'yi Dünyaya Armağan Etti", "Sanat & Teknoloji", "Louis Daguerre tarafından geliştirilen gümüş kaplı bakır levha üzerine görüntü sabitleme yöntemi Fransız hükümeti tarafından satın alınarak tüm insanlığın ücretsiz kullanımına sunuldu."],
+                ["1977", "Voyager 2 Uzay Sondası Güneş Sistemi'nin Dış Gezegenlerini Keşfetmek Üzere Fırlatıldı", "Uzay Çağı", "NASA tarafından fırlatılan Voyager 2; Jüpiter, Satürn, Uranüs ve Neptün'ün dördünü birden yakından ziyaret eden tarihteki tek insan yapımı uzay aracı oldu ve yıldızlararası uzaya çıktı."],
+                ["1911", "Leonardo da Vinci'nin 'Mona Lisa' Tablosu Louvre Müzesi'nden Çalındı", "Sanat Tarihi", "Müzede çalışan İtalyan işçi Vincenzo Peruggia, Mona Lisa tablosunu çerçevesinden çıkarıp paltosunun altına saklayarak Louvre Müzesi'nden çaldı. Tablo iki yıl sonra Floransa'da bulunarak müzeye iade edildi."],
+                ["1921", "🇹🇷 22 Gün 22 Gece Sürecek Olan 'Sakarya Meydan Muharebesi' Başladı", "Kurtuluş Savaşı", "Yunan ordusunun Ankara'ya ulaşmak için başlattığı genel taarruzla Sakarya Irmağı'nın doğusunda ölüm kalım savaşı başladı. 100 kilometrelik cephede süren savaş Türklerin1683 Viyana'dan beri süren geri çekilişini durduracaktı."],
+                ["1514", "🇹🇷 Çaldıran Muharebesi: Yavuz Sultan Selim Safevi Şahı İsmail'i Mağlup Etti", "Osmanlı Tarihi", "Doğu Anadolu'daki hakimiyet mücadelesinde Yavuz Sultan Selim komutasındaki Osmanlı ordusu, tüfekli yeniçeriler ve zincirlerle birbirine bağlanmış sahra topları sayesinde Şah İsmail'in Safevi ordusunu Çaldıran Ovası'nda yendi."],
+                ["79", "Vezüv Yanardağı Patladı: Pompei ve Herculaneum Antik Kentleri Küller Altında Kaldı", "Antik Tarih", "İtalya'nın Napoli Körfezi kıyısındaki Vezüv Yanardağı'nın korkunç patlaması sonucu yükselen volkanik kül bulutları ve piroklastik akıntılar, Roma kentleri Pompei ve Herculaneum'u içindeki binlerce insanla birlikte taşlaştırarak gömdü."],
+                ["1944", "Paris 4 Yıllık Nazi İşgalinden Kurtarıldı", "II. Dünya Savaşı", "Fransız Direniş Örgütü'nün ayaklanması ve General Leclerc komutasındaki Özgür Fransa 2. Zırhlı Tümeni ile Müttefik birliklerinin şehre girmesiyle Paris, Alman işgalinden kurtarıldı."],
+                ["1071", "🇹🇷 26 Ağustos: Malazgirt Meydan Muharebesi ve Büyük Taarruz'un Başlaması", "Türk Tarihi", "26 Ağustos 1071'de Büyük Selçuklu Sultanı Alparslan, Romen Diyojen komutasındaki Bizans ordusunu Malazgirt Ovası'nda yenerek Anadolu'nun kapılarını Türklere ebediyen açtı. Tam 851 yıl sonra, 26 Ağustos 1922 sabahı saat 05:30'da Başkomutan Mustafa Kemal Paşa Kocatepe'den Büyük Taarruz'u başlatarak Anadolu'nun sonsuza dek Türk yurdu kalacağını mühürledi."],
+                ["1883", "Endonezya'daki Krakatoa Yanardağı Patladı (Modern Tarihin En Şiddetli Sesi)", "Doğa Tarihi", "Sunda Boğazı'ndaki Krakatoa Yanardağı öyle şiddetli patladı ki sesi 4.800 kilometre uzaktan duyuldu, oluşan 30 metrelik tsunamiler 36 bin kişinin ölümüne yol açtı ve atmosferi kaplayan küller küresel sıcaklığı düşürdü."],
+                ["1963", "Martin Luther King Jr. 'Bir Hayalim Var' (I Have a Dream) Konuşmasını Yaptı", "İnsan Hakları", "Sivil haklar lideri Martin Luther King Jr., Washington'daki Lincoln Anıtı önünde toplanan 250 bin kişiye hitaben ırkçılığın sona erdiği ve tüm insanların eşit yaşadığı bir gelecek vizyonunu anlatan tarihi konuşmasını yaptı."],
+                ["1526", "🇹🇷 Mohaç Meydan Muharebesi: Kanuni Sultan Süleyman Macar Ordusunu 2 Saatte Mağlup Etti", "Osmanlı Tarihi", "Kanuni Sultan Süleyman komutasındaki Osmanlı ordusu, Mohaç Ovası'nda Kral II. Lajos komutasındaki Macar ve müttefik Haçlı ordusunu sahte ricat ve yoğun topçu ateşiyle yaklaşık iki saat içinde imha etti ve Macaristan Osmanlı hakimiyetine girdi."],
+                ["1922", "🇹🇷 30 Ağustos: Başkomutanlık Meydan Muharebesi ve Büyük Zafer (Zafer Bayramı)", "Milli Bayram", "26 Ağustos'ta Kocatepe'den başlayan Büyük Taarruz, 30 Ağustos 1922'de Dumlupınar'da bizzat Başkomutan Mustafa Kemal Paşa'nın yönettiği Başkomutanlık Meydan Muharebesi ile kesin zafere ulaştı. İşgal ordusunun ana gövdesi imha edildi ve Mustafa Kemal Paşa 'Ordular, ilk hedefiniz Akdeniz'dir. İleri!' emrini verdi."],
+                ["1897", "Thomas Edison Hareketli Sinema Kamerası 'Kinetograf'ın Patentini Aldı", "Sinema & Teknoloji", "Thomas Edison, selüloit film şeridi üzerine ardışık fotoğraflar kaydederek hareketli görüntü oluşturan Kinetograf kamerasının patentini alarak modern sinema endüstrisinin doğuşuna öncülük etti."]
+            ],
+            9: [
+                ["1939", "Almanya'nın Polonya'yı İşgaliyle II. Dünya Savaşı Başladı", "II. Dünya Savaşı", "Nazi Almanyası ordularının 1 Eylül 1939 sabahı şafak vakti 'Yıldırım Harbi' (Blitzkrieg) taktiğiyle Polonya sınırını geçmesi ve Danzig'i bombalamasıyla, insanlık tarihinin en yıkıcı savaşı olan II. Dünya Savaşı (70 milyondan fazla can kaybı) başladı."],
+                ["1945", "Japonya'nın USS Missouri Zırhlısında Teslimiyet Belgesini İmzalamasıyla II. Dünya Savaşı Sona Erdi", "II. Dünya Savaşı", "Tokyo Körfezi'nde demirli ABD zırhlısı USS Missouri'nin güvertesinde Japon heyeti ve Müttefik Başkomutanı General Douglas MacArthur teslimiyet belgesini imzaladı; 6 yıl 1 gün süren II. Dünya Savaşı resmen bitti."],
+                ["1783", "ABD'nin Bağımsızlığını Tanıyan Paris Antlaşması İmzalandı", "Dünya Tarihi", "Büyük Britanya Krallığı ile Amerika Birleşik Devletleri temsilcileri (Benjamin Franklin, John Adams, John Jay) arasında imzalanan Paris Antlaşması ile Amerikan Bağımsızlık Savaşı sona erdi ve ABD'nin bağımsızlığı resmen tanındı."],
+                ["1919", "🇹🇷 Sivas Kongresi Mustafa Kemal Paşa Başkanlığında Toplandı", "Milli Mücadele", "Yurdun dört bir yanından gelen delegelerin katılımıyla toplanan Sivas Kongresi'nde, tüm milli cemiyetler 'Anadolu ve Rumeli Müdafaa-i Hukuk Cemiyeti' adı altında birleştirildi ve manda ile himaye kesin olarak reddedildi."],
+                ["1977", "Voyager 1 Uzay Sondası Fırlatıldı (İnsanlığın En Uzaktaki Elçisi)", "Uzay Çağı", "Üzerinde Dünya'dan sesler, müzikler ve Türkçe 'Sabah şerifleriniz hayrolsun' mesajının da yer aldığı Altın Plak bulunan Voyager 1 fırlatıldı. Araç bugün Dünya'dan 24 milyar kilometre uzakta yıldızlararası uzayda yoluna devam etmektedir."],
+                ["1522", "Macellan-Elcano Seferi Tamamlandı: Dünya'nın Çevresi İlk Kez Denizden Dolaşıldı", "Coğrafi Keşifler", "1519'da 5 gemi ve 270 mürettebatla yola çıkan Macellan seferinden geriye kalan tek gemi 'Victoria', Juan Sebastián Elcano komutasında 18 denizciyle İspanya'ya dönerek Dünya'nın küresel olduğunu pratikte kanıtlayan ilk devrialemi tamamladı."],
+                ["1776", "Savaş Tarihinde İlk Denizaltı Saldırısı ('Turtle' Denizaltısı) Gerçekleştirildi", "Askeri Teknoloji", "Amerikan Bağımsızlık Savaşı sırasında David Bushnell tarafından tasarlanan tek kişilik ahşap denizaltı 'Turtle', New York limanındaki İngiliz amiral gemisi HMS Eagle'ın gövdesine su altı bombası yerleştirmeye çalışarak tarihin ilk denizaltı harekatını yaptı."],
+                ["1504", "Michelangelo'nun Mermer Başyapıtı 'Davut' (David) Heykeli Floransa'da Açıldı", "Sanat Tarihi", "Michelangelo'nun tek parça Carrara mermerinden 3 yılda yonttuğu 5.17 metre yüksekliğindeki Davut heykeli, Floransa Cumhuriyeti'nin özgürlük sembolü olarak Vecchio Sarayı önünde sergilendi."],
+                ["1922", "🇹🇷 9 Eylül: Türk Ordusu İzmir'e Girdi ve Anadolu İşgalden Temizlendi", "Kurtuluş Savaşı", "30 Ağustos Zaferi'nin ardından 400 kilometrelik mesafeyi 9 günde aşan Türk süvarileri 9 Eylül 1922 sabahı İzmir'e girerek Hükümet Konağı'na ve Kadifekale'ye Türk bayrağını çekti. Böylece 15 Mayıs 1919'da başlayan işgal sona erdi."],
+                ["2008", "CERN'deki Büyük Hadron Çarpıştırıcısı (LHC) İlk Kez Çalıştırıldı", "Parçacık Fiziği", "İsviçre-Fransa sınırının 100 metre altında inşa edilen 27 kilometrelik halka tüneldeki Büyük Hadron Çarpıştırıcısı'nda ilk proton demeti başarıyla döndürüldü. Bu deneyler 2012'de Higgs Bozonu'nun keşfedilmesini sağladı."],
+                ["1923", "🇹🇷 Halk Fırkası (Cumhuriyet Halk Partisi) Kuruldu", "Cumhuriyet Tarihi", "Anadolu ve Rumeli Müdafaa-i Hukuk Cemiyeti'nin siyasi partiye dönüştürülmesiyle Mustafa Kemal Paşa liderliğinde Cumhuriyet döneminin ilk siyasi partisi olan Halk Fırkası kuruldu."],
+                ["1958", "Jack Kilby İlk Entegre Devreyi (Mikroçip) Başarıyla Çalıştırdı", "Bilişim & Elektronik", "Texas Instruments mühendisi Jack Kilby, germanyum bir plaka üzerinde ürettiği tarihin ilk entegre devresini (IC) çalıştırdı. Bu icat, modern bilgisayarların, akıllı telefonların ve dijital devrimin temelini oluşturdu."],
+                ["1921", "🇹🇷 13 Eylül: Sakarya Meydan Muharebesi Zaferle Sonuçlandı", "Kurtuluş Savaşı", "22 gün 22 gece süren ve Mustafa Kemal Paşa'nın 'Hattı müdafaa yoktur, sathı müdafaa vardır. O satıh bütün vatandır' stratejisiyle yönettiği Sakarya Meydan Muharebesi, Yunan ordusunun Sakarya Irmağı'nın batısına tamamen çekilmesiyle Türk zaferiyle bitti."],
+                ["1812", "Napolyon Orduları Moskova'ya Girdi ve Büyük Moskova Yangını Başladı", "Askeri Tarih", "Borodino Muharebesi'nin ardından Napolyon Bonapart komutasındaki Fransız ordusu boşaltılmış olan Moskova'ya girdi. Aynı gece başlayan yangınlar şehrin dörtte üçünü kül etti."],
+                ["1928", "Alexander Fleming 'Penisilin' Antibiyotiğini Keşfetti", "Tıp Tarihi", "İskoç bilim insanı Alexander Fleming, Londra'daki laboratuvarında bakteri kültür kaplarında oluşan 'Penicillium notatum' küfünün çevresindeki bakterileri yok ettiğini fark etti. Penisilin keşfi, enfeksiyon hastalıklarına karşı milyonlarca insanın hayatını kurtardı."],
+                ["1810", "Meksika'da İspanyol Yönetimine Karşı Bağımsızlık Savaşı Başladı", "Dünya Tarihi", "Rahip Miguel Hidalgo'nun Dolores kasabasında çanları çalarak halkı ayaklanmaya çağırmasıyla (Grito de Dolores) Meksika Bağımsızlık Savaşı başladı."],
+                ["1787", "ABD Anayasası Philadelphia Kongresi'nde Kabul Edildi", "Hukuk Tarihi", "Güçler ayrılığı (yasama, yürütme, yargı) ve federalizm ilkeleri üzerine kurulan Amerika Birleşik Devletleri Anayasası, yürürlükte kalan en eski yazılı ulusal anayasa olarak imzalandı."],
+                ["1851", "New York Times Gazetesi İlk Sayısını Yayımladı", "Basın Tarihi", "Henry Jarvis Raymond ve George Jones tarafından kurulan gazete, 'New-York Daily Times' adıyla ilk baskısını yaparak dünya basın tarihinin en etkili yayınlarından biri oldu."],
+                ["1921", "🇹🇷 TBMM Tarafından Mustafa Kemal Paşa'ya 'Mareşal' Rütbesi ve 'Gazi' Unvanı Verildi", "Kurtuluş Savaşı", "Sakarya Meydan Muharebesi'nde kazanılan büyük zaferin ardından Türkiye Büyük Millet Meclisi, Başkomutan Mustafa Kemal Paşa'ya kanunla 'Müşir' (Mareşal) rütbesi ve 'Gazi' unvanını tevcih etti."],
+                ["1519", "Ferdinand Macellan Dünya Turu İçin İspanya'dan Yelken Açtı", "Coğrafi Keşifler", "Portekizli denizci Ferdinand Macellan, İspanya Krallığı bayrağı altında 5 gemi ve 270 mürettebatla Sanlúcar de Barrameda limanından ayrılarak tarihin ilk dünya çevresi seferini başlattı."],
+                ["1937", "J.R.R. Tolkien'in 'Hobbit' Kitabı Yayımlandı", "Edebiyat", "Oxford Üniversitesi profesörü J.R.R. Tolkien'in Orta Dünya evrenini ilk kez okurlarla buluşturan ve modern fantastik edebiyatın temelini atan 'The Hobbit' adlı eseri basıldı."],
+                ["1862", "ABD Başkanı Abraham Lincoln Köleliği Kaldıran 'Özgürlük Bildirgesi'ni İlan Etti", "İnsan Hakları", "Başkan Abraham Lincoln, Amerikan İç Savaşı sürerken Konfederasyon eyaletlerindeki tüm kölelerin 1 Ocak 1863 itibarıyla sonsuza dek özgür olacağını duyuran Özgürlük Bildirgesi'ni yayınladı."],
+                ["1846", "Matematiksel Hesaplamalarla Tahmin Edilen 'Neptün' Gezegeni Gözlemlendi", "Astronomi", "Fransız matematikçi Urbain Le Verrier'in Uranüs'ün yörüngesindeki sapmalardan yola çıkarak kağıt üzerinde konumunu hesapladığı Neptün gezegeni, Berlin Gözlemevi'nde Johann Galle tarafından tam belirtilen noktada bulundu."],
+                ["622", "Hz. Muhammed'in Mekke'den Medine'ye Hicreti Tamamlandı", "İslam Tarihi", "İslam tarihinde dönüm noktası olan ve Hicri takvimin başlangıcı kabul edilen Hicret yolculuğu sonucunda Hz. Muhammed Medine'ye (Yesrib) ulaştı ve Medine İslam Devleti'nin temelleri atıldı."],
+                ["1396", "🇹🇷 Niğbolu Zaferi: Yıldırım Bayezid Haçlı Ordusunu Bozguna Uğrattı", "Osmanlı Tarihi", "Osmanlı Padişahı I. Bayezid (Yıldırım), Tuna Nehri kıyısındaki Niğbolu Kalesi önünde Avrupa'nın en seçkin şövalyelerinden oluşan büyük Haçlı ordusunu ağır bir yenilgiye uğratarak Balkanlar'daki Türk hakimiyetini kesinleştirdi."],
+                ["1932", "🇹🇷 I. Türk Dil Kurultayı Dolmabahçe Sarayı'nda Toplandı (Dil Bayramı)", "Kültür & Dil", "Mustafa Kemal Atatürk'ün katılımıyla İstanbul Dolmabahçe Sarayı'nda toplanan I. Türk Dil Kurultayı'nda Türkçenin zenginliğinin ortaya çıkarılması ve yabancı dillerin boyunduruğundan kurtarılması çalışmaları başlatıldı."],
+                ["1538", "🇹🇷 Preveze Deniz Zaferi: Barbaros Hayreddin Paşa Haçlı Donanmasını Mağlup Etti", "Denizcilik Tarihi", "Kaptan-ı Derya Barbaros Hayreddin Paşa komutasındaki Osmanlı Donanması, Yunanistan'ın Preveze açıklarında Andrea Doria komutasındaki birleşik Haçlı donanmasını parlak bir manevra savaşıyla yendi ve Akdeniz bir Türk gölü haline geldi."],
+                ["1864", "Uluslararası İşçi Birliği (Birinci Enternasyonal) Londra'da Kuruldu", "Sosyal Tarih", "Avrupa'daki farklı işçi örgütlerini ve sendikaları tek çatı altında toplamak amacıyla Londra'daki St. Martin's Hall'da Birinci Enternasyonal kuruldu."],
+                ["1918", "Bulgaristan Selanik Ateşkes Antlaşması'nı İmzalamasıyla I. Dünya Savaşı'ndan Çekildi", "I. Dünya Savaşı", "Makedonya Cephesi'nin yarılması üzerine Bulgaristan İtilaf Devletleri ile ateşkes imzalayarak savaştan çekilen ilk İttifak Devleti oldu; böylece Osmanlı İmparatorluğu ile Almanya arasındaki kara bağlantısı koptu."],
+                ["1938", "Münih Antlaşması İmzalandı: Çekoslovakya'nın Südet Bölgesi Almanya'ya Bırakıldı", "II. Dünya Savaşı Öncesi", "İngiltere ve Fransa'nın 'Yatıştırma Politikası' kapsamında Hitler ile imzaladıkları Münih Antlaşması, Nazi Almanyası'nın Çekoslovakya topraklarını ilhak etmesine göz yumdu ancak yeni bir dünya savaşını engelleyemedi."]
+            ],
+            10: [
+                ["1949", "Çin Halk Cumhuriyeti Pekin'de Mao Zedong Tarafından İlan Edildi", "Dünya Tarihi", "Çin İç Savaşı'nın ardından Pekin'deki Tiananmen Meydanı'nda toplanan kalabalığa hitap eden Mao Zedong, Çin Halk Cumhuriyeti'nin kurulduğunu resmen ilan etti."],
+                ["1187", "Selahaddin Eyyubi 88 Yıllık Haçlı İşgalinin Ardından Kudüs'ü Fethetti", "Orta Çağ Tarihi", "Hıttin Muharebesi'nde Haçlı ordusunu imha eden Sultan Selahaddin Eyyubi, Kudüs'ü kuşatarak teslim aldı. Haçlıların 1099'daki katliamının aksine şehirdeki Hristiyan halka aman vererek güvenli geçiş hakkı tanıdı."],
+                ["1990", "Doğu ve Batı Almanya 45 Yıllık Bölünmenin Ardından Resmen Birleşti", "Avrupa Tarihi", "Berlin Duvarı'nın yıkılmasından yaklaşık bir yıl sonra Alman Demokratik Cumhuriyeti (Doğu Almanya) ile Federal Almanya Cumhuriyeti (Batı Almanya) birleşerek Soğuk Savaş'ın Avrupa'daki bölünmüşlüğünü sona erdirdi."],
+                ["1957", "Sovyetler Birliği Dünyanın İlk Yapay Uydusu 'Sputnik 1'i Fırlattı", "Uzay Çağı", "Baykonur Uzay Üssü'nden fırlatılan 83 kilogram ağırlığındaki metal küre Sputnik 1, Dünya yörüngesine yerleşerek radyo sinyalleri göndermeye başladı. Bu olay insanlık tarihinde Uzay Çağı'nı ve ABD-SSCB Uzay Yarışı'nı başlattı."],
+                ["1926", "🇹🇷 Mustafa Kemal Atatürk'ün İlk Heykeli İstanbul Sarayburnu'nda Açıldı", "Cumhuriyet Tarihi", "Avusturyalı heykeltıraş Heinrich Krippel tarafından yapılan ve Atatürk'ün Milli Mücadele için Samsun'a hareket ettiği noktaya dikilen Türkiye'nin ilk Atatürk anıtı Sarayburnu Parkı'nda törenle açıldı."],
+                ["1923", "🇹🇷 Şükrü Naili Paşa Komutasındaki Türk Birlikleri İstanbul'a Girdi (İstanbul'un Kurtuluşu)", "Kurtuluş Savaşı", "Lozan Barış Antlaşması uyarınca son İtilaf işgal kuvvetlerinin 2 Ekim'de Türk bayrağını selamlayarak şehri terk etmesinin ardından, 6 Ekim 1923'te 3. Kolordu birlikleri halkın sevgi gösterileri arasında İstanbul'a girdi ve 5 yıla yakın süren işgal resmen bitti."],
+                ["1571", "İnebahtı (Lepanto) Deniz Muharebesi", "Osmanlı Tarihi", "Kıbrıs'ın fethi üzerine kurulan Kutsal İttifak (İspanya, Venedik, Papalık) donanması ile Osmanlı donanması İnebahtı Körfezi'nde karşılaştı. Osmanlı donanması ağır kayıp verse de Uluç Ali Paşa kanadındaki gemileri kurtardı ve Osmanlı 6 ay içinde 200 gemilik yeni bir donanma inşa etti."],
+                ["1912", "Karadağ'ın Osmanlı Devleti'ne Savaş İlanıyla I. Balkan Savaşı Başladı", "Osmanlı Tarihi", "Rusya'nın teşvikiyle birleşen Karadağ, Bulgaristan, Sırbistan ve Yunanistan'ın Osmanlı İmparatorluğu'na saldırmasıyla Balkan Savaşları başladı ve Osmanlı beş asırlık Rumeli topraklarının büyük kısmını kaybetti."],
+                ["1446", "Kore Kralı Büyük Sejong 'Hangıl' Alfabesini İlan Etti", "Kültür & Dil", "Halkın okuma yazma öğrenmesini kolaylaştırmak amacıyla bilginlere bilimsel ses esaslarına dayalı yeni bir alfabe hazırlatan Kral Sejong, Kore alfabesi Hangıl'ı yayımladı."],
+                ["680", "Kerbela Olayı: Hz. Hüseyin ve Yanındakilerin Şehit Edilmesi", "İslam Tarihi", "Hz. Muhammed'in torunu Hz. Hüseyin ve beraberindeki 72 kişi, Emevi Halifesi I. Yezid'in ordusu tarafından Fırat Nehri yakınlarındaki Kerbela çölünde kuşatılarak şehit edildi. Bu trajedi İslam tarihinde derin bir kırılma yarattı."],
+                ["1922", "🇹🇷 Mudanya Ateşkes Antlaşması İmzalandı", "Kurtuluş Savaşı", "Büyük Taarruz zaferinin ardından İsmet Paşa başkanlığındaki TBMM heyeti ile İngiltere, Fransa ve İtalya arasında Mudanya Mütarekesi imzalandı. Doğu Trakya, Edirne ve İstanbul tek kurşun atılmadan diplomatik zaferle kurtarıldı."],
+                ["1492", "Kristof Kolomb Karayipler'deki Guanahani (San Salvador) Adasına Ulaşarak Amerika Kıtasını Keşfetti", "Coğrafi Keşifler", "Atlas Okyanusu'nda 70 gün süren yolculuğun ardından Kristof Kolomb'un gemileri Bahamalar'daki adaya ulaştı. Kolomb Hindistan'a vardığını sansa da Eski Dünya ile Yeni Dünya arasındaki ilk kalıcı temas kuruldu."],
+                ["1923", "🇹🇷 13 Ekim: Ankara Türkiye Devleti'nin Başkenti İlan Edildi", "Cumhuriyet Tarihi", "İsmet Paşa ve 14 milletvekilinin verdiği tek maddelik kanun teklifinin TBMM'de kabul edilmesiyle, Milli Mücadele'nin kalbi olan Ankara resmen Türkiye'nin yeni başkenti oldu."],
+                ["1947", "Pilot Chuck Yeager Ses Duvarını (Mach 1) Aşan İlk İnsan Oldu", "Havacılık", "Amerikalı test pilotu Chuck Yeager, roket motorlu Bell X-1 uçağıyla 13.700 metre irtifada saatte 1.127 km hıza ulaşarak ses hızını aşan ilk insan unvanını kazandı."],
+                ["1927", "🇹🇷 Gazi Mustafa Kemal Atatürk TBMM'de Büyük 'Nutuk'u Okumaya Başladı", "Cumhuriyet Tarihi", "Cumhuriyet Halk Fırkası'nın İkinci Büyük Kongresi'nde kürsüye çıkan Atatürk, 19 Mayıs 1919'da Samsun'a çıkışından Cumhuriyet'in kuruluşuna kadar geçen süreci belgeleriyle anlattığı tarihi eseri Nutuk'u 6 gün boyunca toplam 36 saat 33 dakikada okudu."],
+                ["1946", "Nürnberg Uluslararası Askeri Ceza Mahkemesi Kararları İnfaz Edildi", "Hukuk & Savaş Tarihi", "II. Dünya Savaşı sırasında insanlığa karşı suç ve savaş suçu işleyen Nazi Almanyası'nın üst düzey yöneticilerinin yargılandığı Nürnberg Duruşmaları tamamlandı ve uluslararası ceza hukukunun ilkeleri belirlendi."],
+                ["1973", "OPEC Petrol Ambargosu ve 1973 Küresel Enerji Krizi Başladı", "Ekonomi Tarihi", "Yom Kippur Savaşı sırasında Petrol İhraç Eden Arap Ülkeleri (OAPEC) petrol üretimini kısarak ambargo başlattı; petrol fiyatları dört katına çıktı ve küresel ekonomi sarsıldı."],
+                ["1912", "İtalya ile Osmanlı Arasında Trablusgarp Savaşı'nı Bitiren Uşi Antlaşması İmzalandı", "Osmanlı Tarihi", "Balkan Savaşı'nın patlak vermesi üzerine İtalya ile İsviçre'nin Ouchy (Uşi) kasabasında antlaşma imzalandı; Osmanlı Kuzey Afrika'daki son toprağı olan Trablusgarp ve Bingazi'yi kaybetti."],
+                ["1781", "Yorktown Kuşatması: İngiliz Ordusu George Washington'a Teslim Oldu", "Amerikan Tarihi", "General George Washington komutasındaki Amerikan ordusu ve Fransız müttefikleri, Virginia'nın Yorktown kasabasında Lord Cornwallis komutasındaki İngiliz ordusunu kuşatarak teslim aldı ve Bağımsızlık Savaşı fiilen kazanıldı."],
+                ["1921", "🇹🇷 TBMM Hükümeti ile Fransa Arasında 'Ankara Antlaşması' İmzalandı", "Milli Mücadele", "Sakarya Zaferi'nin ardından Fransa, TBMM Hükümeti ile Ankara Antlaşması'nı imzalayarak Güney Cephesi'ndeki savaşa son verdi; böylece İtilaf Devletleri bloğu parçalandı ve bir Batılı devlet ilk kez yeni Türk devletini tanıdı."],
+                ["1805", "Trafalgar Deniz Muharebesi: Amiral Nelson Fransız-İspanyol Donanmasını Yendi", "Denizcilik Tarihi", "İspanya'nın Trafalgar Burnu açıklarında Amiral Horatio Nelson komutasındaki İngiliz Kraliyet Donanması, Napolyon'un Fransız-İspanyol birleşik donanmasını kesin bir yenilgiye uğrattı. Nelson savaşta hayatını kaybetti ancak İngiltere bir asır sürecek deniz üstünlüğünü kurdu."],
+                ["1962", "Küba Füze Krizi: Dünya Nükleer Savaşın Eşiğine Geldi", "Soğuk Savaş", "ABD Başkanı John F. Kennedy, televizyondan yaptığı ulusa sesleniş konuşmasında Sovyetler Birliği'nin Küba'ya nükleer başlıklı füzeler yerleştirdiğini açıkladı ve adayı denizden ablukaya aldı. 13 gün boyunca dünya nükleer savaş tehdidiyle nefesini tuttu."],
+                ["1942", "Kuzey Afrika Cephesi'nde II. El-Alameyn Muharebesi Başladı", "II. Dünya Savaşı", "General Bernard Montgomery komutasındaki İngiliz 8. Ordusu, Mısır'ın El-Alameyn hattında Mareşal Erwin Rommel ('Çöl Tilkisi') komutasındaki Alman-İtalyan Afrika Kolordusu'na karşı büyük karşı taarruzu başlattı."],
+                ["1648", "Modern Uluslararası İlişkiler Sistemini Kuran 'Vestfalya Barışı' İmzalandı", "Diplomasi Tarihi", "Otuz Yıl Savaşları'nı sona erdiren Vestfalya Antlaşması Almanya'nın Münster ve Osnabrück kentlerinde imzalandı. Devletlerin egemen eşitliği ve içişlerine karışmama ilkelerine dayanan modern ulus-devletler sistemi (Vestfalya Düzeni) doğdu."],
+                ["1924", "🇹🇷 Türk Sosyolojisinin ve Düşünce Tarihinin Öncüsü Ziya Gökalp Vefat Etti", "Düşünce Tarihi", "'Türkçülüğün Esasları' adlı eseriyle Türkiye Cumhuriyeti'nin kültür ve uluslaşma politikalarına derin fikri katkılar sağlayan sosyolog, yazar ve şair Ziya Gökalp İstanbul'da 48 yaşında hayatını kaybetti."],
+                ["1863", "Dünyanın İlk Futbol Federasyonu (The Football Association) Londra'da Kuruldu", "Spor Tarihi", "Londra'daki Freemasons' Tavern'de bir araya gelen 11 kulüp temsilcisi, futbol ile ragbiyi birbirinden ayıran ilk resmi oyun kurallarını belirleyerek modern futbolun doğuşunu sağladı."],
+                ["1991", "Türkmenistan Sovyetler Birliği'nden Bağımsızlığını İlan Etti", "Türk Dünyası", "Sovyetler Birliği'nin dağılma sürecinde yapılan halk oylamasında %94 oranında bağımsızlık yönünde oy çıkması üzerine Türkmenistan bağımsızlığını ilan etti."],
+                ["1886", "Özgürlük Heykeli New York Limanında Resmi Törenle Açıldı", "Mimarlık & Tarih", "Fransa tarafından ABD'nin bağımsızlığının 100. yılı anısına hediye edilen ve Frédéric Auguste Bartholdi tarafından tasarlanan Özgürlük Heykeli, Özgürlük Adası'nda açıldı."],
+                ["1923", "🇹🇷 29 Ekim: Türkiye Cumhuriyeti İlan Edildi ve Mustafa Kemal Atatürk İlk Cumhurbaşkanı Seçildi!", "Milli Bayram", "28 Ekim akşamı Çankaya Köşkü'nde 'Efendiler, yarın Cumhuriyeti ilan edeceğiz!' diyen Gazi Mustafa Kemal Paşa'nın hazırladığı anayasa değişikliği, 29 Ekim 1923 akşamı saat 20:30'da TBMM'de 'Yaşasın Cumhuriyet!' sesleri ve 101 pare top atışı eşliğinde kabul edildi. Oybirliğiyle ilk Cumhurbaşkanı seçilen Atatürk, Türkiye Cumhuriyeti'nin ilelebet payidar kalacağını dünyaya ilan etti."],
+                ["1918", "🇹🇷 Mondros Ateşkes Antlaşması İmzalandı", "Osmanlı Tarihi", "I. Dünya Savaşı sonunda Limni Adası'nın Mondros Limanı'nda demirli Agamemnon zırhlısında imzalanan Mondros Mütarekesi ile Osmanlı İmparatorluğu savaştan çekildi; antlaşmanın 7. ve 24. maddeleri Anadolu'nun işgaline zemin hazırladı."],
+                ["1517", "Martin Luther '95 Tez'ini Wittenberg Kale Kilisesi Kapısına Astı", "Din & Reform", "Alman ilahiyatçı Martin Luther, Katolik Kilisesi'nin günah çıkarma belgeleri (endüljans) satışını eleştiren 95 maddelik bildirgesini Wittenberg Kilisesi kapısına çivileyerek Protestan Reformu'nu başlattı."]
+            ],
+            11: [
+                ["1928", "🇹🇷 1 Kasım: Harf İnkılabı (Yeni Türk Harflerinin Kabulü)", "Cumhuriyet Devrimleri", "Mustafa Kemal Atatürk'ün Sarayburnu'nda halka tanıttığı ve Başöğretmen sıfatıyla kara tahta başında bizzat öğrettiği Latin esaslı Yeni Türk Alfabesi, 1353 sayılı kanunla TBMM'de kabul edildi. Millet Mektepleri açılarak okuma-yazma oranı kısa sürede katlandı."],
+                ["1917", "İngiltere Dışişleri Bakanı Arthur Balfour 'Balfour Deklarasyonu'nu Yayımladı", "Orta Doğu Tarihi", "İngiltere Dışişleri Bakanı Lord Arthur Balfour'un Siyonist Federasyonu liderlerinden Lord Rothschild'e gönderdiği mektupta, Filistin'de bir Musevi ulusal yurdu kurulmasının destekleneceği açıklandı."],
+                ["1957", "Sputnik 2 Uzay Aracıyla 'Layka' Uzaya Çıkan İlk Canlı Oldu", "Uzay Tarihi", "Sovyetler Birliği tarafından fırlatılan Sputnik 2 uydusu, Moskova sokaklarından bulunan Layka adlı köpeği taşıyarak Dünya yörüngesine çıkan ilk canlı görevini gerçekleştirdi."],
+                ["1922", "İngiliz Arkeolog Howard Carter Firavun Tutankamon'un Mezarının Giriş Basamaklarını Keşfetti", "Arkeoloji", "Mısır'ın Krallar Vadisi'nde yıllarca süren kazıların ardından Carter'ın ekibi, kumların altında MÖ 14. yüzyıldan kalma Firavun Tutankamon'un mezarının ilk taş basamağını ortaya çıkardı."],
+                ["1934", "🇹🇷 İsmet Paşa'ya Atatürk Tarafından 'İnönü' Soyadı Verildi", "Cumhuriyet Tarihi", "Soyadı Kanunu kapsamında Cumhurbaşkanı Mustafa Kemal Atatürk, Kurtuluş Savaşı'nın Batı Cephesi'ndeki kritik zaferlerine atfen Başbakan İsmet Paşa'ya 'İnönü' soyadını verdi."],
+                ["1893", "Rus Besteci Pyotr İlyiç Çaykovski Hayatını Kaybetti", "Müzik Tarihi", "Kuğu Gölü, Fındıkkıran ve Uyuyan Güzel baleleri ile 6. Senfoni (Patetik) gibi romantik dönem klasik müziğinin ölümsüz eserlerini besteleyen Çaykovski Sankt-Peterburg'da öldü."],
+                ["1867", "İki Kez Nobel Ödülü Kazanan Bilim İnsanı Marie Curie Doğdu", "Bilim & Fizik", "Radyoaktivite kavramını geliştiren, Polonyum ve Radyum elementlerini keşfeden, hem Fizik (1903) hem de Kimya (1911) alanında Nobel Ödülü kazanan tarihteki tek bilim insanı Marie Skłodowska-Curie Varşova'da doğdu."],
+                ["1895", "Wilhelm Conrad Röntgen Laboratuvarında 'X-Işınlarını' Keşfetti", "Fizik & Tıp", "Almanya'nın Würzburg Üniversitesi'nde katot ışını tüpleriyle deney yapan fizikçi Wilhelm Röntgen, siyah kartondan geçerek karşıdaki floresan ekranı parlatan bilinmeyen ışınları fark etti ve bunlara 'X-Işınları' adını verdi."],
+                ["1989", "Soğuk Savaş'ın Sembolü 'Berlin Duvarı' Yıkıldı", "Dünya Tarihi", "Doğu Almanya yönetiminin seyahat kısıtlamalarını kaldırdığını açıklaması üzerine yüz binlerce Doğu ve Batı Berlinli sınır kapılarına akın ederek 28 yıldır şehri bölen Berlin Duvarı'nı balyozlarla yıktı."],
+                ["1938", "🇹🇷 10 Kasım: Cumhuriyetimizin Kurucusu Gazi Mustafa Kemal Atatürk Sonsuzluğa Uğurlandı", "Milli Yas & Anma", "Ömrünü Türk milletinin bağımsızlığına, aydınlanmasına ve çağdaş uygarlık seviyesinin üzerine çıkmasına adayan Türkiye Cumhuriyeti'nin kurucusu ve ilk Cumhurbaşkanı Gazi Mustafa Kemal Atatürk, saat 09:05'te İstanbul Dolmabahçe Sarayı'nda hayata gözlerini yumdu. 'Benim naçiz vücudum elbet bir gün toprak olacaktır, ancak Türkiye Cumhuriyeti ilelebet payidar kalacaktır' sözü milletin kalbine mühürlendi."],
+                ["1918", "Compiègne Ateşkesi İmzalandı ve I. Dünya Savaşı Sona Erdi", "I. Dünya Savaşı", "Fransa'nın Compiègne Ormanı'ndaki bir tren vagonunda المان heyeti ile Müttefikler arasında imzalanan ateşkes antlaşması, 11. ayın 11. günü saat 11:00'de yürürlüğe girdi ve 4 yıl süren Büyük Savaş sona erdi."],
+                ["2014", "Rosetta Görevinin 'Philae' Sondası Tarihte İlk Kez Bir Kuyruklu Yıldız Yüzeyine İndi", "Uzay Çağı", "Avrupa Uzay Ajansı'nın (ESA) 10 yıl süren uzay yolculuğunun ardından Philae uzay aracı, 67P/Churyumov-Gerasimenko kuyruklu yıldızının yüzeyine yumuşak iniş yapan ilk insan yapımı araç oldu."],
+                ["1970", "Doğu Pakistan'da (Bangladeş) Tarihin En Ölümcül Kasırgası 'Bhola Siklonu' Yaşandı", "Doğa Tarihi", "Bengal Körfezi'nden saatte 240 km hızla kıyıya vuran Bhola Kasırgası ve oluşturduğu dev taşkın dalgaları yaklaşık 500 bin insanın hayatını kaybetmesine yol açtı."],
+                ["1922", "BBC (British Broadcasting Corporation) Birleşik Krallık'ta İlk Günlük Radyo Yayınlarına Başladı", "İletişim Tarihi", "Londra'daki 2LO istasyonundan ilk düzenli radyo haber bültenini yayınlayan BBC, küresel yayıncılık tarihinin en köklü kurumlarından biri olarak faaliyete geçti."],
+                ["1983", "🇹🇷 Kuzey Kıbrıs Türk Cumhuriyeti (KKTC) Rauf Denktaş Liderliğinde İlan Edildi", "Türk Dünyası", "Kıbrıs Türk Federe Meclisi, kendi kaderini tayin hakkını kullanarak oybirliğiyle Kuzey Kıbrıs Türk Cumhuriyeti'nin kuruluşunu ilan etti ve kurucu Cumhurbaşkanı Rauf Denktaş bağımsızlık bildirgesini okudu."],
+                ["1945", "Birleşmiş Milletler Eğitim, Bilim ve Kültür Örgütü (UNESCO) Kuruldu", "Kültür & Bilim", "Eğitim, bilim, kültür ve dünya miraslarının korunması yoluyla kalıcı barışı desteklemek amacıyla Londra'da imzalanan sözleşmeyle UNESCO kuruldu."],
+                ["1869", "Akdeniz ile Kızıldeniz'i Birleştiren 'Süveyş Kanalı' Gemilere Açıldı", "Denizcilik & Ekonomi", "Ferdinand de Lesseps yönetiminde 10 yılda tamamlanan 164 kilometre uzunluğundaki Süveyş Kanalı açıldı. Kanal, Avrupa ile Güney Asya arasındaki deniz yolculuğunu Afrika'nın etrafından dolaşmaya gerek bırakmadan 7.000 kilometre kısalttı."],
+                ["1922", "🇹🇷 Abdülmecid Efendi TBMM Tarafından Son Halife Seçildi", "Cumhuriyet Öncesi", "1 Kasım'da saltanatın kaldırılmasının ardından TBMM, Osmanlı hanedanından Abdülmecid Efendi'yi yalnızca dini sıfat taşıyan halife olarak seçti."],
+                ["1863", "Abraham Lincoln Ünlü 'Gettysburg Konuşması'nı Yaptı", "Dünya Tarihi", "ABD Başkanı Abraham Lincoln, Gettysburg Ulusal Mezarlığı'nın açılışında yalnızca iki dakika süren 272 kelimelik konuşmasında demokrasiyi 'halkın, halk tarafından, halk için yönetimi' olarak tanımladı."],
+                ["1998", "Uluslararası Uzay İstasyonu'nun (ISS) İlk Modülü 'Zarya' Yörüngeye Fırlatıldı", "Uzay Çağı", "İnsanlığın uzaydaki en büyük ortak mühendislik projesi olan Uluslararası Uzay İstasyonu'nun ilk parçası Zarya modülü, Kazakistan'daki Baykonur Uzay Üssü'nden Proton roketiyle yörüngeye gönderildi."],
+                ["1783", "Montgolfier Kardeşlerin Sıcak Hava Balonuyla İlk İnsanlı Serbest Uçuş Yapıldı", "Havacılık", "Jean-François Pilâtre de Rozier ve François Laurent d'Arlandes, Montgolfier kardeşlerin tasarladığı sıcak hava balonuyla Paris semalarında 25 dakika boyunca 9 kilometre uçarak tarihin ilk insanlı uçuşunu gerçekleştirdi."],
+                ["1963", "ABD Başkanı John F. Kennedy Teksas'ın Dallas Kentinde Suikasta Uğradı", "Dünya Tarihi", "ABD'nin 35. Başkanı John F. Kennedy, Dallas'ta üstü açık konvoyla halkı selamlarken düzenlenen suikast sonucu hayatını kaybetti; olay 20. yüzyılın en çok tartışılan siyasi suikastı oldu."],
+                ["1928", "🇹🇷 Başöğretmen Mustafa Kemal Atatürk'ün Yöneticiliğinde 'Millet Mektepleri' Talimatnamesi Yayınlandı", "Eğitim Devrimi", "Yeni Türk harflerini genç-yaşlı tüm vatandaşlara hızla öğretmek amacıyla kurulan Millet Mektepleri'nin yönetmeliği kabul edildi ve Atatürk 'Millet Mektepleri Başöğretmeni' unvanını aldı."],
+                ["1859", "Charles Darwin 'Türlerin Kökeni' (On the Origin of Species) Kitabını Yayımladı (24 Kasım Öğretmenler Günü)", "Bilim & Eğitim", "24 Kasım 1859'da Darwin'in biyoloji bilimini kökten değiştiren 'Türlerin Kökeni' eseri Londra'da yayımlandı ve ilk baskısı aynı gün tükendi. Ayrıca Türkiye'de Atatürk'ün 24 Kasım 1928'de Başöğretmenliği kabul etmesi nedeniyle her yıl 24 Kasım Öğretmenler Günü olarak kutlanır."],
+                ["1915", "Albert Einstein 'Genel Görelilik Kuramı'nın Alan Denklemlerini Prusya Bilimler Akademisi'ne Sundu", "Fizik & Kozmoloji", "Albert Einstein, kütleçekiminin bir kuvvet değil, kütle ve enerjinin uzay-zaman dokusunu bükmesi olduğunu açıklayan Genel Görelilik denklemlerini tamamlayarak modern astrofizik ve kara delik teorilerinin temelini attı."],
+                ["1922", "Howard Carter ve Lord Carnarvon Tutankamon'un Mezar Odasına İlk Kez Baktı", "Arkeoloji", "Mezarın mühürlü kapısında açılan küçük bir delikten içeriye mum uzatan Howard Carter, Lord Carnarvon'un 'Bir şey görebiliyor musun?' sorusuna 'Evet, harika şeyler görüyorum!' yanıtını verdi."],
+                ["1095", "Papa II. Urbanus Clermont Konsili'nde Birinci Haçlı Seferi Çağrısını Yaptı", "Orta Çağ Tarihi", "Papa II. Urbanus, Fransa'nın Clermont kentinde yaptığı konuşmada Avrupa Hristiyanlarını Kudüs'ü ve Doğu'yu ele geçirmeye çağırarak iki yüz yıl sürecek Haçlı Seferleri'ni başlattı."],
+                ["1520", "Ferdinand Macellan Gemileriyle Güney Amerika'nın Güneyindeki Boğazı Geçerek Büyük Okyanus'a Çıktı", "Coğrafi Keşifler", "Atlas Okyanusu ile fırtınasız gördüğü için 'Pasifik' (Durgun) adını verdiği Büyük Okyanus arasındaki zorlu boğazı (Macellan Boğazı) 38 günde geçen Macellan, açık okyanusa ulaştı."],
+                ["1947", "Birleşmiş Milletler Genel Kurulu Filistin'in Paylaşım Planını (181 Sayılı Karar) Kabul Etti", "Orta Doğu Tarihi", "İngiliz mandasının sona ermesinin ardından Filistin topraklarının Arap ve Yahudi devletleri arasında bölünmesini ve Kudüs'ün uluslararası statüye alınmasını öngören BM kararı oylandı."],
+                ["1853", "Sinop Baskını: Rus Donanması Sinop Limanındaki Osmanlı Filosunu Batırdı", "Osmanlı & Denizcilik", "Kırım Savaşı sırasında Amiral Nahimov komutasındaki Rus Karadeniz Filosu, patlayıcı gülleler (Paixhans topları) kullanarak Sinop limanındaki ahşap Osmanlı gemilerini yaktı. Bu olay İngiltere ve Fransa'nın Osmanlı yanında savaşa girmesine ve ahşap savaş gemisi çağının kapanmasına yol açtı."]
+            ],
+            12: [
+                ["1955", "Rosa Parks ABD'nin Alabama Eyaletinde Otobüste Koltuğunu Vermeyi Reddetti", "İnsan Hakları", "Montgomery kentinde siyahi terzi Rosa Parks, ırk ayrımcılığı yasalarına karşı çıkarak belediye otobüsünde yerini beyaz bir yolcuya vermeyi reddetti. Tutuklanması, Martin Luther King önderliğindeki Amerikan Sivil Haklar Hareketi'ni ateşledi."],
+                ["1805", "Austerlitz Muharebesi (Üç İmparator Savaşı)", "Askeri Tarih", "Napolyon Bonapart komutasındaki Fransız ordusu, Rus Çarı I. Aleksandr ve Avusturya İmparatoru II. Franz'ın birleşik ordularını Austerlitz'de parlak bir taktik manevrayla bozguna uğrattı ve Kutsal Roma Cermen İmparatorluğu dağıldı."],
+                ["1967", "Dr. Christiaan Barnard Tarihin İlk Başarılı İnsandan İnsana Kalp Naklini Gerçekleştirdi", "Tıp Tarihi", "Güney Afrikalı cerrah Christiaan Barnard, Cape Town'daki Groote Schuur Hastanesi'nde 30 kişilik ekibiyle 5 saat süren ameliyatta Louis Washkansky adlı hastaya tarihin ilk insan kalp naklini başarıyla yaptı."],
+                ["1859", "🇹🇷 Mekteb-i Mülkiye (Ankara Üniversitesi Siyasal Bilgiler Fakültesi) Kuruldu", "Eğitim Tarihi", "Tanzimat döneminde modern devlet yönetiminde görev alacak nitelikli mülki idareciler yetiştirmek amacıyla Sultan Abdülmecid döneminde İstanbul'da Mekteb-i Mülkiye açıldı."],
+                ["1934", "🇹🇷 5 Aralık: Türk Kadınlarına Milletvekili Seçme ve Seçilme Hakkı Verildi!", "Cumhuriyet Devrimleri", "İsmet İnönü ve 191 milletvekilinin sunduğu anayasa değişikliği teklifi TBMM'de oybirliğiyle kabul edildi. Türk kadınları Fransa, İtalya ve İsviçre gibi pek çok Avrupa ülkesinden yıllar önce milletvekili seçme ve seçilme hakkına kavuştu ve 1935 seçimlerinde 18 kadın milletvekili Meclis'e girdi."],
+                ["1917", "Finlandiya Rusya'dan Bağımsızlığını İlan Etti", "Avrupa Tarihi", "Rusya'daki Bolşevik İhtilali'nin ardından Finlandiya Parlamentosu, yüz yılı aşkın süredir bağlı bulunduğu Rus Çarlığı'ndan ayrılarak tam bağımsızlığını ilan etti."],
+                ["1941", "Pearl Harbor Saldırısı ve ABD'nin II. Dünya Savaşı'na Girişi", "II. Dünya Savaşı", "Japon İmparatorluk Donanması'na bağlı 353 savaş uçağı, Hawaii'deki Amerikan Pasifik Filosu üssü Pearl Harbor'a sabah saatlerinde ani bir baskın düzenledi. Saldırının ertesi günü ABD savaşa girdi ve savaşın dengesi tamamen değişti."],
+                ["1987", "ABD ve SSCB Arasında Orta Menzilli Nükleer Kuvvetler (INF) Antlaşması İmzalandı", "Soğuk Savaş", "ABD Başkanı Ronald Reagan ve Sovyet lideri Mihail Gorbaçov Washington'da bir araya gelerek menzili 500 ile 5.500 kilometre arasındaki tüm nükleer ve konvansiyonel füzelerin imha edilmesini öngören tarihi antlaşmayı imzaladı."],
+                ["1917", "İngiliz General Allenby Kudüs'e Girdi ve 400 Yıllık Osmanlı Yönetimi Sona Erdi", "I. Dünya Savaşı", "Sina ve Filistin Cephesi'ndeki muharebelerin ardından General Edmund Allenby komutasındaki İngiliz birlikleri Kudüs'ü işgal etti; Yavuz Sultan Selim'in 1516'daki seferinden beri süren Osmanlı idaresi son buldu."],
+                ["1948", "Birleşmiş Milletler 'İnsan Hakları Evrensel Beyannamesi'ni Kabul Etti", "İnsan Hakları", "BM Genel Kurulu Paris'te yaptığı oturumda, tüm insanların özgür, onur ve haklar bakımından eşit doğduğunu ilan eden 30 maddelik İnsan Hakları Evrensel Beyannamesi'ni kabul etti."],
+                ["1946", "Birleşmiş Milletler Çocuklara Yardım Fonu (UNICEF) Kuruldu", "Sosyal Tarih", "II. Dünya Savaşı sonrasında yıkıma uğrayan ülkelerdeki çocuklara acil gıda ve sağlık yardımı sağlamak amacıyla BM Genel Kurulu kararıyla UNICEF kuruldu."],
+                ["1901", "Guglielmo Marconi Atlas Okyanusu Aşırı İlk Kablosuz Radyo Sinyalini Gönderdi", "İletişim & Bilim", "İtalyan mucit Guglielmo Marconi, İngiltere'nin Cornwall kıyısından gönderilen Mors alfabesindeki 'S' harfi sinyalini 3.500 kilometre uzaktaki Kanada'nın Newfoundland adasında uçurtma anteniyle yakalayarak kıtalararası telsiz iletişimini başlattı."],
+                ["1577", "İngiliz Denizci Sir Francis Drake Dünya Çevresindeki Deniz Seferine Çıktı", "Coğrafi Keşifler", "Kraliçe I. Elizabeth'in desteğiyle Plymouth limanından 'Golden Hind' gemisiyle yelken açan Francis Drake, Macellan'dan sonra dünya çevresini dolaşan ikinci deniz seferini gerçekleştirdi."],
+                ["1911", "Norveçli Kaşif Roald Amundsen Güney Kutbu Noktasına Ulaşan İlk İnsan Oldu", "Keşif Tarihi", "Roald Amundsen ve dört ekip arkadaşı, kızak köpekleriyle Antarktika'nın dondurucu buzullarını aşarak 90° Güney enlemindeki Güney Kutbu'na tarihte ilk kez ayak bastı ve Norveç bayrağını dikti."],
+                ["1791", "ABD Anayasası'na Temel Özgürlükleri Güvenceye Alan 'Haklar Bildirgesi' (Bill of Rights) Eklendi", "Hukuk Tarihi", "İfade, basın, inanç özgürlüğü ve adil yargılanma hakkını anayasal güvence altına alan ilk 10 değişiklik (Bill of Rights) onaylanarak yürürlüğe girdi."],
+                ["1773", "Amerikan Devrimi'ni Tetikleyen 'Boston Çay Partisi' Eylemi Gerçekleşti", "Dünya Tarihi", "İngiliz Parlamentosu'nun temsil hakkı tanımadan koyduğu vergileri protesto eden 'Özgürlük Oğulları' grubu, Boston Limanı'ndaki İngiliz Doğu Hindistan Şirketi gemilerine çıkarak 342 sandık çayı denize döktü."],
+                ["1903", "Wright Kardeşler Tarihin İlk Motorlu ve Kontrollü Uçak Uçuşunu Gerçekleştirdi", "Havacılık Tarihi", "Orville ve Wilbur Wright kardeşler, ABD'nin Kuzey Karolina eyaletindeki Kitty Hawk kumullarında 'Wright Flyer' adlı uçaklarıyla ilk denemede 12 saniyede 36 metre, aynı gün चौथे denemede ise 59 saniyede 260 metre uçarak modern havacılığı başlattı."],
+                ["1865", "ABD Anayasası'nın 13. Değişikliği Yürürlüğe Girerek Kölelik Resmen Yasaklandı", "İnsan Hakları", "İç Savaş'ın sona ermesinin ardından onaylanan 13. Anayasa Değişikliği ile Amerika Birleşik Devletleri'nin tamamında kölelik kurumu hukuken kaldırıldı."],
+                ["1972", "Apollo 17 Dünyaya Döndü: İnsanlığın Ay'a Yaptığı Son Yolculuk Tamamlandı", "Uzay Tarihi", "Ay yüzeyinde yürüyen son insanlar olan Eugene Cernan ve Harrison Schmitt'i taşıyan Apollo 17 komuta modülü Büyük Okyanus'a indi."],
+                ["1873", "🇹🇷 İstiklâl Marşımızın Şairi Mehmet Âkif Ersoy İstanbul'da Doğdu", "Edebiyat & Milli Mücadele", "Vatan sevgisi, bağımsızlık inancı ve 'Safahat' adlı dev eseriyle Türk edebiyatına damga vuran, İstiklâl Marşı'mızın yazarı Mehmet Âkif Ersoy İstanbul Fatih'te dünyaya geldi."],
+                ["1968", "Apollo 8 Fırlatıldı: İnsanlar İlk Kez Dünya Yörüngesinden Çıkıp Ay'ın Etrafında Döndü", "Uzay Çağı", "Astronotlar Frank Borman, James Lovell ve William Anders, Saturn V roketiyle fırlatılarak başka bir gök cisminin (Ay'ın) yörüngesine giren ve meşhur 'Dünya'nın Doğuşu' (Earthrise) fotoğrafını çeken ilk insanlar oldu."],
+                ["1914", "🇹🇷 Sarıkamış Harekâtı Başladı", "I. Dünya Savaşı", "Kafkas Cephesi'nde Rus ordusunu kuşatmak amacıyla Allahuekber Dağları üzerinden başlatılan Sarıkamış Harekâtı'nda on binlerce Mehmetçik dondurucu soğuk, tipi ve cephane yetersizliği altında vatan uğruna şehit düştü."],
+                ["1947", "John Bardeen, Walter Brattain ve William Shockley 'Transistör'ü İcat Etti", "Teknoloji & Elektronik", "Bell Laboratuvarları'nda geliştirilen transistör, hantal vakum tüplerinin yerini alarak mikroişlemcilerin, bilgisayarların ve modern elektroniğin doğmasını sağlayan 20. yüzyılın en önemli icadı oldu."],
+                ["1914", "I. Dünya Savaşı Cephelerinde '1914 Noel Ateşkesi' Yaşandı", "Dünya Tarihi", "Batı Cephesi'ndeki çamurlu siperlerde savaşan Alman, İngiliz ve Fransız askerleri resmi bir emir olmaksızın silahlarını bırakarak tarafsız bölgede buluştu, birbirleriyle hediyeler paylaştı ve futbol oynadı."],
+                ["2021", "James Webb Uzay Teleskobu (JWST) Uzaya Fırlatıldı", "Astronomi", "Hubble'ın halefi olarak geliştirilen ve kızılötesi gözlem yeteneğiyle evrenin ilk oluşan galaksilerini ve ötegezegen atmosferlerini inceleyen James Webb Uzay Teleskobu, Fransız Guyanası'ndan Ariane 5 roketiyle fırlatıldı."],
+                ["1991", "Sovyetler Birliği Yüksek Sovyet Meclisi Kendini Feshetti ve SSCB Resmen Dağıldı", "Dünya Tarihi", "Mihail Gorbaçov'un istifasının ertesi günü Sovyetler Birliği'nin varlığına resmen son verildi; Kremlin üzerindeki orak-çekiçli kızıl bayrak indirilerek 69 yıllık Sovyet dönemi ve Soğuk Savaş kapandı."],
+                ["1919", "🇹🇷 Mustafa Kemal Paşa ve Heyet-i Temsiliye Ankara'da Coşkuyla Karşılandı", "Milli Mücadele", "Sivas'tan yola çıkan Mustafa Kemal Paşa ve Heyet-i Temsiliye üyeleri, 27 Aralık 1919 günü Dikmen Sırtları'nda binlerce Ankaralı ve Seymenler tarafından büyük bir coşkuyla karşılandı; Ankara o günden itibaren Milli Mücadele'nin karargâhı oldu."],
+                ["1895", "Lumière Kardeşler Paris'te Tarihin İlk Ücretli Sinema Gösterimini Yaptı", "Sinema Tarihi", "Auguste ve Louis Lumière kardeşler, Paris'teki Grand Café'nin bodrum salonunda 'Bir Trenin La Ciotat Garı'na Varışı' dahil 10 kısa filmi halka izleterek sinema sanatının resmi doğuşunu gerçekleştirdi."],
+                ["1995", "🇹🇷 Kardak Kayalıkları Krizi Başladı", "Yakın Tarih", "Ege Denizi'ndeki Kardak Kayalıkları'na Türk bandıralı Figen Akat gemisinin oturmasıyla başlayan egemenlik krizi, SAT komandolarının kayalıklara Türk bayrağı dikmesiyle uluslararası gündeme oturdu."],
+                ["1898", "🇹🇷 Gülhane Askeri Tıp Akademisi (GATA) İstanbul'da Açıldı", "Tıp & Eğitim", "Osmanlı ordusunun modern tıp eğitimi almış askeri hekim ihtiyacını karşılamak üzere Gülhane Seririyat Hastanesi törenle hizmete girdi."],
+                ["1999", "Panama Kanalı'nın Yönetimi ABD'den Tamamen Panama Devleti'ne Devredildi", "Dünya Tarihi", "1914 yılında açılan ve Atlas Okyanusu ile Büyük Okyanus'u birbirine bağlayan stratejik Panama Kanalı'nın kontrolü, Torrijos-Carter Antlaşmaları uyarınca 20. yüzyılın son gününde Panama'ya geçti."]
+            ]
+        };
+
+        // 365 GÜNÜ DÜZ DİZİ OLARAK İNŞA ET VE UZUN ANALİTİK PARAGRAFLARLA ZENGİNLEŞTİR
+        const MASTER_365_DAYS = [];
+        let dayCounter = 1;
+
+        for (let m = 1; m <= 12; m++) {
+            const monthEvents = RAW_365_EVENTS[m];
+            for (let d = 0; d < monthEvents.length; d++) {
+                const dayNumInMonth = d + 1;
+                const [year, title, category, baseDesc] = monthEvents[d];
+                const isTurkish = title.includes("🇹🇷") || category.includes("Milli") || category.includes("Cumhuriyet") || category.includes("Osmanlı") || category.includes("Türk") || category.includes("Kurtuluş");
+
+                // Her güne bol yazılı, çok paragraflı derin tarihsel analiz metni oluştur
+                const extendedAnalysis = `${baseDesc} Tarihsel perspektiften incelendiğinde, ${dayNumInMonth} ${MONTHS_TR[m]} (${year}) tarihinde meydana gelen "${title.replace('🇹🇷 ', '')}" hadisesi yalnızca kendi döneminin şartlarını değiştirmekle kalmamış; takip eden on yıllar ve yüzyıllar boyunca ${category.toLowerCase()} alanındaki gelişmelerin yönünü tayin eden temel kırılma noktalarından biri olmuştur. Olayın öncesindeki birikim ve sonrasında ortaya çıkan zincirleme sonuçlar, toplumların kurumsal hafızasında, devletlerarası güç dengelerinde ve insanlığın ortak medeniyet mirasında silinmez izler bırakmıştır.`;
+
+                MASTER_365_DAYS.push({
+                    dayIndex: dayCounter, // 1..365
+                    month: m,
+                    day: dayNumInMonth,
+                    dateLabel: `${dayNumInMonth} ${MONTHS_TR[m]}`,
+                    year: year,
+                    title: title,
+                    category: category,
+                    isTurkish: isTurkish,
+                    shortDesc: baseDesc,
+                    longNarrative: extendedAnalysis
+                });
+                dayCounter++;
+            }
+        }
+
+        // DURUM DEĞİŞKENLERİ
+        let selectedDayIndex = 1; // 1..365
+        let currentMonthFilter = 0; // 0 = Tümü
+        let currentWikiTab = 'selected';
+        let cachedWikiData = {};
+
+        // BUGÜNÜN GERÇEK TARİHİNİ BUL
+        function getTodayDayIndex() {
+            const now = new Date();
+            const m = now.getMonth() + 1;
+            let d = now.getDate();
+            if (m === 2 && d === 29) d = 28; // Artık yıl 29 Şubat koruması
+            const found = MASTER_365_DAYS.find(item => item.month === m && item.day === d);
+            return found ? found.dayIndex : 1;
+        }
+
+        // ÜSTTEKİ SEÇİLİ GÜN ANSİKLOPEDİ PANELİNİ GÜNCELLE
+        function selectDayByIndex(idx, scrollToTop = false) {
+            if (idx < 1) idx = 365;
+            if (idx > 365) idx = 1;
+            selectedDayIndex = idx;
+
+            const item = MASTER_365_DAYS[selectedDayIndex - 1];
+            const padIdx = String(item.dayIndex).padStart(3, '0');
+
+            document.getElementById('spDayNumber').innerText = `GÜN #${padIdx} / 365`;
+            document.getElementById('spDateTitle').innerText = `${item.dateLabel} — Tarihte Bugün`;
+            document.getElementById('spSubtitle').innerText = `Yılın ${item.dayIndex}. Günü (Kalan Gün: ${365 - item.dayIndex}) • ${item.category} Dosyası`;
+
+            const metaRow = document.getElementById('spMetaRow');
+            metaRow.innerHTML = `
+                <span class="year-pill">📅 YIL: ${item.year}</span>
+                <span class="cat-pill">📂 ${item.category}</span>
+                ${item.isTurkish ? '<span class="tr-special-pill">🇹🇷 TÜRK TARİHİ & MİLLİ MİRAS</span>' : ''}
+            `;
+
+            document.getElementById('spEventTitle').innerText = item.title;
+
+            const narrativeEl = document.getElementById('spLongNarrative');
+            narrativeEl.innerHTML = `
+                <p><strong>Birincil Tarihsel Kayıt (${item.dateLabel} / ${item.year}):</strong> ${item.shortDesc}</p>
+                <p><strong>Tarihsel Arka Plan ve Küresel Etkileri:</strong> ${item.dateLabel} tarihi, dünya ve bölge kronolojisinde <em>"${item.title.replace('🇹🇷 ', '')}"</em> olayı ile anılmaktadır. ${item.category} kapsamında değerlendirilen bu dönüm noktası, dönemin siyasi, bilimsel veya toplumsal paradigmasını doğrudan dönüştürmüştür. Olayın gerçekleştiği ${item.year} yılındaki koşullar dikkate alındığında, alınan kararların ve ortaya çıkan sonuçların modern dünyanın şekillenmesinde kritik bir basamak teşkil ettiği görülmektedir.</p>
+                <p><strong>Ansiklopedik Değerlendirme:</strong> Aşağıdaki canlı arşiv kartlarından ${item.dateLabel} gününe ait diğer küresel olayları, tarihe yön veren liderlerin, bilim insanlarının ve sanatçıların doğum ile vefat kayıtlarını orijinal görselleriyle birlikte detaylı olarak inceleyebilirsiniz.</p>
+            `;
+
+            // Tablo ve matristeki aktif satırı işaretle
+            document.querySelectorAll('.history-365-table tbody tr').forEach(tr => {
+                tr.classList.toggle('selected-day-row', Number(tr.dataset.dayindex) === selectedDayIndex);
+            });
+            document.querySelectorAll('.matrix-day-cell').forEach(cell => {
+                cell.classList.toggle('active-cell', Number(cell.dataset.dayindex) === selectedDayIndex);
+            });
+
+            // Wikimedia API'den o günün zengin verilerini ve görsellerini çek
+            fetchWikimediaOnThisDay(item.month, item.day);
+
+            if (scrollToTop) {
+                document.getElementById('spotlightPanel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        function navigateDay(delta) {
+            selectDayByIndex(selectedDayIndex + delta, false);
+        }
+
+        function jumpToToday() {
+            const todayIdx = getTodayDayIndex();
+            selectDayByIndex(todayIdx, true);
+        }
+
+        // WIKIMEDIA REST API ENTEGRASYONU (GÖRSELLİ OLAYLAR, DOĞUMLAR, VEFATLAR)
+        async function fetchWikimediaOnThisDay(month, day) {
+            const mm = String(month).padStart(2, '0');
+            const dd = String(day).padStart(2, '0');
+            const key = `${mm}-${dd}`;
+            const statusEl = document.getElementById('wikiStatusText');
+            const gridEl = document.getElementById('wikiCardsGrid');
+
+            if (cachedWikiData[key]) {
+                renderWikiCards(cachedWikiData[key]);
+                statusEl.innerText = `✓ ${Number(dd)} ${MONTHS_TR[month]} Küresel Arşiv Kayıtları Yüklendi`;
+                return;
+            }
+
+            statusEl.innerText = `⏳ ${Number(dd)} ${MONTHS_TR[month]} için Wikimedia görselli tarih arşivi yükleniyor...`;
+            gridEl.innerHTML = `<div style="color:#aaa; padding:15px;">Tarihsel kayıtlar ve görseller getiriliyor...</div>`;
+
+            try {
+                const res = await fetch(`https://tr.wikipedia.org/api/rest_v1/feed/onthisday/all/${mm}/${dd}`);
+                if (!res.ok) throw new Error("API hatası");
+                const data = await res.json();
+                cachedWikiData[key] = data;
+                statusEl.innerText = `✓ ${Number(dd)} ${MONTHS_TR[month]} Küresel Arşiv Kayıtları Yüklendi`;
+                renderWikiCards(data);
+            } catch (err) {
+                statusEl.innerText = `ℹ️ Çevrimdışı Yerleşik Ansiklopedi Modu Aktif`;
+                const currentItem = MASTER_365_DAYS[selectedDayIndex - 1];
+                gridEl.innerHTML = `
+                    <div class="wiki-card">
+                        <div class="wiki-card-body">
+                            <span class="wiki-year-tag">${currentItem.year} — ${currentItem.category}</span>
+                            <div class="wiki-card-text">${currentItem.longNarrative}</div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function switchWikiTab(tabName) {
+            currentWikiTab = tabName;
+            document.getElementById('wTabSelected').classList.toggle('active', tabName === 'selected');
+            document.getElementById('wTabEvents').classList.toggle('active', tabName === 'events');
+            document.getElementById('wTabBirths').classList.toggle('active', tabName === 'births');
+            document.getElementById('wTabDeaths').classList.toggle('active', tabName === 'deaths');
+
+            const item = MASTER_365_DAYS[selectedDayIndex - 1];
+            const key = `${String(item.month).padStart(2, '0')}-${String(item.day).padStart(2, '0')}`;
+            if (cachedWikiData[key]) {
+                renderWikiCards(cachedWikiData[key]);
+            }
+        }
+
+        function renderWikiCards(data) {
+            const gridEl = document.getElementById('wikiCardsGrid');
+            gridEl.innerHTML = '';
+
+            let list = data[currentWikiTab] || data.events || [];
+            if (list.length === 0 && data.events) list = data.events;
+
+            list.slice(0, 24).forEach(entry => {
+                const card = document.createElement('div');
+                card.className = 'wiki-card';
+
+                let thumbHtml = '';
+                if (entry.pages && entry.pages.length > 0) {
+                    const pageWithThumb = entry.pages.find(p => p.thumbnail && p.thumbnail.source);
+                    if (pageWithThumb) {
+                        thumbHtml = `<img src="${pageWithThumb.thumbnail.source}" alt="Tarihi Görsel" class="wiki-thumb" loading="lazy">`;
+                    }
+                }
+
+                let extraExtract = '';
+                if (entry.pages && entry.pages[0] && entry.pages[0].extract) {
+                    extraExtract = `<div style="margin-top:6px; font-size:0.8rem; color:#aaa; border-top:1px solid #330000; padding-top:5px;">${entry.pages[0].extract}</div>`;
+                }
+
+                card.innerHTML = `
+                    ${thumbHtml}
+                    <div class="wiki-card-body">
+                        <span class="wiki-year-tag">YIL: ${entry.year ?? '-'}</span>
+                        <div class="wiki-card-text">
+                            <strong>${entry.text}</strong>
+                            ${extraExtract}
+                        </div>
+                    </div>
+                `;
+                gridEl.appendChild(card);
+            });
+        }
+
+        // 365 GÜNLÜK ANA TABLOYU VE MATRİSİ OLUŞTUR
+        function filterByMonth(m, btnEl) {
+            currentMonthFilter = m;
+            document.querySelectorAll('.month-btn').forEach(b => b.classList.remove('active'));
+            btnEl.classList.add('active');
+            renderHistoryTable();
+        }
+
+        function renderHistoryTable() {
+            const tbody = document.getElementById('historyTableBody');
+            const matrixBox = document.getElementById('matrixWrapperBox');
+            const query = (document.getElementById('tableSearchInput').value || '').toLowerCase().trim();
+
+            tbody.innerHTML = '';
+            matrixBox.innerHTML = '';
+
+            const filtered = MASTER_365_DAYS.filter(item => {
+                if (currentMonthFilter !== 0 && item.month !== currentMonthFilter) return false;
+                if (!query) return true;
+                return (
+                    item.dateLabel.toLowerCase().includes(query) ||
+                    item.year.toLowerCase().includes(query) ||
+                    item.title.toLowerCase().includes(query) ||
+                    item.category.toLowerCase().includes(query) ||
+                    item.longNarrative.toLowerCase().includes(query)
+                );
+            });
+
+            document.getElementById('tableCountSummary').innerHTML = `Gösterilen: <strong>${filtered.length} / 365 Gün</strong>`;
+
+            const fragTable = document.createDocumentFragment();
+            const fragMatrix = document.createDocumentFragment();
+
+            filtered.forEach(item => {
+                // 1. Tablo Satırı
+                const tr = document.createElement('tr');
+                tr.dataset.dayindex = item.dayIndex;
+                if (item.dayIndex === selectedDayIndex) tr.classList.add('selected-day-row');
+
+                tr.innerHTML = `
+                    <td class="col-daynum">#${String(item.dayIndex).padStart(3, '0')}</td>
+                    <td class="col-date">${item.dateLabel}</td>
+                    <td class="col-year">${item.year}</td>
+                    <td class="col-title">
+                        <div>${item.title}</div>
+                        <div style="margin-top:6px;">
+                            <span class="cat-pill" style="font-size:0.72rem; padding:2px 8px;">${item.category}</span>
+                        </div>
+                    </td>
+                    <td class="col-narrative">${item.longNarrative}</td>
+                    <td class="col-action">
+                        <button class="inspect-btn hover-target" onclick="selectDayByIndex(${item.dayIndex}, true)">İncele & Görseller →</button>
+                    </td>
+                `;
+                fragTable.appendChild(tr);
+
+                // 2. Matris Hücresi
+                const cell = document.createElement('div');
+                cell.className = 'matrix-day-cell hover-target' + (item.dayIndex === selectedDayIndex ? ' active-cell' : '');
+                cell.dataset.dayindex = item.dayIndex;
+                cell.onclick = () => selectDayByIndex(item.dayIndex, true);
+                cell.innerHTML = `
+                    <div class="m-cell-top"><span>#${String(item.dayIndex).padStart(3, '0')}</span><span>${item.year}</span></div>
+                    <div class="m-cell-date">${item.dateLabel}</div>
+                    <div class="m-cell-title">${item.title}</div>
+                `;
+                fragMatrix.appendChild(cell);
+            });
+
+            tbody.appendChild(fragTable);
+            matrixBox.appendChild(fragMatrix);
+        }
+
+        function toggleDisplayMode(mode) {
+            const tableWrap = document.getElementById('tableWrapperBox');
+            const matrixWrap = document.getElementById('matrixWrapperBox');
+            const btnTable = document.getElementById('btnViewTable');
+            const btnMatrix = document.getElementById('btnViewMatrix');
+
+            if (mode === 'table') {
+                tableWrap.style.display = 'block';
+                matrixWrap.style.display = 'none';
+                btnTable.style.background = 'var(--accent-red)';
+                btnMatrix.style.background = 'rgba(30, 0, 0, 0.85)';
+            } else {
+                tableWrap.style.display = 'none';
+                matrixWrap.style.display = 'grid';
+                btnMatrix.style.background = 'var(--accent-red)';
+                btnTable.style.background = 'rgba(30, 0, 0, 0.85)';
+            }
+        }
+
+        // SAYFA YÜKLENİŞİ, ÖZEL İMLEÇ VE ARKA PLAN KÜLLERİ
+        window.addEventListener('load', () => {
+            renderHistoryTable();
+            const todayIdx = getTodayDayIndex();
+            selectDayByIndex(todayIdx, false);
+
+            setTimeout(() => {
+                const splash = document.getElementById('splash');
+                splash.style.opacity = '0';
+                setTimeout(() => splash.style.visibility = 'hidden', 700);
+            }, 850);
+        });
+
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        document.addEventListener('click', (e) => {
+            const ripple = document.createElement('div');
+            ripple.classList.add('click-ripple');
+            ripple.style.left = e.clientX + 'px';
+            ripple.style.top = e.clientY + 'px';
+            document.body.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 600);
+        });
+
+        document.addEventListener('mouseover', (e) => {
+            if (e.target.closest('.hover-target')) cursor.classList.add('cursor-hover');
+        });
+        document.addEventListener('mouseout', (e) => {
+            if (e.target.closest('.hover-target')) cursor.classList.remove('cursor-hover');
+        });
+
+        // ARKA PLAN KÜL PARÇACIKLARI
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        let particles = [];
+        for (let i = 0; i < 45; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                s: Math.random() * 2.2 + 0.8,
+                sy: Math.random() * 1.4 + 0.4
+            });
+        }
+        function anim() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "rgba(255, 0, 0, 0.45)";
+            particles.forEach(p => {
+                p.y -= p.sy;
+                if (p.y < -10) { p.y = canvas.height + 10; p.x = Math.random() * canvas.width; }
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.s, 0, Math.PI * 2);
+                ctx.fill();
+            });
+            requestAnimationFrame(anim);
+        }
+        anim();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>

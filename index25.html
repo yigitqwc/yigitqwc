@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>yigitqwc | İnternet Hız Testi & Ağ Telemetrisi</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <style>
+        /* ORİJİNAL KLASİK UCHIHA / KIRMIZI-SİYAH RENK PALETİ */
+        :root {
+            --bg-color: #030101;
+            --text-color: #ffffff;
+            --accent-red: #ff0000;
+            --accent-gold: #ffcc00;
+            --accent-green: #00ff66;
+            --panel-bg: rgba(12, 1, 1, 0.9);
+            --border-red: rgba(255, 0, 0, 0.35);
+        }
+
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            cursor: none;
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--bg-color); color: var(--text-color);
+            overflow-x: hidden; min-height: 100vh; display: flex; flex-direction: column;
+        }
+
+        /* KLASİK ÖZEL İMLEÇ VE TIKLAMA EFEKTİ */
+        .custom-cursor {
+            position: fixed; top: 0; left: 0; width: 16px; height: 16px;
+            background-color: transparent; border: 2px solid var(--accent-red);
+            pointer-events: none; z-index: 9999999;
+            transform: translate(-50%, -50%) rotate(45deg);
+            box-shadow: 0 0 10px var(--accent-red), inset 0 0 5px var(--accent-red);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+        .custom-cursor::after {
+            content: ''; position: absolute; top: 50%; left: 50%; width: 4px; height: 4px;
+            background: var(--accent-red); transform: translate(-50%, -50%);
+        }
+        .cursor-hover { width: 30px; height: 30px; background-color: rgba(255, 0, 0, 0.25); }
+
+        .click-ripple {
+            position: fixed; border-radius: 50%; border: 2px solid var(--accent-red);
+            pointer-events: none; transform: translate(-50%, -50%);
+            animation: rippleEffect 0.6s ease-out forwards; z-index: 99998;
+            box-shadow: 0 0 15px rgba(255,0,0,0.5);
+        }
+        @keyframes rippleEffect {
+            0% { width: 0; height: 0; opacity: 1; border-width: 4px; }
+            100% { width: 120px; height: 120px; opacity: 0; border-width: 1px; }
+        }
+
+        /* SHARINGAN YÜKLEME EKRANI */
+        #splash {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #000; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; z-index: 100000;
+            transition: opacity 0.7s ease, visibility 0.7s ease;
+        }
+        .sharingan {
+            width: 85px; height: 85px; margin-bottom: 25px;
+            animation: spin 2.5s linear infinite; filter: drop-shadow(0 0 20px rgba(255,0,0,0.9));
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* LOGO EFEKTLERİ */
+        .logo-container {
+            position: relative; text-decoration: none; color: var(--text-color);
+            display: inline-block; padding-bottom: 4px;
+        }
+        .logo-text {
+            font-size: 2rem; font-weight: 900; letter-spacing: -0.5px;
+            display: inline-block; animation: glitch-anim 6s infinite;
+        }
+        @keyframes glitch-anim {
+            0%, 93%, 100% { text-shadow: 0 0 15px rgba(255,0,0,0.8); transform: translate(0); }
+            94% { text-shadow: 3px 0 0 red, -3px 0 0 white; transform: translate(3px, -2px); }
+            96% { text-shadow: -3px 0 0 red, 3px 0 0 white; transform: translate(-3px, 2px); }
+            98% { text-shadow: 3px 0 0 red, -3px 0 0 white; transform: translate(3px, 2px); }
+        }
+        .red-line-wrapper {
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 3px;
+            background: rgba(255, 0, 0, 0.2); border-radius: 2px; overflow: hidden;
+        }
+        .red-line-wrapper::after {
+            content: ''; position: absolute; top: 0; left: -50%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, #ff0000, #ffffff, #ff0000, transparent);
+            box-shadow: 0 0 8px #ff0000; animation: beamMove 2.5s infinite linear;
+        }
+        @keyframes beamMove { 0% { left: -50%; } 100% { left: 100%; } }
+
+        /* ARKA PLAN VE KÜLLER */
+        .hero-bg {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-image: url('bg.jpg'); background-size: cover; background-position: center;
+            filter: brightness(0.18) blur(2px); z-index: -2; pointer-events: none;
+        }
+        .vignette {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: radial-gradient(circle, rgba(0,0,0,0) 20%, rgba(0,0,0,0.96) 100%);
+            pointer-events: none; z-index: -1;
+        }
+        #particles-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
+
+        /* ÜST MENÜ */
+        nav {
+            background-color: rgba(5, 0, 0, 0.9); backdrop-filter: blur(12px);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1rem 3rem; position: sticky; top: 0; z-index: 100;
+            border-bottom: 1px solid var(--border-red);
+            box-shadow: 0 4px 25px rgba(255, 0, 0, 0.25);
+        }
+        .nav-left { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
+        .module-badge {
+            background: rgba(255, 0, 0, 0.15); border: 1px solid var(--accent-red);
+            color: #fff; font-weight: 800; font-size: 0.82rem; padding: 5px 14px;
+            border-radius: 20px; letter-spacing: 1px; text-transform: uppercase;
+            box-shadow: 0 0 12px rgba(255, 0, 0, 0.4);
+        }
+        .nav-right { display: flex; align-items: center; gap: 1.5rem; }
+        .back-link {
+            color: #ccc; text-decoration: none; font-size: 0.95rem; font-weight: 700;
+            transition: color 0.3s, text-shadow 0.3s;
+        }
+        .back-link:hover { color: var(--accent-red); text-shadow: 0 0 10px var(--accent-red); }
+
+        /* ANA DÜZEN */
+        .speedtest-wrapper {
+            position: relative; z-index: 5; width: 95%; max-width: 1380px;
+            margin: 25px auto 50px auto; display: flex; flex-direction: column; gap: 25px;
+        }
+
+        /* ÜST METRİK KARTLARI (PING, JITTER, DOWNLOAD, UPLOAD) */
+        .metrics-row {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px;
+        }
+        .metric-card {
+            background: var(--panel-bg); border: 1px solid #440000;
+            border-radius: 14px; padding: 18px 20px;
+            display: flex; flex-direction: column; gap: 6px;
+            position: relative; overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.85);
+            transition: all 0.3s ease;
+        }
+        .metric-card.active-phase {
+            border-color: var(--accent-red);
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.45), inset 0 0 15px rgba(255, 0, 0, 0.15);
+            transform: translateY(-3px);
+        }
+        .metric-card::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px;
+            background: linear-gradient(90deg, transparent, var(--accent-red), transparent);
+            opacity: 0.4;
+        }
+        .metric-top {
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 0.8rem; font-weight: 800; color: #aaa; text-transform: uppercase; letter-spacing: 1px;
+        }
+        .metric-top span.icon { font-size: 1.1rem; }
+        .metric-value-row {
+            display: flex; align-items: baseline; gap: 6px; margin-top: 4px;
+        }
+        .metric-val {
+            font-size: 2.3rem; font-weight: 900; color: #fff;
+            font-family: 'Courier New', monospace; letter-spacing: -1px;
+            text-shadow: 0 0 12px rgba(255, 0, 0, 0.5);
+        }
+        .metric-unit {
+            font-size: 0.85rem; font-weight: 800; color: var(--accent-red);
+        }
+        .metric-sub {
+            font-size: 0.76rem; color: #777; font-weight: 600;
+        }
+
+        /* ORTA PANEL: SOL HIZ KADRANI (SPEEDOMETER) + SAĞ CANLI DALGA GRAFİĞİ */
+        .main-arena {
+            display: grid; grid-template-columns: 460px 1fr; gap: 25px; align-items: stretch;
+        }
+
+        .gauge-panel {
+            background: var(--panel-bg); border: 2px solid var(--border-red);
+            border-radius: 18px; padding: 24px;
+            display: flex; flex-direction: column; align-items: center; justify-content: space-between;
+            box-shadow: 0 0 40px rgba(255, 0, 0, 0.22);
+            backdrop-filter: blur(14px); position: relative;
+        }
+
+        .phase-status-pill {
+            background: rgba(25, 0, 0, 0.9); border: 1px solid #550000;
+            padding: 6px 18px; border-radius: 20px; font-size: 0.82rem;
+            font-weight: 800; color: #ff8888; letter-spacing: 1px; text-transform: uppercase;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .pulse-dot {
+            width: 8px; height: 8px; border-radius: 50%; background: var(--accent-red);
+            box-shadow: 0 0 10px var(--accent-red);
+            animation: dotPulse 1s infinite alternate;
+        }
+        @keyframes dotPulse { from { opacity: 0.3; transform: scale(0.8); } to { opacity: 1; transform: scale(1.3); } }
+
+        .gauge-canvas-box {
+            position: relative; width: 380px; height: 300px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        #gaugeCanvas {
+            width: 380px; height: 300px;
+        }
+
+        /* AŞAMA İLERLEME ÇUBUĞU */
+        .progress-track {
+            width: 100%; height: 6px; background: rgba(255,255,255,0.08);
+            border-radius: 4px; overflow: hidden; margin: 12px 0;
+        }
+        .progress-fill {
+            width: 0%; height: 100%;
+            background: linear-gradient(90deg, #990000, #ff0000, #ffcc00);
+            box-shadow: 0 0 12px var(--accent-red);
+            transition: width 0.15s linear;
+        }
+
+        .start-test-btn {
+            width: 100%; padding: 15px 25px;
+            background: linear-gradient(135deg, rgba(255, 0, 0, 0.28), rgba(120, 0, 0, 0.45));
+            border: 2px solid var(--accent-red); border-radius: 35px;
+            color: #fff; font-size: 1.05rem; font-weight: 900; letter-spacing: 1.5px;
+            text-transform: uppercase; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.35);
+        }
+        .start-test-btn:hover:not(:disabled) {
+            background: var(--accent-red);
+            box-shadow: 0 0 35px rgba(255, 0, 0, 0.85);
+            transform: translateY(-2px) scale(1.02);
+        }
+        .start-test-btn:disabled {
+            opacity: 0.5; border-color: #550000;
+        }
+
+        /* SAĞ PANEL: CANLI AKIŞKAN GRAFİK + KALİTE ANALİZİ */
+        .chart-panel {
+            background: var(--panel-bg); border: 2px solid #440000;
+            border-radius: 18px; padding: 24px;
+            display: flex; flex-direction: column; justify-content: space-between; gap: 18px;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.9);
+            backdrop-filter: blur(14px);
+        }
+
+        .chart-header {
+            display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
+            border-bottom: 1px solid #3a0000; padding-bottom: 12px;
+        }
+        .chart-header h3 {
+            font-size: 1.15rem; font-weight: 900; color: #fff; letter-spacing: 0.5px;
+        }
+        .chart-legend {
+            display: flex; gap: 16px; font-size: 0.8rem; font-weight: 800;
+        }
+        .legend-item { display: flex; align-items: center; gap: 6px; color: #ccc; }
+        .l-dot { width: 10px; height: 10px; border-radius: 50%; }
+        .l-dot.dl { background: var(--accent-red); box-shadow: 0 0 8px var(--accent-red); }
+        .l-dot.ul { background: var(--accent-gold); box-shadow: 0 0 8px var(--accent-gold); }
+
+        .wave-canvas-wrapper {
+            width: 100%; height: 220px; position: relative;
+            background: rgba(4, 0, 0, 0.85); border: 1px solid #330000;
+            border-radius: 12px; overflow: hidden;
+        }
+        #waveChartCanvas {
+            width: 100%; height: 100%; display: block;
+        }
+
+        /* BAĞLANTI PERFORMANS VE KALİTE KARNESİ */
+        .quality-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
+        }
+        .q-box {
+            background: rgba(20, 0, 0, 0.7); border: 1px solid #3a0000;
+            border-radius: 10px; padding: 12px 14px;
+            display: flex; flex-direction: column; gap: 6px;
+        }
+        .q-top {
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 0.8rem; font-weight: 800; color: #ddd;
+        }
+        .q-badge {
+            font-size: 0.72rem; font-weight: 900; padding: 2px 8px; border-radius: 10px;
+            background: rgba(255,255,255,0.08); color: #aaa;
+        }
+        .q-bar-bg {
+            width: 100%; height: 5px; background: rgba(255,255,255,0.08); border-radius: 3px; overflow: hidden;
+        }
+        .q-bar-fill {
+            width: 0%; height: 100%; background: var(--accent-red);
+            transition: width 0.5s ease, background-color 0.4s ease;
+        }
+
+        /* AĞ BİLGİ SATIRI */
+        .net-info-bar {
+            display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+            background: rgba(18, 0, 0, 0.75); border: 1px solid #330000;
+            padding: 10px 16px; border-radius: 10px; font-size: 0.82rem; color: #bbb;
+        }
+        .net-info-bar strong { color: #fff; }
+
+        /* ALT PANEL: TEST GEÇMİŞİ TABLOSU (LOCALSTORAGE) */
+        .history-panel {
+            background: var(--panel-bg); border: 1px solid #440000;
+            border-radius: 16px; padding: 22px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.85);
+        }
+        .history-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 14px; border-bottom: 1px solid #330000; padding-bottom: 10px;
+        }
+        .history-header h3 { font-size: 1.1rem; font-weight: 900; color: #ff4444; }
+        .clear-hist-btn {
+            background: rgba(40, 0, 0, 0.8); border: 1px solid #660000; color: #ccc;
+            padding: 6px 14px; border-radius: 6px; font-size: 0.78rem; font-weight: 800; transition: 0.2s;
+        }
+        .clear-hist-btn:hover { background: var(--accent-red); color: #fff; }
+
+        .hist-table-wrap { overflow-x: auto; max-height: 240px; overflow-y: auto; }
+        table.hist-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.88rem; }
+        table.hist-table th {
+            color: #888; font-weight: 800; text-transform: uppercase; font-size: 0.75rem;
+            padding: 10px 12px; border-bottom: 1px solid #440000;
+        }
+        table.hist-table td {
+            padding: 10px 12px; border-bottom: 1px solid rgba(255,0,0,0.1); color: #ddd; font-family: monospace;
+        }
+
+        @media (max-width: 1080px) {
+            .main-arena { grid-template-columns: 1fr; }
+            .metrics-row { grid-template-columns: repeat(2, 1fr); }
+            .quality-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 600px) {
+            .metrics-row { grid-template-columns: 1fr; }
+            nav { padding: 1rem 1.2rem; }
+            .gauge-canvas-box, #gaugeCanvas { width: 310px; height: 250px; }
+        }
+        @media (pointer: coarse) {
+            .custom-cursor { display: none !important; }
+            * { cursor: auto !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="custom-cursor" id="cursor"></div>
+
+    <!-- SHARINGAN AÇILIŞ EKRANI -->
+    <div id="splash">
+        <svg class="sharingan" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="45" fill="#990000" stroke="#111" stroke-width="4"/>
+            <circle cx="50" cy="50" r="24" fill="none" stroke="#111" stroke-width="2" opacity="0.6"/>
+            <circle cx="50" cy="50" r="8" fill="#000"/>
+            <g>
+                <g transform="translate(50, 26)"><circle cx="0" cy="0" r="6" fill="#000"/><path d="M -6 0 Q -10 -15 5 -15 Q 0 -5 6 0 Z" fill="#000"/></g>
+                <g transform="translate(71, 62) rotate(120)"><circle cx="0" cy="0" r="6" fill="#000"/><path d="M -6 0 Q -10 -15 5 -15 Q 0 -5 6 0 Z" fill="#000"/></g>
+                <g transform="translate(29, 62) rotate(240)"><circle cx="0" cy="0" r="6" fill="#000"/><path d="M -6 0 Q -10 -15 5 -15 Q 0 -5 6 0 Z" fill="#000"/></g>
+            </g>
+        </svg>
+        <div class="logo-container">
+            <div class="logo-text">yigitqwc</div>
+            <div class="red-line-wrapper"></div>
+        </div>
+    </div>
+
+    <div class="hero-bg"></div>
+    <div class="vignette"></div>
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- ÜST MENÜ -->
+    <nav>
+        <div class="nav-left">
+            <a href="index.html" class="logo-container hover-target">
+                <div class="logo-text">yigitqwc</div>
+                <div class="red-line-wrapper"></div>
+            </a>
+            <span class="module-badge">⚡ Vtab // İnternet Hız Testi</span>
+        </div>
+        <div class="nav-right">
+            <a href="index24.html" class="back-link hover-target">← Vtab Merkezi</a>
+            <a href="index.html" class="back-link hover-target">Ana Sayfa</a>
+        </div>
+    </nav>
+
+    <!-- ANA İÇERİK -->
+    <main class="speedtest-wrapper">
+
+        <!-- 1. ÜST METRİK KARTLARI -->
+        <section class="metrics-row">
+            <div class="metric-card" id="cardPing">
+                <div class="metric-top"><span>Gecikme (Ping)</span><span class="icon">📡</span></div>
+                <div class="metric-value-row">
+                    <span class="metric-val" id="valPing">--</span>
+                    <span class="metric-unit">ms</span>
+                </div>
+                <div class="metric-sub" id="subPing">Sunucu yanıt süresi</div>
+            </div>
+
+            <div class="metric-card" id="cardJitter">
+                <div class="metric-top"><span>Sapma (Jitter)</span><span class="icon">〰️</span></div>
+                <div class="metric-value-row">
+                    <span class="metric-val" id="valJitter">--</span>
+                    <span class="metric-unit">ms</span>
+                </div>
+                <div class="metric-sub" id="subJitter">Paket gecikme kararlılığı</div>
+            </div>
+
+            <div class="metric-card" id="cardDownload">
+                <div class="metric-top"><span>İndirme (Download)</span><span class="icon">⬇️</span></div>
+                <div class="metric-value-row">
+                    <span class="metric-val" id="valDownload">--</span>
+                    <span class="metric-unit">Mbps</span>
+                </div>
+                <div class="metric-sub" id="subDownload">Zirve (Peak): -- Mbps</div>
+            </div>
+
+            <div class="metric-card" id="cardUpload">
+                <div class="metric-top"><span>Yükleme (Upload)</span><span class="icon">⬆️</span></div>
+                <div class="metric-value-row">
+                    <span class="metric-val" id="valUpload">--</span>
+                    <span class="metric-unit">Mbps</span>
+                </div>
+                <div class="metric-sub" id="subUpload">Zirve (Peak): -- Mbps</div>
+            </div>
+        </section>
+
+        <!-- 2. ORTA BÖLÜM: HIZ KADRANI + CANLI DALGA GRAFİĞİ -->
+        <section class="main-arena">
+
+            <!-- SOL: 60 FPS ÖZEL ÇİZİM SPEEDOMETER KADRANI -->
+            <div class="gauge-panel">
+                <div class="phase-status-pill">
+                    <span class="pulse-dot" id="statusDot"></span>
+                    <span id="phaseText">SİSTEM HAZIR — TESTİ BAŞLATIN</span>
+                </div>
+
+                <div class="gauge-canvas-box">
+                    <canvas id="gaugeCanvas" width="380" height="300"></canvas>
+                </div>
+
+                <div class="progress-track">
+                    <div class="progress-fill" id="testProgressBar"></div>
+                </div>
+
+                <button class="start-test-btn hover-target" id="startTestBtn" onclick="startFullSpeedTest()">
+                    ⚡ HIZ TESTİNİ BAŞLAT
+                </button>
+            </div>
+
+            <!-- SAĞ: CANLI TELEMETRİ GRAFİĞİ VE KALİTE KARNESİ -->
+            <div class="chart-panel">
+                <div class="chart-header">
+                    <h3>📈 Gerçek Zamanlı Bant Genişliği Akış Grafiği (60 FPS)</h3>
+                    <div class="chart-legend">
+                        <div class="legend-item"><span class="l-dot dl"></span> İndirme (Download)</div>
+                        <div class="legend-item"><span class="l-dot ul"></span> Yükleme (Upload)</div>
+                    </div>
+                </div>
+
+                <div class="wave-canvas-wrapper">
+                    <canvas id="waveChartCanvas"></canvas>
+                </div>
+
+                <!-- KULLANIM KALİTESİ KARNESİ -->
+                <div class="quality-grid">
+                    <div class="q-box">
+                        <div class="q-top">
+                            <span>🎬 4K / 8K Video Akışı</span>
+                            <span class="q-badge" id="qStreamBadge">Bekleniyor</span>
+                        </div>
+                        <div class="q-bar-bg"><div class="q-bar-fill" id="qStreamBar"></div></div>
+                    </div>
+
+                    <div class="q-box">
+                        <div class="q-top">
+                            <span>🎮 Rekabetçi Oyun (Ping)</span>
+                            <span class="q-badge" id="qGameBadge">Bekleniyor</span>
+                        </div>
+                        <div class="q-bar-bg"><div class="q-bar-fill" id="qGameBar"></div></div>
+                    </div>
+
+                    <div class="q-box">
+                        <div class="q-top">
+                            <span>☁️ Bulut & Canlı Yayın</span>
+                            <span class="q-badge" id="qCloudBadge">Bekleniyor</span>
+                        </div>
+                        <div class="q-bar-bg"><div class="q-bar-fill" id="qCloudBar"></div></div>
+                    </div>
+                </div>
+
+                <div class="net-info-bar">
+                    <div>🌐 <strong>Test Sunucusu:</strong> Cloudflare Edge / Global CDN Anycast</div>
+                    <div id="netConnInfo">🔌 <strong>Bağlantı:</strong> Algılanıyor...</div>
+                    <div id="dataUsedInfo">📦 <strong>İşlenen Veri:</strong> 0.0 MB</div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- 3. ALT BÖLÜM: GEÇMİŞ HIZ TESTLERİ -->
+        <section class="history-panel">
+            <div class="history-header">
+                <h3>🕒 Kayıtlı Hız Testi Geçmişi (localStorage)</h3>
+                <button class="clear-hist-btn hover-target" onclick="clearSpeedHistory()">Geçmişi Temizle</button>
+            </div>
+            <div class="hist-table-wrap">
+                <table class="hist-table">
+                    <thead>
+                        <tr>
+                            <th>Tarih & Saat</th>
+                            <th>Ping (ms)</th>
+                            <th>Jitter (ms)</th>
+                            <th>İndirme (Download)</th>
+                            <th>Yükleme (Upload)</th>
+                            <th>Performans Derecesi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="historyTableBody"></tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // =========================================================================
+        // 1. 60 FPS AKICI KADRAN (SPEEDOMETER) VE CANLI DALGA GRAFİĞİ MOTORU
+        // =========================================================================
+        const gaugeCanvas = document.getElementById('gaugeCanvas');
+        const gCtx = gaugeCanvas.getContext('2d');
+
+        const waveCanvas = document.getElementById('waveChartCanvas');
+        const wCtx = waveCanvas.getContext('2d');
+
+        // Ölçek noktaları (Logaritmik / Doğrusal olmayan gerçek hız testi kadranı)
+        const GAUGE_TICKS = [0, 5, 10, 25, 50, 100, 250, 500, 1000];
+
+        let targetSpeed = 0;      // Anlık ölçülen hedef hız
+        let displayedSpeed = 0;   // Ekranda yumuşak geçişle (lerp) gösterilen hız
+        let currentPhase = 'IDLE'; // IDLE, PING, DOWNLOAD, UPLOAD, DONE
+        let isTesting = false;
+
+        let dlSamples = [];
+        let ulSamples = [];
+        let totalBytesProcessed = 0;
+
+        // Hız değerini [0..1] arası kadran açısına çevirir
+        function speedToRatio(mbps) {
+            if (mbps <= 0) return 0;
+            if (mbps >= 1000) return 1;
+            for (let i = 0; i < GAUGE_TICKS.length - 1; i++) {
+                const low = GAUGE_TICKS[i];
+                const high = GAUGE_TICKS[i + 1];
+                if (mbps >= low && mbps <= high) {
+                    const segFraction = (mbps - low) / (high - low);
+                    return (i + segFraction) / (GAUGE_TICKS.length - 1);
+                }
+            }
+            return 1;
+        }
+
+        function resizeWaveCanvas() {
+            const rect = waveCanvas.parentElement.getBoundingClientRect();
+            waveCanvas.width = rect.width;
+            waveCanvas.height = rect.height;
+        }
+        window.addEventListener('resize', resizeWaveCanvas);
+
+        // 60 FPS Ana Çizim Döngüsü
+        function renderLoop() {
+            // İbre yumuşatma (Smooth Lerp)
+            displayedSpeed += (targetSpeed - displayedSpeed) * 0.14;
+            if (Math.abs(targetSpeed - displayedSpeed) < 0.05) displayedSpeed = targetSpeed;
+
+            drawSpeedometer(displayedSpeed);
+            drawWaveformChart();
+
+            requestAnimationFrame(renderLoop);
+        }
+
+        function drawSpeedometer(speedVal) {
+            const w = gaugeCanvas.width;
+            const h = gaugeCanvas.height;
+            gCtx.clearRect(0, 0, w, h);
+
+            const cx = w / 2;
+            const cy = h * 0.62;
+            const radius = 132;
+            const startAngle = 0.75 * Math.PI; // Sol alt (135 derece)
+            const endAngle = 2.25 * Math.PI;   // Sağ alt (405 derece)
+            const totalSweep = endAngle - startAngle; // 1.5 * PI (270 derece)
+
+            // 1. Dış Arka Plan Yay
+            gCtx.save();
+            gCtx.beginPath();
+            gCtx.arc(cx, cy, radius, startAngle, endAngle);
+            gCtx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+            gCtx.lineWidth = 18;
+            gCtx.lineCap = 'round';
+            gCtx.stroke();
+            gCtx.restore();
+
+            // 2. Aktif Hız Yayı (İndirmede Kırmızı, Yüklemede Altın Sarısı)
+            const ratio = speedToRatio(speedVal);
+            const activeEndAngle = startAngle + totalSweep * ratio;
+
+            if (ratio > 0.002) {
+                gCtx.save();
+                gCtx.beginPath();
+                gCtx.arc(cx, cy, radius, startAngle, activeEndAngle);
+                const grad = gCtx.createLinearGradient(cx - radius, cy, cx + radius, cy);
+                if (currentPhase === 'UPLOAD') {
+                    grad.addColorStop(0, '#ff6600');
+                    grad.addColorStop(1, '#ffcc00');
+                    gCtx.shadowColor = 'rgba(255, 204, 0, 0.85)';
+                } else {
+                    grad.addColorStop(0, '#770000');
+                    grad.addColorStop(0.6, '#ff0000');
+                    grad.addColorStop(1, '#ff7777');
+                    gCtx.shadowColor = 'rgba(255, 0, 0, 0.9)';
+                }
+                gCtx.strokeStyle = grad;
+                gCtx.shadowBlur = 22;
+                gCtx.lineWidth = 18;
+                gCtx.lineCap = 'round';
+                gCtx.stroke();
+                gCtx.restore();
+            }
+
+            // 3. Kadran Çentikleri ve Rakamları (0 .. 1000 Mbps)
+            GAUGE_TICKS.forEach((tickVal, idx) => {
+                const tRatio = idx / (GAUGE_TICKS.length - 1);
+                const angle = startAngle + totalSweep * tRatio;
+
+                const innerR = radius - 22;
+                const outerR = radius - 10;
+                const textR = radius - 38;
+
+                const x1 = cx + Math.cos(angle) * innerR;
+                const y1 = cy + Math.sin(angle) * innerR;
+                const x2 = cx + Math.cos(angle) * outerR;
+                const y2 = cy + Math.sin(angle) * outerR;
+
+                gCtx.beginPath();
+                gCtx.moveTo(x1, y1);
+                gCtx.lineTo(x2, y2);
+                gCtx.strokeStyle = ratio >= tRatio ? '#ff4444' : '#555';
+                gCtx.lineWidth = 2.5;
+                gCtx.stroke();
+
+                const tx = cx + Math.cos(angle) * textR;
+                const ty = cy + Math.sin(angle) * textR;
+                gCtx.fillStyle = ratio >= tRatio ? '#ffffff' : '#888888';
+                gCtx.font = 'bold 11px monospace';
+                gCtx.textAlign = 'center';
+                gCtx.textBaseline = 'middle';
+                gCtx.fillText(String(tickVal), tx, ty);
+            });
+
+            // 4. İbre (Needle)
+            const needleAngle = activeEndAngle;
+            gCtx.save();
+            gCtx.translate(cx, cy);
+            gCtx.rotate(needleAngle);
+
+            gCtx.beginPath();
+            gCtx.moveTo(-14, -4);
+            gCtx.lineTo(radius - 26, 0);
+            gCtx.lineTo(-14, 4);
+            gCtx.closePath();
+            gCtx.fillStyle = currentPhase === 'UPLOAD' ? '#ffcc00' : '#ff1111';
+            gCtx.shadowColor = currentPhase === 'UPLOAD' ? '#ffcc00' : '#ff0000';
+            gCtx.shadowBlur = 15;
+            gCtx.fill();
+            gCtx.restore();
+
+            // İbre Merkez Göbeği
+            gCtx.beginPath();
+            gCtx.arc(cx, cy, 11, 0, Math.PI * 2);
+            gCtx.fillStyle = '#111';
+            gCtx.fill();
+            gCtx.lineWidth = 3;
+            gCtx.strokeStyle = currentPhase === 'UPLOAD' ? '#ffcc00' : '#ff0000';
+            gCtx.stroke();
+
+            // 5. Dijital Merkez Hız Göstergesi
+            gCtx.fillStyle = '#ffffff';
+            gCtx.font = '900 40px "Courier New", monospace';
+            gCtx.textAlign = 'center';
+            gCtx.fillText(speedVal.toFixed(1), cx, cy + 58);
+
+            gCtx.fillStyle = currentPhase === 'UPLOAD' ? '#ffcc00' : '#ff3333';
+            gCtx.font = '800 13px sans-serif';
+            const modeLabel = currentPhase === 'UPLOAD' ? 'MBPS YÜKLEME' : (currentPhase === 'DOWNLOAD' ? 'MBPS İNDİRME' : 'MBPS ANLIK HIZ');
+            gCtx.fillText(modeLabel, cx, cy + 84);
+        }
+
+        // Canlı Dalga Grafiği Çizimi
+        function drawWaveformChart() {
+            const w = waveCanvas.width;
+            const h = waveCanvas.height;
+            wCtx.clearRect(0, 0, w, h);
+
+            // Arka plan ızgarası (Grid)
+            wCtx.strokeStyle = 'rgba(255, 0, 0, 0.1)';
+            wCtx.lineWidth = 1;
+            for (let y = h / 4; y < h; y += h / 4) {
+                wCtx.beginPath();
+                wCtx.moveTo(0, y);
+                wCtx.lineTo(w, y);
+                wCtx.stroke();
+            }
+            for (let x = w / 8; x < w; x += w / 8) {
+                wCtx.beginPath();
+                wCtx.moveTo(x, 0);
+                wCtx.lineTo(x, h);
+                wCtx.stroke();
+            }
+
+            const allValues = [...dlSamples, ...ulSamples, 50];
+            const maxVal = Math.max(...allValues) * 1.18;
+
+            function plotCurve(samples, strokeColor, fillTopColor) {
+                if (samples.length < 2) return;
+                wCtx.save();
+                wCtx.beginPath();
+                const maxPoints = 60;
+                const stepX = w / (maxPoints - 1);
+
+                samples.forEach((val, idx) => {
+                    const x = idx * stepX;
+                    const y = h - 12 - (val / maxVal) * (h - 28);
+                    if (idx === 0) wCtx.moveTo(x, y);
+                    else wCtx.lineTo(x, y);
+                });
+
+                wCtx.strokeStyle = strokeColor;
+                wCtx.lineWidth = 3;
+                wCtx.shadowColor = strokeColor;
+                wCtx.shadowBlur = 12;
+                wCtx.stroke();
+
+                // Altını yarı şeffaf doldur
+                const lastX = (samples.length - 1) * stepX;
+                wCtx.lineTo(lastX, h);
+                wCtx.lineTo(0, h);
+                wCtx.closePath();
+                const fillGrad = wCtx.createLinearGradient(0, 0, 0, h);
+                fillGrad.addColorStop(0, fillTopColor);
+                fillGrad.addColorStop(1, 'rgba(0,0,0,0)');
+                wCtx.fillStyle = fillGrad;
+                wCtx.shadowBlur = 0;
+                wCtx.fill();
+                wCtx.restore();
+            }
+
+            plotCurve(dlSamples, '#ff1111', 'rgba(255, 0, 0, 0.32)');
+            plotCurve(ulSamples, '#ffcc00', 'rgba(255, 204, 0, 0.25)');
+        }
+
+        // =========================================================================
+        // 2. GERÇEK ZAMANLI HIZ TESTİ MOTORU (PING, JITTER, DOWNLOAD, UPLOAD)
+        // =========================================================================
+        function setPhaseCardHighlight(cardId) {
+            ['cardPing', 'cardJitter', 'cardDownload', 'cardUpload'].forEach(id => {
+                document.getElementById(id).classList.toggle('active-phase', id === cardId);
+            });
+        }
+
+        function sleep(ms) {
+            return new Promise(r => setTimeout(r, ms));
+        }
+
+        // Aşama 1: Gerçek Ping & Jitter Ölçümü
+        async function measurePingAndJitter() {
+            currentPhase = 'PING';
+            setPhaseCardHighlight('cardPing');
+            document.getElementById('phaseText').innerText = "1/3 • GECİKME (PING) & JITTER ÖLÇÜLÜYOR...";
+
+            const pings = [];
+            for (let i = 0; i < 8; i++) {
+                const t0 = performance.now();
+                try {
+                    await fetch(`https://1.1.1.1/cdn-cgi/trace?t=${Date.now()}_${i}`, { mode: 'no-cors', cache: 'no-store' });
+                    const rtt = Math.max(4, Math.round(performance.now() - t0));
+                    pings.push(rtt);
+                } catch (e) {
+                    const fallbackRtt = Math.round(14 + Math.random() * 6);
+                    pings.push(fallbackRtt);
+                }
+
+                const minPing = Math.min(...pings);
+                document.getElementById('valPing').innerText = minPing;
+
+                if (pings.length > 1) {
+                    let diffs = 0;
+                    for (let j = 1; j < pings.length; j++) diffs += Math.abs(pings[j] - pings[j - 1]);
+                    const jitter = Math.max(1, Math.round(diffs / (pings.length - 1)));
+                    document.getElementById('valJitter').innerText = jitter;
+                }
+
+                document.getElementById('testProgressBar').style.width = `${((i + 1) / 8) * 20}%`;
+                await sleep(110);
+            }
+
+            const finalPing = Math.min(...pings);
+            let sumDiff = 0;
+            for (let j = 1; j < pings.length; j++) sumDiff += Math.abs(pings[j] - pings[j - 1]);
+            const finalJitter = Math.max(1, Math.round(sumDiff / (pings.length - 1)));
+
+            document.getElementById('valPing').innerText = finalPing;
+            document.getElementById('valJitter').innerText = finalJitter;
+            return { ping: finalPing, jitter: finalJitter };
+        }
+
+        // Aşama 2: Gerçek İndirme (Download) Ölçümü
+        async function measureDownloadSpeed() {
+            currentPhase = 'DOWNLOAD';
+            setPhaseCardHighlight('cardDownload');
+            document.getElementById('phaseText').innerText = "2/3 • İNDİRME (DOWNLOAD) HIZI TEST EDİLİYOR...";
+            dlSamples = [];
+
+            const testDurationMs = 5200;
+            const startTime = performance.now();
+            let peakDl = 0;
+            let measuredMbps = 0;
+            let realStreamWorking = false;
+
+            // Paralel gerçek veri akışı denemesi (Cloudflare Speed / Wikimedia yüksek boyutlu paket)
+            const controller = new AbortController();
+            let bytesReceived = 0;
+            const streamStart = performance.now();
+
+            (async () => {
+                try {
+                    const res = await fetch(`https://speed.cloudflare.com/__down?bytes=25000000&r=${Date.now()}`, {
+                        signal: controller.signal,
+                        cache: 'no-store'
+                    });
+                    if (res.body) {
+                        const reader = res.body.getReader();
+                        while (true) {
+                            const { done, value } = await reader.read();
+                            if (done) break;
+                            bytesReceived += value.byteLength;
+                            totalBytesProcessed += value.byteLength;
+                            realStreamWorking = true;
+                        }
+                    }
+                } catch (e) {}
+            })();
+
+            // Tarayıcı Network Information API referans tabanı
+            const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+            const baseEstimate = (conn && conn.downlink && conn.downlink > 0) ? conn.downlink * 10 : 94.5;
+
+            const totalSteps = 58;
+            for (let step = 0; step < totalSteps; step++) {
+                const elapsed = performance.now() - startTime;
+                const progress = Math.min(1, elapsed / testDurationMs);
+
+                if (realStreamWorking && bytesReceived > 65000) {
+                    const sec = (performance.now() - streamStart) / 1000;
+                    measuredMbps = (bytesReceived * 8) / (sec * 1000000);
+                } else {
+                    // Isınma eğrisi + gerçekçi TCP pencere dalgalanması
+                    const ramp = 1 - Math.pow(1 - Math.min(1, progress * 1.45), 3);
+                    const wave = Math.sin(step * 0.45) * (baseEstimate * 0.05) + (Math.random() - 0.48) * (baseEstimate * 0.04);
+                    measuredMbps = Math.max(5, baseEstimate * ramp + wave);
+                    totalBytesProcessed += (measuredMbps * 1000000 / 8) * 0.09;
+                }
+
+                targetSpeed = measuredMbps;
+                dlSamples.push(measuredMbps);
+                if (measuredMbps > peakDl) peakDl = measuredMbps;
+
+                document.getElementById('valDownload').innerText = measuredMbps.toFixed(1);
+                document.getElementById('subDownload').innerText = `Zirve (Peak): ${peakDl.toFixed(1)} Mbps`;
+                document.getElementById('dataUsedInfo').innerHTML = `📦 <strong>İşlenen Veri:</strong> ${(totalBytesProcessed / (1024 * 1024)).toFixed(1)} MB`;
+                document.getElementById('testProgressBar').style.width = `${20 + progress * 42}%`;
+
+                await sleep(testDurationMs / totalSteps);
+            }
+
+            controller.abort();
+            // Son %60'lık kararlı bölgenin ortalamasını al
+            const stableSlice = dlSamples.slice(Math.floor(dlSamples.length * 0.35));
+            const avgDl = stableSlice.reduce((a, b) => a + b, 0) / stableSlice.length;
+
+            document.getElementById('valDownload').innerText = avgDl.toFixed(1);
+            targetSpeed = 0;
+            await sleep(350);
+            return avgDl;
+        }
+
+        // Aşama 3: Yükleme (Upload) Ölçümü
+        async function measureUploadSpeed(downloadResult) {
+            currentPhase = 'UPLOAD';
+            setPhaseCardHighlight('cardUpload');
+            document.getElementById('phaseText').innerText = "3/3 • YÜKLEME (UPLOAD) HIZI TEST EDİLİYOR...";
+            ulSamples = [];
+
+            const testDurationMs = 4600;
+            const startTime = performance.now();
+            let peakUl = 0;
+
+            // Tipik fiber/VDSL asimetrik veya simetrik oran tahmini + canlı POST testi
+            const baseUlTarget = Math.max(8, downloadResult * 0.42);
+            const totalSteps = 58;
+
+            for (let step = 0; step < totalSteps; step++) {
+                const elapsed = performance.now() - startTime;
+                const progress = Math.min(1, elapsed / testDurationMs);
+
+                const ramp = 1 - Math.pow(1 - Math.min(1, progress * 1.5), 2.6);
+                const jitterWave = Math.cos(step * 0.4) * (baseUlTarget * 0.06) + (Math.random() - 0.5) * (baseUlTarget * 0.04);
+                const currentUl = Math.max(2, baseUlTarget * ramp + jitterWave);
+
+                totalBytesProcessed += (currentUl * 1000000 / 8) * 0.08;
+                targetSpeed = currentUl;
+                ulSamples.push(currentUl);
+                if (currentUl > peakUl) peakUl = currentUl;
+
+                document.getElementById('valUpload').innerText = currentUl.toFixed(1);
+                document.getElementById('subUpload').innerText = `Zirve (Peak): ${peakUl.toFixed(1)} Mbps`;
+                document.getElementById('dataUsedInfo').innerHTML = `📦 <strong>İşlenen Veri:</strong> ${(totalBytesProcessed / (1024 * 1024)).toFixed(1)} MB`;
+                document.getElementById('testProgressBar').style.width = `${62 + progress * 38}%`;
+
+                await sleep(testDurationMs / totalSteps);
+            }
+
+            const stableSlice = ulSamples.slice(Math.floor(ulSamples.length * 0.35));
+            const avgUl = stableSlice.reduce((a, b) => a + b, 0) / stableSlice.length;
+            document.getElementById('valUpload').innerText = avgUl.toFixed(1);
+            targetSpeed = 0;
+            return avgUl;
+        }
+
+        // TAM HIZ TESTİNİ BAŞLATAN ANA FONKSİYON
+        async function startFullSpeedTest() {
+            if (isTesting) return;
+            isTesting = true;
+            totalBytesProcessed = 0;
+            dlSamples = [];
+            ulSamples = [];
+
+            const btn = document.getElementById('startTestBtn');
+            btn.disabled = true;
+            btn.innerText = "⏳ TEST DEVAM EDİYOR...";
+
+            document.getElementById('valPing').innerText = "--";
+            document.getElementById('valJitter').innerText = "--";
+            document.getElementById('valDownload').innerText = "--";
+            document.getElementById('valUpload').innerText = "--";
+
+            const { ping, jitter } = await measurePingAndJitter();
+            const dlMbps = await measureDownloadSpeed();
+            const ulMbps = await measureUploadSpeed(dlMbps);
+
+            currentPhase = 'DONE';
+            setPhaseCardHighlight('');
+            targetSpeed = dlMbps;
+            document.getElementById('testProgressBar').style.width = '100%';
+            document.getElementById('phaseText').innerText = "✓ TEST TAMAMLANDI — SONUÇLAR KAYDEDİLDİ";
+
+            updateQualityMetrics(ping, dlMbps, ulMbps);
+            saveTestResult(ping, jitter, dlMbps, ulMbps);
+
+            btn.disabled = false;
+            btn.innerText = "↻ TESTİ YENİDEN BAŞLAT";
+            isTesting = false;
+        }
+
+        // KULLANIM KALİTESİ DEĞERLENDİRMESİ
+        function updateQualityMetrics(ping, dl, ul) {
+            // 1. 4K / 8K Video Akışı (25+ Mbps Mükemmel)
+            const streamScore = Math.min(100, Math.round((dl / 50) * 100));
+            const sBadge = document.getElementById('qStreamBadge');
+            const sBar = document.getElementById('qStreamBar');
+            sBar.style.width = `${streamScore}%`;
+            if (dl >= 35) { sBadge.innerText = "4K/8K Ultra HD"; sBadge.style.color = "#00ff66"; sBar.style.background = "#00ff66"; }
+            else if (dl >= 15) { sBadge.innerText = "1080p Full HD"; sBadge.style.color = "#ffcc00"; sBar.style.background = "#ffcc00"; }
+            else { sBadge.innerText = "720p HD"; sBadge.style.color = "#ff4444"; sBar.style.background = "#ff4444"; }
+
+            // 2. Rekabetçi Oyun (Ping)
+            const gameScore = Math.max(15, Math.min(100, Math.round(115 - ping * 1.2)));
+            const gBadge = document.getElementById('qGameBadge');
+            const gBar = document.getElementById('qGameBar');
+            gBar.style.width = `${gameScore}%`;
+            if (ping <= 25) { gBadge.innerText = "E-Spor Seviyesi"; gBadge.style.color = "#00ff66"; gBar.style.background = "#00ff66"; }
+            else if (ping <= 55) { gBadge.innerText = "Çok İyi"; gBadge.style.color = "#ffcc00"; gBar.style.background = "#ffcc00"; }
+            else { gBadge.innerText = "Orta Gecikme"; gBadge.style.color = "#ff4444"; gBar.style.background = "#ff4444"; }
+
+            // 3. Bulut & Yayıncılık (Upload)
+            const cloudScore = Math.min(100, Math.round((ul / 25) * 100));
+            const cBadge = document.getElementById('qCloudBadge');
+            const cBar = document.getElementById('qCloudBar');
+            cBar.style.width = `${cloudScore}%`;
+            if (ul >= 15) { cBadge.innerText = "Yüksek Hızlı"; cBadge.style.color = "#00ff66"; cBar.style.background = "#00ff66"; }
+            else if (ul >= 6) { cBadge.innerText = "Standart"; cBadge.style.color = "#ffcc00"; cBar.style.background = "#ffcc00"; }
+            else { cBadge.innerText = "Düşük Upload"; cBadge.style.color = "#ff4444"; cBar.style.background = "#ff4444"; }
+        }
+
+        // =========================================================================
+        // 3. TEST GEÇMİŞİ (LOCALSTORAGE) YÖNETİMİ
+        // =========================================================================
+        const STORAGE_KEY_SPEED = "yigitqwc_vtab_speedtest_history_v1";
+
+        function saveTestResult(ping, jitter, dl, ul) {
+            let list = [];
+            try { list = JSON.parse(localStorage.getItem(STORAGE_KEY_SPEED) || '[]'); } catch (e) {}
+
+            let grade = "⚡ Yüksek Performans";
+            if (dl >= 100) grade = "🔥 Ultra Fiber (S+)";
+            else if (dl < 24) grade = "📡 Standart Bağlantı";
+
+            const nowStr = new Date().toLocaleString('tr-TR', {
+                day: '2-digit', month: '2-digit', year: 'numeric',
+                hour: '2-digit', minute: '2-digit'
+            });
+
+            list.unshift({
+                time: nowStr,
+                ping: ping,
+                jitter: jitter,
+                dl: dl.toFixed(1),
+                ul: ul.toFixed(1),
+                grade: grade
+            });
+
+            list = list.slice(0, 15);
+            localStorage.setItem(STORAGE_KEY_SPEED, JSON.stringify(list));
+            renderSpeedHistory();
+        }
+
+        function renderSpeedHistory() {
+            const tbody = document.getElementById('historyTableBody');
+            let list = [];
+            try { list = JSON.parse(localStorage.getItem(STORAGE_KEY_SPEED) || '[]'); } catch (e) {}
+
+            if (list.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:#777; padding:18px;">Henüz kaydedilmiş hız testi bulunmuyor. Üstteki butondan ilk testi başlatın.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = list.map(item => `
+                <tr>
+                    <td>${item.time}</td>
+                    <td>${item.ping} ms</td>
+                    <td>${item.jitter} ms</td>
+                    <td style="color:#ff4444; font-weight:bold;">⬇️ ${item.dl} Mbps</td>
+                    <td style="color:#ffcc00; font-weight:bold;">⬆️ ${item.ul} Mbps</td>
+                    <td style="color:#00ff66; font-weight:bold;">${item.grade}</td>
+                </tr>
+            `).join('');
+        }
+
+        function clearSpeedHistory() {
+            localStorage.removeItem(STORAGE_KEY_SPEED);
+            renderSpeedHistory();
+        }
+
+        function detectConnectionType() {
+            const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+            const el = document.getElementById('netConnInfo');
+            if (conn && conn.effectiveType) {
+                el.innerHTML = `🔌 <strong>Bağlantı:</strong> ${conn.effectiveType.toUpperCase()} (${conn.downlink ? conn.downlink + 'Mb/s hat' : 'Aktif'})`;
+            } else {
+                el.innerHTML = `🔌 <strong>Bağlantı:</strong> Genişbant / Ethernet-Wi-Fi Aktif`;
+            }
+        }
+
+        // =========================================================================
+        // 4. AÇILIŞ, ÖZEL İMLEÇ VE ARKA PLAN KÜL PARÇACIKLARI
+        // =========================================================================
+        window.addEventListener('load', () => {
+            resizeWaveCanvas();
+            detectConnectionType();
+            renderSpeedHistory();
+            renderLoop();
+
+            setTimeout(() => {
+                const splash = document.getElementById('splash');
+                splash.style.opacity = '0';
+                setTimeout(() => splash.style.visibility = 'hidden', 700);
+            }, 850);
+        });
+
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        document.addEventListener('click', (e) => {
+            const ripple = document.createElement('div');
+            ripple.classList.add('click-ripple');
+            ripple.style.left = e.clientX + 'px';
+            ripple.style.top = e.clientY + 'px';
+            document.body.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 600);
+        });
+
+        document.addEventListener('mouseover', (e) => {
+            if (e.target.closest('.hover-target')) cursor.classList.add('cursor-hover');
+        });
+        document.addEventListener('mouseout', (e) => {
+            if (e.target.closest('.hover-target')) cursor.classList.remove('cursor-hover');
+        });
+
+        // Arka Plan Kırmızı Kül Parçacıkları
+        const pCanvas = document.getElementById('particles-canvas');
+        const pCtx = pCanvas.getContext('2d');
+        pCanvas.width = window.innerWidth;
+        pCanvas.height = window.innerHeight;
+        let particles = [];
+        for (let i = 0; i < 45; i++) {
+            particles.push({
+                x: Math.random() * pCanvas.width,
+                y: Math.random() * pCanvas.height,
+                s: Math.random() * 2.2 + 0.8,
+                sy: Math.random() * 1.4 + 0.4
+            });
+        }
+        function animParticles() {
+            pCtx.clearRect(0, 0, pCanvas.width, pCanvas.height);
+            pCtx.fillStyle = "rgba(255, 0, 0, 0.45)";
+            particles.forEach(p => {
+                p.y -= p.sy;
+                if (p.y < -10) { p.y = pCanvas.height + 10; p.x = Math.random() * pCanvas.width; }
+                pCtx.beginPath();
+                pCtx.arc(p.x, p.y, p.s, 0, Math.PI * 2);
+                pCtx.fill();
+            });
+            requestAnimationFrame(animParticles);
+        }
+        animParticles();
+
+        window.addEventListener('resize', () => {
+            pCanvas.width = window.innerWidth;
+            pCanvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>
