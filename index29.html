@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#030101">
+<meta name="description" content="yigitqwc Clock: Pomodoro, kronometre, geri sayım ve odaklanma istatistikleri.">
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<title>yigitqwc | Clock — Odaklanma Merkezi</title>
+<style>
+:root{--bg-color:#030101;--accent-red:#ff1111;--text-color:#fff;--card-bg:rgba(12,1,2,.92);--border-red:rgba(255,0,0,.34);--muted:#a99599;--green:#48e49b;--gold:#ffd096;--ring-size:340px}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg-color);color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;min-height:100vh;overflow-x:hidden}
+button,input{font:inherit}button{cursor:pointer}a{text-decoration:none;color:inherit}button:disabled{opacity:.38;cursor:not-allowed}::selection{background:#a70000;color:#fff}
+/* ANA SAYFA: bg.jpg, vignette ve kirmizi kul parcaciklari */
+.hero-bg{position:fixed;inset:-2%;width:104%;height:104%;background-image:url('bg.jpg');background-position:center;background-size:cover;filter:brightness(.23) blur(2px);z-index:-3;pointer-events:none}
+.vignette{position:fixed;inset:0;pointer-events:none;z-index:-2;background:radial-gradient(circle at 50% 30%,rgba(0,0,0,.16) 5%,rgba(0,0,0,.82) 100%)}
+.ambient-grid{position:fixed;inset:0;pointer-events:none;z-index:-2;background-image:linear-gradient(rgba(200,0,0,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(200,0,0,.035) 1px,transparent 1px);background-size:64px 64px;mask-image:linear-gradient(to bottom,#000,transparent 86%)}
+#particles-canvas{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
+/* ANA SAYFA: ozgun kirmizi elmas, etkilesimde buyume ve tiklama halkasi */
+.custom-cursor{position:fixed;top:0;left:0;width:16px;height:16px;background:transparent;border:2px solid var(--accent-red);pointer-events:none;z-index:99999;transform:translate3d(-100px,-100px,0) translate(-50%,-50%) rotate(45deg);box-shadow:0 0 10px #f00,inset 0 0 5px #f00;will-change:transform;transition:width .2s,height .2s,background-color .2s}
+.custom-cursor::after{content:"";position:absolute;top:50%;left:50%;width:4px;height:4px;transform:translate(-50%,-50%);background:#f11}
+.custom-cursor.cursor-hover{width:32px;height:32px;background:rgba(255,0,0,.2)}
+.click-ripple{position:fixed;pointer-events:none;border-radius:50%;border:2px solid #f00;z-index:99998;transform:translate(-50%,-50%);box-shadow:0 0 15px rgba(255,0,0,.4);animation:clickRing .6s ease-out forwards}
+@keyframes clickRing{0%{width:0;height:0;opacity:1;border-width:4px}100%{width:120px;height:120px;opacity:0;border-width:1px}}
+/* Aynı Sharingan acilisi ve yigitqwc logo */
+#splash{position:fixed;z-index:100000;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#000;transition:opacity 1s ease,visibility 1s ease}
+.sharingan{width:90px;height:90px;margin-bottom:25px;animation:spin 2.5s linear infinite;filter:drop-shadow(0 0 20px rgba(255,0,0,.9))}
+@keyframes spin{to{transform:rotate(360deg)}}
+.logo-container{position:relative;text-decoration:none;color:#fff;display:inline-block;padding-bottom:4px}
+.logo-text{font-size:2.4rem;font-weight:900;letter-spacing:-.5px;display:inline-block;animation:glitch-anim 6s infinite}
+@keyframes glitch-anim{0%,93%,100%{text-shadow:0 0 15px rgba(255,0,0,.8);transform:translate(0)}94%{text-shadow:3px 0 0 red,-3px 0 0 white;transform:translate(3px,-2px)}96%{text-shadow:-3px 0 red,3px 0 white;transform:translate(-3px,2px)}98%{text-shadow:3px 0 red,-3px 0 white;transform:translate(3px,2px)}}
+.red-line-wrapper{position:absolute;bottom:0;left:0;width:100%;height:3px;background:rgba(255,0,0,.2);border-radius:2px;overflow:hidden}
+.red-line-wrapper::after{content:"";position:absolute;top:0;left:-50%;width:50%;height:100%;background:linear-gradient(90deg,transparent,#f00,#fff,#f00,transparent);box-shadow:0 0 8px red;animation:beamMove 2.5s linear infinite}
+@keyframes beamMove{to{left:100%}}
+/* Ust menudeki stil index24 Vtab ile aynidir */
+nav{position:relative;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:16px;background:rgba(5,0,0,.79);backdrop-filter:blur(12px);padding:1.2rem clamp(20px,4vw,54px);border-bottom:1px solid rgba(255,0,0,.27);box-shadow:0 0 30px rgba(0,0,0,.7)}
+.nav-left{display:flex;align-items:center;gap:22px;flex-wrap:wrap}nav .logo-text{font-size:2rem}
+.module-badge{background:rgba(255,0,0,.13);border:1px solid rgba(255,0,0,.58);border-radius:22px;padding:7px 15px;font-size:.75rem;font-weight:800;letter-spacing:1.6px;box-shadow:0 0 12px rgba(255,0,0,.17)}
+.back-link{font-size:.9rem;font-weight:700;color:#bbb;transition:color .25s,text-shadow .25s,transform .25s}.back-link:hover{color:#f22;text-shadow:0 0 12px #f00;transform:translateY(-2px)}
+.container{position:relative;z-index:5;max-width:1250px;margin:auto;padding:46px 24px 60px}
+.hero{text-align:center;margin-bottom:31px}.overline{font-size:10px;letter-spacing:4px;color:#ff5b67;font-weight:900;display:inline-flex;gap:12px;align-items:center}
+.overline::before,.overline::after{content:"";width:30px;height:1px;background:linear-gradient(90deg,transparent,#e31d1d)}.overline::after{transform:rotate(180deg)}
+h1{font-weight:950;font-size:clamp(40px,6.4vw,73px);letter-spacing:-2.8px;line-height:1.05;margin:13px 0;text-shadow:0 0 25px rgba(255,0,0,.2)}h1 span{color:#f22;text-shadow:0 0 24px rgba(255,0,0,.4)}
+.hero p{color:#b8a9ac;font-size:14px;line-height:1.75;margin:0 auto;max-width:640px}
+.hero-badges{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin-top:20px}.hero-badge{color:#d7c8c8;background:rgba(10,0,0,.77);border:1px solid rgba(255,0,0,.23);border-radius:40px;padding:8px 13px;font-size:11px;font-weight:800;letter-spacing:.35px}.hero-badge i{display:inline-block;width:6px;height:6px;background:#ff2626;border-radius:50%;box-shadow:0 0 9px #f00;margin-right:7px;vertical-align:middle}
+.workspace{display:grid;grid-template-columns:minmax(0,1.42fr) minmax(315px,.82fr);gap:22px;align-items:start}
+.card{background:var(--card-bg);border:1px solid var(--border-red);border-radius:18px;box-shadow:0 18px 50px rgba(0,0,0,.58),inset 0 1px rgba(255,255,255,.035);backdrop-filter:blur(12px);min-width:0;overflow:hidden;transition:transform .3s cubic-bezier(.2,.8,.2,1),background .3s,border-color .3s,box-shadow .3s}
+.card:hover{border-color:rgba(255,20,20,.68);background:rgba(19,1,2,.96);box-shadow:0 18px 50px rgba(0,0,0,.65),0 0 24px rgba(255,0,0,.16);transform:translateY(-2px)}
+.card-head{padding:19px 22px;display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid rgba(255,0,0,.18)}.card-head h2{font-size:13px;font-weight:900;letter-spacing:1px;margin:0}.card-code{font:700 10px/1.2 "Courier New",monospace;letter-spacing:1px;color:#ae7070}
+.mode-tabs{margin:23px 24px 0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding:5px;background:rgba(0,0,0,.44);border:1px solid rgba(255,0,0,.16);border-radius:14px}
+.mode-tab{background:transparent;color:#b9a3a6;border:1px solid transparent;border-radius:10px;padding:13px 8px;font-weight:800;font-size:12px;transition:transform .22s,background .25s,color .25s,border-color .25s,box-shadow .25s}
+.mode-tab:hover{color:#fff;transform:scale(1.035);background:rgba(100,0,0,.5)}.mode-tab[aria-selected="true"]{background:linear-gradient(145deg,#6e0000,#b60808);border-color:rgba(255,62,62,.65);color:#fff;box-shadow:0 0 18px rgba(255,0,0,.25)}
+.timer-stage{display:flex;flex-direction:column;align-items:center;padding:18px 20px 0}.timer-caption{display:flex;align-items:center;justify-content:center;gap:8px;letter-spacing:2.5px;color:#fa8181;font-size:10px;font-weight:900}.timer-caption .live-dot{width:6px;height:6px;background:#f11;border-radius:50%;box-shadow:0 0 8px #f00}.live-dot.blink{animation:liveblink 1.5s ease-in-out infinite}@keyframes liveblink{50%{opacity:.26}}
+.timer-ring{width:min(100%,var(--ring-size));aspect-ratio:1;position:relative;display:grid;place-items:center;margin:0 auto 5px;filter:drop-shadow(0 0 20px rgba(180,0,0,.08))}.timer-ring::before{content:"";position:absolute;inset:17px;border:1px dashed rgba(255,0,0,.20);border-radius:50%;animation:ringRotate 70s linear infinite}.timer-ring::after{content:"";position:absolute;inset:43px;border:1px solid rgba(255,0,0,.08);border-radius:50%;pointer-events:none}@keyframes ringRotate{to{transform:rotate(360deg)}}
+.timer-svg{width:100%;height:100%;position:relative;z-index:1;overflow:visible}.track{stroke:rgba(255,32,32,.11);stroke-width:13;fill:none}.ring-track-light{fill:none;stroke:rgba(255,0,0,.05);stroke-width:1;stroke-dasharray:2 8}.progress-ring{fill:none;stroke:url(#timerGradient);stroke-width:13;stroke-linecap:round;transform:rotate(-90deg);transform-origin:180px 180px;transition:stroke-dashoffset .19s linear;filter:url(#redGlow)}.ring-dot{fill:#fff;stroke:#f00;stroke-width:3;filter:drop-shadow(0 0 8px #f00)}
+.timer-center{position:absolute;z-index:2;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;gap:10px;pointer-events:none}.time-value{font-family:"Segoe UI",Roboto,sans-serif;font-variant-numeric:tabular-nums;font-size:clamp(48px,7vw,70px);letter-spacing:-3px;font-weight:850;line-height:1;text-shadow:0 0 25px rgba(255,0,0,.22)}.time-value.stopwatch-value{font-size:clamp(40px,5.2vw,57px)}.time-label{font-size:10px;letter-spacing:2.1px;color:#c9a2a8;font-weight:800}.time-micro{font-size:11px;color:#91787b;letter-spacing:.45px;max-width:200px;line-height:1.5}
+.phase-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:2px 0 12px}.phase-btn{border:1px solid rgba(255,0,0,.26);background:rgba(15,0,0,.88);border-radius:30px;color:#ba9b9e;font-size:11px;font-weight:800;padding:10px 14px;transition:transform .23s,background .23s,border-color .23s,color .23s,box-shadow .23s}.phase-btn:hover{transform:scale(1.045);background:rgba(95,0,0,.66);color:#fff}.phase-btn.active{color:#fff;background:rgba(154,0,0,.4);border-color:#f11;box-shadow:0 0 16px rgba(255,0,0,.18)}
+.rounds{display:flex;align-items:center;justify-content:center;gap:8px;color:#a58d8f;font-size:11px;margin-bottom:12px}.round-dot{height:7px;width:28px;background:rgba(120,30,30,.35);border:1px solid rgba(255,50,50,.24);border-radius:6px;transition:background .25s,box-shadow .25s}.round-dot.done{background:#f11;box-shadow:0 0 10px rgba(255,0,0,.6)}
+.countdown-options{display:none;align-items:center;justify-content:center;flex-wrap:wrap;gap:9px;margin:0 22px 17px}.small-input{width:85px;padding:10px 12px;text-align:center;border:1px solid rgba(255,0,0,.3);background:#0b0203;color:white;border-radius:9px;outline:none;font-variant-numeric:tabular-nums}.small-input:focus{border-color:#f22;box-shadow:0 0 13px rgba(255,0,0,.2)}.field-label{font-size:11px;color:#caaeb1;font-weight:750}.preset-btn{border:1px solid rgba(255,0,0,.27);border-radius:9px;padding:10px 12px;background:rgba(45,0,0,.35);color:#dec4c5;font-size:11px;font-weight:850;transition:background .2s,transform .2s,border-color .2s}.preset-btn:hover{background:rgba(135,0,0,.63);border-color:#f33;transform:scale(1.055)}
+.timer-controls{display:flex;align-items:center;justify-content:center;gap:11px;flex-wrap:wrap;padding:11px 22px 24px}.btn{border-radius:11px;padding:14px 21px;color:#fff;font-size:12px;font-weight:900;letter-spacing:.75px;display:inline-flex;justify-content:center;align-items:center;gap:8px;border:1px solid rgba(255,0,0,.42);transition:background .2s,box-shadow .25s,transform .24s,border-color .24s}.btn:hover:not(:disabled){transform:translateY(-3px) scale(1.045);border-color:#f44;box-shadow:0 0 20px rgba(255,0,0,.27)}.btn-primary{background:linear-gradient(115deg,#810000,#e10c0c 57%,#870000);min-width:156px;box-shadow:0 0 19px rgba(255,0,0,.21)}.btn-primary:hover:not(:disabled){background:linear-gradient(115deg,#ae0000,#ff1a1a,#a30000)}.btn-secondary{background:rgba(22,3,4,.85)}.btn-small{background:rgba(44,0,0,.52);padding:14px 15px}.timer-bottom{display:flex;align-items:center;justify-content:space-between;gap:9px;padding:16px 23px;border-top:1px solid rgba(255,0,0,.14);color:#997d82;font-size:11px}.settings-link{padding:6px 0;background:none;border:0;color:#e3a2a2;font-weight:800;white-space:nowrap}.settings-link:hover{color:#fff;text-shadow:0 0 12px red}
+.sidebar{display:flex;flex-direction:column;gap:22px}.stats-inside{padding:22px}.stat-pair{display:grid;grid-template-columns:1fr 1fr;gap:12px}.stat-tile{border-radius:13px;padding:17px;background:rgba(34,0,0,.52);border:1px solid rgba(255,0,0,.23);transition:transform .25s,border-color .25s,box-shadow .25s,background .25s}.stat-tile:hover{transform:scale(1.04);border-color:#f22;background:rgba(80,0,0,.63);box-shadow:0 0 16px rgba(255,0,0,.2)}.stat-tile .stat-label{font-size:10px;color:#cba3a5;letter-spacing:1.2px;font-weight:850}.stat-tile strong{display:block;font-size:clamp(25px,3vw,34px);font-variant-numeric:tabular-nums;letter-spacing:-1.2px;margin:7px 0 3px}.stat-tile small{color:#8f757b;font-size:10px}
+.goal-box{display:flex;align-items:center;gap:16px;padding:18px 0 0}.goal-donut{height:90px;width:90px;min-width:90px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(#f00 var(--goal-angle,0deg),rgba(90,0,0,.65) 0);box-shadow:0 0 20px rgba(255,0,0,.15);position:relative;transition:background .25s}.goal-donut:after{content:"";position:absolute;inset:10px;border-radius:50%;background:#140304}.goal-donut span{z-index:1;font-weight:900;font-size:18px;font-variant-numeric:tabular-nums}.goal-copy{min-width:0}.goal-copy strong{font-size:12px;color:#fff}.goal-copy p{font-size:11px;line-height:1.65;color:#b4999e;margin:7px 0 0}.goal-copy p b{color:#ff6e6e}
+.minor-stats{border-top:1px solid rgba(255,0,0,.15);display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:19px;padding-top:17px;color:#ad9799;font-size:11px}.minor-stats strong{font-size:12px;color:#fff}
+.week-content{padding:22px}.weekly-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;font-size:11px;color:#9b8386}.weekly-header strong{color:#fff;font-size:13px}.weekly-chart{height:164px;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:7px;align-items:end}.day-bar{height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;min-width:0;gap:8px}.day-value{font-size:9px;white-space:nowrap;color:#c6a4a8;font-weight:800}.bar-track{height:117px;width:100%;max-width:35px;display:flex;align-items:flex-end;background:linear-gradient(to top,rgba(95,0,0,.24),rgba(60,0,0,.05));border-radius:8px;overflow:hidden;border:1px solid rgba(255,0,0,.14)}.bar-fill{width:100%;min-height:2px;background:linear-gradient(to top,#760000,#ff1b1b);border-radius:7px 7px 4px 4px;box-shadow:0 0 12px rgba(255,0,0,.25);transition:height .5s ease}.day-bar.today .bar-fill{background:linear-gradient(to top,#a10000,#ff4b4b);box-shadow:0 0 16px rgba(255,0,0,.58)}.day-name{font-size:10px;color:#987d80;font-weight:750}.day-bar.today .day-name{color:#ff7575}
+.history{margin-top:22px;padding-top:17px;border-top:1px solid rgba(255,0,0,.14)}.history-head{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:11px}.history-head h3{margin:0;font-size:12px;letter-spacing:.4px}.history-head small{color:#957b7f;font-size:10px}.history-list{display:grid;gap:8px}.history-item{padding:10px 12px;border:1px solid rgba(255,0,0,.13);border-radius:10px;background:rgba(35,0,0,.28);display:flex;align-items:center;justify-content:space-between;gap:6px;font-size:11px}.history-item strong{font-weight:850}.history-item small{color:#a08185;font-size:10px}.history-time{color:#fe8c8c;font-weight:850;white-space:nowrap}.history-empty{color:#92797e;font-size:11px;line-height:1.6;padding:9px 0}
+.lap-block{padding:0 23px 22px;display:none}.lap-head{font-size:11px;color:#d5b9ba;font-weight:850;margin-bottom:10px;letter-spacing:1px}.lap-list{display:grid;gap:6px;max-height:165px;overflow-y:auto}.lap-line{border:1px solid rgba(255,0,0,.16);border-radius:9px;background:rgba(33,0,0,.4);padding:9px 12px;display:flex;justify-content:space-between;gap:8px;font-size:11px}.lap-line span{color:#a58b8f}.lap-line strong{font-variant-numeric:tabular-nums}.lap-empty{font-size:11px;color:#9c8085}
+.feature-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:22px}.feature{border:1px solid rgba(255,0,0,.22);border-radius:15px;padding:19px 20px;background:rgba(13,1,2,.85);box-shadow:0 0 19px rgba(0,0,0,.37);transition:transform .24s,border-color .24s,background .24s,box-shadow .24s}.feature:hover{transform:translateY(-4px) scale(1.02);background:rgba(64,0,0,.82);border-color:#f22;box-shadow:0 0 22px rgba(255,0,0,.2)}.feature-icon{color:#ff4141;font-size:19px;margin-bottom:11px}.feature h3{font-size:12px;margin:0 0 8px}.feature p{color:#a68e90;font-size:11px;line-height:1.65;margin:0}
+footer{text-align:center;color:#80696b;font-size:10px;letter-spacing:1.4px;padding:0 14px 25px;position:relative;z-index:5}
+.toast{position:fixed;z-index:200000;left:50%;bottom:28px;transform:translate(-50%,35px);opacity:0;pointer-events:none;background:rgba(37,1,2,.97);border:1px solid #e21c1c;border-radius:13px;box-shadow:0 0 32px rgba(255,0,0,.28);color:#fff;padding:14px 21px;max-width:min(92vw,550px);text-align:center;font-size:12px;font-weight:750;transition:opacity .27s,transform .27s}.toast.show{opacity:1;transform:translate(-50%,0)}
+/* Ayarlar dialogu: kirmizi terminal temasi */
+.settings-overlay{position:fixed;z-index:120000;inset:0;background:rgba(0,0,0,.86);backdrop-filter:blur(11px);display:none;align-items:center;justify-content:center;padding:18px}.settings-overlay.open{display:flex}.settings-modal{max-width:490px;width:100%;border:1px solid #c60000;background:linear-gradient(165deg,#230304,#090102 70%);border-radius:17px;box-shadow:0 0 45px rgba(230,0,0,.28);overflow:hidden;animation:dialogEnter .28s ease}@keyframes dialogEnter{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:none}}.settings-header{display:flex;align-items:center;justify-content:space-between;gap:10px;background:rgba(105,0,0,.2);border-bottom:1px solid rgba(255,0,0,.3);padding:17px 21px}.settings-header h2{font-size:15px;margin:0}.icon-close{border:0;background:transparent;color:#f99;font-size:22px}.icon-close:hover{color:#fff}.settings-body{padding:21px;display:grid;gap:15px}.settings-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.setting-field label{display:block;color:#c9acac;font-size:11px;font-weight:800;margin-bottom:7px}.setting-field input[type="number"]{width:100%;padding:12px;border:1px solid rgba(255,0,0,.33);border-radius:10px;background:#090102;color:#fff;outline:0}.setting-field input:focus{border-color:#f11}.setting-switch{display:flex;justify-content:space-between;align-items:center;gap:15px;padding:11px 0;border-top:1px solid rgba(255,0,0,.13);font-size:12px;color:#d9c4c5}.setting-switch input{accent-color:#f11;width:17px;height:17px}.settings-actions{display:flex;gap:9px;justify-content:flex-end}.settings-note{color:#967e81;font-size:10px;line-height:1.6}.danger-button{font-size:11px;color:#ff8989;border:0;background:none;padding:8px 0}.danger-button:hover{color:#fff;text-decoration:underline}
+@media(max-width:1020px){.workspace{grid-template-columns:1fr}.sidebar{display:grid;grid-template-columns:1fr 1fr}.card:hover{transform:none}}
+@media(max-width:690px){nav{flex-wrap:wrap;padding:1rem 1.2rem}.container{padding:32px 13px 48px}.hero{margin-bottom:24px}.hero h1{letter-spacing:-1.5px}.sidebar{grid-template-columns:1fr}.feature-row{grid-template-columns:1fr}.mode-tabs{margin:16px 14px 0}.timer-stage{padding:16px 8px 0}.timer-controls{gap:8px;padding:9px 12px 22px}.btn{padding:13px 15px}.btn-primary{min-width:130px}.card-head{padding:18px}.timer-ring{width:min(100%,340px)}.mode-tab{font-size:11px;padding:12px 3px}.timer-bottom{padding:14px}.time-value{font-size:clamp(46px,11vw,64px)}.settings-grid{gap:9px}}
+@media(max-width:390px){.nav-left{gap:12px}.module-badge{font-size:.6rem;padding:6px 9px}.mode-tab{font-size:10px}.timer-controls .btn{flex:1}.time-value{font-size:46px}.timer-ring{width:100%}}
+@media(pointer:fine){*,*::before,*::after{cursor:none!important}}
+@media(pointer:coarse){.custom-cursor{display:none!important}*,*::before,*::after{cursor:auto!important}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="hero-bg" id="parallax-bg"></div><div class="vignette"></div><div class="ambient-grid"></div><canvas id="particles-canvas" aria-hidden="true"></canvas><div class="custom-cursor" id="cursor" aria-hidden="true"></div>
+<div id="splash" aria-hidden="true">
+ <svg class="sharingan" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="#990000" stroke="#111" stroke-width="4"/><circle cx="50" cy="50" r="24" fill="none" stroke="#111" stroke-width="2" opacity=".6"/><circle cx="50" cy="50" r="8" fill="#000"/><g><g transform="translate(50, 26)"><circle cx="0" cy="0" r="6" fill="#000"/><path d="M -6 0 Q -10 -15 5 -15 Q 0 -5 6 0 Z" fill="#000"/></g><g transform="translate(71, 62) rotate(120)"><circle cx="0" cy="0" r="6" fill="#000"/><path d="M -6 0 Q -10 -15 5 -15 Q 0 -5 6 0 Z" fill="#000"/></g><g transform="translate(29, 62) rotate(240)"><circle cx="0" cy="0" r="6" fill="#000"/><path d="M -6 0 Q -10 -15 5 -15 Q 0 -5 6 0 Z" fill="#000"/></g></g></svg>
+ <div class="logo-container"><div class="logo-text">yigitqwc</div><div class="red-line-wrapper"></div></div>
+</div>
+<nav>
+ <div class="nav-left"><a href="index.html" class="logo-container hover-target" aria-label="Ana sayfaya dön"><div class="logo-text">yigitqwc</div><div class="red-line-wrapper"></div></a><span class="module-badge">◈ VTAB / CLOCK SYSTEM</span></div>
+ <a href="index24.html" class="back-link hover-target">← Vtab'a Dön</a>
+</nav>
+<main class="container">
+ <header class="hero">
+  <div class="overline">YIGITQWC / FOCUS LAB</div>
+  <h1>YİGİT <span>QWC</span></h1>
+  <p>Odağını koru. Süreni takip et. Her oturumda biraz daha ilerle. Senin ritmin, senin zamanın.</p>
+  <div class="hero-badges"><span class="hero-badge"><i></i> POMODORO</span><span class="hero-badge">◷ KRONOMETRE</span><span class="hero-badge">◴ GERİ SAYIM</span><span class="hero-badge">▥ İSTATİSTİKLER</span></div>
+ </header>
+ <section class="workspace" aria-label="Clock odaklanma ve zaman kontrolü">
+  <article class="card timer-card">
+   <div class="card-head"><h2>01 / ZAMAN KONTROLÜ</h2><span class="card-code">FOCUS // ENGINE 01</span></div>
+   <div class="mode-tabs" role="tablist" aria-label="Sayaç türü">
+    <button id="tabPomodoro" class="mode-tab hover-target" role="tab" aria-selected="true" type="button" data-mode="pomodoro">◉ POMODORO</button>
+    <button id="tabStopwatch" class="mode-tab hover-target" role="tab" aria-selected="false" type="button" data-mode="stopwatch">◷ KRONOMETRE</button>
+    <button id="tabCountdown" class="mode-tab hover-target" role="tab" aria-selected="false" type="button" data-mode="countdown">◴ GERİ SAYIM</button>
+   </div>
+   <div class="timer-stage">
+    <div id="timerCaption" class="timer-caption"><span id="timerLiveDot" class="live-dot"></span><span id="timerCaptionText">ODAK ZAMANI</span></div>
+    <div class="timer-ring" aria-label="Zaman ilerleme göstergesi">
+     <svg class="timer-svg" viewBox="0 0 360 360" aria-hidden="true"><defs><linearGradient id="timerGradient" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#990000"/><stop offset="52%" stop-color="#ff1717"/><stop offset="100%" stop-color="#ff7777"/></linearGradient><filter id="redGlow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><circle class="ring-track-light" cx="180" cy="180" r="161"/><circle class="track" cx="180" cy="180" r="144"/><circle id="progressCircle" class="progress-ring" cx="180" cy="180" r="144"/><circle id="progressDot" class="ring-dot" cx="180" cy="36" r="6"/></svg>
+     <div class="timer-center"><div class="time-label" id="timeLabel">DERİN ODAK</div><div id="timeValue" class="time-value" role="timer" aria-live="off">25:00</div><div id="timeMicro" class="time-micro">Dikkatin sadece şu anda olsun.</div></div>
+    </div>
+    <div id="phaseOptions" class="phase-row" aria-label="Pomodoro aşaması"><button class="phase-btn active hover-target" type="button" data-phase="focus">◉ Odaklan</button><button class="phase-btn hover-target" type="button" data-phase="short">Kısa Mola</button><button class="phase-btn hover-target" type="button" data-phase="long">Uzun Mola</button></div>
+    <div id="roundOptions" class="rounds"><span>TUR</span><span id="roundPips" style="display:flex;gap:5px"><span class="round-dot"></span><span class="round-dot"></span><span class="round-dot"></span><span class="round-dot"></span></span><span id="roundLabel">0 / 4</span></div>
+    <div id="countdownOptions" class="countdown-options" aria-label="Geri sayım süresi">
+     <label class="field-label" for="countMinutes">Dakika</label><input id="countMinutes" class="small-input hover-target" type="number" inputmode="numeric" min="0" max="999" value="10"/>
+     <label class="field-label" for="countSeconds">Saniye</label><input id="countSeconds" class="small-input hover-target" type="number" inputmode="numeric" min="0" max="59" value="0"/>
+     <button class="preset-btn hover-target" data-minutes="5" type="button">5 dk</button><button class="preset-btn hover-target" data-minutes="15" type="button">15 dk</button><button class="preset-btn hover-target" data-minutes="30" type="button">30 dk</button>
+    </div>
+   </div>
+   <div class="timer-controls">
+    <button id="startBtn" type="button" class="btn btn-primary hover-target">▶ BAŞLAT</button>
+    <button id="resetBtn" type="button" class="btn btn-secondary hover-target">↻ SIFIRLA</button>
+    <button id="extraBtn" type="button" class="btn btn-small hover-target">↪ ATLA</button>
+   </div>
+   <div id="lapBlock" class="lap-block"><div class="lap-head">TUR KAYITLARI</div><div id="lapList" class="lap-list"><p class="lap-empty">Henüz tur kaydı yok.</p></div></div>
+   <div class="timer-bottom"><span id="shortcutHint">Kısayollar: Boşluk — Başlat/Duraklat · R — Sıfırla</span><button type="button" class="settings-link hover-target" id="openSettings">⚙ AYARLAR</button></div>
+  </article>
+  <aside class="sidebar" aria-label="Çalışma istatistikleri">
+   <section class="card"><div class="card-head"><h2>02 / GÜNLÜK PERFORMANS</h2><span class="card-code" id="todayDate">BUGÜN</span></div><div class="stats-inside">
+    <div class="stat-pair"><div class="stat-tile hover-target"><div class="stat-label">ODAK SÜRESİ</div><strong id="todayMinutes">0 dk</strong><small>Tamamlanan odak çalışması</small></div><div class="stat-tile hover-target"><div class="stat-label">POMODORO</div><strong id="todaySessions">0</strong><small>Tamamlanan oturum</small></div></div>
+    <div class="goal-box"><div id="goalDonut" class="goal-donut"><span id="goalPercent">0%</span></div><div class="goal-copy"><strong>GÜNLÜK ODAK HEDEFİ</strong><p><b id="goalMinutesText">0 / 120 dk</b> tamamlandı. Küçük adımlar büyük fark yaratır.</p></div></div>
+    <div class="minor-stats"><span>🔥 Devamlılık serisi</span><strong id="streakDays">0 gün</strong></div>
+   </div></section>
+   <section class="card"><div class="card-head"><h2>03 / GELİŞİM TAKİBİ</h2><span class="card-code">7 DAY ACTIVITY</span></div><div class="week-content">
+    <div class="weekly-header"><span>Son 7 gün</span><strong id="weeklyTotal">0 dakika</strong></div>
+    <div class="weekly-chart" id="weeklyChart" aria-label="Son 7 gündeki odaklanma dakikaları"></div>
+    <div class="history"><div class="history-head"><h3>SON OTURUMLAR</h3><small id="historyCount">0 kayıt</small></div><div id="historyList" class="history-list"><p class="history-empty">İlk Pomodoro oturumunu tamamladığında burada görünecek.</p></div></div>
+   </div></section>
+  </aside>
+ </section>
+ <section class="feature-row" aria-label="Clock özellikleri"><div class="feature"><div class="feature-icon">◉</div><h3>POMODORO ODAĞI</h3><p>25 dakikalık çalışma döngüleri, kısa/uzun molalar ve kişiselleştirilebilir süreler.</p></div><div class="feature"><div class="feature-icon">◷</div><h3>HASSAS ZAMAN TAKİBİ</h3><p>Kronometrede tur kaydı, geri sayımda özel süre ve arka planda doğru çalışan zaman hesabı.</p></div><div class="feature"><div class="feature-icon">▥</div><h3>KENDİ GELİŞİMİNİ GÖR</h3><p>Günlük hedef, yedi günlük grafik, tamamlanan odak oturumları ve cihazında saklanan geçmiş.</p></div></section>
+</main>
+<footer>yigitqwc © 2026 • VTAB CLOCK / FOCUS SYSTEM</footer>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<div id="settingsOverlay" class="settings-overlay" role="presentation"><section class="settings-modal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle"><div class="settings-header"><h2 id="settingsTitle">⚙ CLOCK / AYARLAR</h2><button id="closeSettings" class="icon-close hover-target" type="button" aria-label="Ayarları kapat">×</button></div><div class="settings-body">
+ <div class="settings-grid"><div class="setting-field"><label for="settingFocus">Odak süresi (dk)</label><input id="settingFocus" class="hover-target" type="number" min="1" max="180" value="25"/></div><div class="setting-field"><label for="settingShort">Kısa mola (dk)</label><input id="settingShort" class="hover-target" type="number" min="1" max="60" value="5"/></div><div class="setting-field"><label for="settingLong">Uzun mola (dk)</label><input id="settingLong" class="hover-target" type="number" min="1" max="90" value="15"/></div><div class="setting-field"><label for="settingGoal">Günlük hedef (dk)</label><input id="settingGoal" class="hover-target" type="number" min="10" max="720" value="120"/></div></div>
+ <label class="setting-switch hover-target">Süre bitiminde sesli uyarı <input id="settingSound" type="checkbox" checked/></label>
+ <label class="setting-switch hover-target">Oturumlar arasında otomatik geçiş <input id="settingAuto" type="checkbox"/></label>
+ <label class="setting-switch hover-target">Tarayıcı bildirimi <input id="settingNotify" type="checkbox"/></label>
+ <p class="settings-note">İstatistikler bu tarayıcıda saklanır ve yalnızca tamamlanan Pomodoro odak oturumları sayılır. Tarayıcı bildirimlerine izin vermen gerekebilir. Yeni süreler mevcut çalışan sayacı değiştirmez; sonraki oturumda geçerli olur.</p>
+ <div class="settings-actions"><button id="cancelSettings" class="btn btn-secondary hover-target" type="button">VAZGEÇ</button><button id="saveSettings" class="btn btn-primary hover-target" type="button">KAYDET</button></div>
+ <button id="clearHistory" class="danger-button hover-target" type="button">Çalışma istatistiklerini ve geçmişini temizle</button>
+</div></section></div>
+<script>
+'use strict';
+(() => {
+const $=id=>document.getElementById(id);
+const STORE='yigitqwc_clock_state_v1', STATS='yigitqwc_clock_stats_v1', SETTINGS='yigitqwc_clock_settings_v1';
+const getSaved=(key,fallback)=>{try{let v=JSON.parse(localStorage.getItem(key));return v&&typeof v==='object'?v:fallback}catch(e){return fallback}};
+const persist=(key,value)=>{try{localStorage.setItem(key,JSON.stringify(value))}catch(e){}};
+const defaults={focus:25,short:5,long:15,goal:120,sound:true,auto:false,notify:false};
+let settings={...defaults,...getSaved(SETTINGS,{})};
+const bounded=(v,min,max,backup)=>Number.isFinite(Number(v))?Math.min(max,Math.max(min,Math.round(Number(v)))):backup;
+settings.focus=bounded(settings.focus,1,180,25);settings.short=bounded(settings.short,1,60,5);settings.long=bounded(settings.long,1,90,15);settings.goal=bounded(settings.goal,10,720,120);
+const defaultTimers={mode:'pomodoro',pomodoro:{phase:'focus',rounds:0,remaining:settings.focus*60000,total:settings.focus*60000,deadline:null,running:false},stopwatch:{elapsed:0,startedAt:null,running:false,laps:[]},countdown:{remaining:600000,total:600000,deadline:null,running:false}};
+let saved=getSaved(STORE,{}),state={mode:['pomodoro','stopwatch','countdown'].includes(saved.mode)?saved.mode:'pomodoro',pomodoro:{...defaultTimers.pomodoro,...(saved.pomodoro||{})},stopwatch:{...defaultTimers.stopwatch,...(saved.stopwatch||{})},countdown:{...defaultTimers.countdown,...(saved.countdown||{})}};
+if(!Array.isArray(state.stopwatch.laps))state.stopwatch.laps=[];
+let stats=getSaved(STATS,{days:{},history:[]});if(!stats.days||typeof stats.days!=='object')stats.days={};if(!Array.isArray(stats.history))stats.history=[];
+const ROUND_CIRC=2*Math.PI*144;const circle=$('progressCircle');circle.style.strokeDasharray=String(ROUND_CIRC);
+let notifyAudio=null,toastTimeout=null;
+function dayKey(dt=new Date()){return `${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`}
+function dayRecord(k){const d=stats.days[k]||{};return {seconds:Math.max(0,Number(d.seconds)||0),sessions:Math.max(0,Number(d.sessions)||0)}}
+function saveState(){persist(STORE,state)}function saveStats(){persist(STATS,stats)}
+function pretty(ms,withMs=false){ms=Math.max(0,ms);const allSec=Math.ceil(ms/1000);const hrs=Math.floor(allSec/3600),min=Math.floor(allSec%3600/60),sec=allSec%60;const pad=n=>String(n).padStart(2,'0');if(withMs){let whole=Math.floor(ms/1000),tenth=Math.floor((ms%1000)/100);return `${pad(Math.floor(whole/60))}:${pad(whole%60)}.${tenth}`}return hrs>0?`${pad(hrs)}:${pad(min)}:${pad(sec)}`:`${pad(min)}:${pad(sec)}`}
+function toast(message){const el=$('toast');el.textContent=message;el.classList.add('show');clearTimeout(toastTimeout);toastTimeout=setTimeout(()=>el.classList.remove('show'),3700)}
+function makeAudio(){if(!settings.sound)return;try{const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;if(!notifyAudio)notifyAudio=new AC();if(notifyAudio.state==='suspended')notifyAudio.resume().catch(()=>{})}catch(e){}}
+function soundEnd(){if(!settings.sound)return;try{makeAudio();if(!notifyAudio)return;const t=notifyAudio.currentTime;[0,.21,.42].forEach((delay,i)=>{const o=notifyAudio.createOscillator(),g=notifyAudio.createGain();o.type='sine';o.frequency.value=i===2?880:660;g.gain.setValueAtTime(.0001,t+delay);g.gain.exponentialRampToValueAtTime(.065,t+delay+.02);g.gain.exponentialRampToValueAtTime(.0001,t+delay+.16);o.connect(g).connect(notifyAudio.destination);o.start(t+delay);o.stop(t+delay+.17)})}catch(e){}}
+function maybeNotify(title,text){if(!settings.notify||!('Notification' in window)||Notification.permission!=='granted')return;try{new Notification(title,{body:text,icon:'favicon.ico'})}catch(e){}}
+function pomTotal(phase){return settings[phase]*60000}
+function stopActive(){const now=Date.now(),m=state.mode,t=state[m];if(!t.running)return;if(m==='stopwatch'){t.elapsed=Math.max(0,t.elapsed+now-t.startedAt);t.startedAt=null}else{t.remaining=Math.max(0,t.deadline-now);t.deadline=null}t.running=false;saveState()}
+function setMode(mode){if(!['pomodoro','stopwatch','countdown'].includes(mode)||mode===state.mode)return;stopActive();state.mode=mode;saveState();render(true)}
+function setPhase(phase){if(!['focus','short','long'].includes(phase))return;const p=state.pomodoro;p.running=false;p.deadline=null;p.phase=phase;p.total=pomTotal(phase);p.remaining=p.total;saveState();render(true)}
+function prepareCountdown(){const m=bounded($('countMinutes').value,0,999,10),s=bounded($('countSeconds').value,0,59,0);$('countMinutes').value=m;$('countSeconds').value=s;const t=state.countdown;if(t.running)return false;if(m===0&&s===0){toast('Geri sayım için en az 1 saniye seç.');return false}t.total=(m*60+s)*1000;t.remaining=t.total;t.deadline=null;saveState();render();return true}
+function currentRemaining(timer){return timer.running?Math.max(0,timer.deadline-Date.now()):Math.max(0,timer.remaining)}
+function startPause(){const m=state.mode,t=state[m];if(t.running){stopActive();toast('Sayaç duraklatıldı.')}else{if(m==='countdown'&&t.remaining<=0){if(!prepareCountdown())return}if(m==='pomodoro'&&t.remaining<=0)t.remaining=t.total;if(m==='stopwatch')t.startedAt=Date.now();else t.deadline=Date.now()+t.remaining;t.running=true;makeAudio();saveState()}render()}
+function reset(){const m=state.mode,t=state[m];if(m==='stopwatch'){t.running=false;t.startedAt=null;t.elapsed=0;t.laps=[]}else{t.running=false;t.deadline=null;if(m==='pomodoro')t.total=pomTotal(t.phase);t.remaining=t.total}saveState();render(true);toast('Sayaç sıfırlandı.')}
+function advancePomodoro(fromCompletion=false){const p=state.pomodoro;const wasFocus=p.phase==='focus';p.running=false;p.deadline=null;if(wasFocus&&fromCompletion){p.rounds=bounded(p.rounds,0,999999,0)+1;const sec=Math.round(p.total/1000),k=dayKey();const d=dayRecord(k);d.seconds+=sec;d.sessions+=1;stats.days[k]=d;stats.history.unshift({at:new Date().toISOString(),seconds:sec});stats.history=stats.history.slice(0,60);saveStats();updateStats()}
+ const next=wasFocus?(p.rounds>0&&p.rounds%4===0?'long':'short'):'focus';p.phase=next;p.total=pomTotal(next);p.remaining=p.total;
+ if(fromCompletion){const msg=wasFocus?'Odak oturumu tamamlandı! Mola zamanı.':'Mola bitti! Yeni odak zamanı.';toast(msg);soundEnd();maybeNotify('yigitqwc Clock',msg)}
+ if(fromCompletion&&settings.auto){p.running=true;p.deadline=Date.now()+p.remaining}saveState();render(true)
+}
+function finishCountdown(){const t=state.countdown;t.remaining=0;t.deadline=null;t.running=false;saveState();render();soundEnd();toast('Geri sayım tamamlandı!');maybeNotify('yigitqwc Clock','Geri sayım tamamlandı!')}
+function skipOrLap(){if(state.mode==='pomodoro'){advancePomodoro(false);toast('Sonraki aşamaya geçildi.')}else if(state.mode==='stopwatch'){const t=state.stopwatch;const ms=t.elapsed+(t.running?Date.now()-t.startedAt:0);if(ms<1){toast('Önce kronometreyi başlat.');return}const prev=t.laps.length?t.laps[0].total:0;t.laps.unshift({total:ms,split:ms-prev});t.laps=t.laps.slice(0,30);saveState();renderLaps();toast('Tur kaydedildi.')}}
+function renderLaps(){const list=$('lapList');list.replaceChildren();const laps=state.stopwatch.laps;if(!laps.length){const p=document.createElement('p');p.className='lap-empty';p.textContent='Henüz tur kaydı yok.';list.append(p);return}laps.forEach((lap,i)=>{const row=document.createElement('div');row.className='lap-line';const a=document.createElement('span');a.textContent=`TUR ${String(laps.length-i).padStart(2,'0')}`;const b=document.createElement('strong');b.textContent=`+${pretty(lap.split,true)}  ·  ${pretty(lap.total,true)}`;row.append(a,b);list.append(row)})}
+function tick(){const now=Date.now();for(const mode of ['pomodoro','countdown']){const t=state[mode];if(t.running&&now>=t.deadline){if(mode==='pomodoro')advancePomodoro(true);else finishCountdown()}}updateClock()}
+function updateClock(){const m=state.mode,t=state[m];let left=0,progress=0;
+ if(m==='stopwatch'){left=t.elapsed+(t.running?Date.now()-t.startedAt:0);progress=(left%60000)/60000;$('timeValue').textContent=pretty(left,true)}
+ else{left=currentRemaining(t);progress=t.total?Math.max(0,Math.min(1,1-left/t.total)):0;$('timeValue').textContent=pretty(left)}
+ const circumference=ROUND_CIRC;circle.style.strokeDashoffset=String(circumference*(1-progress));const angle=(progress*360-90)*Math.PI/180;$('progressDot').setAttribute('cx',String(180+144*Math.cos(angle)));$('progressDot').setAttribute('cy',String(180+144*Math.sin(angle)));
+ $('timeValue').classList.toggle('stopwatch-value',m==='stopwatch');$('timerLiveDot').classList.toggle('blink',t.running);
+ $('startBtn').textContent=t.running?'Ⅱ DURAKLAT':'▶ BAŞLAT';
+ document.title=`${m==='stopwatch'?'⏱':m==='pomodoro'?'◉':'◴'} ${pretty(left,m==='stopwatch')} | yigitqwc Clock`;
+}
+function render(initial=false){const m=state.mode,p=state.pomodoro,c=state.countdown;document.querySelectorAll('.mode-tab').forEach(b=>{const selected=b.dataset.mode===m;b.setAttribute('aria-selected',String(selected))});$('phaseOptions').style.display=m==='pomodoro'?'flex':'none';$('roundOptions').style.display=m==='pomodoro'?'flex':'none';$('countdownOptions').style.display=m==='countdown'?'flex':'none';$('lapBlock').style.display=m==='stopwatch'?'block':'none';
+ $('extraBtn').style.display=m==='countdown'?'none':'inline-flex';$('extraBtn').textContent=m==='stopwatch'?'＋ TUR KAYDET':'↪ ATLA';
+ $('timerCaptionText').textContent=m==='pomodoro'?{focus:'ODAK ZAMANI',short:'KISA MOLA',long:'UZUN MOLA'}[p.phase]:m==='stopwatch'?'GEÇEN SÜRE':'GERİ SAYIM';
+ $('timeLabel').textContent=m==='pomodoro'?{focus:'DERİN ODAK',short:'NEFES AL',long:'YENİLEN'}[p.phase]:m==='stopwatch'?'KRONOMETRE':'HEDEF ZAMAN';
+ $('timeMicro').textContent=m==='pomodoro'?(p.phase==='focus'?'Dikkatin sadece şu anda olsun.':'Molanı hak ettin. Biraz dinlen.'):m==='stopwatch'?'Her saniye kendi hikâyesini yazar.':'Zamanı sen belirle, gerisini bize bırak.';
+ document.querySelectorAll('.phase-btn').forEach(b=>{b.classList.toggle('active',b.dataset.phase===p.phase);b.setAttribute('aria-pressed',String(b.dataset.phase===p.phase))});
+ const done=p.phase==='long'&&p.rounds>0&&p.rounds%4===0?4:p.rounds%4;document.querySelectorAll('.round-dot').forEach((el,i)=>el.classList.toggle('done',i<done));$('roundLabel').textContent=`${done} / 4`;
+ $('shortcutHint').textContent=m==='stopwatch'?'Boşluk — Başlat/Duraklat · R — Sıfırla · L — Tur':m==='pomodoro'?'Boşluk — Başlat/Duraklat · R — Sıfırla':'Boşluk — Başlat/Duraklat · R — Sıfırla';
+ $('countMinutes').disabled=c.running;$('countSeconds').disabled=c.running;document.querySelectorAll('.preset-btn').forEach(b=>b.disabled=c.running);
+ if(initial){$('countMinutes').value=Math.floor(c.total/60000);$('countSeconds').value=Math.floor(c.total%60000/1000)}
+ renderLaps();updateClock()
+}
+function updateStats(){const today=dayRecord(dayKey()),mins=Math.round(today.seconds/60),target=settings.goal;
+ $('todayMinutes').textContent=`${mins} dk`;$('todaySessions').textContent=today.sessions;
+ $('goalMinutesText').textContent=`${mins} / ${target} dk`;const percent=Math.min(100,Math.round(100*mins/target));$('goalPercent').textContent=`${percent}%`;$('goalDonut').style.setProperty('--goal-angle',`${percent*3.6}deg`);
+ $('todayDate').textContent=new Intl.DateTimeFormat('tr-TR',{day:'numeric',month:'short'}).format(new Date()).toUpperCase();
+ let streak=0;let check=new Date();if(!dayRecord(dayKey(check)).sessions)check.setDate(check.getDate()-1);for(let i=0;i<365;i++){if(!dayRecord(dayKey(check)).sessions)break;streak++;check.setDate(check.getDate()-1)}$('streakDays').textContent=`${streak} gün`;
+ const now=new Date();const chart=$('weeklyChart');chart.replaceChildren();let vals=[],total=0;for(let i=6;i>=0;i--){const day=new Date(now.getFullYear(),now.getMonth(),now.getDate()-i),seconds=dayRecord(dayKey(day)).seconds;vals.push({day,minutes:Math.round(seconds/60),today:i===0});total+=seconds}
+ const max=Math.max(settings.goal,...vals.map(v=>v.minutes),1);for(const d of vals){const el=document.createElement('div');el.className='day-bar'+(d.today?' today':'');el.title=`${new Intl.DateTimeFormat('tr-TR',{day:'numeric',month:'long'}).format(d.day)}: ${d.minutes} dakika`;const value=document.createElement('div');value.className='day-value';value.textContent=d.minutes?`${d.minutes}dk`:'0';const track=document.createElement('div');track.className='bar-track';const fill=document.createElement('div');fill.className='bar-fill';fill.style.height=d.minutes?Math.max(4,Math.round(100*d.minutes/max))+'%':'2px';track.append(fill);const label=document.createElement('div');label.className='day-name';label.textContent=new Intl.DateTimeFormat('tr-TR',{weekday:'short'}).format(d.day).replace('.','').slice(0,3);el.append(value,track,label);chart.append(el)}
+ $('weeklyTotal').textContent=`${Math.round(total/60)} dakika`;
+ const list=$('historyList');list.replaceChildren();$('historyCount').textContent=`${stats.history.length} kayıt`;if(!stats.history.length){const p=document.createElement('p');p.className='history-empty';p.textContent='İlk Pomodoro oturumunu tamamladığında burada görünecek.';list.append(p)}else{stats.history.slice(0,4).forEach(item=>{const el=document.createElement('div');el.className='history-item';const left=document.createElement('div'),name=document.createElement('strong'),d=document.createElement('div');name.textContent='◉ Odak oturumu';d.append(name);const small=document.createElement('small');const at=new Date(item.at);small.textContent=' '+(Number.isNaN(at.getTime())?'':new Intl.DateTimeFormat('tr-TR',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}).format(at));left.append(d,small);const duration=document.createElement('span');duration.className='history-time';duration.textContent=`+${Math.round(Number(item.seconds)/60)||0} dk`;el.append(left,duration);list.append(el)})}
+}
+function openSettings(){for(const key of ['focus','short','long','goal'])$('setting'+key[0].toUpperCase()+key.slice(1)).value=settings[key];$('settingSound').checked=!!settings.sound;$('settingAuto').checked=!!settings.auto;$('settingNotify').checked=!!settings.notify;$('settingsOverlay').classList.add('open');$('closeSettings').focus()}
+function closeSettings(){$('settingsOverlay').classList.remove('open');$('openSettings').focus()}
+async function saveSettingsAction(){const next={...settings};for(const [key,min,max] of [['focus',1,180],['short',1,60],['long',1,90],['goal',10,720]]){const raw=$('setting'+key[0].toUpperCase()+key.slice(1)).value;const value=Number(raw);if(!Number.isInteger(value)||value<min||value>max){toast(`${key} için ${min}-${max} arasında bir tam sayı gir.`);return}next[key]=value}next.sound=$('settingSound').checked;next.auto=$('settingAuto').checked;next.notify=$('settingNotify').checked;
+ if(next.notify&&('Notification' in window)&&Notification.permission==='default'){try{const result=await Notification.requestPermission();if(result!=='granted'){next.notify=false;toast('Bildirim izni verilmedi; diğer ayarlar kaydedildi.')}}catch(e){next.notify=false}}
+ else if(next.notify&&(!('Notification' in window)||Notification.permission==='denied')){next.notify=false;toast('Tarayıcın bildirimlere izin vermiyor; diğer ayarlar kaydedildi.')}
+ settings=next;persist(SETTINGS,settings);let p=state.pomodoro;if(!p.running&&p.remaining===p.total){p.total=pomTotal(p.phase);p.remaining=p.total}saveState();updateStats();render();closeSettings();toast('Clock ayarları kaydedildi.')}
+function clearStats(){if(!confirm('Bütün Pomodoro istatistiklerin ve oturum geçmişin bu tarayıcıdan silinsin mi?'))return;stats={days:{},history:[]};saveStats();updateStats();closeSettings();toast('Çalışma geçmişi temizlendi.')}
+// Dinleyiciler
+for(const el of document.querySelectorAll('.mode-tab'))el.addEventListener('click',()=>setMode(el.dataset.mode));
+for(const el of document.querySelectorAll('.phase-btn'))el.addEventListener('click',()=>setPhase(el.dataset.phase));
+$('startBtn').addEventListener('click',startPause);$('resetBtn').addEventListener('click',reset);$('extraBtn').addEventListener('click',skipOrLap);
+for(const input of [$('countMinutes'),$('countSeconds')])input.addEventListener('change',()=>{if(!state.countdown.running)prepareCountdown()});
+for(const button of document.querySelectorAll('.preset-btn'))button.addEventListener('click',()=>{if(state.countdown.running)return;$('countMinutes').value=button.dataset.minutes;$('countSeconds').value='0';prepareCountdown()});
+$('openSettings').addEventListener('click',openSettings);$('closeSettings').addEventListener('click',closeSettings);$('cancelSettings').addEventListener('click',closeSettings);$('saveSettings').addEventListener('click',saveSettingsAction);$('clearHistory').addEventListener('click',clearStats);
+$('settingsOverlay').addEventListener('pointerdown',e=>{if(e.target===$('settingsOverlay'))closeSettings()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('settingsOverlay').classList.contains('open')){closeSettings();return}if(e.altKey||e.ctrlKey||e.metaKey||$('settingsOverlay').classList.contains('open'))return;const tag=document.activeElement?.tagName;if(['INPUT','TEXTAREA','SELECT'].includes(tag)||document.activeElement?.isContentEditable)return;if(e.code==='Space'){e.preventDefault();startPause()}else if(e.key.toLowerCase()==='r'){reset()}else if(e.key.toLowerCase()==='l'&&state.mode==='stopwatch'){skipOrLap()}});
+// Sayaclar saat farkina dayalidir; sekme arkaplana alindiginda bile sure kaymaz.
+setInterval(tick,100);document.addEventListener('visibilitychange',()=>{if(!document.hidden){tick();updateStats()}});
+// Acilista gecmis oturum tamamlanmis ise bir kez kaydet.
+tick();render(true);updateStats();
+// Sharingan acilisi: ana sayfayla ayni animasyon suresi.
+window.addEventListener('load',()=>{setTimeout(()=>{const s=$('splash');s.style.opacity='0';setTimeout(()=>s.style.visibility='hidden',1000)},1200)});
+setTimeout(()=>{const s=$('splash');if(s)s.style.visibility='hidden'},5000);
+// Ana sayfanin 16px -> 32px kirmizi elmas imlec sistemi (GPU ile akici)
+const cursor=$('cursor');let px=-100,py=-100,frame=0;const hoverSelector='a,button,input,label,.card,.stat-tile,.feature,.hero-badge,.module-badge,[role="button"]';
+const onHover=target=>target instanceof Element&&!!target.closest(hoverSelector);
+function drawCursor(){frame=0;cursor.style.transform=`translate3d(${px}px,${py}px,0) translate(-50%,-50%) rotate(45deg)`}
+document.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse'&&e.pointerType!=='pen')return;px=e.clientX;py=e.clientY;cursor.classList.toggle('cursor-hover',onHover(e.target));if(!frame)frame=requestAnimationFrame(drawCursor)},{passive:true});
+document.addEventListener('pointerover',e=>{if(e.pointerType==='mouse'||e.pointerType==='pen')cursor.classList.toggle('cursor-hover',onHover(e.target))},{passive:true});
+document.addEventListener('pointerout',e=>{if(e.pointerType==='mouse'||e.pointerType==='pen')cursor.classList.toggle('cursor-hover',onHover(e.relatedTarget))},{passive:true});
+document.addEventListener('click',e=>{if(e.detail===0)return;const ring=document.createElement('div');ring.className='click-ripple';ring.style.left=e.clientX+'px';ring.style.top=e.clientY+'px';document.body.append(ring);setTimeout(()=>ring.remove(),610)});
+// Orijinal ana sayfadaki 50 kirmizi kul parcacigi, dusuk CPU kullanan uyarlama.
+const bg=$('particles-canvas'),ctx=bg.getContext('2d');let particles=[],last=performance.now();const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function resize(){const ratio=Math.min(window.devicePixelRatio||1,2);const w=innerWidth,h=innerHeight;bg.width=Math.round(w*ratio);bg.height=Math.round(h*ratio);ctx.setTransform(ratio,0,0,ratio,0,0);particles=Array.from({length:50},()=>({x:Math.random()*w,y:Math.random()*h,s:Math.random()*2.5+1,sy:Math.random()*1.5+.5}))}
+function particlesFrame(now){const delta=Math.max(0,Math.min(2,(now-last)/16.667));last=now;ctx.clearRect(0,0,innerWidth,innerHeight);ctx.fillStyle='rgba(255,0,0,.5)';particles.forEach(p=>{if(!reduce)p.y-=p.sy*delta;if(p.y<-12){p.y=innerHeight+10;p.x=Math.random()*innerWidth}ctx.beginPath();ctx.arc(p.x,p.y,p.s,0,Math.PI*2);ctx.fill()});if(!reduce)requestAnimationFrame(particlesFrame)}
+resize();particlesFrame(performance.now());window.addEventListener('resize',resize,{passive:true});
+})();
+</script>
+</body>
+</html>
