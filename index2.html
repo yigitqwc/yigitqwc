@@ -306,29 +306,6 @@
             box-shadow: 0 0 12px rgba(255,0,0,0.8), inset 0 0 4px rgba(255,255,255,0.6);
         }
 
-        /* ================= 6. KATON KONTROLÜ (FIREBALL) ================= */
-        #view-fireball { flex-direction: column; align-items: center; justify-content: center; position: relative; }
-        .fireball-stats {
-            display: flex; gap: 28px; margin-bottom: 15px; background: rgba(0,0,0,0.85);
-            border: 1px solid var(--border-red); padding: 10px 28px; border-radius: 25px; font-weight: 800; font-size: 1.05rem;
-        }
-        .fireball-arena {
-            width: 310px; height: 310px; display: flex; align-items: center; justify-content: center;
-            border: 1px dashed rgba(255,0,0,0.3); border-radius: 50%; position: relative;
-        }
-        #fireball-core {
-            width: 70px; height: 70px; border-radius: 50%;
-            background: radial-gradient(circle, #ffffff 10%, #ffaa00 40%, #ff0000 75%, #440000 100%);
-            box-shadow: 0 0 30px #ff3300, 0 0 60px #ff0000, inset 0 0 15px #fff;
-            transition: width 0.05s linear, height 0.05s linear;
-        }
-        .fb-shake { animation: fbVibrate 0.08s infinite; }
-        @keyframes fbVibrate {
-            0% { transform: translate(2px, 1px); }
-            50% { transform: translate(-2px, -2px); }
-            100% { transform: translate(1px, -1px); }
-        }
-
         /* ================= 7. SHARINGAN REFLEKSİ (KAÇAN BUTON) ================= */
         #view-flee { flex-direction: column; align-items: center; justify-content: center; position: relative; width: 100%; height: 100%; }
         .flee-dashboard {
@@ -469,6 +446,126 @@
         }
 
         /* YIGITQWC ONLINE ISIM-SEHIR - independent layout / styles */
+/* ===== YIGITQWC / ONLINE OKEY - ISOLATED DESIGN ===== */
+#view-okey{height:calc(100vh - 70px);overflow:auto;align-items:flex-start;justify-content:center;padding:27px 25px 70px;scrollbar-width:thin;scrollbar-color:#9d182b transparent}
+#view-okey.active-view{display:flex}
+.ok-shell{width:min(1250px,100%);margin:0 auto;display:flex;flex-direction:column;gap:18px}
+.ok-shell button,.ok-shell input{font-family:inherit}
+.ok-hidden{display:none!important}
+.ok-hero{position:relative;overflow:hidden;min-height:170px;display:flex;justify-content:space-between;align-items:center;gap:22px;background:linear-gradient(115deg,rgba(22,3,7,.97),rgba(12,4,8,.94) 65%,rgba(65,6,15,.90));border:1px solid #ff465647;border-radius:22px;padding:31px 35px;box-shadow:0 22px 50px #000b,inset 0 1px #ffffff0b;isolation:isolate}
+.ok-hero:after{position:absolute;content:'';width:330px;height:330px;border:1px solid #e1323a25;border-radius:50%;right:-70px;top:-170px;box-shadow:0 0 0 45px #d9233310,0 0 0 90px #d9233309;z-index:-1}
+.ok-eyebrow{color:#fb6a75;font:800 11px 'Courier New',monospace;letter-spacing:2px;display:flex;align-items:center;gap:9px;margin-bottom:12px}
+.ok-beacon{width:8px;height:8px;background:#fa3f50;border-radius:50%;box-shadow:0 0 15px #f44;animation:okGlow 2s infinite alternate}
+@keyframes okGlow{to{opacity:.5;box-shadow:0 0 6px #f44}}
+.ok-hero h1{font-size:clamp(35px,5vw,58px);line-height:1;font-weight:950;letter-spacing:-2.5px;color:white;text-shadow:0 3px 20px #000}
+.ok-hero h1 span{color:#ff394b;text-shadow:0 0 30px #ff263038}
+.ok-hero p{font-size:13px;color:#bfa7ae;line-height:1.6;margin-top:12px;max-width:660px}
+.ok-hero-symbol{min-width:95px;width:95px;height:95px;border:1px solid #ff405c80;border-radius:20px;background:radial-gradient(circle at 20% 10%,#971a2d,#26060e);display:grid;place-items:center;position:relative;transform:rotate(-9deg);box-shadow:0 0 30px #ff001e29}
+.ok-hero-symbol span{font:900 46px 'Courier New';color:#f6e9dd;text-shadow:0 2px 5px black}
+.ok-hero-symbol i{position:absolute;bottom:5px;right:7px;font-size:21px;color:#ffb4ad;font-style:normal}
+.ok-notice{display:none;position:sticky;top:7px;align-self:center;z-index:90;max-width:100%;background:#24080eee;border:1px solid #ff4352;border-radius:50px;padding:11px 20px;box-shadow:0 13px 35px #000b;color:#fff;font-size:12px;font-weight:800;text-align:center}
+.ok-notice.open{display:block;animation:okIntro .2s ease-out}
+@keyframes okIntro{from{opacity:.3;transform:translateY(-10px)}to{opacity:1;transform:none}}
+.ok-grid{display:grid;grid-template-columns:1.15fr 1fr;gap:17px}
+.ok-glass{background:linear-gradient(140deg,#1b060bfa,#090306f5);border:1px solid #d8444538;border-radius:20px;box-shadow:0 12px 35px #0009;padding:25px;min-width:0}
+.ok-section-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+.ok-section-title h2{font-size:20px;font-weight:900;color:#fff}
+.ok-led{font:900 10px 'Courier New',monospace;letter-spacing:1.1px;color:#fc6c77;white-space:nowrap}
+.ok-muted{color:#b3a2a8;font-size:13px;line-height:1.8;margin-bottom:18px}
+.ok-fine{font-size:11px;line-height:1.65;color:#977e87;margin-top:17px}
+.ok-label,.ok-kicker{display:block;font:900 10px 'Courier New',monospace;letter-spacing:1.5px;color:#d2919d;margin-bottom:9px}
+.ok-input{display:block;width:100%;background:#0b0407;color:#fff;padding:14px 15px;border:1px solid #7d2735;border-radius:11px;min-height:48px;outline:0;user-select:text;font-size:14px;transition:border .2s,box-shadow .2s}
+.ok-input:focus{border-color:#fa485b;box-shadow:0 0 0 3px #fa485b21}
+.ok-input::placeholder{color:#826771}
+.ok-entry-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:17px}
+.ok-entry-actions>.ok-btn{flex:1}
+.ok-btn{border:1px solid #77323b;background:#250c11;border-radius:12px;color:#eee1e3;min-height:44px;padding:11px 16px;font-size:12px;font-weight:850;letter-spacing:.2px;transition:transform .23s cubic-bezier(.2,.8,.3,1.3),box-shadow .2s,border .2s,background .2s}
+.ok-btn:hover:not(:disabled){background:#4d111e;box-shadow:0 7px 22px #e9002533;transform:translateY(-2px)}
+.ok-btn:disabled{opacity:.38;cursor:not-allowed}
+.ok-btn.ok-primary{background:linear-gradient(120deg,#fb3545,#b60e2a);border-color:#f8495f;color:white;box-shadow:0 8px 23px #b3002442}
+.ok-btn.ok-primary:hover:not(:disabled){background:linear-gradient(120deg,#ff5666,#c91035)}
+.ok-btn.ok-accent{border-color:#deac55;background:linear-gradient(110deg,#613717,#3c210f);color:#ffe2aa}
+.ok-btn.ok-compact{min-height:35px;padding:8px 12px;font-size:10px}
+.ok-join-box{margin-top:20px;animation:okIntro .2s}
+.ok-join-box input{text-transform:uppercase;letter-spacing:3px;font-family:'Courier New',monospace}
+.ok-error{font-size:12px;margin-top:12px;color:#ff8d9a;line-height:1.5}
+.ok-rules-list{display:grid;gap:10px}
+.ok-rules-list>div{display:flex;gap:13px;align-items:flex-start;padding:12px;border:1px solid #5b1d293b;background:#200b1169;border-radius:11px;font-size:12px;line-height:1.6;color:#c9b4bb}
+.ok-rules-list b{font:900 17px 'Courier New',monospace;color:#fc5363}
+.ok-room-bar{display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap;margin-bottom:18px;padding:16px 23px}
+.ok-room-bar-left,.ok-room-bar-right{display:flex;align-items:center;gap:11px;flex-wrap:wrap}
+.ok-room-bar .ok-kicker{margin:0}
+#ok-room-code{font:900 22px 'Courier New';letter-spacing:2px;color:#fff}
+.ok-phase{font:900 10px 'Courier New';color:#ef808c;border:1px solid #82404d;border-radius:100px;padding:9px 13px;background:#2b0a15}
+.ok-lobby{text-align:center;padding:33px}
+.ok-lobby .ok-section-title{text-align:left}
+.ok-lobby-players{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px;margin-top:18px}
+.ok-player-slot{min-height:116px;border:1px solid #782b3880;background:linear-gradient(150deg,#280915,#0f070b);border-radius:14px;padding:16px 12px;display:flex;flex-direction:column;align-items:center;gap:9px;color:#fff}
+.ok-player-slot.empty{border-style:dashed;opacity:.5}
+.ok-player-slot .ok-player-symbol{width:36px;height:36px;display:grid;place-items:center;border-radius:50%;background:#ca1f33;border:1px solid #fd6573;font-weight:900}
+.ok-player-slot small{color:#a88d95;font-size:10px}
+.ok-status-strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:14px}
+.ok-status-strip>div{border:1px solid #8e344445;background:#1d0710ef;border-radius:12px;min-height:75px;padding:12px 15px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px}
+.ok-status-strip .ok-kicker{margin:0;text-align:center}
+.ok-status-strip strong{font:900 17px 'Courier New';color:#fff;text-align:center}
+.ok-mini-tile{font:900 17px 'Courier New';border:1px solid #d3b49e;min-width:42px;min-height:31px;background:#f6eadc;border-radius:5px;display:grid;place-items:center;color:#b52633;box-shadow:0 2px 0 #987f6e}
+.ok-table-frame{height:385px;position:relative;border:11px solid #27121a;border-radius:36% 36% 28% 28%/27% 27% 30% 30%;background:radial-gradient(ellipse at 50% 45%,#265e54,#154037 72%,#102b27);box-shadow:0 19px 49px #000d,inset 0 0 0 2px #a0605938,inset 0 0 70px #030f0d;isolation:isolate;overflow:hidden}
+.ok-felt-ring{position:absolute;inset:14px;border:1px solid #c8a67131;border-radius:inherit;pointer-events:none}
+.ok-opponent{position:absolute;z-index:3;display:flex;align-items:center;gap:8px;background:#120f12b8;border:1px solid #b9d1ba3d;border-radius:12px;padding:9px 12px;box-shadow:0 7px 22px #0007;max-width:190px}
+.ok-opponent.my-turn{border-color:#ffcf86;box-shadow:0 0 0 2px #ffd57e35,0 0 25px #ffbf5941}
+.ok-op-avatar{width:34px;height:34px;flex:0 0 34px;background:linear-gradient(150deg,#d13f45,#64151e);border:1px solid #ff8585;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:950}
+.ok-op-copy{min-width:0}.ok-op-copy b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px;color:#fff}.ok-op-copy small{font-size:10px;color:#bbd7cc;white-space:nowrap}
+.ok-back-tiles{display:none}
+.ok-opponent-top{top:12px;left:50%;transform:translateX(-50%)}
+.ok-opponent-left{top:43%;left:8px;transform:translateY(-50%)}
+.ok-opponent-right{top:43%;right:8px;transform:translateY(-50%)}
+.ok-center-felt{position:absolute;left:50%;top:56%;transform:translate(-50%,-50%);display:flex;align-items:center;flex-direction:column;gap:5px;text-align:center;z-index:2;width:min(280px,55%)}
+.ok-center-title{font:950 27px 'Courier New',monospace;letter-spacing:-1.5px;color:#d3dfce99;text-shadow:0 2px #082d23}
+.ok-center-title span{color:#ffcc9c99}
+.ok-center-felt p{font-size:11px;color:#d8e3da;line-height:1.4;min-height:31px;max-width:280px}
+.ok-deck-area{display:flex;gap:17px;align-items:center;justify-content:center}
+.ok-stack,.ok-discard-tile{min-width:97px;min-height:100px;background:#13090e85;border:1px solid #adbaaa5f;border-radius:12px;display:flex;align-items:center;flex-direction:column;justify-content:center;gap:7px;color:#fff;transition:transform .25s,box-shadow .2s,border .2s}
+.ok-stack span{font-size:40px;color:#ef545e;text-shadow:0 0 20px #ff131360;line-height:1}
+.ok-deck-area small{font-size:9px;font-weight:850;letter-spacing:.2px;color:#e4f0e3}
+.ok-deck-area button:not(:disabled):hover{transform:translateY(-5px);box-shadow:0 9px 28px #0008;border-color:#ffad97}
+.ok-deck-area button:disabled{opacity:.65;cursor:default}
+#ok-last-discard{display:grid;place-items:center;min-width:42px;height:55px;background:#f6eee0;color:#b02937;border-radius:6px;border:1px solid #dcc4ad;font:900 22px 'Courier New',monospace;box-shadow:0 2px 0 #776359}
+.ok-my-area{margin-top:15px;padding:20px 22px 23px}
+.ok-my-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.ok-my-head .ok-kicker{margin-bottom:3px}.ok-my-head h2{font-size:20px;font-weight:900}
+.ok-my-actions,.ok-move-actions{display:flex;align-items:center;flex-wrap:wrap;gap:9px}
+.ok-my-hint{margin:11px 0;color:#aa96a0;font-size:11px;line-height:1.6}
+.ok-rack{display:flex;flex-wrap:nowrap;gap:4px;padding:17px 14px 20px;overflow-x:auto;min-height:110px;background:linear-gradient(#9b6648 0%,#6b3d2b 5%,#361e1a 91%,#1c0b0e 100%);border-radius:12px;border:2px solid #b47a59;box-shadow:inset 0 3px 12px #120407a8,0 7px 18px #0007;scrollbar-width:thin;scrollbar-color:#c28761 #321c19}
+.ok-tile{position:relative;flex:0 0 48px;width:48px;height:73px;border:1px solid #d8cabb;border-radius:6px;background:linear-gradient(145deg,#fff8eb,#e0d0ba);box-shadow:0 4px 0 #988677,0 6px 6px #0007;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:#222;transition:transform .18s,box-shadow .18s;touch-action:pan-x}
+.ok-tile:before{content:'';height:3px;width:24px;background:#aa9a87;position:absolute;top:5px;border-radius:100px}
+.ok-tile .ok-n{font:900 29px 'Courier New';line-height:1}.ok-tile .ok-glyph{font-size:9px;font-weight:850;opacity:.8}
+.ok-tile.ok-selected{transform:translateY(-12px);border-color:#ffb55d;box-shadow:0 0 0 2px #ffc66d,0 5px 0 #937e68,0 0 20px #efad4e78}
+.ok-tile.ok-wild:after{content:'OKEY';position:absolute;bottom:-1px;font:900 7px 'Courier New';background:#bc1a2a;color:white;padding:2px 5px;border-radius:3px 3px 0 0}
+.ok-tile.ok-fake:after{content:'SAHTE';position:absolute;bottom:-1px;font:900 7px 'Courier New';background:#232323;color:white;padding:2px 4px;border-radius:3px 3px 0 0}
+.ok-move-actions{margin-top:17px}.ok-move-note{font:800 11px 'Courier New';color:#be9aa3;margin-left:auto}
+.ok-ended{text-align:center;padding:40px 20px}.ok-end-mark{font-size:48px;color:#ffad75;margin-bottom:9px;text-shadow:0 0 30px #ff3c3c}
+.ok-ended h2{font-size:28px;font-weight:900;margin-bottom:10px;color:white}.ok-end-players{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:15px 0 22px}.ok-end-players>div{border:1px solid #6a2a36;border-radius:12px;padding:13px 8px;background:#280c14;color:#f5e0e5;font-size:11px}
+@media(max-width:900px){#view-okey{height:auto;min-height:calc(100vh - 100px);padding:16px 12px 60px}.ok-grid{grid-template-columns:1fr}.ok-hero{padding:25px}.ok-hero-symbol{width:65px;min-width:65px;height:65px}.ok-hero-symbol span{font-size:35px}.ok-table-frame{height:370px}.ok-opponent-left,.ok-opponent-right{top:34%;}.ok-status-strip{grid-template-columns:repeat(2,1fr)}.ok-lobby-players{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:580px){.ok-hero{padding:22px 18px}.ok-hero h1{font-size:38px}.ok-hero-symbol{display:none}.ok-glass{padding:17px}.ok-table-frame{border-width:7px;height:400px;border-radius:26px}.ok-opponent{padding:7px;max-width:132px}.ok-opponent-left,.ok-opponent-right{top:27%}.ok-op-avatar{width:25px;height:25px;flex-basis:25px;font-size:10px}.ok-op-copy b{font-size:9px}.ok-op-copy small{font-size:9px}.ok-center-felt{top:62%;width:82%}.ok-center-title{font-size:23px}.ok-center-felt p{font-size:10px}.ok-stack,.ok-discard-tile{min-width:98px;min-height:92px}.ok-tile{flex-basis:44px;width:44px;height:68px}.ok-tile .ok-n{font-size:27px}.ok-rack{padding:14px 11px 20px}.ok-end-players{grid-template-columns:repeat(2,1fr)}.ok-entry-actions{flex-direction:column}}
+/* Keep the playing rack reachable without excessive scrolling. */
+.ok-shell:has(#ok-game:not(.ok-hidden)) .ok-hero{min-height:87px;padding:14px 25px}
+.ok-shell:has(#ok-game:not(.ok-hidden)) .ok-hero h1{font-size:31px;letter-spacing:-1px}
+.ok-shell:has(#ok-game:not(.ok-hidden)) .ok-hero p{display:none}
+.ok-shell:has(#ok-game:not(.ok-hidden)) .ok-eyebrow{margin-bottom:6px;font-size:9px}
+.ok-shell:has(#ok-game:not(.ok-hidden)) .ok-hero-symbol{width:56px;height:56px;min-width:56px;border-radius:12px}
+.ok-shell:has(#ok-game:not(.ok-hidden)) .ok-hero-symbol span{font-size:29px}
+.ok-shell:has(#ok-game:not(.ok-hidden)) .ok-table-frame{height:315px}
+.ok-shell:has(#ok-game:not(.ok-hidden)) .ok-my-area{padding:15px 20px}
+@media(max-width:650px){
+ body:has(#view-okey.active-view) nav{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:12px 14px}
+ body:has(#view-okey.active-view) nav .nav-left{display:contents}
+ body:has(#view-okey.active-view) nav .logo-container{grid-column:1;grid-row:1}
+ body:has(#view-okey.active-view) nav .back-link{grid-column:2;grid-row:1}
+ body:has(#view-okey.active-view) nav .tab-buttons{grid-column:1/-1;grid-row:2;display:flex;flex-wrap:nowrap;gap:7px;overflow-x:auto;max-width:100%;padding:1px 2px 7px;scrollbar-width:thin;scrollbar-color:#722 transparent}
+ body:has(#view-okey.active-view) nav .tab-btn{flex:0 0 auto}
+ .ok-shell:has(#ok-game:not(.ok-hidden)) .ok-table-frame{height:375px}
+}
+
 #view-wordcity { display:none; overflow-y:auto; overflow-x:hidden; height:calc(100vh - 70px); flex-direction:column; align-items:center; padding:28px 22px 65px; scrollbar-width:thin; scrollbar-color:#851515 transparent; }
 #view-wordcity.active-view {display:flex;}
 #wc-tab { position:relative; border-color:rgba(255,64,64,.75); color:#fff; background:linear-gradient(125deg,rgba(93,5,5,.75),rgba(19,0,0,.72)); }
@@ -631,7 +728,7 @@
                 <button class="tab-btn hover-target" onclick="switchTab('flappy', this)">🦅 Karga Simülasyonu</button>
                 <button class="tab-btn hover-target" onclick="switchTab('izanami', this)">🌀 Sonsuz Döngü</button>
                 <button class="tab-btn hover-target" onclick="switchTab('stack', this)">⚔️ Susanoo Zırhı</button>
-                <button class="tab-btn hover-target" onclick="switchTab('fireball', this)">🔥 Katon Kontrolü</button>
+                <button class="tab-btn hover-target" onclick="switchTab('okey', this)" id="ok-tab">🀄 Online Okey</button>
                 <button class="tab-btn hover-target" onclick="switchTab('flee', this)">🎯 Sharingan Refleksi</button>
                 <button class="tab-btn hover-target" onclick="switchTab('awards', this)">🎖️ Ödüller</button>
                 <button class="tab-btn hover-target" id="wc-tab" onclick="switchTab('wordcity', this)">🌐 Online İsim–Şehir</button>
@@ -752,17 +849,74 @@
         <button id="stack-action-btn" class="action-pill-btn hover-target" onclick="handleStackAction()">BAŞLAT ⚔️</button>
     </section>
 
-    <!-- 6. KATON KONTROLÜ -->
-    <section class="view-section" id="view-fireball">
-        <div class="fireball-stats">
-            <div>Potansiyel: <span id="fb-potential" style="color:var(--accent-gold)">0</span></div>
-            <div>Çarpan: <span id="fb-multiplier" style="color:#ff3333">1.0x</span></div>
-            <div>En İyi Hasat: <span id="fb-best" style="color:#00ff88">0</span></div>
+    <!-- 6. DORT KISILIK ONLINE KLASIK OKEY -->
+    <section class="view-section" id="view-okey" aria-label="Dört kişilik online Okey">
+      <div class="ok-shell">
+        <div class="ok-hero">
+          <div>
+            <div class="ok-eyebrow"><span class="ok-beacon"></span> YIGITQWC / 4 OYUNCULU CANLI MASA</div>
+            <h1>OKEY <span>ARENA</span></h1>
+            <p>106 taş. Dört rakip. Tek masa. Klasik Okey'i arkadaşlarınla gerçek zamanlı oyna.</p>
+          </div>
+          <div class="ok-hero-symbol" aria-hidden="true"><span>13</span><i>◈</i></div>
         </div>
-        <div class="fireball-arena">
-            <div id="fireball-core" class="hover-target"></div>
+        <div class="ok-notice" id="ok-notice" role="status" aria-live="polite"></div>
+        <div class="ok-grid" id="ok-entry">
+          <div class="ok-glass">
+            <div class="ok-section-title"><h2>MASAYA KATIL</h2><span class="ok-led" id="ok-auth-status">● BAĞLANIYOR</span></div>
+            <p class="ok-muted">Hesap ya da şifre gerekmiyor. Takma adını belirle, masa kodunu arkadaşlarınla paylaş.</p>
+            <label class="ok-label" for="ok-name">OYUNCU ADI</label>
+            <input id="ok-name" class="ok-input hover-target" maxlength="18" placeholder="Oyuncu adını yaz..." autocomplete="nickname" spellcheck="false" />
+            <div class="ok-entry-actions"><button id="ok-create" class="ok-btn ok-primary hover-target" disabled>✦ MASA OLUŞTUR</button><button id="ok-toggle-join" class="ok-btn hover-target" disabled>↗ MASAYA KATIL</button></div>
+            <div class="ok-join-box ok-hidden" id="ok-join-box"><label class="ok-label" for="ok-code-entry">6 KARAKTERLİ MASA KODU</label><input id="ok-code-entry" class="ok-input hover-target" maxlength="6" placeholder="Örn. K5B7RP" autocomplete="off" spellcheck="false" /><button id="ok-join" class="ok-btn ok-primary hover-target" style="width:100%;margin-top:12px">MASAYA BAĞLAN →</button></div>
+            <div id="ok-entry-error" class="ok-error" aria-live="polite"></div>
+          </div>
+          <div class="ok-glass">
+            <div class="ok-section-title"><h2>MASA KURALLARI</h2><span class="ok-led">KLASİK OKEY</span></div>
+            <div class="ok-rules-list">
+              <div><b>01</b><span>Dört oyuncu gerekir. Bir oyuncu 15, diğerleri 14 taş alır.</span></div>
+              <div><b>02</b><span>Göstergeye göre okey belirlenir. Sahte okey gerçek okeyin değerini taşır.</span></div>
+              <div><b>03</b><span>Sıra sende ise taş çek, bir taş at; ilk oyuncu doğrudan taş atar.</span></div>
+              <div><b>04</b><span>14 taşın tümü perlerden ya da yedi çiftten oluşursa 15'inci taşı atarak bit.</span></div>
+            </div>
+            <p class="ok-fine">Bu sürümde taşları oda sahibinin tarayıcısı dağıtır ve hamleleri doğrular. Oda sahibi masadan ayrılırsa oyun ilerlemez; hileye karşı tam sunucu koruması yoktur.</p>
+          </div>
         </div>
-        <div id="fb-status-text" style="margin-top:20px; font-weight:800; color:#ccc; letter-spacing:1px;">ALEVİ BÜYÜTMEK İÇİN KÜREYE BASILI TUT, PATLAMADAN BIRAK!</div>
+        <div id="ok-room" class="ok-hidden">
+          <div class="ok-room-bar ok-glass">
+            <div class="ok-room-bar-left"><span class="ok-kicker">MASA KODU</span><strong id="ok-room-code">------</strong><button id="ok-copy" class="ok-btn ok-compact hover-target">KODU KOPYALA</button></div>
+            <div class="ok-room-bar-right"><span id="ok-room-phase" class="ok-phase">BEKLEME ODASI</span><button id="ok-leave" class="ok-btn ok-compact hover-target">MASADAN AYRIL</button></div>
+          </div>
+          <div id="ok-lobby" class="ok-glass ok-lobby">
+            <div class="ok-section-title"><h2>OYUNCULARIN BEKLENİYOR</h2><span class="ok-led" id="ok-lobby-count">1 / 4</span></div>
+            <p class="ok-muted">Dört oyuncu masaya katılınca yalnızca oda sahibi oyunu başlatabilir.</p>
+            <div class="ok-lobby-players" id="ok-lobby-players"></div>
+            <div class="ok-entry-actions"><button id="ok-start" class="ok-btn ok-primary hover-target" disabled>◈ 106 TAŞI KARIŞTIR / BAŞLAT</button></div>
+            <p class="ok-fine" id="ok-lobby-hint"></p>
+          </div>
+          <div id="ok-game" class="ok-hidden">
+            <div class="ok-status-strip"><div><span class="ok-kicker">GÖSTERGE</span><div class="ok-mini-tile" id="ok-indicator">—</div></div><div><span class="ok-kicker">OKEY TAŞI</span><div class="ok-mini-tile" id="ok-joker">—</div></div><div><span class="ok-kicker">KALAN DESTE</span><strong id="ok-stock-count">48</strong></div><div><span class="ok-kicker">SIRA / AŞAMA</span><strong id="ok-turn-info">—</strong></div></div>
+            <div class="ok-table-frame">
+              <div class="ok-felt-ring"></div>
+              <div class="ok-opponent ok-opponent-top" id="ok-seat-top"><div class="ok-op-avatar">?</div><div class="ok-op-copy"><b>OYUNCU</b><small>14 taş</small></div><div class="ok-back-tiles" aria-hidden="true"></div></div>
+              <div class="ok-opponent ok-opponent-left" id="ok-seat-left"><div class="ok-op-avatar">?</div><div class="ok-op-copy"><b>OYUNCU</b><small>14 taş</small></div><div class="ok-back-tiles" aria-hidden="true"></div></div>
+              <div class="ok-opponent ok-opponent-right" id="ok-seat-right"><div class="ok-op-avatar">?</div><div class="ok-op-copy"><b>OYUNCU</b><small>14 taş</small></div><div class="ok-back-tiles" aria-hidden="true"></div></div>
+              <div class="ok-center-felt">
+                <div class="ok-center-title">YIGIT<span>QWC</span></div>
+                <p id="ok-center-message">Taşlar dağıtılıyor...</p>
+                <div class="ok-deck-area"><button id="ok-draw-stock" class="ok-stack hover-target" disabled aria-label="Kapalı desteden taş çek"><span>◈</span><small>DESTEDEN ÇEK</small></button><button id="ok-draw-discard" class="ok-discard-tile hover-target" disabled aria-label="Önceki oyuncunun attığı taşı al"><span id="ok-last-discard">—</span><small>ATILANI AL</small></button></div>
+              </div>
+            </div>
+            <div class="ok-my-area ok-glass">
+              <div class="ok-my-head"><div><span class="ok-kicker">SENİN ISTAKAN</span><h2 id="ok-self-name">Oyuncu</h2></div><div class="ok-my-actions"><button id="ok-sort-color" class="ok-btn ok-compact hover-target">RENGE GÖRE</button><button id="ok-sort-number" class="ok-btn ok-compact hover-target">SAYIYA GÖRE</button></div></div>
+              <p class="ok-my-hint" id="ok-hint">Sıranı bekle. Taşlara tıklayarak seçebilir, sürükleyerek dizilimini değiştirebilirsin.</p>
+              <div class="ok-rack" id="ok-rack" aria-label="Elindeki taşlar"></div>
+              <div class="ok-move-actions"><button id="ok-discard" class="ok-btn ok-primary hover-target" disabled>SEÇİLİ TAŞI AT →</button><button id="ok-finish" class="ok-btn ok-accent hover-target" disabled>✦ ELİ BİTİR</button><span class="ok-move-note" id="ok-move-note">14 taş</span></div>
+            </div>
+          </div>
+          <div id="ok-ended" class="ok-glass ok-ended ok-hidden"><div class="ok-end-mark">◈</div><h2 id="ok-end-title">EL TAMAMLANDI</h2><p class="ok-muted" id="ok-end-detail"></p><div id="ok-end-players" class="ok-end-players"></div><button id="ok-redeal" class="ok-btn ok-primary hover-target ok-hidden">YENİ EL DAĞIT ↻</button></div>
+        </div>
+      </div>
     </section>
 
     <!-- 7. SHARINGAN REFLEKSİ -->
@@ -787,7 +941,7 @@
         <div class="awards-grid">
             <div class="award-card" id="card-ach1"><div class="award-icon">🔥</div><div class="award-info"><h4>İlk Kıvılcım</h4><p>Sharingan gözüne ilk kez dokun.</p></div></div>
             <div class="award-card" id="card-ach2"><div class="award-icon">⚡</div><div class="award-info"><h4>Seri Parmaklar</h4><p>Clicker'da 5.0x Kombo seviyesine ulaş.</p></div></div>
-            <div class="award-card" id="card-ach3"><div class="award-icon">💥</div><div class="award-info"><h4>Alev Hasadı</h4><p>Katon alev küresini patlatmadan hasat et.</p></div></div>
+            <div class="award-card" id="card-ach3"><div class="award-icon">💥</div><div class="award-info"><h4>Okey Ustası</h4><p>Dört kişilik online Okey masasında bir eli kazan.</p></div></div>
             <div class="award-card" id="card-ach4"><div class="award-icon">🏃</div><div class="award-info"><h4>Işık Hızı</h4><p>Sharingan Refleksi testinde hedefi 5 kez yakala.</p></div></div>
             <div class="award-card" id="card-ach5"><div class="award-icon">🏛️</div><div class="award-info"><h4>Temel Zırh</h4><p>Susanoo Zırhı'nda 5. kata ulaş.</p></div></div>
             <div class="award-card" id="card-ach6"><div class="award-icon">🌀</div><div class="award-info"><h4>Döngü Çırağı</h4><p>İzanami Sonsuz Döngü'de 10 seri yap.</p></div></div>
@@ -803,7 +957,7 @@
           <div>
             <div class="wc-eyebrow"><span class="wc-signal"></span> YIGITQWC / MULTIPLAYER ARENA</div>
             <h1>İSİM <span>ŞEHİR</span></h1>
-            <p>Bir harf. Beş kategori. Gerçek rakipler. Odanı kur, arkadaşlarını davet et ve kelimelerinle zirveye çık.</p>
+            <p>Bir harf. Yedi kategori. Gerçek rakipler. Odanı kur, arkadaşlarını davet et ve kelimelerinle zirveye çık.</p>
           </div>
           <div class="wc-banner-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2M5 4l-2 2M19 4l2 2" stroke-linecap="round"/></svg></div>
         </header>
@@ -853,6 +1007,8 @@
                   <div class="wc-answer-field"><label for="wc-a-animal">03 / HAYVAN</label><input id="wc-a-animal" data-category="animal" placeholder="Bir hayvan..." maxlength="35" autocomplete="off"></div>
                   <div class="wc-answer-field"><label for="wc-a-plant">04 / BİTKİ</label><input id="wc-a-plant" data-category="plant" placeholder="Bir bitki..." maxlength="35" autocomplete="off"></div>
                   <div class="wc-answer-field"><label for="wc-a-object">05 / EŞYA</label><input id="wc-a-object" data-category="object" placeholder="Bir eşya..." maxlength="35" autocomplete="off"></div>
+                  <div class="wc-answer-field"><label for="wc-a-country">06 / ÜLKE</label><input id="wc-a-country" data-category="country" placeholder="Bir ülke..." maxlength="35" autocomplete="off"></div>
+                  <div class="wc-answer-field"><label for="wc-a-movie">07 / FİLM / DİZİ</label><input id="wc-a-movie" data-category="movie" placeholder="Bir film veya dizi..." maxlength="35" autocomplete="off"></div>
                 </div>
                 <div class="wc-actions"><button id="wc-submit" type="button" class="wc-btn primary hover-target">CEVAPLARI GÖNDER →</button><button id="wc-end-round" type="button" class="wc-btn ghost hover-target wc-hidden">TURU BİTİR ↗</button></div>
                 <div class="wc-muted" id="wc-submission-note" style="margin-top:12px">Cevapların tur bitene kadar diğer oyunculardan gizlidir.</div>
@@ -997,12 +1153,6 @@
             if (stackAnim) cancelAnimationFrame(stackAnim);
             isStack = false;
             document.getElementById('stack-action-btn').innerText = "BAŞLAT ⚔️";
-            // Fireball temizle
-            clearInterval(fbTimer);
-            isChg = false;
-            const coreEl = document.getElementById('fireball-core');
-            coreEl.style.width = '70px'; coreEl.style.height = '70px';
-            coreEl.classList.remove('fb-shake');
             // Flee temizle
             clearInterval(fleeInt);
             isFlee = false;
@@ -1633,61 +1783,6 @@
             }
         });
 
-        // ================= 6. KATON KONTROLÜ =================
-        let isChg = false, fbSize = 70, fbTimer, fbExp = 0, fbPot = 0;
-        const core = document.getElementById('fireball-core');
-
-        core.addEventListener('mousedown', (e) => {
-            if (e.button !== 0) return;
-            isChg = true;
-            fbExp = Math.floor(Math.random() * 140) + 135;
-            fbSize = 70;
-            core.classList.add('fb-shake');
-            document.getElementById('fb-status-text').innerText = "ÇAKRA YÜKLENİYOR... DİKKATLİ OL!";
-
-            fbTimer = setInterval(() => {
-                fbSize += 2.8;
-                core.style.width = fbSize + 'px';
-                core.style.height = fbSize + 'px';
-                let mul = (1.0 + (fbSize - 70) / 35);
-                fbPot = Math.floor(30 * Math.pow(mul, 1.4));
-                document.getElementById('fb-potential').innerText = fbPot;
-                document.getElementById('fb-multiplier').innerText = mul.toFixed(1) + 'x';
-
-                if (fbSize >= fbExp) {
-                    clearInterval(fbTimer);
-                    isChg = false;
-                    core.classList.remove('fb-shake');
-                    core.style.width = '70px';
-                    core.style.height = '70px';
-                    document.getElementById('fb-potential').innerText = '0';
-                    document.getElementById('fb-multiplier').innerText = '1.0x';
-                    document.getElementById('fb-status-text').innerText = "ALEV KÜRESİ PATLADI! TEKRAR DENE.";
-                    showGameNotice("💥 Katon Alev Küresi Kontrolden Çıkıp Patladı!");
-                }
-            }, 45);
-        });
-
-        window.addEventListener('mouseup', () => {
-            if (isChg) {
-                isChg = false;
-                clearInterval(fbTimer);
-                core.classList.remove('fb-shake');
-                score += fbPot;
-                if (fbPot > fbBest) {
-                    fbBest = fbPot;
-                    document.getElementById('fb-best').innerText = fbBest;
-                }
-                updateUI();
-                saveGameData();
-                unlockAchievement('ach3', 'Alev Hasadı');
-                showGameNotice(`🔥 Katon Hasat Edildi! +${fbPot} Genjutsu Gücü Kazandın!`);
-                document.getElementById('fb-status-text').innerText = `BAŞARILI! +${fbPot} GÜÇ EKLENDİ.`;
-                core.style.width = '70px';
-                core.style.height = '70px';
-            }
-        });
-
         // ================= 7. SHARINGAN REFLEKSİ =================
         let isFlee = false, fleeSc = 0, fleeT = 20, fleeInt;
         let lastMoveTime = 0;
@@ -1875,8 +1970,8 @@ const wcConfig = {
 const wcApp = getApps().find(a => a.name === 'yq-wordcity') || initializeApp(wcConfig, 'yq-wordcity');
 const wcAuth = getAuth(wcApp), wcDb = getDatabase(wcApp);
 const wc$ = id => document.getElementById(id);
-const wcFields = ['name','city','animal','plant','object'];
-const wcLabels = {name:'İsim',city:'Şehir',animal:'Hayvan',plant:'Bitki',object:'Eşya'};
+const wcFields = ['name','city','animal','plant','object','country','movie'];
+const wcLabels = {name:'İsim',city:'Şehir',animal:'Hayvan',plant:'Bitki',object:'Eşya',country:'Ülke',movie:'Film / Dizi'};
 const wcAlphabet = 'ABCÇDEFGĞHIİJKLMNOÖPRSŞTUÜVYZ';
 const wcState = {uid:null,code:null,meta:null,players:{},scores:{},answers:{},invalid:{},nickname:'',off:[],roundOff:[],submitting:false,busy:false,round:0,serverOffset:0,loading:false,reviewAnswersReady:false,reviewInvalidsReady:false,reviewUpdating:false};
 let wcToastTimeout, wcLastPhase='', wcFinishing=false, wcLastRender='', wcAuthUnsub;
@@ -2169,6 +2264,165 @@ function wcAttachUI(){
   wcRestore();
 }
 wcAttachUI();
+
+// Classic four-player Turkish Okey rules, deterministic tile engine.
+const OK_COLORS=['#e13b3e','#2966dd','#f1b22a','#262a34'];
+function okTile(id){if(!Number.isInteger(id)||id<0||id>105)throw Error('Gecersiz tas');if(id>=104)return {id,color:-1,num:0,fake:true};const x=Math.floor(id/2);return {id,color:Math.floor(x/13),num:x%13+1,fake:false};}
+function okDeck(){return Array.from({length:106},(_,i)=>i);}
+function okJoker(indicator){const t=okTile(indicator);if(t.fake)throw Error('Sahte okey gosterge olamaz');return {color:t.color,num:t.num===13?1:t.num+1};}
+function okDescription(tile,indicator){const t=okTile(tile),j=okJoker(indicator);if(t.fake)return {id:tile,color:j.color,num:j.num,wild:false,fake:true};return {...t,wild:t.color===j.color&&t.num===j.num};}
+function okShuffle(deck,random=Math.random){for(let i=deck.length-1;i>0;i--){const j=Math.floor(random()*(i+1));[deck[i],deck[j]]=[deck[j],deck[i]];}return deck;}
+function okDeal(random=Math.random){const tiles=okShuffle(okDeck(),random);let idx=tiles.findIndex(i=>i<104);const indicator=tiles.splice(idx,1)[0];return {indicator,stock:tiles.slice(57),hands:[tiles.slice(0,15),tiles.slice(15,29),tiles.slice(29,43),tiles.slice(43,57)]};}
+function okMeldValid(ids,indicator){const n=ids.length;if(n<3||n>14)return false;const xs=ids.map(i=>okDescription(i,indicator));const normal=xs.filter(x=>!x.wild);const jokers=n-normal.length;
+ if(n<=4 && normal.length){let v=normal[0].num;let colors=new Set();if(normal.every(x=>x.num===v&&!colors.has(x.color)&&!!colors.add(x.color)))return true;}
+ if(n<=13){if(!normal.length)return true;let col=normal[0].color;if(normal.every(x=>x.color===col)){const numbers=normal.map(x=>x.num);if(new Set(numbers).size===numbers.length){for(let start=1;start<=13;start++){
+ const seq=Array.from({length:n},(_,i)=>start+i);
+ if(seq[n-1]>14)continue;
+ if(seq.includes(14)&&seq[n-1]!==14)continue;
+ const set=new Set(seq.map(v=>v===14?1:v));
+ if(numbers.every(v=>set.has(v)))return true;
+ }}}}
+ return false;
+}
+function okPairsValid(ids,indicator){if(ids.length!==14)return false;const map=new Map();let wild=0;for(const id of ids){const d=okDescription(id,indicator);if(d.wild)wild++;else {const k=d.color+':'+d.num;map.set(k,(map.get(k)||0)+1);}}const lonely=[...map.values()].filter(n=>n%2===1).length;return lonely<=wild&&(wild-lonely)%2===0;}
+function okSetsValid(ids,indicator){if(ids.length!==14)return false;const validByHead=Array.from({length:14},()=>[]);for(let mask=1;mask<(1<<14);mask++){const sz=mask.toString(2).replace(/0/g,'').length;if(sz<3||sz>13)continue;const subset=[];for(let i=0;i<14;i++)if(mask&(1<<i))subset.push(ids[i]);if(!okMeldValid(subset,indicator))continue;for(let i=0;i<14;i++)if(mask&(1<<i))validByHead[i].push(mask);}
+ const memo=new Map();function solve(rem){if(rem===0)return true;if(memo.has(rem))return memo.get(rem);const first=31-Math.clz32(rem&-rem);for(const mask of validByHead[first])if((mask&rem)===mask&&solve(rem^mask)){memo.set(rem,true);return true;}memo.set(rem,false);return false;}return solve((1<<14)-1);
+}
+function okWinningHand(ids,indicator){if(ids.length!==14||new Set(ids).size!==14)return {valid:false,kind:null};if(ids.some(i=>!Number.isInteger(i)||i<0||i>105||i===indicator))return {valid:false,kind:null};if(okPairsValid(ids,indicator))return {valid:true,kind:'pairs'};if(okSetsValid(ids,indicator))return {valid:true,kind:'sets'};return {valid:false,kind:null};}
+if(typeof module!=='undefined'&&module.exports)module.exports={okTile,okDeck,okJoker,okDescription,okShuffle,okDeal,okMeldValid,okPairsValid,okSetsValid,okWinningHand};
+
+// YIGITQWC - four actual Firebase players, one trusted room-owner referee.
+const ok$ = id => document.getElementById(id);
+const okRef=(...path)=>ref(wcDb,['okey','rooms',...path.map(String)].join('/'));
+const okState={code:null,uid:null,name:'',public:null,hand:[],off:[],ownerOff:null,hostBusy:false,waiting:false,selected:null,handOrder:[],lastWon:null,authReady:false};
+let okToastTimer;
+function okNotice(msg){const el=ok$('ok-notice');el.textContent=msg;el.classList.add('open');clearTimeout(okToastTimer);okToastTimer=setTimeout(()=>el.classList.remove('open'),4800);}
+function okError(e){console.error('[Okey]',e);const c=String(e?.code||'');if(c.includes('permission-denied'))return 'Firebase erişimi reddetti. Yeni okey kurallarını da yayımladığından emin ol.';return (e?.message||'Beklenmeyen bağlantı hatası').slice(0,200);}
+function okSetError(m){ok$('ok-entry-error').textContent=m;}
+function okCode(){const set='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',a=new Uint8Array(6);crypto.getRandomValues(a);return Array.from(a,x=>set[x%set.length]).join('');}
+function okRand(){return crypto.getRandomValues(new Uint32Array(1))[0]/4294967296;}
+async function okAuth(){const uid=await wcEnsureAuth();okState.uid=uid;okState.authReady=true;ok$('ok-auth-status').textContent='● SİSTEM HAZIR';ok$('ok-create').disabled=false;ok$('ok-toggle-join').disabled=false;return uid;}
+function okNick(){const name=ok$('ok-name').value.trim().replace(/\s+/g,' ').slice(0,18);if(name.length<2||/[<>\r\n]/.test(name)){okSetError('Oyuncu adı 2-18 karakter olmalı.');ok$('ok-name').focus();return null;}okSetError('');return name;}
+function okSave(){try{sessionStorage.setItem('yq-okey-room',JSON.stringify({code:okState.code,name:okState.name}));localStorage.setItem('yq-okey-nickname',okState.name);}catch(_) {}}
+function okForget(){try{sessionStorage.removeItem('yq-okey-room');}catch(_) {}}
+function okDisableEntry(b){ok$('ok-create').disabled=b;ok$('ok-toggle-join').disabled=b;ok$('ok-join').disabled=b;}
+async function okCreate(){const name=okNick();if(!name||okState.waiting)return;okState.waiting=true;okDisableEntry(true);try{
+ const uid=await okAuth();const seat={uid,name,joinedAt:Date.now()};
+ for(let k=0;k<6;k++){
+   const code=okCode(),room={owner:uid,public:{phase:'lobby',seats:{0:seat},starter:0,turn:0,mode:'discard',stockCount:0,indicator:-1,discards:{},scores:{[uid]:20},handNumber:0,createdAt:Date.now(),recent:'Oyuncular bekleniyor.'}};
+   try {await set(okRef(code),room);okEnter(code,name);okNotice('Okey masası kuruldu! Masanın kodunu arkadaşlarınla paylaş.');return;}
+   catch(e){if(!String(e.code).includes('permission-denied'))throw e;}
+ }
+ throw Error('Masa oluşturulamadı. Firebase kurallarını denetle.');
+}catch(e){okSetError(okError(e));}finally{okState.waiting=false;okDisableEntry(false);}}
+async function okJoin(){const name=okNick();if(!name||okState.waiting)return;const code=ok$('ok-code-entry').value.toUpperCase().trim();if(!/^[A-HJ-NP-Z2-9]{6}$/.test(code)){okSetError('Altı karakterli geçerli masa kodunu yaz.');return;}okState.waiting=true;okDisableEntry(true);try{
+ const uid=await okAuth(),pub=await get(okRef(code,'public'));if(!pub.exists())throw Error('Bu kodla masa bulunamadı.');if(pub.val().phase!=='lobby')throw Error('Bu masanın oyunu başlamış.');
+ const seats=pub.val().seats||{};if(Object.values(seats).some(p=>p.uid===uid)){okEnter(code,name);return;}
+ let accepted=false;
+ for(let seat=1;seat<4;seat++){
+   const result=await runTransaction(okRef(code,'public','seats',seat),previous=>{if(previous!==null)return;return {uid,name,joinedAt:Date.now()};},{applyLocally:false});
+   if(result.committed){accepted=true;break;}
+ }
+ if(!accepted)throw Error('Masa dolu; en fazla dört kişi oynayabilir.');
+ okEnter(code,name);okNotice('Masaya katıldın. Dört oyuncu tamamlanınca oyun başlayacak.');
+}catch(e){okSetError(okError(e));}finally{okState.waiting=false;okDisableEntry(false);}}
+function okClear(){okState.off.forEach(f=>{try{f();}catch(_){}});okState.off=[];okState.ownerOff=null;}
+function okReset(notice){okClear();okForget();okState.code=null;okState.public=null;okState.hand=[];okState.handOrder=[];okState.selected=null;okState.waiting=false;okState.hostBusy=false;ok$('ok-room').classList.add('ok-hidden');ok$('ok-entry').classList.remove('ok-hidden');if(notice)okNotice(notice);}
+async function okLeave(){if(!okState.code)return;const {code,uid,public:pub}=okState;okReset('Masadan ayrıldın.');try{if(pub?.seats?.[0]?.uid===uid){await remove(okRef(code));}else if(pub?.phase==='lobby'){
+ let seat=Object.keys(pub.seats||{}).find(s=>pub.seats[s].uid===uid);if(seat!==undefined)await remove(okRef(code,'public','seats',seat));
+ }else{okNotice('Oyun sırasında ayrıldın. Diğer oyuncular senin dönmeni bekleyecek.');}}catch(e){okNotice(okError(e));}}
+function okEnter(code,name){okClear();okState.code=code;okState.name=name;okState.public=null;okState.hand=[];okState.handOrder=[];okState.selected=null;okState.lastWon=null;okSave();ok$('ok-entry').classList.add('ok-hidden');ok$('ok-room').classList.remove('ok-hidden');ok$('ok-room-code').textContent=code;
+ const failure=e=>okNotice(okError(e));
+ okState.off.push(onValue(okRef(code,'public'),s=>{if(!s.exists()){okReset('Masa kapatıldı.');return;}const oldPhase=okState.public?.phase;okState.public=s.val();okRender();if(okIsHost()&&!okState.ownerOff)okHostAttach();if(oldPhase!=='ended'&&okState.public.phase==='ended'&&okState.public.winner===okState.uid&&okState.public.winKind)unlockAchievement('ach3','Okey Ustası');},failure));
+ okState.off.push(onValue(okRef(code,'hands',okState.uid),s=>{okState.hand=s.val()||[];okSyncHandOrder();okRenderRack();okButtons();},failure));
+ okState.off.push(onValue(okRef(code,'actions',okState.uid),s=>{okState.waiting=s.exists();okButtons();},failure));
+}
+function okSeat(){const p=okState.public||{};return Number(Object.keys(p.seats||{}).find(s=>p.seats[s].uid===okState.uid));}
+function okIsHost(){return okState.public?.seats?.[0]?.uid===okState.uid;}
+function okSeats(){const arr=[];for(let s=0;s<4;s++)arr.push(okState.public?.seats?.[s]||null);return arr;}
+function okSeatLabel(s){return okState.public?.seats?.[s]?.name||'Boş Koltuk';}
+function okSyncHandOrder(){const hand=okState.hand||[];okState.handOrder=okState.handOrder.filter(i=>hand.includes(i));for(const tile of hand)if(!okState.handOrder.includes(tile))okState.handOrder.push(tile);if(!hand.includes(okState.selected))okState.selected=null;}
+function okColorText(tile){const t=okDescription(tile,okState.public?.indicator>=0?okState.public.indicator:0);return OK_COLORS[t.color]||'#222';}
+function okDrawTile(tile){const t=okDescription(tile,okState.public.indicator);const b=document.createElement('button');b.type='button';b.className='ok-tile hover-target'+(t.wild?' ok-wild':'')+(t.fake?' ok-fake':'')+(okState.selected===tile?' ok-selected':'');b.draggable=true;b.dataset.id=String(tile);b.setAttribute('aria-label',(t.wild?'Okey ':t.fake?'Sahte okey ':'')+t.num+' numara '+['kırmızı','mavi','sarı','siyah'][t.color]+' taş');const number=document.createElement('span');number.className='ok-n';number.textContent=t.num;number.style.color=OK_COLORS[t.color];const glyph=document.createElement('span');glyph.className='ok-glyph';glyph.textContent='◆ ◆';glyph.style.color=OK_COLORS[t.color];b.append(number,glyph);b.onclick=()=>{okState.selected=okState.selected===tile?null:tile;okRenderRack();okButtons();};b.addEventListener('dragstart',e=>{e.dataTransfer.setData('text/plain',String(tile));e.dataTransfer.effectAllowed='move';});b.addEventListener('dragover',e=>e.preventDefault());b.addEventListener('drop',e=>{e.preventDefault();const moved=Number(e.dataTransfer.getData('text/plain'));const arr=okState.handOrder;const from=arr.indexOf(moved),to=arr.indexOf(tile);if(from<0||to<0)return;arr.splice(from,1);arr.splice(to,0,moved);okRenderRack();});return b;}
+function okRenderRack(){const el=ok$('ok-rack');el.replaceChildren();if(!okState.public||okState.public.phase!=='playing')return;for(const id of okState.handOrder)el.append(okDrawTile(id));}
+function okButtons(){const p=okState.public;if(!p||p.phase!=='playing')return;const mine=okSeat()===Number(p.turn),canDraw=mine&&p.mode==='draw'&&!okState.waiting&&okState.hand.length===14,canDrop=mine&&p.mode==='discard'&&!okState.waiting&&okState.hand.length===15&&okState.selected!==null;const previous=(Number(p.turn)+3)%4;const pile=p.discards?.[previous]||[];
+ ok$('ok-draw-stock').disabled=!canDraw||Number(p.stockCount)<1;ok$('ok-draw-discard').disabled=!canDraw||!pile.length;
+ ok$('ok-discard').disabled=!canDrop;ok$('ok-finish').disabled=!canDrop;
+ ok$('ok-hint').textContent=okState.waiting?'Hamlen işleniyor...':!mine?'Diğer oyuncunun hamlesi bekleniyor. Taşlarını seçip sürükleyerek düzenleyebilirsin.':p.mode==='draw'?'Sıra sende! Ortadaki desteden ya da solundaki oyuncunun attığı taştan çek.':'Sıra sende! Atmak istediğin taşı seç. Elin tamamsa “Eli Bitir” seçeneğini kullan.';
+ ok$('ok-move-note').textContent=okState.hand.length+' taş';
+}
+function okRender(){const p=okState.public;if(!p)return;const phase=p.phase||'lobby';ok$('ok-lobby').classList.toggle('ok-hidden',phase!=='lobby');ok$('ok-game').classList.toggle('ok-hidden',phase!=='playing');ok$('ok-ended').classList.toggle('ok-hidden',phase!=='ended');ok$('ok-room-phase').textContent=phase==='lobby'?'OYUNCULAR BEKLENİYOR':phase==='playing'?'● CANLI OYUN':'EL SONUCU';
+ if(phase==='lobby')okRenderLobby();if(phase==='playing'){okRenderTable();okRenderRack();okButtons();}if(phase==='ended')okRenderEnd();
+}
+function okRenderLobby(){const seats=okSeats(),list=ok$('ok-lobby-players');list.replaceChildren();let n=0;for(let i=0;i<4;i++){const p=seats[i];if(p)n++;const item=document.createElement('div');item.className='ok-player-slot'+(p?'':' empty');const avatar=document.createElement('span');avatar.className='ok-player-symbol';avatar.textContent=(p?.name||'+').slice(0,1).toUpperCase();const name=document.createElement('b');name.textContent=p?.name||'Oyuncu bekleniyor';const note=document.createElement('small');note.textContent=p?(i===0?'Masa sahibi':'Koltuğa yerleşti'):'Boş koltuk';item.append(avatar,name,note);list.append(item);}ok$('ok-lobby-count').textContent=n+' / 4';ok$('ok-start').disabled=n!==4||!okIsHost()||okState.waiting;ok$('ok-start').classList.toggle('ok-hidden',!okIsHost());ok$('ok-lobby-hint').textContent=n<4?'Oyun için '+(4-n)+' oyuncu daha bekleniyor.':okIsHost()?'Dört oyuncu hazır. Taşları dağıtabilirsin.':'Masa sahibinin oyunu başlatması bekleniyor.';}
+function okMini(value,id){const el=ok$(id);const t=okTile(value);el.textContent=t.num;el.style.color=OK_COLORS[t.color];}
+function okRenderTable(){const p=okState.public,self=okSeat(),names=okSeats();if(p.indicator<0)return;okMini(p.indicator,'ok-indicator');const joker=okJoker(p.indicator),j=ok$('ok-joker');j.textContent=joker.num;j.style.color=OK_COLORS[joker.color];ok$('ok-stock-count').textContent=p.stockCount??'0';ok$('ok-turn-info').textContent=okSeatLabel(p.turn)+(p.mode==='draw'?' / ÇEKİYOR':' / ATIYOR');
+ const arrangement=[['top',(self+2)%4],['left',(self+3)%4],['right',(self+1)%4]];
+ for(const [where,seat] of arrangement){const el=ok$('ok-seat-'+where),p2=names[seat];el.classList.toggle('my-turn',Number(p.turn)===seat);el.querySelector('.ok-op-avatar').textContent=(p2?.name||'?').charAt(0).toUpperCase();el.querySelector('.ok-op-copy b').textContent=p2?.name||'Oyuncu';el.querySelector('.ok-op-copy small').textContent=(seat===p.turn&&p.mode==='discard'?'15':'14')+' taş'+(seat===p.turn?' · SIRASI':'');}
+ const previous=(Number(p.turn)+3)%4,pile=p.discards?.[previous]||[],latest=pile.length?pile[pile.length-1]:null,el=ok$('ok-last-discard');if(latest===null){el.textContent='—';el.style.color='#b02937';}else{const d=okDescription(latest,p.indicator);el.textContent=d.num;el.style.color=OK_COLORS[d.color];}
+ ok$('ok-center-message').textContent=p.recent||'Hamle bekleniyor...';ok$('ok-self-name').textContent=okSeatLabel(self)+(self===p.turn?' · SIRA SENDE':'');
+}
+function okRenderEnd(){const p=okState.public,seats=okSeats(),winner=p.winner;ok$('ok-end-title').textContent=winner? (winner===okState.uid?'TEBRİKLER, KAZANDIN!':'EL TAMAMLANDI'):'EL BERABERE BİTTİ';ok$('ok-end-detail').textContent=p.endReason||'';const panel=ok$('ok-end-players');panel.replaceChildren();for(let i=0;i<4;i++){const player=seats[i];const item=document.createElement('div');item.textContent=(winner===player?.uid?'★ ':'')+(player?.name||'Oyuncu')+' · '+(p.scores?.[player.uid]??20)+' P';panel.append(item);}ok$('ok-redeal').classList.toggle('ok-hidden',!okIsHost());}
+async function okStart(){if(!okIsHost()||okState.waiting)return;okState.waiting=true;ok$('ok-start').disabled=true;try{
+ const r=await runTransaction(okRef(okState.code),room=>{if(!room||room.public?.phase!=='lobby'||Object.keys(room.public?.seats||{}).length!==4)return;
+ const d=okDeal(okRand),p=room.public;p.handNumber=1;p.starter=0;p.turn=0;p.mode='discard';p.phase='playing';p.indicator=d.indicator;p.stockCount=d.stock.length;p.discards={};p.recent='İlk oyuncu 15 taşla başlar; taş atmalıdır.';p.scores=p.scores||{};room.hands={};for(let i=0;i<4;i++){const uid=p.seats[i]?.uid;if(!uid)return;room.hands[uid]=d.hands[i];p.scores[uid]=20;}room.stock=d.stock;room.actions={};return room;},{applyLocally:false});if(!r.committed)throw Error('Dört oyuncu olmadan başlanamaz.');
+}catch(e){okNotice(okError(e));}finally{okState.waiting=false;okRender();}}
+function okHostAttach(){if(!okIsHost()||okState.ownerOff)return;const cancel=onValue(okRef(okState.code,'actions'),s=>{if(!s.exists()||okState.hostBusy)return;okRunHostQueue();},e=>okNotice(okError(e)));okState.ownerOff=cancel;okState.off.push(cancel);}
+async function okRunHostQueue(){if(!okIsHost()||okState.hostBusy||!okState.code)return;okState.hostBusy=true;try{
+ for(let repeat=0;repeat<10;repeat++){
+ const snap=await get(okRef(okState.code));if(!snap.exists())break;const room=snap.val(),acts=room.actions||{},seat=Number(room.public?.turn),uid=room.public?.seats?.[seat]?.uid,request=uid&&acts[uid];if(!request)break;
+ const result=await runTransaction(okRef(okState.code),old=>{
+  if(!old||old.public?.phase!=='playing'||old.public?.seats?.[Number(old.public.turn)]?.uid!==uid||!old.actions?.[uid]||old.actions[uid].nonce!==request.nonce)return;
+  return okApplyMove(old,uid,request);
+ },{applyLocally:false});if(!result.committed)break;
+ }
+}catch(e){okNotice('Oda sahibi hamle hatası: '+okError(e));}finally{okState.hostBusy=false;}}
+function okApplyMove(room,uid,action){const p=room.public,hand=room.hands?.[uid];if(!Array.isArray(hand))return room;
+ function reject(msg){delete room.actions[uid];p.recent=msg;return room;}
+ const seat=Number(p.turn),previous=(seat+3)%4;
+ if(action.type==='draw-stock'&&p.mode==='draw'){
+  const deck=room.stock||[];if(!deck.length)return reject('Kapalı destede taş kalmadı.');const tile=deck.pop();hand.push(tile);p.stockCount=deck.length;p.mode='discard';p.recent=okSeatLabelLocal(p,seat)+' kapalı desteden bir taş çekti.';
+ }else if(action.type==='draw-discard'&&p.mode==='draw'){
+  const pile=p.discards?.[previous]||[];if(!pile.length)return reject('Alınabilecek açık taş bulunmuyor.');hand.push(pile.pop());p.discards[previous]=pile;p.mode='discard';p.recent=okSeatLabelLocal(p,seat)+' açık taşı aldı.';
+ }else if((action.type==='discard'||action.type==='finish')&&p.mode==='discard'){
+  if(!Number.isInteger(action.tile)||!hand.includes(action.tile)||hand.length!==15)return reject('Seçilen taş elinde bulunamadı.');
+  const rest=hand.filter(t=>t!==action.tile);if(rest.length!==14)return reject('Bitiş için 14 taş kalmalıdır.');
+  if(action.type==='finish'){
+    const checked=okWinningHand(rest,p.indicator);if(!checked.valid)return reject('Bitiş geçersiz. 14 taşın tamamı geçerli per veya 7 çift oluşturmalı.');
+    const tile=okDescription(action.tile,p.indicator),special=checked.kind==='pairs'||tile.wild;
+    const subtract=special?4:2;
+    room.hands[uid]=rest;p.phase='ended';p.winner=uid;p.winKind=checked.kind;p.winTile=action.tile;p.endReason=okSeatLabelLocal(p,seat)+' '+(checked.kind==='pairs'?'7 çiftle':tile.wild?'okey atarak':'normal perlerle')+' bitirdi. Diğer oyunculardan '+subtract+' puan düşüldü.';
+    for(const [i,s]of Object.entries(p.seats))if(s.uid!==uid)p.scores[s.uid]=Math.max(0,Number(p.scores?.[s.uid]??20)-subtract);
+    p.recent=p.endReason;
+  }else{
+   room.hands[uid]=rest;
+   if(!p.discards)p.discards={};const pile=p.discards[seat]||[];pile.push(action.tile);p.discards[seat]=pile;p.turn=(seat+1)%4;p.mode='draw';p.recent=okSeatLabelLocal(p,seat)+' bir taş attı.';
+  }
+ }else return reject('Bu sırada bu hamle yapılamaz.');
+ delete room.actions[uid];return room;
+}
+function okSeatLabelLocal(pub,seat){return pub.seats?.[seat]?.name||'Oyuncu';}
+async function okAction(type){const p=okState.public;if(!p||p.phase!=='playing'||okSeat()!==p.turn||okState.waiting)return;if(type.includes('draw')&&p.mode!=='draw')return;if((type==='discard'||type==='finish')&&p.mode!=='discard')return;
+ const data={type,nonce:Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,8),requestedAt:Date.now()};
+ if(type==='discard'||type==='finish'){
+  if(okState.selected===null){okNotice('Önce bir taş seç.');return;}data.tile=okState.selected;
+  if(type==='finish'){const rest=okState.hand.filter(x=>x!==data.tile),valid=okWinningHand(rest,p.indicator);if(!valid.valid){okNotice('Bitiş geçersiz: 14 taşını perlere ya da 7 çifte tamamla.');return;}}
+ }
+ okState.waiting=true;okButtons();try{await set(okRef(okState.code,'actions',okState.uid),data);}catch(e){okNotice(okError(e));okState.waiting=false;okButtons();}
+}
+async function okRedeal(){if(!okIsHost()||okState.waiting)return;okState.waiting=true;try{
+ const r=await runTransaction(okRef(okState.code),room=>{if(!room||room.public?.phase!=='ended'||Object.keys(room.public.seats||{}).length!==4)return;
+ const p=room.public,d=okDeal(okRand),starter=(Number(p.starter)+1)%4;p.phase='playing';p.handNumber=Number(p.handNumber||1)+1;p.starter=starter;p.turn=starter;p.mode='discard';p.indicator=d.indicator;p.stockCount=d.stock.length;p.discards={};p.winner='';p.winKind='';p.winTile=-1;p.endReason='';p.recent='Yeni el dağıtıldı. İlk oyuncu taş atmalıdır.';room.stock=d.stock;room.hands={};room.actions={};for(let i=0;i<4;i++){const seat=(starter+i)%4;const id=p.seats[seat].uid;room.hands[id]=d.hands[i];}return room;},{applyLocally:false});if(!r.committed)throw Error('Yeni el başlatılamadı.');
+}catch(e){okNotice(okError(e));}finally{okState.waiting=false;}}
+function okUI(){try{ok$('ok-name').value=localStorage.getItem('yq-okey-nickname')||localStorage.getItem('yq-wc-name')||'';}catch(_){ }
+ ok$('ok-create').addEventListener('click',okCreate);ok$('ok-join').addEventListener('click',okJoin);ok$('ok-code-entry').addEventListener('keydown',e=>{if(e.key==='Enter')okJoin();});ok$('ok-toggle-join').addEventListener('click',()=>ok$('ok-join-box').classList.toggle('ok-hidden'));
+ ok$('ok-start').addEventListener('click',okStart);ok$('ok-leave').addEventListener('click',okLeave);ok$('ok-copy').addEventListener('click',async()=>{const code=okState.code;try{await navigator.clipboard.writeText(code);okNotice('Masa kodu kopyalandı: '+code);}catch(_){okNotice('Masa kodun: '+code);}});
+ ok$('ok-draw-stock').addEventListener('click',()=>okAction('draw-stock'));ok$('ok-draw-discard').addEventListener('click',()=>okAction('draw-discard'));ok$('ok-discard').addEventListener('click',()=>okAction('discard'));ok$('ok-finish').addEventListener('click',()=>okAction('finish'));ok$('ok-redeal').addEventListener('click',okRedeal);
+ ok$('ok-sort-color').addEventListener('click',()=>{okState.handOrder.sort((a,b)=>{const x=okDescription(a,okState.public.indicator),y=okDescription(b,okState.public.indicator);return x.color-y.color||x.num-y.num||a-b;});okRenderRack();});
+ ok$('ok-sort-number').addEventListener('click',()=>{okState.handOrder.sort((a,b)=>{const x=okDescription(a,okState.public.indicator),y=okDescription(b,okState.public.indicator);return x.num-y.num||x.color-y.color||a-b;});okRenderRack();});
+ okAuth().then(async()=>{try{const s=JSON.parse(sessionStorage.getItem('yq-okey-room')||'null');if(s?.code&&s?.name){const r=await get(okRef(s.code,'public'));if(r.exists()&&Object.values(r.val().seats||{}).some(p=>p.uid===okState.uid)){ok$('ok-name').value=s.name;okEnter(s.code,s.name);}}}catch(e){console.warn('Okey oturumu yüklenemedi',e);}}).catch(e=>okSetError(okError(e)));
+}
+okUI();
 
 </script>
 </body>
