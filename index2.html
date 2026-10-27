@@ -467,6 +467,111 @@
             .custom-cursor { display: none !important; }
             * { cursor: auto !important; }
         }
+
+        /* YIGITQWC ONLINE ISIM-SEHIR - independent layout / styles */
+#view-wordcity { display:none; overflow-y:auto; overflow-x:hidden; height:calc(100vh - 70px); flex-direction:column; align-items:center; padding:28px 22px 65px; scrollbar-width:thin; scrollbar-color:#851515 transparent; }
+#view-wordcity.active-view {display:flex;}
+#wc-tab { position:relative; border-color:rgba(255,64,64,.75); color:#fff; background:linear-gradient(125deg,rgba(93,5,5,.75),rgba(19,0,0,.72)); }
+#wc-tab:before {content:'';position:absolute;width:6px;height:6px;top:7px;right:7px;border-radius:50%;background:#ff4949;box-shadow:0 0 10px #ff2222;}
+.wc-shell { width:min(1240px,100%);display:flex;flex-direction:column;gap:20px;isolation:isolate; }
+.wc-banner {position:relative;overflow:hidden;padding:32px 36px 30px;background:linear-gradient(118deg,rgba(27,2,5,.96),rgba(6,2,5,.94) 67%,rgba(59,4,7,.9));border:1px solid rgba(255,73,73,.38);border-radius:22px;box-shadow:inset 0 1px rgba(255,255,255,.06),0 18px 50px #0009;display:flex;align-items:center;justify-content:space-between;gap:20px;}
+.wc-banner:before {content:'';position:absolute;right:-100px;top:-180px;width:420px;height:420px;border:1px solid rgba(255,31,31,.1);border-radius:50%;box-shadow:0 0 0 45px rgba(255,27,27,.03),0 0 0 105px rgba(255,27,27,.025);pointer-events:none;}
+.wc-eyebrow {display:flex;align-items:center;gap:9px;color:#ff7777;font:800 11px 'Courier New',monospace;letter-spacing:2.8px;margin-bottom:13px;}
+.wc-signal {width:7px;height:7px;background:#ff4141;border-radius:50%;box-shadow:0 0 0 4px #ff414121,0 0 18px #ff1d1d;animation:wc-pulse 2.3s ease-in-out infinite;}
+@keyframes wc-pulse {50%{opacity:.55;box-shadow:0 0 0 8px #ff41410e,0 0 13px #ff1d1d;}}
+.wc-banner h1 {font-size:clamp(30px,4vw,54px);line-height:1.06;letter-spacing:-1.9px;font-weight:950;color:#fff;text-shadow:0 2px 24px #000;}
+.wc-banner h1 span {color:#ff3636;text-shadow:0 0 27px #a400004f;}
+.wc-banner p {font-size:13px;color:#b9a7ac;margin-top:11px;line-height:1.7;max-width:650px;}
+.wc-banner-mark {flex:0 0 auto;width:90px;height:90px;border:1px solid #ff333351;border-radius:22px;display:grid;place-items:center;transform:rotate(-9deg);background:linear-gradient(145deg,#a2131940,#2e050a43);box-shadow:0 0 42px #ff00002e;}
+.wc-banner-mark svg {width:49px;height:49px;stroke:#ff4e52;fill:none;stroke-width:1.5;transform:rotate(9deg);filter:drop-shadow(0 0 8px #ff3333aa);}
+.wc-toast {display:none;position:sticky;top:8px;align-self:center;z-index:110;background:#29070deb;border:1px solid #f3455b;color:#fff;padding:12px 22px;border-radius:100px;font-size:12px;font-weight:700;max-width:100%;text-align:center;box-shadow:0 14px 35px #000b;backdrop-filter:blur(12px)}
+.wc-toast.visible {display:block;animation:wc-slide .23s ease-out;}
+@keyframes wc-slide {from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+.wc-login-grid {display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:18px;}
+.wc-panel {background:linear-gradient(155deg,rgba(19,5,8,.94),rgba(8,4,6,.94));border:1px solid rgba(255,69,69,.22);border-radius:20px;padding:25px;box-shadow:0 12px 35px #0008;min-width:0;}
+.wc-panel-head {display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:18px;}
+.wc-panel h2 {font-size:19px;letter-spacing:-.3px;color:white;font-weight:850;}
+.wc-kicker {font-size:10px;font-weight:800;letter-spacing:1.3px;color:#ff5f65;font-family:'Courier New',monospace;}
+.wc-intro {color:#b7a8ab;font-size:13px;line-height:1.7;margin-bottom:18px;}
+.wc-field label {display:block;font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#ae9499;margin-bottom:8px;}
+.wc-field input, .wc-field select {display:block;width:100%;border:1px solid #63272e;border-radius:11px;background:rgba(0,0,0,.56);padding:13px 14px;font-size:14px;color:#fff;outline:none;user-select:text;transition:border-color .2s,box-shadow .2s;min-height:46px;}
+.wc-field input:focus, .wc-field select:focus {border-color:#ff4653;box-shadow:0 0 0 3px #ff334416;}
+.wc-field input::placeholder {color:#80646b;}
+.wc-field select option {background:#1b080b;color:white;}
+.wc-fieldrow {display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.wc-btn {border:1px solid rgba(255,80,80,.46);border-radius:11px;display:inline-flex;align-items:center;justify-content:center;gap:8px;background:#27090e;color:#f7ebed;padding:12px 17px;min-height:44px;font-weight:800;font-size:12px;letter-spacing:.3px;transition:transform .2s cubic-bezier(.18,.8,.3,1.35),box-shadow .2s,background .2s;white-space:nowrap;}
+.wc-btn:hover:not(:disabled) {transform:translateY(-2px);box-shadow:0 10px 25px #ff00002b;background:#441019;}
+.wc-btn:active:not(:disabled) {transform:scale(.98);}
+.wc-btn.primary {background:linear-gradient(120deg,#fa303c,#b60b24);border-color:#ff4550;color:white;box-shadow:0 6px 22px #9a001c44;}
+.wc-btn.primary:hover:not(:disabled) {background:linear-gradient(120deg,#ff505c,#d20b2b);box-shadow:0 10px 30px #d1002959;}
+.wc-btn.ghost {background:transparent;border-color:#55232b;color:#cdb7bc;}
+.wc-btn:disabled {opacity:.4;cursor:not-allowed;}
+.wc-actions {display:flex;flex-wrap:wrap;gap:10px;margin-top:17px;}
+.wc-actions .wc-btn {flex:1;}
+.wc-tip {display:flex;gap:10px;align-items:flex-start;background:#210b0e75;border:1px solid #59232964;border-radius:12px;padding:13px;margin-top:18px;font-size:12px;line-height:1.5;color:#a9929a;}
+.wc-tip strong {color:#f8d3d8;}
+.wc-how {display:grid;gap:12px;}
+.wc-how-row {display:flex;gap:13px;align-items:center;color:#c2afb4;font-size:12px;line-height:1.55;}
+.wc-how-num {flex:0 0 33px;width:33px;height:33px;display:grid;place-items:center;border-radius:10px;background:#ff25351e;border:1px solid #ff3d504a;color:#ff626c;font:800 14px 'Courier New',monospace;}
+.wc-rule {height:1px;background:linear-gradient(90deg,transparent,#ff39413a,transparent);margin:19px 0;}
+.wc-room-top {display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+.wc-room-top-left {display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.wc-room-chip {display:flex;align-items:center;gap:10px;border:1px solid #91323b;background:#2a0a10;border-radius:12px;padding:9px 13px;}
+.wc-room-chip b {font:900 18px 'Courier New',monospace;color:#fff;letter-spacing:2px;}
+.wc-room-chip small {font-size:10px;color:#b58f97;letter-spacing:1px;}
+.wc-pill {border:1px solid #6e2c37;border-radius:100px;padding:7px 12px;color:#ff8790;font-size:11px;font-weight:800;background:#23090d;}
+.wc-pill.live {color:#76e4bb;border-color:#1b7e61;background:#062c21;}
+.wc-room-layout {display:grid;grid-template-columns:minmax(0,1.75fr) minmax(270px,.75fr);gap:18px;align-items:start;}
+.wc-room-layout .wc-main {display:flex;flex-direction:column;gap:18px;min-width:0;}
+.wc-player-head {display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.wc-list {display:grid;gap:8px;}
+.wc-player {display:flex;align-items:center;gap:10px;padding:10px;background:#16070a;border:1px solid #3f1b23;border-radius:11px;min-width:0;}
+.wc-avatar {width:34px;height:34px;flex:0 0 auto;display:grid;place-items:center;background:linear-gradient(140deg,#b0192a,#410810);border:1px solid #c32842;border-radius:11px;color:#fff;font-weight:900;text-transform:uppercase;}
+.wc-player-name {font-size:12px;font-weight:800;color:#f4e6e8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.wc-player-note {font-size:10px;color:#9b8087;margin-top:3px;}
+.wc-player-score {margin-left:auto;color:#ff7886;font:900 15px 'Courier New',monospace;white-space:nowrap;}
+.wc-small {font-size:12px;line-height:1.6;color:#bba1a8;}
+.wc-center {text-align:center;}
+.wc-muted {color:#9d828a;font-size:11px;line-height:1.5;}
+.wc-stage {display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;padding-bottom:17px;border-bottom:1px solid #55202775;}
+.wc-stage h2 {margin-top:4px;font-size:20px;}
+.wc-round-mini {font:700 11px 'Courier New',monospace;color:#f37d8b;letter-spacing:1px;}
+.wc-timer-block {display:flex;align-items:center;gap:11px;}
+.wc-letter {width:62px;height:62px;display:grid;place-items:center;font-size:37px;font-weight:950;color:#fff;border:1px solid #f13d4c;background:radial-gradient(circle at 35% 25%,#b91c37,#38040d);border-radius:16px;box-shadow:0 0 26px #ff000036;}
+.wc-timer {font:900 31px 'Courier New',monospace;letter-spacing:-1.8px;min-width:91px;text-align:right;color:#fff;}
+.wc-timer.warn {color:#ff5e5e;animation:wc-urgent .8s infinite alternate;}
+@keyframes wc-urgent {to{opacity:.55;}}
+.wc-progress {height:5px;background:#390e17;border-radius:50px;overflow:hidden;margin-top:15px;}
+.wc-progress-fill {height:100%;width:100%;background:linear-gradient(90deg,#d20d2f,#ff5758);border-radius:50px;box-shadow:0 0 12px #ff3545;transition:width .15s linear;}
+.wc-answers {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:19px;}
+.wc-answer-field {display:flex;flex-direction:column;gap:7px;}
+.wc-answer-field label {color:#ddc5cb;font-size:11px;font-weight:800;letter-spacing:.2px;}
+.wc-answer-field input {width:100%;border:1px solid #56232a;background:#0b0407;border-radius:10px;min-height:46px;padding:12px;color:#fff;outline:none;user-select:text;font-size:14px;transition:border-color .18s,background .18s,box-shadow .18s;}
+.wc-answer-field input:focus {border-color:#ff5966;box-shadow:0 0 0 3px #ff435016;background:#160509;}
+.wc-answer-field input:disabled {color:#9b7e85;opacity:.67;}
+.wc-answer-field input::placeholder {color:#6c555c;}
+.wc-submitted {color:#68dba0;border:1px solid #227c52;background:#063523;padding:12px;border-radius:11px;font-size:12px;font-weight:700;}
+.wc-review-card {padding:15px;border:1px solid #5b2530;background:#120609;border-radius:13px;}
+.wc-review-card + .wc-review-card {margin-top:11px;}
+.wc-review-top {display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:13px;}
+.wc-review-line {display:flex;justify-content:space-between;align-items:center;gap:8px;padding:9px 0;border-top:1px solid #3b19217a;font-size:12px;}
+.wc-review-value {color:#f3e9eb;font-weight:750;overflow-wrap:anywhere;min-width:0;}
+.wc-review-label {color:#ad919a;font-size:11px;min-width:52px;}
+.wc-review-points {font:800 11px 'Courier New',monospace;color:#f57e88;min-width:35px;text-align:right;}
+.wc-bad {text-decoration:line-through;color:#9e777e;}
+.wc-review-toggle {flex:0 0 auto;padding:6px 9px;font:800 10px 'Courier New',monospace;color:#ff818a;border:1px solid #8a3942;border-radius:7px;background:#3a1018;}
+.wc-review-toggle.off {color:#6ee1a8;border-color:#236d4b;background:#0d2a1d;}
+.wc-score-grid {display:grid;gap:10px;margin-top:19px;}
+.wc-score-row {display:flex;align-items:center;gap:13px;border:1px solid #632832;background:linear-gradient(90deg,#3a0b16,#17070b);padding:13px 15px;border-radius:12px;}
+.wc-rank {font:900 17px 'Courier New',monospace;color:#ff7081;min-width:29px;}
+.wc-score-bar {flex:1;height:5px;background:#3b1320;border-radius:50px;overflow:hidden;}
+.wc-score-bar i {display:block;height:100%;background:linear-gradient(90deg,#b6152b,#ff5565);border-radius:50px;}
+.wc-error {color:#ffa8ac;font-size:12px;}
+.wc-hidden {display:none!important;}
+@media (max-width:990px) {#view-wordcity {height:auto;min-height:calc(100vh - 80px);} .wc-room-layout,.wc-login-grid {grid-template-columns:1fr;} .wc-banner-mark{display:none;} }
+@media (max-width:560px) {#view-wordcity{padding:15px 10px 45px}.wc-banner{padding:24px 20px;border-radius:17px}.wc-panel{padding:18px;border-radius:16px}.wc-fieldrow{grid-template-columns:1fr}.wc-answers{grid-template-columns:1fr}.wc-stage{align-items:flex-start}.wc-timer{font-size:26px}.wc-banner h1{letter-spacing:-1px}.wc-room-chip b{font-size:14px;letter-spacing:1px}.wc-actions .wc-btn{flex:1 0 120px}.wc-room-layout{grid-template-columns:minmax(0,1fr)}}
+@media (prefers-reduced-motion:reduce){.wc-signal,.wc-timer.warn{animation:none}.wc-btn{transition:none}}
+
     </style>
 </head>
 <body>
@@ -529,6 +634,7 @@
                 <button class="tab-btn hover-target" onclick="switchTab('fireball', this)">🔥 Katon Kontrolü</button>
                 <button class="tab-btn hover-target" onclick="switchTab('flee', this)">🎯 Sharingan Refleksi</button>
                 <button class="tab-btn hover-target" onclick="switchTab('awards', this)">🎖️ Ödüller</button>
+                <button class="tab-btn hover-target" id="wc-tab" onclick="switchTab('wordcity', this)">🌐 Online İsim–Şehir</button>
             </div>
         </div>
         <a href="index.html" class="back-link hover-target">← Ana Sayfa</a>
@@ -688,6 +794,86 @@
             <div class="award-card" id="card-ach7"><div class="award-icon">⌨️</div><div class="award-info"><h4>Hızlı Parmaklar</h4><p>Mühür Yazıcısı'nda 35+ DKM hıza ulaş.</p></div></div>
             <div class="award-card" id="card-ach8"><div class="award-icon">🦅</div><div class="award-info"><h4>Göklerin Efendisi</h4><p>Karga Simülasyonu'nda 10 engeli aş.</p></div></div>
         </div>
+    </section>
+
+    <!-- 9. ONLINE ISIM SEHIR - Firebase multiplayer, existing games intact -->
+    <section class="view-section" id="view-wordcity" aria-label="Online İsim Şehir oyunu">
+      <div class="wc-shell">
+        <header class="wc-banner">
+          <div>
+            <div class="wc-eyebrow"><span class="wc-signal"></span> YIGITQWC / MULTIPLAYER ARENA</div>
+            <h1>İSİM <span>ŞEHİR</span></h1>
+            <p>Bir harf. Beş kategori. Gerçek rakipler. Odanı kur, arkadaşlarını davet et ve kelimelerinle zirveye çık.</p>
+          </div>
+          <div class="wc-banner-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2M5 4l-2 2M19 4l2 2" stroke-linecap="round"/></svg></div>
+        </header>
+        <div class="wc-toast" id="wc-toast" role="status" aria-live="polite"></div>
+        <div id="wc-login" class="wc-login-grid">
+          <div class="wc-panel">
+            <div class="wc-panel-head"><h2>ARENA GİRİŞİ</h2><span class="wc-kicker" id="wc-connection">● BAĞLANIYOR</span></div>
+            <p class="wc-intro">Hesap açmak yok, şifre yok. Yalnızca bir oyuncu adı seç ve gerçek zamanlı odaya bağlan.</p>
+            <div class="wc-field"><label for="wc-nickname">OYUNCU ADIN</label><input id="wc-nickname" maxlength="18" minlength="2" placeholder="Oyuncu adını yaz..." autocomplete="nickname" spellcheck="false"></div>
+            <div class="wc-actions"><button id="wc-create" type="button" class="wc-btn primary hover-target" disabled>✦ ODA OLUŞTUR</button><button type="button" id="wc-showjoin" class="wc-btn hover-target" disabled>↗ ODAYA KATIL</button></div>
+            <div class="wc-field wc-hidden" id="wc-joinbox" style="margin-top:17px"><label for="wc-code-entry">ODA KODU</label><input id="wc-code-entry" maxlength="6" placeholder="Örn. R7KM2P" style="text-transform:uppercase;letter-spacing:3px;font-family:monospace" autocomplete="off"><button id="wc-join" class="wc-btn primary hover-target" type="button" style="margin-top:11px;width:100%">KODA BAĞLAN →</button></div>
+            <div class="wc-tip"><span>◈</span><span><strong>Anonim ve ücretsiz.</strong> Firebase oyuncuları birbirine bağlar. Oda kodunu yalnızca arkadaşlarınla paylaş.</span></div>
+            <div id="wc-login-error" class="wc-error" style="margin-top:12px" aria-live="polite"></div>
+          </div>
+          <div class="wc-panel"><div class="wc-panel-head"><h2>NASIL OYNANIR?</h2><span class="wc-kicker">/ PROTOKOL</span></div>
+            <div class="wc-how"><div class="wc-how-row"><span class="wc-how-num">01</span><span>Odana bir isim ver; arkadaşlarına <b>6 karakterlik oda kodunu</b> gönder.</span></div>
+              <div class="wc-how-row"><span class="wc-how-num">02</span><span>Oda sahibi oyunu başlatınca herkese <b>aynı harf ve aynı süre</b> verilir.</span></div>
+              <div class="wc-how-row"><span class="wc-how-num">03</span><span>İsim, Şehir, Hayvan, Bitki ve Eşya alanlarını doldurup cevaplarını gönder.</span></div>
+              <div class="wc-how-row"><span class="wc-how-num">04</span><span>Cevaplar süre bitince açılır. <b>Benzersiz 10, tekrar 5, boş/geçersiz 0 puan.</b></span></div>
+            </div>
+            <div class="wc-rule"></div><p class="wc-muted">2–8 oyuncu · 3 veya 5 tur · 60–120 sn · Canlı sonuç tablosu · Şifresiz misafir girişi</p>
+          </div>
+        </div>
+        <div id="wc-room" class="wc-hidden">
+          <div class="wc-room-top" style="margin-bottom:18px">
+            <div class="wc-room-top-left"><div class="wc-room-chip"><small>ODA</small><b id="wc-room-code">------</b><button id="wc-copy" class="wc-btn ghost hover-target" type="button" style="min-height:31px;padding:5px 9px;font-size:10px">KOPYALA ↗</button></div><span id="wc-phase-chip" class="wc-pill">LOBI</span></div>
+            <button id="wc-leave" type="button" class="wc-btn ghost hover-target">← ODADAN AYRIL</button>
+          </div>
+          <div class="wc-room-layout">
+            <div class="wc-main">
+              <div id="wc-lobby" class="wc-panel">
+                <div class="wc-panel-head"><h2>OYUNU KUR</h2><span class="wc-kicker">/ BEKLEME ODASI</span></div>
+                <p class="wc-intro">Oda kodunu paylaş. En az 2 oyuncu geldiğinde oda sahibi oyunu başlatabilir.</p>
+                <div id="wc-host-options" class="wc-fieldrow">
+                  <div class="wc-field"><label for="wc-round-select">TOPLAM TUR</label><select id="wc-round-select"><option value="3">3 TUR</option><option value="5" selected>5 TUR</option></select></div>
+                  <div class="wc-field"><label for="wc-duration-select">TUR SÜRESİ</label><select id="wc-duration-select"><option value="60">60 SANİYE</option><option value="90" selected>90 SANİYE</option><option value="120">120 SANİYE</option></select></div>
+                </div>
+                <div class="wc-actions"><button id="wc-start" class="wc-btn primary hover-target" type="button" disabled>OYUNU BAŞLAT ✦</button></div>
+                <div id="wc-lobby-status" class="wc-muted" style="margin-top:12px">Oyuncular bekleniyor…</div>
+              </div>
+              <div id="wc-playing" class="wc-panel wc-hidden">
+                <div class="wc-stage"><div><span class="wc-round-mini" id="wc-round-label">TUR 01 / 05</span><h2>KELİMELERİ BUL</h2></div><div class="wc-timer-block"><div class="wc-letter" id="wc-letter">A</div><div class="wc-timer" id="wc-clock">01:30</div></div></div>
+                <div class="wc-progress"><div class="wc-progress-fill" id="wc-progress"></div></div>
+                <div class="wc-answers">
+                  <div class="wc-answer-field"><label for="wc-a-name">01 / İSİM</label><input id="wc-a-name" data-category="name" placeholder="Bir isim..." maxlength="35" autocomplete="off"></div>
+                  <div class="wc-answer-field"><label for="wc-a-city">02 / ŞEHİR</label><input id="wc-a-city" data-category="city" placeholder="Bir şehir..." maxlength="35" autocomplete="off"></div>
+                  <div class="wc-answer-field"><label for="wc-a-animal">03 / HAYVAN</label><input id="wc-a-animal" data-category="animal" placeholder="Bir hayvan..." maxlength="35" autocomplete="off"></div>
+                  <div class="wc-answer-field"><label for="wc-a-plant">04 / BİTKİ</label><input id="wc-a-plant" data-category="plant" placeholder="Bir bitki..." maxlength="35" autocomplete="off"></div>
+                  <div class="wc-answer-field"><label for="wc-a-object">05 / EŞYA</label><input id="wc-a-object" data-category="object" placeholder="Bir eşya..." maxlength="35" autocomplete="off"></div>
+                </div>
+                <div class="wc-actions"><button id="wc-submit" type="button" class="wc-btn primary hover-target">CEVAPLARI GÖNDER →</button><button id="wc-end-round" type="button" class="wc-btn ghost hover-target wc-hidden">TURU BİTİR ↗</button></div>
+                <div class="wc-muted" id="wc-submission-note" style="margin-top:12px">Cevapların tur bitene kadar diğer oyunculardan gizlidir.</div>
+              </div>
+              <div id="wc-review" class="wc-panel wc-hidden">
+                <div class="wc-panel-head"><h2>CEVAPLAR / KONTROL</h2><span class="wc-kicker" id="wc-review-round">TUR SONU</span></div>
+                <p class="wc-intro">Harf kuralını sağlayan eşsiz cevap 10, tekrarlanan cevap 5 puan. Anlamca yanlış cevapları oda sahibi geçersiz işaretleyebilir.</p>
+                <div id="wc-review-list"></div>
+                <div class="wc-actions"><button type="button" id="wc-confirm" class="wc-btn primary hover-target wc-hidden">PUANLARI ONAYLA ✓</button></div>
+                <p class="wc-muted" id="wc-review-status" style="margin-top:12px"></p>
+              </div>
+              <div id="wc-results" class="wc-panel wc-hidden">
+                <div class="wc-panel-head"><h2 id="wc-results-title">TUR SONUÇLARI</h2><span class="wc-kicker">/ SKOR TABLOSU</span></div>
+                <p class="wc-intro" id="wc-results-desc">Tur puanları işlendi. Sıralamayı inceleyebilirsin.</p><div class="wc-score-grid" id="wc-results-list"></div>
+                <div class="wc-actions"><button type="button" id="wc-next" class="wc-btn primary hover-target wc-hidden">SONRAKİ TUR →</button></div>
+              </div>
+            </div>
+            <aside class="wc-panel"><div class="wc-player-head"><h2>OYUNCULAR</h2><span class="wc-kicker" id="wc-player-count">0 / 8</span></div><p class="wc-muted" style="margin:8px 0 16px">Odadaki herkes burada canlı görünür.</p><div id="wc-player-list" class="wc-list"></div><div class="wc-rule"></div><div class="wc-tip" style="margin-top:0"><span>⌁</span><span id="wc-side-note">Oda sahibinin oyunu başlatması bekleniyor.</span></div></aside>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- YÖNETİCİ ŞİFRE GİRİŞİ -->
@@ -1670,5 +1856,320 @@
         }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
     </script>
+<script type="module">
+// ONLINE ISIM-SEHIR / Firebase modular SDK. Existing page games stay untouched.
+import { initializeApp, getApps } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js';
+import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js';
+import { getDatabase, ref, get, set, update, remove, onValue, serverTimestamp, runTransaction } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-database.js';
+
+const wcConfig = {
+  apiKey: 'AIzaSyDObuxbaZ6xIF2oBYsYPYnIh_HsMfEuqIU',
+  authDomain: 'yigitqwc-games.firebaseapp.com',
+  databaseURL: 'https://yigitqwc-games-default-rtdb.europe-west1.firebasedatabase.app',
+  projectId: 'yigitqwc-games',
+  storageBucket: 'yigitqwc-games.firebasestorage.app',
+  messagingSenderId: '691424441412',
+  appId: '1:691424441412:web:14c4f20c161b58bd97b811',
+  measurementId: 'G-VDPXJ4751R'
+};
+const wcApp = getApps().find(a => a.name === 'yq-wordcity') || initializeApp(wcConfig, 'yq-wordcity');
+const wcAuth = getAuth(wcApp), wcDb = getDatabase(wcApp);
+const wc$ = id => document.getElementById(id);
+const wcFields = ['name','city','animal','plant','object'];
+const wcLabels = {name:'İsim',city:'Şehir',animal:'Hayvan',plant:'Bitki',object:'Eşya'};
+const wcAlphabet = 'ABCÇDEFGĞHIİJKLMNOÖPRSŞTUÜVYZ';
+const wcState = {uid:null,code:null,meta:null,players:{},scores:{},answers:{},invalid:{},nickname:'',off:[],roundOff:[],submitting:false,busy:false,round:0,serverOffset:0,loading:false,reviewAnswersReady:false,reviewInvalidsReady:false,reviewUpdating:false};
+let wcToastTimeout, wcLastPhase='', wcFinishing=false, wcLastRender='', wcAuthUnsub;
+const wcTime = () => Date.now() + wcState.serverOffset;
+const wcRef = (...segments) => ref(wcDb, ['wordcity','rooms',...segments].join('/'));
+const wcEscape = (s) => String(s || '').replace(/[&<>"']/g, ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+const wcNick = () => wc$('wc-nickname').value.trim().replace(/\s+/g,' ').slice(0,18);
+const wcNormalized = s => String(s||'').trim().replace(/\s+/g,' ').toLocaleLowerCase('tr-TR');
+const wcFirst = s => wcNormalized(s).slice(0,1).toLocaleUpperCase('tr-TR');
+const wcNotify = (message, delay=3800) => {const box=wc$('wc-toast');box.textContent=message;box.classList.add('visible');clearTimeout(wcToastTimeout);wcToastTimeout=setTimeout(()=>box.classList.remove('visible'),delay);};
+const wcStatus = message => wc$('wc-login-error').textContent=message;
+const wcError = error => {
+  console.error('[yigitqwc Isim Sehir]',error);
+  const code=String(error?.code||'');
+  if(code.includes('permission-denied'))return 'Firebase erişimi reddetti. Realtime Database Rules ayarlarını kontrol et.';
+  if(code.includes('network')||code.includes('unavailable'))return 'Bağlantı kurulamadı. İnternet bağlantını kontrol et.';
+  if(code.includes('auth/operation-not-allowed'))return 'Firebase Anonymous giriş yöntemi açık değil.';
+  if(code.includes('auth/unauthorized-domain'))return 'GitHub Pages alan adı Firebase Authentication için yetkilendirilmemiş.';
+  return 'İşlem tamamlanamadı: '+(code||error?.message||'Bilinmeyen hata');
+};
+function wcSetBusy(value){wcState.busy=value;wc$('wc-create').disabled=value;wc$('wc-showjoin').disabled=value;wc$('wc-join').disabled=value;}
+async function wcEnsureAuth(){
+  if(wcAuth.currentUser){wcState.uid=wcAuth.currentUser.uid;return wcState.uid;}
+  const cred=await signInAnonymously(wcAuth);wcState.uid=cred.user.uid;return wcState.uid;
+}
+function wcNicknameOK(){const n=wcNick(); if(n.length<2||n.length>18){wcStatus('Oyuncu adın 2–18 karakter arasında olmalı.');wc$('wc-nickname').focus();return null;} if(/[<>\n\r\t]/.test(n)){wcStatus('Oyuncu adında geçersiz karakter bulunuyor.');return null;}wcStatus('');return n;}
+function wcRandCode(){const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';const b=new Uint8Array(6);crypto.getRandomValues(b);return Array.from(b,n=>chars[n%chars.length]).join('');}
+function wcRemember(){try{sessionStorage.setItem('yq-wc-room',JSON.stringify({code:wcState.code,nickname:wcState.nickname}));localStorage.setItem('yq-wc-name',wcState.nickname);}catch(_){}}
+function wcForget(){try{sessionStorage.removeItem('yq-wc-room');}catch(_){}}
+async function wcCreate(){
+  const name=wcNicknameOK();if(!name||wcState.busy)return;
+  wcSetBusy(true);try{
+    const uid=await wcEnsureAuth();
+    const meta={host:uid,phase:'lobby',round:0,maxRounds:5,duration:90,letter:'',lettersUsed:'',endsAt:0,createdAt:serverTimestamp(),updatedAt:serverTimestamp()};
+    for(let i=0;i<4;i++){
+      const code=wcRandCode();
+      try {
+        await set(wcRef(code),{meta,players:{[uid]:{name,joinedAt:serverTimestamp()}}});
+        wcEnterRoom(code,name);wcNotify('Oda kuruldu! Kodu arkadaşlarınla paylaş.');return;
+      } catch(e){if(!String(e.code||'').includes('permission-denied'))throw e;}
+    }
+    throw new Error('Oda oluşturulamadı. Kuralları kontrol et.');
+  }catch(e){wcStatus(wcError(e));}finally{wcSetBusy(false);}
+}
+async function wcJoin(){
+  const name=wcNicknameOK();if(!name||wcState.busy)return;
+  const code=wc$('wc-code-entry').value.toUpperCase().trim().replace(/\s/g,'');
+  if(!/^[A-HJ-NP-Z2-9]{6}$/.test(code)){wcStatus('6 karakterli geçerli oda kodunu yaz.');return;}
+  wcSetBusy(true);try{
+    const uid=await wcEnsureAuth();const snap=await get(wcRef(code,'meta'));
+    if(!snap.exists()){wcStatus('Bu kodda bir oda bulunamadı.');return;}
+    if(snap.val().phase!=='lobby'){wcStatus('Bu odada oyun başlamış. Yeni tur için başka oda açılmalı.');return;}
+    await set(wcRef(code,'players',uid),{name,joinedAt:serverTimestamp()});
+    const roster=await get(wcRef(code,'players'));
+    if(Object.keys(roster.val()||{}).length>8){await remove(wcRef(code,'players',uid));wcStatus('Oda dolu. En fazla 8 oyuncu katılabilir.');return;}
+    wcEnterRoom(code,name);wcNotify('Odaya katıldın. İyi oyunlar!');
+  }catch(e){wcStatus(wcError(e));}finally{wcSetBusy(false);}
+}
+function wcClearListeners(){wcState.off.forEach(f=>{try{f();}catch(_){}});wcState.off=[];wcClearRoundListeners();}
+function wcClearRoundListeners(){wcState.roundOff.forEach(f=>{try{f();}catch(_){}});wcState.roundOff=[];}
+function wcResetRoom(quiet=false){
+  wcClearListeners();wcForget();wcState.code=null;wcState.meta=null;wcState.players={};wcState.scores={};wcState.answers={};wcState.invalid={};wcState.round=0;wcState.submitting=false;wcLastPhase='';wcLastRender='';
+  wc$('wc-room').classList.add('wc-hidden');wc$('wc-login').classList.remove('wc-hidden');
+  wc$('wc-login-error').textContent='';if(!quiet)wcNotify('Odadan ayrıldın.');
+}
+async function wcLeave(){
+  if(!wcState.code)return;
+  const {code,uid,meta}=wcState;wcClearListeners();wcResetRoom(true);
+  try{if(meta?.host===uid){await remove(wcRef(code));wcNotify('Oda kapatıldı.');}else{await remove(wcRef(code,'players',uid));wcNotify('Odadan ayrıldın.');}}catch(e){wcNotify(wcError(e),5500);}
+}
+function wcEnterRoom(code,nickname){
+  wcClearListeners();wcState.code=code;wcState.nickname=nickname;wcState.meta=null;wcState.players={};wcState.scores={};wcState.answers={};wcState.invalid={};wcState.round=0;wcState.submitting=false;wcLastPhase='';
+  wcRemember();wc$('wc-login').classList.add('wc-hidden');wc$('wc-room').classList.remove('wc-hidden');wc$('wc-room-code').textContent=code;
+  const fail=err=>{console.error('Oda dinleme hatası',err);wcNotify(wcError(err),6500);};
+  wcState.off.push(onValue(wcRef(code,'meta'),snap=>{
+    if(!snap.exists()){wcResetRoom(true);wcNotify('Oda sahibi odayı kapattı.');return;}
+    wcState.meta=snap.val();wcPhaseChanged();wcRender();
+  },fail));
+  wcState.off.push(onValue(wcRef(code,'players'),snap=>{wcState.players=snap.val()||{};wcRenderPlayers();wcRender();},fail));
+  wcState.off.push(onValue(wcRef(code,'tallies'),snap=>{wcState.scores=snap.val()||{};wcRenderPlayers();wcRenderResults();},fail));
+}
+async function wcRestore(){
+  try {const saved=JSON.parse(sessionStorage.getItem('yq-wc-room')||'null');if(!saved?.code||!saved.nickname)return;
+    const uid=await wcEnsureAuth();const snap=await get(wcRef(saved.code,'players',uid));if(!snap.exists()){wcForget();return;}
+    wc$('wc-nickname').value=saved.nickname;wcEnterRoom(saved.code,saved.nickname);
+  }catch(e){wcForget();console.warn('Oda geri yüklenemedi',e);}
+}
+const wcIsHost=()=>!!wcState.meta&&wcState.meta.host===wcState.uid;
+const wcPlayers=()=>Object.entries(wcState.players||{});
+function wcRenderPlayers(){
+  const people=wcPlayers();wc$('wc-player-count').textContent=`${people.length} / 8`;
+  wc$('wc-player-list').innerHTML='';
+  const items=people.slice().sort((a,b)=>Number(wcState.scores[b[0]]||0)-Number(wcState.scores[a[0]]||0)||Number(a[1].joinedAt||0)-Number(b[1].joinedAt||0));
+  items.forEach(([uid,p])=>{
+    const item=document.createElement('div');item.className='wc-player';
+    const avatar=document.createElement('span');avatar.className='wc-avatar';avatar.textContent=(p?.name||'?').slice(0,1);
+    const info=document.createElement('div');info.style.minWidth='0';const name=document.createElement('div');name.className='wc-player-name';name.textContent=p?.name||'Oyuncu';
+    const note=document.createElement('div');note.className='wc-player-note';note.textContent=(uid===wcState.meta?.host?'✦ Oda sahibi':'Oyuncu')+(uid===wcState.uid?' · Sen':'');
+    info.append(name,note);
+    const score=document.createElement('div');score.className='wc-player-score';score.textContent=Number(wcState.scores[uid]||0)+' P';
+    item.append(avatar,info,score);wc$('wc-player-list').append(item);
+  });
+}
+function wcPhaseChanged(){
+  const m=wcState.meta;if(!m)return;const key=`${m.phase}:${m.round}`;
+  if(key===wcLastPhase)return;
+  wcLastPhase=key;wcClearRoundListeners();wcState.answers={};wcState.invalid={};wcState.reviewAnswersReady=false;wcState.reviewInvalidsReady=false;
+  if(m.phase==='playing'){
+    const newRound=wcState.round!==m.round;wcState.round=m.round;
+    // Keep local answers intact on a same-round metadata update.
+    if(newRound){wcState.submitting=false;wcFields.forEach(k=>{wc$('wc-a-'+k).value='';wc$('wc-a-'+k).disabled=false;});}
+    get(wcRef(wcState.code,'answers',String(m.round),wcState.uid)).then(s=>{
+      if(!wcState.meta||wcState.meta.round!==m.round||wcState.meta.phase!=='playing')return;
+      if(s.exists()){wcState.submitting=true;wcFields.forEach(k=>wc$('wc-a-'+k).disabled=true);wcRenderPlaying();}
+    }).catch(()=>{});
+  }
+  if(m.phase==='review'||m.phase==='results'){
+    const round=String(m.round);
+    wcState.roundOff.push(onValue(wcRef(wcState.code,'answers',round),snap=>{wcState.answers=snap.val()||{};wcState.reviewAnswersReady=true;wcRenderReview();},err=>wcNotify(wcError(err))));
+    wcState.roundOff.push(onValue(wcRef(wcState.code,'invalids',round),snap=>{wcState.invalid=snap.val()||{};wcState.reviewInvalidsReady=true;wcRenderReview();},err=>wcNotify(wcError(err))));
+  }
+}
+function wcRender(){
+  const m=wcState.meta;if(!m)return;
+  const host=wcIsHost(),people=wcPlayers();
+  wc$('wc-phase-chip').textContent=({lobby:'BEKLEME ODASI',playing:'OYUN DEVAM EDİYOR',review:'CEVAPLAR AÇILDI',results:'TUR BİTTİ'})[m.phase]||'OYUN';
+  wc$('wc-phase-chip').classList.toggle('live',m.phase==='playing');
+  ['lobby','playing','review','results'].forEach(id=>wc$('wc-'+id).classList.toggle('wc-hidden',m.phase!==id));
+  wc$('wc-host-options').classList.toggle('wc-hidden',!host);
+  wc$('wc-round-select').disabled=!host;wc$('wc-duration-select').disabled=!host;
+  wc$('wc-start').classList.toggle('wc-hidden',!host);
+  wc$('wc-start').disabled=!host||people.length<2;
+  wc$('wc-lobby-status').textContent=host?(people.length<2?'Başlamak için en az bir arkadaşını bekle.':'Her şey hazır. Oyunu başlatabilirsin.'):'Oda sahibinin oyunu başlatması bekleniyor.';
+  wc$('wc-side-note').textContent=({lobby:'Oda kodunu arkadaşlarınla paylaş. En az 2 oyuncu gereklidir.',playing:'Süre bitmeden cevaplarını gönder. Cevaplar tur bitene kadar gizli kalır.',review:'Oda sahibi cevapların doğruluğunu kontrol edip turu sonuçlandırır.',results:'Puanlar işlendi. Sonraki turun başlaması bekleniyor.'})[m.phase]||'';
+  if(m.phase==='playing')wcRenderPlaying();
+  if(m.phase==='review')wcRenderReview();
+  if(m.phase==='results')wcRenderResults();
+  wcRenderPlayers();
+}
+function wcRenderPlaying(){
+  const m=wcState.meta;if(!m||m.phase!=='playing')return;
+  wc$('wc-round-label').textContent=`TUR ${String(m.round).padStart(2,'0')} / ${String(m.maxRounds).padStart(2,'0')}`;
+  wc$('wc-letter').textContent=m.letter||'?';wc$('wc-submit').disabled=wcState.submitting||wcTime()>=m.endsAt;
+  wc$('wc-submit').textContent=wcState.submitting?'CEVAPLAR GÖNDERİLDİ ✓':'CEVAPLARI GÖNDER →';
+  wc$('wc-submission-note').textContent=wcState.submitting?'Cevapların kaydedildi. Turun tamamlanmasını bekle.':'Cevapların tur bitene kadar diğer oyunculardan gizlidir.';
+  wc$('wc-end-round').classList.toggle('wc-hidden',!wcIsHost()||wcTime()<m.endsAt);
+  wcFields.forEach(k=>wc$('wc-a-'+k).disabled=wcState.submitting||wcTime()>=m.endsAt);
+}
+function wcTick(){
+  const m=wcState.meta;if(!m||m.phase!=='playing')return;
+  const remaining=Math.max(0,Math.ceil((Number(m.endsAt)-wcTime())/1000));
+  wc$('wc-clock').textContent=String(Math.floor(remaining/60)).padStart(2,'0')+':'+String(remaining%60).padStart(2,'0');
+  wc$('wc-clock').classList.toggle('warn',remaining<=10);
+  wc$('wc-progress').style.width=(Math.max(0,Math.min(100,(Number(m.endsAt)-wcTime())/(Number(m.duration)*1000)*100)))+'%';
+  if(remaining===0){wcRenderPlaying();if(wcIsHost())wcFinishRound();}
+}
+async function wcStartRound(isFirst=false){
+  if(!wcIsHost()||wcState.busy)return;
+  const m=wcState.meta;const n=wcPlayers().length;if(n<2){wcNotify('Başlamak için en az iki oyuncu gerekli.');return;}
+  const allowed=isFirst?m.phase==='lobby':m.phase==='results';if(!allowed)return;
+  const maxRounds=isFirst?Number(wc$('wc-round-select').value):m.maxRounds;
+  const duration=isFirst?Number(wc$('wc-duration-select').value):m.duration;
+  if(![3,5].includes(maxRounds)||![60,90,120].includes(duration))return;
+  if(!isFirst&&m.round>=m.maxRounds)return;
+  const unused=[...wcAlphabet].filter(ch=>!m.lettersUsed.includes(ch));const letter=(unused.length?unused:[...wcAlphabet])[Math.floor(Math.random()*(unused.length||wcAlphabet.length))];
+  const phaseBefore=m.phase,roundBefore=m.round;
+  wcState.busy=true;
+  try{
+    const res=await runTransaction(wcRef(wcState.code,'meta'), old=>{
+      if(!old||old.host!==wcState.uid||old.phase!==phaseBefore||old.round!==roundBefore)return;
+      return {...old,phase:'playing',round:old.round+1,maxRounds,duration,letter,lettersUsed:(old.lettersUsed||'')+letter,endsAt:wcTime()+duration*1000,updatedAt:serverTimestamp()};
+    },{applyLocally:false});
+    if(!res.committed)wcNotify('Bu tur başka bir oturumda zaten başlatılmış.');
+  }catch(e){wcNotify(wcError(e),6000);}finally{wcState.busy=false;}
+}
+async function wcSubmit(){
+  const m=wcState.meta;if(!m||m.phase!=='playing'||wcState.submitting||wcTime()>=m.endsAt)return;
+  const data={};wcFields.forEach(k=>data[k]=wc$('wc-a-'+k).value.trim().replace(/\s+/g,' ').slice(0,35));
+  if(!wcFields.some(k=>data[k])){wcNotify('Önce en az bir cevap yaz.');return;}
+  wc$('wc-submit').disabled=true;
+  try{await set(wcRef(wcState.code,'answers',String(m.round),wcState.uid),{...data,submittedAt:serverTimestamp()});wcState.submitting=true;wcRenderPlaying();wcNotify('Cevapların gizli olarak kaydedildi.');}
+  catch(e){wcNotify(wcError(e),6000);wc$('wc-submit').disabled=false;}
+}
+async function wcFinishRound(){
+  const m=wcState.meta;if(!wcIsHost()||!m||m.phase!=='playing'||wcTime()<m.endsAt||wcFinishing)return;
+  wcFinishing=true;try{
+    await runTransaction(wcRef(wcState.code,'meta'),old=>{
+      if(!old||old.phase!=='playing'||old.round!==m.round||wcTime()<old.endsAt)return;
+      return {...old,phase:'review',updatedAt:serverTimestamp()};
+    },{applyLocally:false});
+  }catch(e){wcNotify(wcError(e));}finally{wcFinishing=false;}
+}
+function wcCalcScores(){
+  const m=wcState.meta,out={};if(!m)return out;
+  const answers=wcState.answers||{};
+  for(const [uid] of wcPlayers())out[uid]=0;
+  wcFields.forEach(field=>{
+    const freq={};for(const [uid,a] of Object.entries(answers)){
+      const word=wcNormalized(a[field]);if(word&&wcFirst(word)===m.letter&&!wcState.invalid?.[uid]?.[field])freq[word]=(freq[word]||0)+1;
+    }
+    for(const uid of Object.keys(out)){
+      const word=wcNormalized(answers[uid]?.[field]);if(!word||wcFirst(word)!==m.letter||wcState.invalid?.[uid]?.[field])continue;
+      out[uid]+=freq[word]>1?5:10;
+    }
+  });return out;
+}
+function wcRenderReview(){
+  if(wcState.meta?.phase!=='review')return;
+  const m=wcState.meta,host=wcIsHost(),scores=wcCalcScores(),container=wc$('wc-review-list');
+  wc$('wc-review-round').textContent=`TUR ${String(m.round).padStart(2,'0')} / HARF ${m.letter}`;
+  container.innerHTML='';
+  wcPlayers().forEach(([uid,p])=>{
+    const card=document.createElement('div');card.className='wc-review-card';
+    const top=document.createElement('div');top.className='wc-review-top';
+    const strong=document.createElement('strong');strong.textContent=p.name;strong.style.color='#fff';
+    const score=document.createElement('span');score.className='wc-kicker';score.textContent=`+${scores[uid]||0} PUAN`;
+    top.append(strong,score);card.append(top);
+    wcFields.forEach(field=>{
+      const value=wcState.answers[uid]?.[field]||'';
+      const invalid=wcState.invalid?.[uid]?.[field]||false;
+      const ok=!!value&&wcFirst(value)===m.letter&&!invalid;
+      const row=document.createElement('div');row.className='wc-review-line';
+      const label=document.createElement('span');label.className='wc-review-label';label.textContent=wcLabels[field];
+      const word=document.createElement('span');word.className='wc-review-value'+(!ok&&value?' wc-bad':'');word.textContent=value||'—';word.style.flex='1';
+      const points=document.createElement('span');points.className='wc-review-points';
+      if(ok){const normalized=wcNormalized(value);const frequency=Object.entries(wcState.answers).filter(([other,ans])=>wcNormalized(ans?.[field])===normalized&&wcFirst(ans?.[field])===m.letter&&!wcState.invalid?.[other]?.[field]).length;points.textContent=frequency>1?'+5':'+10';}else{points.textContent='+0';}
+      row.append(label,word,points);
+      if(host&&value&&wcFirst(value)===m.letter){
+        const btn=document.createElement('button');btn.type='button';btn.className='wc-review-toggle hover-target'+(invalid?' off':'');btn.textContent=invalid?'GERİ AL':'GEÇERSİZ';
+        btn.addEventListener('click',()=>wcToggleInvalid(uid,field,invalid));row.append(btn);
+      }
+      card.append(row);
+    });container.append(card);
+  });
+  wc$('wc-confirm').classList.toggle('wc-hidden',!host);wc$('wc-confirm').disabled=!wcState.reviewAnswersReady||!wcState.reviewInvalidsReady||wcState.reviewUpdating;
+  wc$('wc-review-status').textContent=host?'Cevapları kontrol edip puanları onayla.':'Oda sahibinin sonuçları onaylaması bekleniyor.';
+}
+async function wcToggleInvalid(uid,field,isInvalid){
+  if(!wcIsHost()||wcState.meta?.phase!=='review')return;
+  const r=wcRef(wcState.code,'invalids',String(wcState.meta.round),uid,field);
+  wcState.reviewUpdating=true;wc$('wc-confirm').disabled=true;
+  try{if(isInvalid)await remove(r);else await set(r,true);}catch(e){wcNotify(wcError(e));}finally{wcState.reviewUpdating=false;wcRenderReview();}
+}
+async function wcConfirmScores(){
+  if(!wcIsHost()||wcState.meta?.phase!=='review'||wcState.busy||!wcState.reviewAnswersReady||!wcState.reviewInvalidsReady||wcState.reviewUpdating)return;
+  wcState.busy=true;wc$('wc-confirm').disabled=true;
+  const m=wcState.meta,points=wcCalcScores();
+  try{
+    const changes={'meta/phase':'results','meta/updatedAt':serverTimestamp()};
+    for(const [uid] of wcPlayers())changes[`tallies/${uid}`]=Number(wcState.scores[uid]||0)+Number(points[uid]||0);
+    await update(wcRef(wcState.code),changes);wcNotify('Puanlar onaylandı. Tur tamamlandı.');
+  }catch(e){wcNotify(wcError(e),6000);}finally{wcState.busy=false;wc$('wc-confirm').disabled=false;}
+}
+function wcRenderResults(){
+  const m=wcState.meta;if(m?.phase!=='results')return;
+  const done=m.round>=m.maxRounds;
+  wc$('wc-results-title').textContent=done?'OYUN TAMAMLANDI':'TUR SONUÇLARI';
+  wc$('wc-results-desc').textContent=done?'Kazanan belli oldu! Yeni bir oyun için başka oda açabilirsin.':'Harika iş çıkardınız. Sıradaki turu oda sahibi başlatabilir.';
+  const sorted=wcPlayers().sort((a,b)=>Number(wcState.scores[b[0]]||0)-Number(wcState.scores[a[0]]||0));
+  const max=Math.max(1,...sorted.map(([uid])=>Number(wcState.scores[uid]||0)));
+  wc$('wc-results-list').innerHTML='';
+  sorted.forEach(([uid,p],idx)=>{
+    const row=document.createElement('div');row.className='wc-score-row';
+    const rank=document.createElement('span');rank.className='wc-rank';rank.textContent=String(idx+1).padStart(2,'0');
+    const name=document.createElement('strong');name.textContent=p.name;name.style.minWidth='70px';name.style.fontSize='12px';
+    const bar=document.createElement('span');bar.className='wc-score-bar';const inner=document.createElement('i');inner.style.width=(Number(wcState.scores[uid]||0)/max*100)+'%';bar.append(inner);
+    const pts=document.createElement('strong');pts.textContent=Number(wcState.scores[uid]||0)+' P';pts.style.color='#ff8e9d';pts.style.fontSize='12px';
+    row.append(rank,name,bar,pts);wc$('wc-results-list').append(row);
+  });
+  wc$('wc-next').classList.toggle('wc-hidden',!wcIsHost()||done);
+}
+function wcAttachUI(){
+  try{wc$('wc-nickname').value=localStorage.getItem('yq-wc-name')||'';}catch(_){ }
+  wc$('wc-create').addEventListener('click',wcCreate);
+  wc$('wc-showjoin').addEventListener('click',()=>{wc$('wc-joinbox').classList.toggle('wc-hidden');if(!wc$('wc-joinbox').classList.contains('wc-hidden'))wc$('wc-code-entry').focus();});
+  wc$('wc-join').addEventListener('click',wcJoin);
+  wc$('wc-code-entry').addEventListener('keydown',e=>{if(e.key==='Enter')wcJoin();});
+  wc$('wc-nickname').addEventListener('keydown',e=>{if(e.key==='Enter'&&!wc$('wc-create').disabled)wcCreate();});
+  wc$('wc-copy').addEventListener('click',async()=>{const code=wcState.code;if(!code)return;try{await navigator.clipboard.writeText(code);wcNotify('Oda kodu kopyalandı: '+code);}catch(_){wcNotify('Oda kodun: '+code);}});
+  wc$('wc-leave').addEventListener('click',wcLeave);
+  wc$('wc-start').addEventListener('click',()=>wcStartRound(true));
+  wc$('wc-submit').addEventListener('click',wcSubmit);
+  wc$('wc-end-round').addEventListener('click',wcFinishRound);
+  wc$('wc-confirm').addEventListener('click',wcConfirmScores);
+  wc$('wc-next').addEventListener('click',()=>wcStartRound(false));
+  onValue(ref(wcDb,'.info/serverTimeOffset'),snap=>wcState.serverOffset=Number(snap.val()||0));
+  setInterval(wcTick,180);
+  wc$('wc-connection').textContent='● SİSTEM HAZIR';
+  wc$('wc-create').disabled=false;wc$('wc-showjoin').disabled=false;
+  wcRestore();
+}
+wcAttachUI();
+
+</script>
 </body>
 </html>
