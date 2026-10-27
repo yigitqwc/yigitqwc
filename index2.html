@@ -306,21 +306,54 @@
             box-shadow: 0 0 12px rgba(255,0,0,0.8), inset 0 0 4px rgba(255,255,255,0.6);
         }
 
-        /* ================= 7. SHARINGAN REFLEKSİ (KAÇAN BUTON) ================= */
-        #view-flee { flex-direction: column; align-items: center; justify-content: center; position: relative; width: 100%; height: 100%; }
-        .flee-dashboard {
-            position: absolute; top: 20px; font-size: 1.15rem; font-weight: 800;
-            background: rgba(0,0,0,0.85); border: 1px solid var(--accent-red);
-            padding: 8px 28px; border-radius: 25px; display: none; z-index: 20;
-        }
-        #fleeing-target {
-            position: absolute; padding: 14px 28px; font-size: 1.05rem; font-weight: 900;
-            color: #fff; background: radial-gradient(circle, #cc0000, #550000);
-            border: 2px solid #ff4444; border-radius: 40px;
-            box-shadow: 0 0 25px rgba(255, 0, 0, 0.9); display: none;
-            transition: left 0.14s cubic-bezier(0.165, 0.84, 0.44, 1), top 0.14s cubic-bezier(0.165, 0.84, 0.44, 1);
-            z-index: 60;
-        }
+/* ================ YIGITQWC / TWO PLAYER ONLINE CHESS ================ */
+#view-chess{display:none;overflow-y:auto;overflow-x:hidden;align-items:flex-start;justify-content:center;height:calc(100vh - 70px);padding:30px 18px 90px;scrollbar-width:thin;scrollbar-color:#8b1824 transparent}
+#view-chess.active-view{display:flex}
+.ch-shell{width:min(1260px,100%);position:relative;display:grid;gap:24px;isolation:isolate}
+.ch-shell button,.ch-shell input{font-family:inherit}.ch-shell button{cursor:none}.ch-shell input{user-select:text}
+.ch-glass{background:linear-gradient(140deg,rgba(22,3,6,.95),rgba(9,2,5,.93));border:1px solid rgba(252,55,67,.22);box-shadow:0 19px 65px rgba(0,0,0,.52),inset 0 1px rgba(255,255,255,.05);backdrop-filter:blur(16px);border-radius:20px}
+.ch-hero{position:relative;display:flex;justify-content:space-between;align-items:center;gap:22px;padding:28px 34px;overflow:hidden}
+.ch-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 82% 10%,rgba(232,31,52,.18),transparent 58%);pointer-events:none}
+.ch-kicker{font-size:11px;font-weight:900;letter-spacing:3px;color:#fc6173;display:flex;gap:9px;align-items:center}
+.ch-signal{width:7px;height:7px;background:#ff5261;box-shadow:0 0 11px #fc2339;border-radius:50%;animation:chBlink 2s infinite}
+@keyframes chBlink{50%{opacity:.35}}
+.ch-hero h1{position:relative;font-size:clamp(30px,4.8vw,52px);line-height:1.07;margin:10px 0;font-weight:950;letter-spacing:-1.7px;text-shadow:0 4px 24px #000}
+.ch-hero h1 em{font-style:normal;color:#fa344c}
+.ch-hero p{color:#b9a9ae;font-size:14px;line-height:1.7;max-width:660px}
+.ch-hero-art{position:relative;min-width:130px;height:125px;display:flex;align-items:center;justify-content:center;font-size:100px;color:#f2dee3;text-shadow:0 13px 10px #10030a,0 0 32px rgba(250,60,80,.35);transform:rotate(-10deg)}
+.ch-notice{border-radius:10px;color:#ffc8d0;font-size:13px;line-height:1.55;font-weight:700;min-height:0}.ch-notice:not(:empty){padding:13px 17px;border:1px solid rgba(253,74,86,.3);background:#240710}
+.ch-auth{padding:30px}.ch-pane-heading{font-size:23px;font-weight:900;letter-spacing:-.5px}.ch-pane-sub{font-size:13px;line-height:1.7;color:#a79ba0;margin-top:8px;margin-bottom:23px}
+.ch-entrygrid{display:grid;grid-template-columns:1fr 1fr;gap:20px}.ch-entry-card{background:rgba(255,255,255,.025);border:1px solid #41202a;border-radius:16px;padding:22px;transition:transform .25s,border-color .25s,box-shadow .25s}
+.ch-entry-card:hover{transform:translateY(-4px);border-color:#bd394a;box-shadow:0 15px 40px rgba(197,24,50,.1)}
+.ch-entry-card h3{font-size:16px;display:flex;align-items:center;gap:9px;margin-bottom:8px}.ch-entry-card p{color:#ae9ca3;font-size:12px;line-height:1.7;margin-bottom:16px}
+.ch-label{display:block;font-size:11px;color:#bd9da6;font-weight:850;letter-spacing:1.4px;margin-bottom:9px}.ch-field{width:100%;height:48px;padding:12px 15px;border-radius:11px;background:#0b0305;color:#fff;outline:none;border:1px solid #66303d;transition:border-color .2s,box-shadow .2s;font-size:15px}.ch-field:focus{border-color:#f84a62;box-shadow:0 0 0 3px rgba(244,49,79,.12)}
+.ch-input-row{display:grid;grid-template-columns:1fr;gap:11px}
+.ch-btn{border:1px solid #9d3043;background:#270d14;color:#f6ebed;border-radius:11px;min-height:43px;padding:10px 16px;font-size:12px;font-weight:900;letter-spacing:.6px;transition:transform .22s,border-color .22s,box-shadow .22s,background .22s;white-space:normal;line-height:1.3}.ch-btn:hover:not(:disabled){transform:translateY(-3px);background:#3f111d;border-color:#fb455c;box-shadow:0 7px 20px rgba(231,32,57,.25)}.ch-btn:disabled{opacity:.42;cursor:not-allowed}.ch-primary{background:linear-gradient(110deg,#f02a43,#b20e2c);color:white;border-color:#ff4056;box-shadow:0 8px 23px rgba(200,20,54,.2)}.ch-primary:hover:not(:disabled){background:linear-gradient(110deg,#ff4256,#cf1033)}
+.ch-entry-foot{display:flex;gap:10px;align-items:center;justify-content:space-between;color:#9e8c91;font-size:12px;line-height:1.6;margin-top:18px}
+.ch-hidden{display:none!important}
+.ch-room-top{padding:17px 20px;display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap}.ch-room-info{display:flex;align-items:center;gap:15px;flex-wrap:wrap}.ch-room-code{font:900 19px 'Courier New',monospace;letter-spacing:3px;color:#ff7180}.ch-room-tag{font-size:10px;letter-spacing:2px;color:#aa8a95;font-weight:800}
+.ch-room-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.ch-btn-small{min-height:35px;padding:8px 13px;font-size:11px}
+.ch-lobby{padding:28px 25px}.ch-lobby h2{font-size:21px;margin-bottom:6px}.ch-lobby>p{font-size:13px;line-height:1.6;color:#a9959e;margin-bottom:22px}
+.ch-players{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-bottom:20px}.ch-player-slot{display:flex;align-items:center;gap:12px;border:1px solid #45232d;background:#13070c;border-radius:13px;padding:17px;min-width:0}.ch-player-symbol{font-size:32px;line-height:1;color:#f3e5e9;text-shadow:0 1px 5px #b9a5a9}.ch-player-slot.black .ch-player-symbol{color:#c8324c}.ch-player-slot strong{font-size:14px;display:block;overflow:hidden;text-overflow:ellipsis}.ch-player-slot small{font-size:11px;color:#9d8b91}.ch-loader-dot{width:6px;height:6px;border-radius:50%;background:#ff3a51;box-shadow:0 0 10px red;margin-left:auto}
+.ch-playarea{display:grid;grid-template-columns:minmax(320px,690px) minmax(285px,1fr);align-items:start;gap:18px}
+.ch-board-panel{padding:18px;background:linear-gradient(160deg,#230c12,#0b0509);border-radius:17px;border:1px solid #51202d;box-shadow:0 22px 75px #030102}
+.ch-seat{min-height:54px;padding:3px 4px;display:flex;align-items:center;justify-content:space-between;gap:8px}.ch-seat-info{display:flex;align-items:center;gap:9px;min-width:0}.ch-seat-avatar{width:37px;height:37px;border-radius:10px;background:linear-gradient(155deg,#5b1b2a,#1e0810);display:grid;place-items:center;border:1px solid #803241;font-size:23px;flex:none}.ch-seat-name{font-size:13px;font-weight:850;display:block;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ch-seat-meta{font-size:10px;color:#a48f96}.ch-seat-turn{font-size:10px;font-weight:900;letter-spacing:1.1px;color:#fa6678}.ch-seat-turn.active{color:#5dfaaf;text-shadow:0 0 14px #156e45}
+.ch-board-wrap{border:2px solid #682b36;box-shadow:0 5px 35px rgba(0,0,0,.7),0 0 30px rgba(197,18,42,.11);border-radius:7px;overflow:hidden;position:relative}
+.ch-board{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));aspect-ratio:1/1;width:100%;touch-action:manipulation}
+.ch-square{border:0;position:relative;display:flex;align-items:center;justify-content:center;aspect-ratio:1/1;min-width:0;min-height:0;padding:0;transition:filter .16s;isolation:isolate;outline:none}.ch-square.light{background:#ead5c7}.ch-square.dark{background:#a34b59}.ch-square:hover{filter:brightness(1.14)}
+.ch-square.last-move.light{background:#edd08f}.ch-square.last-move.dark{background:#d17d4e}
+.ch-square.selected{background:#f4a74f!important;box-shadow:inset 0 0 0 4px #fed385}.ch-square.in-check{background:#e01f46!important;box-shadow:inset 0 0 0 3px #ffb2b2}.ch-square:focus-visible{outline:3px solid #fff;outline-offset:-3px;z-index:5}
+.ch-piece{font-family:'Segoe UI Symbol','DejaVu Sans','Noto Sans Symbols 2',sans-serif;font-size:clamp(24px,4.3vw,61px);font-weight:400;line-height:1;user-select:none;pointer-events:none;transition:transform .18s;filter:drop-shadow(0 3px 2px rgba(28,7,9,.38));position:relative;z-index:2}
+.ch-square:hover .ch-piece{transform:translateY(-2px) scale(1.04)}.ch-piece.white{color:#fff8e7;-webkit-text-stroke:1.4px #4e2630;text-shadow:0 0 1px #341724}.ch-piece.black{color:#240d15;-webkit-text-stroke:.65px #f9d4c7;text-shadow:0 0 1px #0b080b}
+.ch-dot{position:absolute;width:24%;aspect-ratio:1;border-radius:50%;background:rgba(34,10,19,.3);pointer-events:none;z-index:1}.ch-square.legal-capture::after{content:'';position:absolute;inset:5%;border-radius:50%;border:5px solid rgba(46,9,23,.5);pointer-events:none}
+.ch-coord{position:absolute;font-size:clamp(8px,.8vw,11px);font-weight:900;opacity:.8;line-height:1;pointer-events:none}.ch-coord.rank{top:4px;left:4px}.ch-coord.file{bottom:3px;right:4px}.ch-square.light .ch-coord{color:#8b3748}.ch-square.dark .ch-coord{color:#ffe9e0}
+.ch-side-panel{display:grid;gap:14px}.ch-card{padding:19px;background:linear-gradient(145deg,rgba(27,6,13,.95),rgba(12,4,8,.97));border:1px solid #4d2430;border-radius:15px}.ch-card h3{font-size:12px;letter-spacing:1.5px;color:#bd9fa8;margin-bottom:13px;font-weight:900}.ch-status-title{font-size:19px;font-weight:900;line-height:1.3;min-height:27px}.ch-status-sub{color:#baa4ab;font-size:12px;line-height:1.7;margin-top:6px}.ch-status-line{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:13px}.ch-chip{border:1px solid #612735;color:#ff8d9e;background:#290b16;padding:6px 9px;font-size:10px;font-weight:900;letter-spacing:.7px;border-radius:6px}
+.ch-history{display:grid;grid-template-columns:35px 1fr 1fr;gap:4px;max-height:220px;overflow-y:auto;scrollbar-color:#8e253a transparent;scrollbar-width:thin;font-size:13px}.ch-history>span{padding:8px 7px;border-radius:6px;background:#210c13;font-family:ui-monospace,Consolas,monospace}.ch-history .num{color:#967780;text-align:center}.ch-history .san{color:#fff}.ch-history-empty{font-size:12px;color:#8b747c;line-height:1.7}
+.ch-controls{display:grid;grid-template-columns:1fr 1fr;gap:8px}.ch-controls .ch-btn{min-height:43px}.ch-note{color:#947c86;font-size:11px;line-height:1.7;margin-top:11px}.ch-promotion{position:fixed;inset:0;background:rgba(3,0,2,.82);backdrop-filter:blur(8px);z-index:999997;display:flex;align-items:center;justify-content:center;padding:20px}.ch-promo-box{width:min(400px,100%);padding:27px;border:1px solid #f13d5b;border-radius:19px;background:#12050a;box-shadow:0 20px 80px #000;text-align:center}.ch-promo-box h3{font-size:21px;margin-bottom:11px}.ch-promo-box p{font-size:12px;color:#bba6af;margin-bottom:23px}.ch-promo-pieces{display:flex;gap:7px;justify-content:center}.ch-promo-pieces button{flex:1;background:#301019;color:#ffedea;border:1px solid #773045;border-radius:12px;font-family:'Segoe UI Symbol',sans-serif;font-size:46px;height:70px;transition:transform .2s}.ch-promo-pieces button:hover{transform:translateY(-5px);background:#a12a44}.ch-promo-cancel{background:none;border:none;color:#b2a0a5;margin-top:15px;padding:8px;font-size:12px}
+@media(max-width:980px){.ch-playarea{grid-template-columns:minmax(0,1fr)}.ch-side-panel{grid-template-columns:1fr 1fr}.ch-side-panel .ch-card:last-child{grid-column:1/-1}.ch-board-panel{max-width:730px;width:100%;margin:auto}}
+@media(max-width:680px){#view-chess{height:auto;min-height:calc(100vh - 85px);padding:14px 9px 70px}.ch-shell{gap:13px}.ch-hero{padding:22px}.ch-hero-art{min-width:45px;font-size:56px;height:75px}.ch-hero h1{font-size:33px}.ch-kicker{font-size:9px;letter-spacing:1.5px}.ch-auth,.ch-lobby{padding:18px}.ch-entrygrid,.ch-players,.ch-side-panel{grid-template-columns:1fr}.ch-entry-card{padding:17px}.ch-side-panel .ch-card:last-child{grid-column:auto}.ch-board-panel{padding:8px}.ch-piece{font-size:clamp(26px,8vw,50px)}.ch-board-wrap{border-width:1px}.ch-seat-name{max-width:140px}.ch-room-top{padding:13px}.ch-controls{grid-template-columns:1fr 1fr}.ch-hero p{font-size:12px}}
+@media(max-width:680px){body:has(#view-chess.active-view) .admin-trigger{display:none}}
+@media(max-width:950px){body:has(#view-chess.active-view) nav{display:grid;grid-template-columns:1fr auto;gap:9px;align-items:center;padding:12px 14px}body:has(#view-chess.active-view) nav .nav-left{display:contents}body:has(#view-chess.active-view) nav .logo-container{grid-column:1;grid-row:1}body:has(#view-chess.active-view) nav .back-link{grid-column:2;grid-row:1}body:has(#view-chess.active-view) nav .tab-buttons{grid-column:1/-1;grid-row:2;display:flex;flex-wrap:nowrap;gap:7px;overflow-x:auto;padding-bottom:9px;max-width:100%;scrollbar-width:thin;scrollbar-color:#722 transparent}body:has(#view-chess.active-view) nav .tab-btn{flex:0 0 auto}}
 
         /* ================= 8. ÖDÜLLER ================= */
         #view-awards { flex-direction: column; align-items: center; justify-content: flex-start; padding: 2rem; overflow-y: auto; }
@@ -729,7 +762,7 @@
                 <button class="tab-btn hover-target" onclick="switchTab('izanami', this)">🌀 Sonsuz Döngü</button>
                 <button class="tab-btn hover-target" onclick="switchTab('stack', this)">⚔️ Susanoo Zırhı</button>
                 <button class="tab-btn hover-target" onclick="switchTab('okey', this)" id="ok-tab">🀄 Online Okey</button>
-                <button class="tab-btn hover-target" onclick="switchTab('flee', this)">🎯 Sharingan Refleksi</button>
+                <button class="tab-btn hover-target" onclick="switchTab('chess', this)">♟ Online Satranç</button>
                 <button class="tab-btn hover-target" onclick="switchTab('awards', this)">🎖️ Ödüller</button>
                 <button class="tab-btn hover-target" id="wc-tab" onclick="switchTab('wordcity', this)">🌐 Online İsim–Şehir</button>
             </div>
@@ -919,17 +952,39 @@
       </div>
     </section>
 
-    <!-- 7. SHARINGAN REFLEKSİ -->
-    <section class="view-section" id="view-flee">
-        <div class="flee-dashboard" id="flee-dash">
-            Süre: <span id="flee-timer" style="color:var(--accent-red)">20</span>s &nbsp;|&nbsp; Yakalanan: <span id="flee-score" style="color:var(--accent-gold)">0</span> / 5
+    <!-- 7. TWO PLAYER ONLINE CHESS (Sharingan Refleksi yerine) -->
+    <section class="view-section" id="view-chess" aria-label="İki kişilik çevrim içi satranç">
+      <div class="ch-shell">
+        <header class="ch-hero ch-glass">
+          <div><div class="ch-kicker"><span class="ch-signal"></span> YIGITQWC / STRATEJİ ARENASI / 02 OYUNCU</div><h1>ONLINE <em>SATRANÇ</em></h1><p>Her hamle bir karar. Arkadaşınla özel bir oda aç; gerçek kurallarla, gerçek zamanlı ve aynı tahtada karşılaş.</p></div>
+          <div class="ch-hero-art" aria-hidden="true">♞</div>
+        </header>
+        <div class="ch-notice" id="ch-notice" role="status" aria-live="polite"></div>
+        <div id="ch-entry" class="ch-auth ch-glass">
+          <h2 class="ch-pane-heading">ARENA GİRİŞİ <span id="ch-connection" style="font-size:11px;color:#fb7082;letter-spacing:1px;margin-left:9px">● BAĞLANIYOR</span></h2>
+          <p class="ch-pane-sub">Hesap veya şifre gerekmiyor. Bir takma ad seç; arkadaşınla özel satranç odasında karşılaş.</p>
+          <div style="margin-bottom:21px"><label class="ch-label" for="ch-name">OYUNCU ADIN</label><input id="ch-name" class="ch-field hover-target" placeholder="Satranç oyuncusu" maxlength="18" autocomplete="nickname" spellcheck="false"></div>
+          <div class="ch-entrygrid">
+            <div class="ch-entry-card"><h3>✦ Yeni Oda</h3><p>Sen beyaz taşlarla başlarsın. Oda kodunu arkadaşına göndererek davet edebilirsin.</p><button id="ch-create" class="ch-btn ch-primary hover-target" style="width:100%" disabled>ODA OLUŞTUR ↗</button></div>
+            <div class="ch-entry-card"><h3>♟ Arkadaşına Katıl</h3><p>Arkadaşının oluşturduğu altı karakterli oda kodunu yaz. Siyah taşlarla oynarsın.</p><div class="ch-input-row"><input id="ch-join-code" class="ch-field hover-target" maxlength="6" placeholder="ODA KODU" style="text-transform:uppercase;letter-spacing:3px;font-weight:900"><button id="ch-join" class="ch-btn hover-target" disabled>ODAYA KATIL →</button></div></div>
+          </div>
+          <div class="ch-entry-foot"><span>◈ Özel oda · 2 oyuncu · Gerçek zamanlı</span><span>Giriş: Firebase Anonymous</span></div>
         </div>
-        <div id="flee-intro" style="text-align:center; max-width:500px; padding:20px;">
-            <h2 style="font-size:2.3rem; color:var(--accent-red); margin-bottom:12px; text-shadow:0 0 15px rgba(255,0,0,0.6);">🎯 Sharingan Refleksi</h2>
-            <p style="color:#ccc; margin-bottom:25px; line-height:1.6;">20 saniye içinde kaçan hedefi 5 kez yakala. Yalnızca gerçek Sharingan kullanıcıları bu hıza erişebilir!</p>
-            <button id="start-flee-btn" class="action-pill-btn hover-target" onclick="startFleeGame()">Meydan Oku 🎯</button>
+        <div id="ch-room" class="ch-hidden">
+          <div class="ch-room-top ch-glass"><div class="ch-room-info"><div><div class="ch-room-tag">ÖZEL MAÇ KODU</div><div id="ch-room-code" class="ch-room-code">—</div></div><span id="ch-phase" class="ch-chip">OYUNCULAR BEKLENİYOR</span></div><div class="ch-room-controls"><button class="ch-btn ch-btn-small hover-target" id="ch-copy">KODU KOPYALA</button><button class="ch-btn ch-btn-small hover-target" id="ch-leave">ODADAN ÇIK</button></div></div>
+          <div id="ch-lobby" class="ch-lobby ch-glass" style="margin-top:15px"><h2>Oyuncular Hazırlanıyor</h2><p>İki kişi katıldığında oda sahibi maçı başlatabilir. Beyazlar ilk hamleyi yapar.</p><div class="ch-players"><div class="ch-player-slot"><div class="ch-player-symbol">♔</div><div><strong id="ch-lobby-white">Beyazlar</strong><small>Oda sahibi · Beyaz taşlar</small></div><span class="ch-loader-dot"></span></div><div class="ch-player-slot black"><div class="ch-player-symbol">♚</div><div><strong id="ch-lobby-black">Oyuncu bekleniyor...</strong><small>Konuk · Siyah taşlar</small></div><span class="ch-loader-dot"></span></div></div><button id="ch-start" class="ch-btn ch-primary hover-target" disabled>♜ MAÇI BAŞLAT</button><p style="margin-top:16px;margin-bottom:0;font-size:11px">* Oyun ilerleyişi gerçek zamanlı kaydedilir. Bağlantın koparsa aynı tarayıcıdan odaya geri dönebilirsin.</p></div>
+          <div id="ch-playarea" class="ch-playarea ch-hidden" style="margin-top:15px">
+            <div class="ch-board-panel"><div class="ch-seat"><div class="ch-seat-info"><div class="ch-seat-avatar" id="ch-top-icon">♚</div><div><span class="ch-seat-name" id="ch-top-name">Rakip</span><span class="ch-seat-meta" id="ch-top-side">Siyah taşlar</span></div></div><span class="ch-seat-turn" id="ch-top-turn">RAKİP</span></div>
+              <div class="ch-board-wrap"><div id="ch-board" class="ch-board" role="grid" aria-label="Satranç tahtası"></div></div>
+              <div class="ch-seat"><div class="ch-seat-info"><div class="ch-seat-avatar" id="ch-bottom-icon">♔</div><div><span class="ch-seat-name" id="ch-bottom-name">Sen</span><span class="ch-seat-meta" id="ch-bottom-side">Beyaz taşlar</span></div></div><span class="ch-seat-turn" id="ch-bottom-turn">SIRA SENDE</span></div>
+            </div>
+            <aside class="ch-side-panel"><div class="ch-card"><h3>◈ MAÇ DURUMU</h3><div class="ch-status-title" id="ch-status">Maç hazırlanıyor...</div><div class="ch-status-sub" id="ch-status-detail">İki oyuncu oyunda olduğunda başlar.</div><div class="ch-status-line"><span class="ch-chip" id="ch-move-number">HAMLE 1</span><span class="ch-chip" id="ch-check-badge">KLASİK SATRANÇ</span></div></div>
+              <div class="ch-card"><h3>♟ HAMLE GEÇMİŞİ</h3><div class="ch-history" id="ch-history"><div class="ch-history-empty">Henüz hamle yapılmadı.</div></div><div class="ch-note">Hamlelerin gösterimi standart cebirsel notasyon (SAN) kullanır.</div></div>
+              <div class="ch-card"><h3>⚔ MAÇ KONTROLLERİ</h3><div class="ch-controls"><button class="ch-btn hover-target" id="ch-draw-offer">½ BERABERLİK ÖNER</button><button class="ch-btn hover-target" id="ch-resign">⚑ TESLİM OL</button><button class="ch-btn hover-target ch-hidden" id="ch-draw-accept">✓ TEKLİFİ KABUL ET</button><button class="ch-btn hover-target ch-hidden" id="ch-draw-decline">✕ TEKLİFİ REDDET</button><button class="ch-btn ch-primary hover-target ch-hidden" id="ch-rematch">↻ RÖVANŞ BAŞLAT</button></div><div class="ch-note">Taşa tıkla ve yasal hedef kareyi seç. Rok, geçerken alma ve terfi otomatik kurallarla işlenir. Süre sınırı yok.</div></div></aside>
+          </div>
         </div>
-        <button id="fleeing-target" class="hover-target">👁️ Beni Yakala!</button>
+      </div>
+      <div id="ch-promotion" class="ch-promotion ch-hidden" role="dialog" aria-modal="true" aria-label="Piyon terfisi"><div class="ch-promo-box"><h3>PİYON TERFİSİ</h3><p>Yeni taşını seçerek hamleni tamamla.</p><div class="ch-promo-pieces"><button data-promote="q" class="hover-target" title="Vezir">♛</button><button data-promote="r" class="hover-target" title="Kale">♜</button><button data-promote="b" class="hover-target" title="Fil">♝</button><button data-promote="n" class="hover-target" title="At">♞</button></div><button class="ch-promo-cancel hover-target" id="ch-promo-cancel">İptal</button></div></div>
     </section>
 
     <!-- 8. ÖDÜLLER VE BAŞARIMLAR -->
@@ -942,7 +997,7 @@
             <div class="award-card" id="card-ach1"><div class="award-icon">🔥</div><div class="award-info"><h4>İlk Kıvılcım</h4><p>Sharingan gözüne ilk kez dokun.</p></div></div>
             <div class="award-card" id="card-ach2"><div class="award-icon">⚡</div><div class="award-info"><h4>Seri Parmaklar</h4><p>Clicker'da 5.0x Kombo seviyesine ulaş.</p></div></div>
             <div class="award-card" id="card-ach3"><div class="award-icon">💥</div><div class="award-info"><h4>Okey Ustası</h4><p>Dört kişilik online Okey masasında bir eli kazan.</p></div></div>
-            <div class="award-card" id="card-ach4"><div class="award-icon">🏃</div><div class="award-info"><h4>Işık Hızı</h4><p>Sharingan Refleksi testinde hedefi 5 kez yakala.</p></div></div>
+            <div class="award-card" id="card-ach9"><div class="award-icon">♛</div><div class="award-info"><h4>Satranç Ustası</h4><p>İki kişilik online satrançta bir maçı kazan.</p></div></div>
             <div class="award-card" id="card-ach5"><div class="award-icon">🏛️</div><div class="award-info"><h4>Temel Zırh</h4><p>Susanoo Zırhı'nda 5. kata ulaş.</p></div></div>
             <div class="award-card" id="card-ach6"><div class="award-icon">🌀</div><div class="award-info"><h4>Döngü Çırağı</h4><p>İzanami Sonsuz Döngü'de 10 seri yap.</p></div></div>
             <div class="award-card" id="card-ach7"><div class="award-icon">⌨️</div><div class="award-info"><h4>Hızlı Parmaklar</h4><p>Mühür Yazıcısı'nda 35+ DKM hıza ulaş.</p></div></div>
@@ -1153,12 +1208,6 @@
             if (stackAnim) cancelAnimationFrame(stackAnim);
             isStack = false;
             document.getElementById('stack-action-btn').innerText = "BAŞLAT ⚔️";
-            // Flee temizle
-            clearInterval(fleeInt);
-            isFlee = false;
-            document.getElementById('fleeing-target').style.display = 'none';
-            document.getElementById('flee-dash').style.display = 'none';
-            document.getElementById('flee-intro').style.display = 'block';
         }
 
         function switchTab(tabId, btn) {
@@ -1782,85 +1831,6 @@
             }
         });
 
-        // ================= 7. SHARINGAN REFLEKSİ =================
-        let isFlee = false, fleeSc = 0, fleeT = 20, fleeInt;
-        let lastMoveTime = 0;
-        const fleeBtn = document.getElementById('fleeing-target');
-        const fleeContainer = document.getElementById('view-flee');
-
-        function startFleeGame() {
-            isFlee = true;
-            fleeSc = 0;
-            fleeT = 20;
-            document.getElementById('flee-score').innerText = '0';
-            document.getElementById('flee-timer').innerText = '20';
-            document.getElementById('flee-intro').style.display = 'none';
-            document.getElementById('flee-dash').style.display = 'block';
-            fleeBtn.style.display = 'block';
-            moveFleeButtonRandom();
-
-            fleeInt = setInterval(() => {
-                fleeT--;
-                document.getElementById('flee-timer').innerText = fleeT;
-                if (fleeT <= 0) {
-                    clearInterval(fleeInt);
-                    isFlee = false;
-                    fleeBtn.style.display = 'none';
-                    document.getElementById('flee-dash').style.display = 'none';
-                    document.getElementById('flee-intro').style.display = 'block';
-                    showGameNotice(`⏱️ Süre Bitti! Yakalanan Hedef: ${fleeSc}/5`);
-                }
-            }, 1000);
-        }
-
-        function moveFleeButtonRandom() {
-            const rect = fleeContainer.getBoundingClientRect();
-            const maxX = Math.max(60, rect.width - 210);
-            const maxY = Math.max(120, rect.height - 90);
-
-            fleeBtn.style.left = Math.max(25, Math.floor(Math.random() * maxX)) + 'px';
-            fleeBtn.style.top = Math.max(85, Math.floor(Math.random() * maxY)) + 'px';
-            lastMoveTime = Date.now();
-        }
-
-        document.addEventListener('mousemove', (e) => {
-            if (!isFlee) return;
-            const now = Date.now();
-            if (now - lastMoveTime < 145) return;
-
-            const rect = fleeBtn.getBoundingClientRect();
-            const btnX = rect.left + rect.width / 2;
-            const btnY = rect.top + rect.height / 2;
-            const dist = Math.hypot(e.clientX - btnX, e.clientY - btnY);
-
-            if (dist < 88) {
-                moveFleeButtonRandom();
-            }
-        });
-
-        fleeBtn.addEventListener('mousedown', (e) => {
-            e.stopPropagation();
-            if (!isFlee) return;
-            fleeSc++;
-            document.getElementById('flee-score').innerText = fleeSc;
-            createFloatingText("YAKALANDI!", e.clientX, e.clientY);
-
-            if (fleeSc >= 5) {
-                clearInterval(fleeInt);
-                isFlee = false;
-                fleeBtn.style.display = 'none';
-                document.getElementById('flee-dash').style.display = 'none';
-                document.getElementById('flee-intro').style.display = 'block';
-                score += 10000;
-                updateUI();
-                saveGameData();
-                unlockAchievement('ach4', 'Işık Hızı');
-                showGameNotice("🎯 Mükemmel Sharingan Refleksi! +10.000 Güç Eklendi!");
-            } else {
-                moveFleeButtonRandom();
-            }
-        });
-
         // ================= YÖNETİCİ PANELİ VE GİZLİ NOT DEFTERİ =================
         const ADMIN_PASS = "yigit123";
 
@@ -1992,9 +1962,11 @@ const wcError = error => {
   return 'İşlem tamamlanamadı: '+(code||error?.message||'Bilinmeyen hata');
 };
 function wcSetBusy(value){wcState.busy=value;wc$('wc-create').disabled=value;wc$('wc-showjoin').disabled=value;wc$('wc-join').disabled=value;}
+let wcAuthPending = null; // Prevent simultaneous anonymous logins from using different UIDs.
 async function wcEnsureAuth(){
   if(wcAuth.currentUser){wcState.uid=wcAuth.currentUser.uid;return wcState.uid;}
-  const cred=await signInAnonymously(wcAuth);wcState.uid=cred.user.uid;return wcState.uid;
+  if(!wcAuthPending)wcAuthPending=signInAnonymously(wcAuth).finally(()=>{wcAuthPending=null;});
+  const cred=await wcAuthPending;wcState.uid=cred.user.uid;return wcState.uid;
 }
 function wcNicknameOK(){const n=wcNick(); if(n.length<2||n.length>18){wcStatus('Oyuncu adın 2–18 karakter arasında olmalı.');wc$('wc-nickname').focus();return null;} if(/[<>\n\r\t]/.test(n)){wcStatus('Oyuncu adında geçersiz karakter bulunuyor.');return null;}wcStatus('');return n;}
 function wcRandCode(){const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';const b=new Uint8Array(6);crypto.getRandomValues(b);return Array.from(b,n=>chars[n%chars.length]).join('');}
@@ -2422,6 +2394,53 @@ function okUI(){try{ok$('ok-name').value=localStorage.getItem('yq-okey-nickname'
  okAuth().then(async()=>{try{const s=JSON.parse(sessionStorage.getItem('yq-okey-room')||'null');if(s?.code&&s?.name){const r=await get(okRef(s.code,'public'));if(r.exists()&&Object.values(r.val().seats||{}).some(p=>p.uid===okState.uid)){ok$('ok-name').value=s.name;okEnter(s.code,s.name);}}}catch(e){console.warn('Okey oturumu yüklenemedi',e);}}).catch(e=>okSetError(okError(e)));
 }
 okUI();
+
+// ================ YIGITQWC TWO PLAYER REALTIME CHESS ================
+// chess.js 1.4.0: fully-tested chess rules. Loaded lazily to leave other games independent.
+const ch$ = id => document.getElementById(id);
+const chRef = (...p) => ref(wcDb,['chess','rooms',...p.map(String)].join('/'));
+const CH_INITIAL_FEN='rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
+const CH_GLYPHS={w:{p:'♙',r:'♖',n:'♘',b:'♗',q:'♕',k:'♔'},b:{p:'♟',r:'♜',n:'♞',b:'♝',q:'♛',k:'♚'}};
+const chState={uid:null,name:'',code:null,room:null,off:null,engine:null,Chess:null,busy:false,selected:null,legal:[],promotion:null,lastNotice:'',loading:false};
+function chNotice(message){ch$('ch-notice').textContent=message||'';}
+function chError(e){console.error('[Satranç]',e);const s=String(e?.code||'');if(s.includes('permission-denied'))return 'Firebase erişimi reddetti: Satranç kurallarını Rules bölümüne ekleyip yayımla.';if(s.includes('auth/'))return 'Anonim giriş yapılamadı. Firebase Authentication ayarlarını kontrol et.';return (e?.message||'Bağlantı işlemi tamamlanamadı.').slice(0,210);}
+function chName(){const v=ch$('ch-name').value.trim().replace(/\s+/g,' ').slice(0,18);if(v.length<2){chNotice('Oyuncu adı en az iki karakter olmalı.');return '';}return v;}
+function chRoomCode(){const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';const arr=new Uint8Array(6);if(globalThis.crypto?.getRandomValues)crypto.getRandomValues(arr);else for(let i=0;i<6;i++)arr[i]=Math.random()*256;return Array.from(arr,i=>chars[i%chars.length]).join('');}
+function chSaveSession(){try{sessionStorage.setItem('yq-chess-room',JSON.stringify({code:chState.code,name:chState.name}));localStorage.setItem('yq-chess-name',chState.name);}catch(_){}}
+function chClearSession(){try{sessionStorage.removeItem('yq-chess-room');}catch(_){}}
+function chMyColor(){if(chState.room?.players?.white?.uid===chState.uid)return 'w';if(chState.room?.players?.black?.uid===chState.uid)return 'b';return '';}
+function chMyTurn(){return chState.room?.game?.phase==='playing' && chState.room.game.turn===chMyColor() && !!chMyColor();}
+function chNames(color){return chState.room?.players?.[color==='w'?'white':'black']?.name||'Oyuncu bekleniyor';}
+function chMakeEngine(moves){const g=new chState.Chess();if(moves){for(const str of moves.split(',')){if(!/^[a-h][1-8][a-h][1-8][qrbn]?$/.test(str))throw Error('Geçersiz hamle kaydı');const m=g.move({from:str.slice(0,2),to:str.slice(2,4),promotion:str[4]||'q'});if(!m)throw Error('Geçersiz hamle geçmişi');}}return g;}
+function chIsOver(g){if(g.isCheckmate())return {result:g.turn()==='w'?'0-1':'1-0',reason:'ŞAH MAT'};if(g.isStalemate())return {result:'1/2-1/2',reason:'PAT'};if(g.isThreefoldRepetition())return {result:'1/2-1/2',reason:'ÜÇ KEZ TEKRAR'};if(g.isInsufficientMaterial())return {result:'1/2-1/2',reason:'YETERSİZ MATERYAL'};if(g.isDrawByFiftyMoves())return {result:'1/2-1/2',reason:'50 HAMLE KURALI'};if(g.isDraw())return {result:'1/2-1/2',reason:'BERABERLİK'};return null;}
+async function chAuth(){await wcEnsureAuth();chState.uid=wcAuth.currentUser.uid;return chState.uid;}
+async function chCreate(){const name=chName();if(!name||chState.busy||!chState.Chess)return;chState.busy=true;chEntryBusy(true);try{const uid=await chAuth();for(let i=0;i<9;i++){const code=chRoomCode();const room={owner:uid,createdAt:Date.now(),players:{white:{uid,name,joinedAt:Date.now()}},game:{phase:'lobby',fen:CH_INITIAL_FEN,moves:'',ply:0,turn:'w',result:'',reason:'',drawOffer:'',lastMove:'',startedAt:0,endedAt:0}};try{await set(chRef(code),room);chEnter(code,name);chNotice('Odan hazır. Kodu arkadaşına gönder.');return;}catch(e){if(String(e?.code).includes('permission-denied'))throw e;}}throw Error('Oda oluşturulamadı. Lütfen yeniden dene.');}catch(e){chNotice(chError(e));}finally{chState.busy=false;chEntryBusy(false);}}
+async function chJoin(){const name=chName();if(!name||chState.busy||!chState.Chess)return;const code=ch$('ch-join-code').value.toUpperCase().trim();if(!/^[A-HJ-NP-Z2-9]{6}$/.test(code)){chNotice('Geçerli altı karakterli oda kodunu yaz.');return;}chState.busy=true;chEntryBusy(true);try{const uid=await chAuth(),s=await get(chRef(code));if(!s.exists())throw Error('Oda bulunamadı. Kodu tekrar kontrol et.');const room=s.val();if(room.players?.white?.uid===uid){chEnter(code,room.players.white.name);return;}if(room.players?.black?.uid===uid){chEnter(code,room.players.black.name);return;}if(room.game?.phase!=='lobby')throw Error('Maç başlamış. Yeni oyuncu kabul edilmiyor.');if(room.players?.black)throw Error('Bu odada iki oyuncu var.');const result=await runTransaction(chRef(code,'players','black'),old=>{if(old!==null)return;return {uid,name,joinedAt:Date.now()};},{applyLocally:false});if(!result.committed)throw Error('İkinci oyuncu koltuğu doldu.');chEnter(code,name);chNotice('Odaya katıldın. Beyaz oyuncu maçı başlatacak.');}catch(e){chNotice(chError(e));}finally{chState.busy=false;chEntryBusy(false);}}
+function chEntryBusy(b){ch$('ch-create').disabled=b||!chState.Chess;ch$('ch-join').disabled=b||!chState.Chess;}
+function chEnter(code,name){if(chState.off){chState.off();chState.off=null;}chState.code=code;chState.name=name;chState.room=null;chState.selected=null;chState.legal=[];chState.promotion=null;chSaveSession();ch$('ch-entry').classList.add('ch-hidden');ch$('ch-room').classList.remove('ch-hidden');ch$('ch-room-code').textContent=code;const failure=e=>{chNotice(chError(e));chExitUI();};chState.off=onValue(chRef(code),snapshot=>{if(!snapshot.exists()){chExitUI();chNotice('Oda artık mevcut değil.');return;}chState.room=snapshot.val();if(!chMyColor()){chExitUI();chNotice('Odaya erişim hakkın yok.');return;}try{chState.engine=chMakeEngine(chState.room.game.moves);if(chState.engine.fen()!==chState.room.game.fen)throw Error('Hamle geçmişi ile tahta konumu farklı.');chRender();}catch(e){chNotice('Maç verisi doğrulanamadı: '+e.message);}},failure);}
+function chExitUI(){if(chState.off){chState.off();chState.off=null;}chState.code=null;chState.room=null;chState.selected=null;chState.legal=[];chClearSession();ch$('ch-room').classList.add('ch-hidden');ch$('ch-entry').classList.remove('ch-hidden');ch$('ch-promotion').classList.add('ch-hidden');}
+async function chLeave(){if(!chState.code)return;const code=chState.code,room=chState.room,uid=chState.uid;chExitUI();chNotice('Odadan ayrıldın.');try{if(room?.owner===uid){await remove(chRef(code));}else if(room?.game?.phase==='lobby'&&room?.players?.black?.uid===uid){await remove(chRef(code,'players','black'));}}catch(e){chNotice(chError(e));}}
+async function chStart(){const r=chState.room;if(!r||r.owner!==chState.uid||!r.players?.black||chState.busy)return;chState.busy=true;try{const res=await runTransaction(chRef(chState.code,'game'),old=>{if(!old||old.phase!=='lobby')return;return {...old,phase:'playing',startedAt:Date.now()};},{applyLocally:false});if(!res.committed)throw Error('Maç başlatılamadı.');chNotice('Maç başladı. İlk hamle beyazların!');}catch(e){chNotice(chError(e));}finally{chState.busy=false;}}
+function chRender(){const r=chState.room;if(!r)return;const g=r.game,color=chMyColor();ch$('ch-phase').textContent=g.phase==='lobby'?'RAKİP BEKLENİYOR':g.phase==='playing'?'MAÇ SÜRÜYOR':'MAÇ BİTTİ';ch$('ch-lobby').classList.toggle('ch-hidden',g.phase!=='lobby');ch$('ch-playarea').classList.toggle('ch-hidden',g.phase==='lobby');ch$('ch-lobby-white').textContent=chNames('w');ch$('ch-lobby-black').textContent=chNames('b');ch$('ch-start').disabled=!(r.owner===chState.uid&&r.players?.black&&g.phase==='lobby')||chState.busy;if(g.phase==='lobby')return;
+ const opponent=color==='w'?'b':'w';ch$('ch-top-icon').textContent=CH_GLYPHS[opponent].k;ch$('ch-top-name').textContent=chNames(opponent);ch$('ch-top-side').textContent=opponent==='w'?'Beyaz taşlar':'Siyah taşlar';ch$('ch-bottom-icon').textContent=CH_GLYPHS[color].k;ch$('ch-bottom-name').textContent=chNames(color);ch$('ch-bottom-side').textContent=color==='w'?'Beyaz taşlar':'Siyah taşlar';ch$('ch-top-turn').textContent=g.turn===opponent&&g.phase==='playing'?'● SIRA RAKİPTE':'RAKİP';ch$('ch-bottom-turn').textContent=chMyTurn()?'● SIRA SENDE':'SIRA BEKLENİYOR';ch$('ch-top-turn').classList.toggle('active',g.turn===opponent&&g.phase==='playing');ch$('ch-bottom-turn').classList.toggle('active',chMyTurn());
+ const over=g.phase==='ended';ch$('ch-status').textContent=over?(g.result==='1/2-1/2'?'BERABERE':g.result===(color==='w'?'1-0':'0-1')?'KAZANDIN!':'KAYBETTİN'):chState.engine?.isCheck()?'ŞAH!':chMyTurn()?'SIRA SENDE':'RAKİBİN OYNUYOR';ch$('ch-status-detail').textContent=over?`${g.reason||'Maç tamamlandı'} • Sonuç ${g.result}`:chMyTurn()?'Hamleni yapmak için taş seç ve hedef kareye dokun.':`Sıra ${chNames(g.turn)} oyuncusunda. Rakibinin hamlesini bekle.`;ch$('ch-check-badge').textContent=chState.engine?.isCheck()?'ŞAH':'KLASİK SATRANÇ';ch$('ch-move-number').textContent='HAMLE '+(Math.floor(Number(g.ply)/2)+1);
+ ch$('ch-rematch').classList.toggle('ch-hidden',!(over&&r.owner===chState.uid));ch$('ch-resign').disabled=over;ch$('ch-draw-offer').disabled=over||g.drawOffer===color;ch$('ch-draw-offer').textContent=g.drawOffer===color?'½ TEKLİF GÖNDERİLDİ':'½ BERABERLİK ÖNER';ch$('ch-draw-accept').classList.toggle('ch-hidden',!(!over&&g.drawOffer&&g.drawOffer!==color));ch$('ch-draw-decline').classList.toggle('ch-hidden',!(!over&&g.drawOffer&&g.drawOffer!==color));chRenderBoard();chRenderHistory();
+ if(over&&g.result===(color==='w'?'1-0':'0-1')){unlockAchievement('ach9','Satranç Ustası');}
+}
+function chRenderBoard(){const board=ch$('ch-board');board.replaceChildren();if(!chState.engine)return;const color=chMyColor(),files=color==='b'?'hgfedcba':'abcdefgh',ranks=color==='b'?'12345678':'87654321';const last=chState.room?.game?.lastMove||'',check=chState.engine.isCheck();
+ for(let row=0;row<8;row++)for(let col=0;col<8;col++){const sq=files[col]+ranks[row],piece=chState.engine.get(sq);const el=document.createElement('button');el.type='button';el.className='ch-square '+((row+col)%2?'dark':'light')+' hover-target';el.setAttribute('role','gridcell');el.setAttribute('aria-label',sq+(piece?' '+(piece.color==='w'?'beyaz ':'siyah ')+({k:'şah',q:'vezir',r:'kale',b:'fil',n:'at',p:'piyon'}[piece.type]):' boş'));if(last.startsWith(sq)||last.slice(2,4)===sq)el.classList.add('last-move');if(chState.selected===sq)el.classList.add('selected');if(check&&piece&&piece.type==='k'&&piece.color===chState.engine.turn())el.classList.add('in-check');if(chState.legal.some(m=>m.to===sq)){if(piece)el.classList.add('legal-capture');else{const dot=document.createElement('span');dot.className='ch-dot';el.append(dot);}}
+ if(piece){const span=document.createElement('span');span.className='ch-piece '+(piece.color==='w'?'white':'black');span.textContent=CH_GLYPHS[piece.color][piece.type];el.append(span);}if(col===0){const label=document.createElement('span');label.className='ch-coord rank';label.textContent=ranks[row];el.append(label);}if(row===7){const label=document.createElement('span');label.className='ch-coord file';label.textContent=files[col];el.append(label);}el.addEventListener('click',()=>chClickSquare(sq));board.append(el);}
+}
+function chRenderHistory(){const hist=ch$('ch-history');hist.replaceChildren();const moves=chState.engine?.history()||[];if(!moves.length){const e=document.createElement('div');e.className='ch-history-empty';e.textContent='Henüz hamle yapılmadı.';hist.append(e);return;}for(let i=0;i<moves.length;i+=2){const num=document.createElement('span');num.className='num';num.textContent=(1+i/2)+'.';hist.append(num);for(let j=0;j<2;j++){const cell=document.createElement('span');cell.className='san';cell.textContent=moves[i+j]||'—';hist.append(cell);}}hist.scrollTop=hist.scrollHeight;}
+function chClickSquare(sq){if(!chMyTurn()||chState.busy||!chState.engine||chState.promotion)return;const piece=chState.engine.get(sq),my=chMyColor();if(chState.selected&&chState.legal.some(m=>m.to===sq)){const from=chState.selected;const promo=chState.legal.some(m=>m.to===sq&&m.flags?.includes('p'));if(promo){chState.promotion={from,to:sq};ch$('ch-promotion').classList.remove('ch-hidden');return;}chSubmitMove(from,sq,'q');return;}if(piece&&piece.color===my){chState.selected=sq;chState.legal=chState.engine.moves({square:sq,verbose:true});}else{chState.selected=null;chState.legal=[];}chRenderBoard();}
+async function chSubmitMove(from,to,promotion='q'){if(!chState.code||chState.busy||!chState.Chess)return;ch$('ch-promotion').classList.add('ch-hidden');chState.promotion=null;chState.busy=true;try{const color=chMyColor();const r=await runTransaction(chRef(chState.code,'game'),old=>{if(!old||old.phase!=='playing'||old.turn!==color)return;const engine=chMakeEngine(old.moves);if(engine.fen()!==old.fen)return;let move;try{move=engine.move({from,to,promotion});}catch(_){return;}if(!move)return;const end=chIsOver(engine);const notation=from+to+((move.flags?.includes('p'))?promotion:'');return {...old,moves:old.moves?old.moves+','+notation:notation,ply:old.ply+1,fen:engine.fen(),turn:engine.turn(),lastMove:notation,drawOffer:'',phase:end?'ended':'playing',result:end?.result||'',reason:end?.reason||'',endedAt:end?Date.now():0};},{applyLocally:false});if(!r.committed)throw Error('Hamle kabul edilmedi. Sıra değişmiş veya başka bir hamle işlenmiş olabilir.');chState.selected=null;chState.legal=[];}catch(e){chNotice(chError(e));}finally{chState.busy=false;}}
+async function chGameAction(kind){if(chState.busy||!chState.code)return;const uid=chState.uid,color=chMyColor();if(!color)return;const game=chState.room?.game;if(!game||game.phase!=='playing')return;if(kind==='resign'&&!confirm('Maçtan teslim olarak ayrılmak istediğine emin misin?'))return;chState.busy=true;try{const result=await runTransaction(chRef(chState.code,'game'),old=>{if(!old||old.phase!=='playing')return;const base={...old};if(kind==='resign'){base.phase='ended';base.result=color==='w'?'0-1':'1-0';base.reason='TESLİM OLMA';base.endedAt=Date.now();base.drawOffer='';return base;}if(kind==='offer'){if(old.drawOffer===color)return;base.drawOffer=color;return base;}if(kind==='decline'){if(old.drawOffer!==''&&old.drawOffer!==color){base.drawOffer='';return base;}return;}if(kind==='accept'){if(old.drawOffer!==''&&old.drawOffer!==color){base.phase='ended';base.result='1/2-1/2';base.reason='ANLAŞMALI BERABERLİK';base.endedAt=Date.now();base.drawOffer='';return base;}return;}},{applyLocally:false});if(!result.committed)throw Error('Bu işlem şu anda uygulanamıyor.');if(kind==='offer')chNotice('Beraberlik teklifi rakibine gönderildi.');}catch(e){chNotice(chError(e));}finally{chState.busy=false;}}
+async function chRematch(){if(chState.busy||chState.room?.owner!==chState.uid||chState.room?.game?.phase!=='ended')return;chState.busy=true;try{const result=await runTransaction(chRef(chState.code,'game'),old=>{if(!old||old.phase!=='ended')return;return {phase:'playing',fen:CH_INITIAL_FEN,moves:'',ply:0,turn:'w',result:'',reason:'',drawOffer:'',lastMove:'',startedAt:Date.now(),endedAt:0};},{applyLocally:false});if(!result.committed)throw Error('Rövanş başlatılamadı.');chNotice('Yeni maç başladı. Beyazlar başlar.');}catch(e){chNotice(chError(e));}finally{chState.busy=false;}}
+function chUI(){let known='';try{known=localStorage.getItem('yq-chess-name')||localStorage.getItem('yq-wc-name')||'';}catch(_){}ch$('ch-name').value=known;ch$('ch-create').addEventListener('click',chCreate);ch$('ch-join').addEventListener('click',chJoin);ch$('ch-join-code').addEventListener('keydown',e=>{if(e.key==='Enter')chJoin();});ch$('ch-start').addEventListener('click',chStart);ch$('ch-leave').addEventListener('click',chLeave);ch$('ch-copy').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(chState.code);chNotice('Oda kodu kopyalandı: '+chState.code);}catch(_){chNotice('Oda kodu: '+chState.code);}});ch$('ch-resign').addEventListener('click',()=>chGameAction('resign'));ch$('ch-draw-offer').addEventListener('click',()=>chGameAction('offer'));ch$('ch-draw-accept').addEventListener('click',()=>chGameAction('accept'));ch$('ch-draw-decline').addEventListener('click',()=>chGameAction('decline'));ch$('ch-rematch').addEventListener('click',chRematch);ch$('ch-promo-cancel').addEventListener('click',()=>{chState.promotion=null;ch$('ch-promotion').classList.add('ch-hidden');});document.querySelectorAll('#ch-promotion [data-promote]').forEach(btn=>btn.addEventListener('click',()=>{const p=chState.promotion;if(p)chSubmitMove(p.from,p.to,btn.dataset.promote);}));
+ chInit();}
+async function chInit(){try{const mod=await import('https://cdn.jsdelivr.net/npm/chess.js@1.4.0/+esm');chState.Chess=mod.Chess;if(!chState.Chess)throw Error('Satranç kuralları yüklenemedi.');await chAuth();ch$('ch-connection').textContent='● SİSTEM HAZIR';chEntryBusy(false);try{const saved=JSON.parse(sessionStorage.getItem('yq-chess-room')||'null');if(saved?.code&&saved?.name){const room=await get(chRef(saved.code));if(room.exists()&&(room.val().players?.white?.uid===chState.uid||room.val().players?.black?.uid===chState.uid)){ch$('ch-name').value=saved.name;chEnter(saved.code,saved.name);}}}catch(e){console.warn('Satranç oturumu geri yüklenemedi',e);}}catch(e){ch$('ch-connection').textContent='● BAĞLANTI HATASI';chNotice('Satranç başlatılamadı: '+chError(e)+' İnternet bağlantını kontrol et.');}}
+chUI();
+
 
 </script>
 </body>
