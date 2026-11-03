@@ -442,12 +442,12 @@
             </div>
             <div class="terminal-body" id="terminalBody">
                 <div>[SYSTEM] Güvenli terminal oturumu başlatıldı.</div>
-                <div>[SYSTEM] Yetki almak için yönetici şifresini // ile başlayarak girin (Örn: //yigit123) veya doğrudan /trade gold yazın.</div>
+                <div>[SYSTEM] Yetki almak için yönetici şifresini // ile başlayarak girin (Örn: //yigit123) veya doğrudan /trade gold ya da /chat yazın.</div>
                 <br>
             </div>
             <div class="terminal-input-line">
                 <span>></span>
-                <input type="text" id="terminalInput" class="terminal-input" placeholder="Şifre veya komut yazın (/trade gold)..." autofocus autocomplete="off">
+                <input type="text" id="terminalInput" class="terminal-input" placeholder="Şifre veya komut yazın (/trade gold, /chat)..." autofocus autocomplete="off">
             </div>
         </div>
     </div>
@@ -636,13 +636,20 @@
                     return;
                 }
 
+                if (val.toLowerCase() === '/chat') {
+                    body.innerHTML += `<div style="color:#00ff66;">[REDIRECT] Sohbet Modülüne (index30.html) yönlendiriliyorsunuz...</div>`;
+                    body.scrollTop = body.scrollHeight;
+                    setTimeout(() => { window.location.href = 'index30.html'; }, 800);
+                    return;
+                }
+
                 if (!isAuthenticated) {
                     if (val === '//yigit123') {
                         isAuthenticated = true;
                         body.innerHTML += `<div style="color:#00ff66;">[SUCCESS] Şifre doğru. Yönetici yetkisi alındı.</div>`;
-                        body.innerHTML += `<div style="color:#ffcc00;">[INFO] Yönlendirme komutunu yazabilirsiniz (Örn: /koraybird, /slot, /trade gold).</div>`;
+                        body.innerHTML += `<div style="color:#ffcc00;">[INFO] Yönlendirme komutunu yazabilirsiniz (Örn: /koraybird, /slot, /trade gold, /chat).</div>`;
                     } else {
-                        body.innerHTML += `<div style="color:#ff3333;">[ERROR] Hatalı şifre veya komut! (//yigit123 veya /trade gold yazınız).</div>`;
+                        body.innerHTML += `<div style="color:#ff3333;">[ERROR] Hatalı şifre veya komut! (//yigit123, /trade gold veya /chat yazınız).</div>`;
                     }
                 } else {
                     if (val === '/koraybird') {

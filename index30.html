@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>yigitqwc | Uchiha Chat & Oda Sistemi</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <style>
+        /* ORİJİNAL KLASİK UCHIHA / KIRMIZI-SİYAH RENK PALETİ */
+        :root {
+            --bg-color: #030101;
+            --text-color: #ffffff;
+            --accent-red: #ff0000;
+            --accent-gold: #ffcc00;
+            --accent-green: #00ff66;
+            --panel-bg: rgba(12, 1, 1, 0.94);
+            --sidebar-bg: rgba(8, 0, 0, 0.96);
+            --border-red: rgba(255, 0, 0, 0.35);
+        }
+
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            cursor: none;
+        }
+
+        body {
+            background-color: var(--bg-color); color: var(--text-color);
+            overflow: hidden; width: 100vw; height: 100vh; display: flex; flex-direction: column;
+        }
+
+        /* KLASİK ÖZEL İMLEÇ VE TIKLAMA EFEKTİ */
+        .custom-cursor {
+            position: fixed; top: 0; left: 0; width: 16px; height: 16px;
+            background-color: transparent; border: 2px solid var(--accent-red);
+            pointer-events: none; z-index: 9999999;
+            transform: translate(-50%, -50%) rotate(45deg);
+            box-shadow: 0 0 10px var(--accent-red), inset 0 0 5px var(--accent-red);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+        .custom-cursor::after {
+            content: ''; position: absolute; top: 50%; left: 50%; width: 4px; height: 4px;
+            background: var(--accent-red); transform: translate(-50%, -50%);
+        }
+        .cursor-hover { width: 30px; height: 30px; background-color: rgba(255, 0, 0, 0.25); }
+
+        .click-ripple {
+            position: fixed; border-radius: 50%; border: 2px solid var(--accent-red);
+            pointer-events: none; transform: translate(-50%, -50%);
+            animation: rippleEffect 0.6s ease-out forwards; z-index: 99998;
+            box-shadow: 0 0 15px rgba(255,0,0,0.5);
+        }
+        @keyframes rippleEffect {
+            0% { width: 0; height: 0; opacity: 1; border-width: 4px; }
+            100% { width: 120px; height: 120px; opacity: 0; border-width: 1px; }
+        }
+
+        /* SHARINGAN YÜKLEME EKRANI */
+        #splash {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #000; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; z-index: 1000000;
+            transition: opacity 0.7s ease, visibility 0.7s ease;
+        }
+        .sharingan {
+            width: 85px; height: 85px; margin-bottom: 25px;
+            animation: spin 2.5s linear infinite; filter: drop-shadow(0 0 20px rgba(255,0,0,0.9));
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .logo-container {
+            position: relative; text-decoration: none; color: var(--text-color);
+            display: inline-block; padding-bottom: 4px;
+        }
+        .logo-text {
+            font-size: 1.9rem; font-weight: 900; letter-spacing: -0.5px;
+            display: inline-block; animation: glitch-anim 6s infinite;
+        }
+        @keyframes glitch-anim {
+            0%, 93%, 100% { text-shadow: 0 0 15px rgba(255,0,0,0.8); transform: translate(0); }
+            94% { text-shadow: 3px 0 0 red, -3px 0 0 white; transform: translate(3px, -2px); }
+            96% { text-shadow: -3px 0 0 red, 3px 0 0 white; transform: translate(-3px, 2px); }
+            98% { text-shadow: 3px 0 0 red, -3px 0 0 white; transform: translate(3px, 2px); }
+        }
+        .red-line-wrapper {
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 3px;
+            background: rgba(255, 0, 0, 0.2); border-radius: 2px; overflow: hidden;
+        }
+        .red-line-wrapper::after {
+            content: ''; position: absolute; top: 0; left: -50%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, #ff0000, #ffffff, #ff0000, transparent);
+            box-shadow: 0 0 8px #ff0000; animation: beamMove 2.5s infinite linear;
+        }
+        @keyframes beamMove { 0% { left: -50%; } 100% { left: 100%; } }
+
+        /* ARKA PLAN VE KÜLLER */
+        .hero-bg {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-image: url('bg.jpg'); background-size: cover; background-position: center;
+            filter: brightness(0.16) blur(3px); z-index: -2; pointer-events: none;
+        }
+        .vignette {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: radial-gradient(circle, rgba(0,0,0,0) 20%, rgba(0,0,0,0.96) 100%);
+            pointer-events: none; z-index: -1;
+        }
+        #particles-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
+
+        /* ================= GİRİŞ KAPISI (İSİM + ŞİFRE "33") ================= */
+        #auth-gate-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: radial-gradient(circle at center, rgba(25, 0, 0, 0.96) 0%, rgba(2, 0, 0, 0.99) 100%);
+            backdrop-filter: blur(15px); z-index: 500000;
+            display: flex; align-items: center; justify-content: center; padding: 20px;
+        }
+        .gate-card {
+            width: 100%; max-width: 430px; background: rgba(12, 1, 1, 0.95);
+            border: 2px solid var(--accent-red); border-radius: 20px; padding: 35px 30px;
+            box-shadow: 0 0 60px rgba(255, 0, 0, 0.45), inset 0 0 25px rgba(255, 0, 0, 0.1);
+            display: flex; flex-direction: column; align-items: center; gap: 18px;
+            text-align: center;
+        }
+        .gate-card h2 {
+            font-size: 1.75rem; font-weight: 900; color: #fff;
+            text-shadow: 0 0 15px var(--accent-red); letter-spacing: 1px;
+        }
+        .gate-card p { font-size: 0.9rem; color: #bbb; line-height: 1.5; }
+        .gate-field { width: 100%; display: flex; flex-direction: column; gap: 6px; text-align: left; }
+        .gate-field label {
+            font-size: 0.78rem; font-weight: 800; color: #ff6666;
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+        .gate-input {
+            width: 100%; padding: 13px 16px; background: #050000;
+            border: 1px solid #660000; border-radius: 10px;
+            color: #fff; font-size: 1rem; font-weight: 700; outline: none;
+            transition: border-color 0.25s, box-shadow 0.25s;
+        }
+        .gate-input:focus {
+            border-color: var(--accent-red);
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.45);
+        }
+        .gate-error {
+            color: #ff3333; font-size: 0.85rem; font-weight: 800; min-height: 20px;
+        }
+        .gate-submit-btn {
+            width: 100%; padding: 14px; background: linear-gradient(135deg, #aa0000, #ff0000);
+            border: 1px solid #ff6666; border-radius: 30px; color: #fff;
+            font-size: 1rem; font-weight: 900; letter-spacing: 1px; text-transform: uppercase;
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.5); transition: all 0.25s;
+        }
+        .gate-submit-btn:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 0 35px rgba(255, 0, 0, 0.9);
+        }
+
+        /* ================= ÜST BAR ================= */
+        header.chat-top-nav {
+            background: rgba(5, 0, 0, 0.92); backdrop-filter: blur(10px);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0.75rem 2rem; border-bottom: 1px solid var(--border-red);
+            z-index: 20; height: 64px; flex-shrink: 0;
+        }
+        .top-left-group { display: flex; align-items: center; gap: 15px; }
+        .online-pill {
+            font-size: 0.78rem; font-weight: 800; color: var(--accent-green);
+            background: rgba(0, 255, 102, 0.1); border: 1px solid rgba(0, 255, 102, 0.35);
+            padding: 4px 12px; border-radius: 20px; display: flex; align-items: center; gap: 6px;
+        }
+        .online-pill::before {
+            content: ''; width: 7px; height: 7px; border-radius: 50%;
+            background: var(--accent-green); box-shadow: 0 0 8px var(--accent-green);
+        }
+        .back-link {
+            color: #ccc; text-decoration: none; font-size: 0.92rem; font-weight: 700;
+            transition: color 0.3s;
+        }
+        .back-link:hover { color: var(--accent-red); text-shadow: 0 0 10px red; }
+
+        /* ================= WHATSAPP TARZI ANA SOHBET DÜZENİ ================= */
+        .whatsapp-container {
+            position: relative; z-index: 10; flex-grow: 1;
+            display: flex; width: 100%; height: calc(100vh - 64px); overflow: hidden;
+        }
+
+        /* SOL SÜTUN: KULLANICI PROFİLİ + SOHBET / ODA LİSTESİ */
+        .wa-sidebar {
+            width: 350px; min-width: 310px; background: var(--sidebar-bg);
+            border-right: 1px solid var(--border-red);
+            display: flex; flex-direction: column; height: 100%;
+        }
+
+        .wa-user-header {
+            padding: 14px 18px; background: rgba(20, 0, 0, 0.75);
+            border-bottom: 1px solid #3a0000;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .user-profile-info { display: flex; align-items: center; gap: 12px; }
+        .user-avatar {
+            width: 42px; height: 42px; border-radius: 50%;
+            background: linear-gradient(135deg, #990000, #ff0000);
+            border: 2px solid #ff6666; display: flex; align-items: center; justify-content: center;
+            font-weight: 900; font-size: 1.1rem; color: #fff;
+            box-shadow: 0 0 12px rgba(255, 0, 0, 0.6);
+        }
+        .user-meta h4 { font-size: 0.98rem; color: #fff; font-weight: 800; }
+        .user-meta span { font-size: 0.74rem; color: #ff8888; font-weight: 700; }
+
+        .change-name-btn {
+            background: rgba(40, 0, 0, 0.8); border: 1px solid #660000; color: #ccc;
+            padding: 5px 10px; border-radius: 8px; font-size: 0.74rem; font-weight: 800;
+            transition: 0.2s;
+        }
+        .change-name-btn:hover { background: var(--accent-red); color: #fff; }
+
+        .wa-search-box {
+            padding: 10px 14px; border-bottom: 1px solid #2a0000;
+        }
+        .wa-search-input {
+            width: 100%; padding: 9px 14px; background: #050000;
+            border: 1px solid #4a0000; border-radius: 20px; color: #fff;
+            font-size: 0.86rem; outline: none;
+        }
+        .wa-search-input:focus { border-color: var(--accent-red); }
+
+        .wa-room-list {
+            flex-grow: 1; overflow-y: auto; list-style: none;
+        }
+        .wa-room-list::-webkit-scrollbar { width: 5px; }
+        .wa-room-list::-webkit-scrollbar-thumb { background: var(--accent-red); border-radius: 3px; }
+
+        .wa-room-item {
+            display: flex; align-items: center; gap: 13px;
+            padding: 14px 18px; border-bottom: 1px solid rgba(255, 0, 0, 0.1);
+            transition: background 0.2s;
+        }
+        .wa-room-item:hover { background: rgba(255, 0, 0, 0.1); }
+        .wa-room-item.active {
+            background: rgba(255, 0, 0, 0.22);
+            border-left: 4px solid var(--accent-red);
+        }
+        .room-avatar {
+            width: 46px; height: 46px; border-radius: 50%;
+            background: rgba(35, 0, 0, 0.9); border: 1px solid var(--accent-red);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.3rem; flex-shrink: 0;
+            box-shadow: 0 0 12px rgba(255, 0, 0, 0.35);
+        }
+        .room-details { flex-grow: 1; overflow: hidden; }
+        .room-top-line {
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;
+        }
+        .room-title {
+            font-size: 0.96rem; font-weight: 800; color: #fff;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .room-code-tag {
+            font-family: monospace; font-size: 0.72rem; font-weight: 900;
+            color: var(--accent-gold); background: rgba(255, 204, 0, 0.12);
+            border: 1px solid rgba(255, 204, 0, 0.35); padding: 2px 6px; border-radius: 5px;
+        }
+        .room-last-msg {
+            font-size: 0.8rem; color: #aaa;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+
+        /* SAĞ SÜTUN: WHATSAPP MESAJLAŞMA EKRANI */
+        .wa-chat-main {
+            flex-grow: 1; display: flex; flex-direction: column; height: 100%;
+            background: radial-gradient(circle at center, rgba(18, 2, 2, 0.82) 0%, rgba(4, 0, 0, 0.94) 100%);
+            position: relative;
+        }
+
+        .wa-chat-header {
+            padding: 12px 22px; background: rgba(14, 0, 0, 0.92);
+            border-bottom: 1px solid var(--border-red);
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 10px;
+        }
+        .chat-header-left { display: flex; align-items: center; gap: 14px; }
+        .chat-header-info h3 { font-size: 1.1rem; font-weight: 900; color: #fff; }
+        .chat-header-info p { font-size: 0.8rem; color: #ff8888; font-weight: 600; }
+
+        .chat-header-right { display: flex; align-items: center; gap: 10px; }
+        .copy-code-btn {
+            display: none; align-items: center; gap: 6px;
+            background: rgba(255, 204, 0, 0.15); border: 1px solid var(--accent-gold);
+            color: var(--accent-gold); padding: 7px 14px; border-radius: 20px;
+            font-family: monospace; font-size: 0.85rem; font-weight: 900;
+            transition: all 0.2s;
+        }
+        .copy-code-btn:hover {
+            background: var(--accent-gold); color: #000;
+            box-shadow: 0 0 15px rgba(255, 204, 0, 0.7);
+        }
+
+        /* MESAJ AKIŞ ALANI */
+        .wa-messages-stream {
+            flex-grow: 1; padding: 22px 28px 95px 28px;
+            overflow-y: auto; display: flex; flex-direction: column; gap: 12px;
+        }
+        .wa-messages-stream::-webkit-scrollbar { width: 6px; }
+        .wa-messages-stream::-webkit-scrollbar-thumb { background: var(--accent-red); border-radius: 3px; }
+
+        .system-encryption-banner {
+            align-self: center; background: rgba(25, 0, 0, 0.85);
+            border: 1px solid #550000; color: #ffaaaa;
+            font-size: 0.78rem; font-weight: 700; padding: 7px 16px;
+            border-radius: 12px; text-align: center; max-width: 520px;
+            margin-bottom: 8px; box-shadow: 0 0 15px rgba(0,0,0,0.6);
+        }
+
+        /* WHATSAPP MESAJ BALONLARI */
+        .msg-bubble {
+            max-width: 68%; min-width: 140px; padding: 10px 14px 8px 14px;
+            border-radius: 14px; position: relative;
+            display: flex; flex-direction: column; gap: 4px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.7);
+            animation: msgPop 0.2s ease-out;
+            word-break: break-word;
+        }
+        @keyframes msgPop {
+            from { opacity: 0; transform: translateY(6px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* Gelen Mesaj (Sol) */
+        .msg-incoming {
+            align-self: flex-start;
+            background: rgba(22, 2, 2, 0.92);
+            border: 1px solid #550000;
+            border-top-left-radius: 2px;
+        }
+        .msg-sender-name {
+            font-size: 0.78rem; font-weight: 900; color: var(--accent-gold);
+            letter-spacing: 0.3px;
+        }
+
+        /* Giden Mesaj (Sağ - Kullanıcı) */
+        .msg-outgoing {
+            align-self: flex-end;
+            background: linear-gradient(135deg, #880000 0%, #cc0000 100%);
+            border: 1px solid #ff4444;
+            border-top-right-radius: 2px;
+        }
+        .msg-outgoing .msg-sender-name {
+            color: #ffcccc;
+        }
+
+        .msg-text {
+            font-size: 0.95rem; color: #fff; line-height: 1.45;
+            user-select: text;
+        }
+        .msg-meta {
+            display: flex; align-items: center; justify-content: flex-end;
+            gap: 5px; font-size: 0.7rem; color: rgba(255, 255, 255, 0.65);
+            margin-top: 2px;
+        }
+        .msg-ticks { color: #00ff88; font-weight: 900; letter-spacing: -2px; }
+
+        /* ALT MESAJ YAZMA BARI */
+        .wa-input-bar {
+            padding: 14px 22px; background: rgba(10, 0, 0, 0.95);
+            border-top: 1px solid var(--border-red);
+            display: flex; align-items: center; gap: 12px; z-index: 25;
+        }
+        .wa-message-input {
+            flex-grow: 1; padding: 13px 20px; background: #050000;
+            border: 1px solid #660000; border-radius: 28px;
+            color: #fff; font-size: 0.96rem; outline: none;
+            transition: border-color 0.25s, box-shadow 0.25s;
+        }
+        .wa-message-input:focus {
+            border-color: var(--accent-red);
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
+        }
+        .wa-send-btn {
+            background: var(--accent-red); border: 1px solid #ff6666;
+            color: #fff; padding: 12px 24px; border-radius: 28px;
+            font-weight: 900; font-size: 0.92rem; letter-spacing: 0.5px;
+            box-shadow: 0 0 18px rgba(255, 0, 0, 0.6); transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .wa-send-btn:hover {
+            transform: scale(1.05); box-shadow: 0 0 28px rgba(255, 0, 0, 0.95);
+        }
+
+        /* ================= SAĞ ALT HIZLI ODA OLUŞTUR & ODAYA KATIL BUTONLARI ================= */
+        .room-fab-dock {
+            position: fixed; bottom: 82px; right: 26px; z-index: 90;
+            display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end;
+        }
+        .room-fab-btn {
+            background: rgba(16, 0, 0, 0.92); border: 2px solid var(--accent-red);
+            color: #fff; padding: 10px 18px; border-radius: 30px;
+            font-size: 0.84rem; font-weight: 900; letter-spacing: 0.5px;
+            box-shadow: 0 0 22px rgba(255, 0, 0, 0.45);
+            backdrop-filter: blur(10px);
+            display: flex; align-items: center; gap: 7px;
+            transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .room-fab-btn:hover {
+            background: var(--accent-red);
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.95);
+            transform: translateY(-3px) scale(1.04);
+        }
+        .room-fab-btn.join-variant {
+            border-color: var(--accent-gold);
+        }
+        .room-fab-btn.join-variant:hover {
+            background: var(--accent-gold); color: #000;
+            box-shadow: 0 0 30px rgba(255, 204, 0, 0.9);
+        }
+
+        /* ================= ODA OLUŞTUR / ODAYA KATIL MODALLARI ================= */
+        .modal-backdrop {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0, 0, 0, 0.82); backdrop-filter: blur(8px);
+            z-index: 400000; display: none; align-items: center; justify-content: center;
+            padding: 20px;
+        }
+        .modal-box {
+            width: 100%; max-width: 420px; background: rgba(14, 1, 1, 0.96);
+            border: 2px solid var(--accent-red); border-radius: 18px; padding: 28px;
+            box-shadow: 0 0 50px rgba(255, 0, 0, 0.5);
+            display: flex; flex-direction: column; gap: 16px; position: relative;
+        }
+        .modal-close {
+            position: absolute; top: 14px; right: 18px; background: none; border: none;
+            color: #aaa; font-size: 1.2rem;
+        }
+        .modal-close:hover { color: #fff; }
+        .modal-box h3 { color: var(--accent-red); font-size: 1.35rem; font-weight: 900; }
+        .modal-box p { color: #bbb; font-size: 0.88rem; line-height: 1.5; }
+        .generated-code-display {
+            font-family: 'Courier New', monospace; font-size: 2rem; font-weight: 900;
+            color: var(--accent-gold); background: rgba(255, 204, 0, 0.1);
+            border: 2px dashed var(--accent-gold); border-radius: 12px;
+            padding: 12px; text-align: center; letter-spacing: 5px;
+        }
+
+        @media (max-width: 850px) {
+            .whatsapp-container { flex-direction: column; }
+            .wa-sidebar { width: 100%; height: 220px; border-right: none; border-bottom: 1px solid var(--border-red); }
+            .room-fab-dock { bottom: 74px; right: 14px; }
+            .msg-bubble { max-width: 85%; }
+        }
+        @media (pointer: coarse) {
+            .custom-cursor { display: none !important; }
+            * { cursor: auto !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="custom-cursor" id="cursor"></div>
+
+    <!-- SHARINGAN AÇILIŞ EKRANI -->
+    <div id="splash">
+        <svg class="sharingan" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="45" fill="#990000" stroke="#111" stroke-width="4"/>
+            <circle cx="50" cy="50" r="24" fill="none" stroke="#111" stroke-width="2" opacity="0.6"/>
+            <circle cx="50" cy="50" r="8" fill="#000"/>
+            <g>
+                <g transform="translate(50, 26)"><circle cx="0" cy="0" r="6" fill="#000"/><path d="M -6 0 Q -10 -15 5 -15 Q 0 -5 6 0 Z" fill="#000"/></g>
+                <g transform="translate(71, 62) rotate(120)"><circle cx="0" cy="0" r="6" fill="#000"/><path d="M -6 0 Q -10 -15 5 -15 Q 0 -5 6 0 Z" fill="#000"/></g>
+                <g transform="translate(29, 62) rotate(240)"><circle cx="0" cy="0" r="6" fill="#000"/><path d="M -6 0 Q -10 -15 5 -15 Q 0 -5 6 0 Z" fill="#000"/></g>
+            </g>
+        </svg>
+        <div class="logo-container">
+            <div class="logo-text">yigitqwc</div>
+            <div class="red-line-wrapper"></div>
+        </div>
+    </div>
+
+    <div class="hero-bg"></div>
+    <div class="vignette"></div>
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- 1. GİRİŞ KAPISI: İSİM VE ŞİFRE ("33") DOĞRULAMA EKRANI -->
+    <div id="auth-gate-overlay">
+        <div class="gate-card">
+            <svg class="sharingan" style="width:64px; height:64px; margin-bottom:5px;" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="45" fill="#990000" stroke="#111" stroke-width="4"/>
+                <circle cx="50" cy="50" r="24" fill="none" stroke="#111" stroke-width="2" opacity="0.6"/>
+                <circle cx="50" cy="50" r="8" fill="#000"/>
+                <g>
+                    <g transform="translate(50, 26)"><circle cx="0" cy="0" r="6" fill="#000"/><path d="M -6 0 Q -10 -15 5 -15 Q 0 -5 6 0 Z" fill="#000"/></g>
+                    <g transform="translate(71, 62) rotate(120)"><circle cx="0" cy="0" r="6" fill="#000"/><path d="M -6 0 Q -10 -15 5 -15 Q 0 -5 6 0 Z" fill="#000"/></g>
+                    <g transform="translate(29, 62) rotate(240)"><circle cx="0" cy="0" r="6" fill="#000"/><path d="M -6 0 Q -10 -15 5 -15 Q 0 -5 6 0 Z" fill="#000"/></g>
+                </g>
+            </svg>
+            <h2>UCHIHA SOHBET AĞI</h2>
+            <p>Ağa bağlanmak için görünür isminizi belirleyin ve özel erişim şifresini girin.</p>
+
+            <div class="gate-field">
+                <label for="gateNameInput">Kullanıcı Adınız (İsim)</label>
+                <input type="text" id="gateNameInput" class="gate-input hover-target" placeholder="Örn: Itachi, Yiğit, Misafir..." maxlength="24" autocomplete="off">
+            </div>
+
+            <div class="gate-field">
+                <label for="gatePassInput">Erişim Şifresi</label>
+                <input type="password" id="gatePassInput" class="gate-input hover-target" placeholder="Erişim şifresini girin..." autocomplete="off">
+            </div>
+
+            <div class="gate-error" id="gateErrorMsg"></div>
+
+            <button class="gate-submit-btn hover-target" onclick="verifyEntryGate()">Sohbete Bağlan →</button>
+        </div>
+    </div>
+
+    <!-- 2. ÜST BAR -->
+    <header class="chat-top-nav">
+        <div class="top-left-group">
+            <a href="index.html" class="logo-container hover-target">
+                <div class="logo-text">yigitqwc</div>
+                <div class="red-line-wrapper"></div>
+            </a>
+            <span class="online-pill" id="connectionStatusBadge">Canlı Senkronizasyon Aktif</span>
+        </div>
+        <a href="index.html" class="back-link hover-target">← Ana Sayfa</a>
+    </header>
+
+    <!-- 3. WHATSAPP TARZI SOHBET ARAYÜZÜ -->
+    <div class="whatsapp-container">
+
+        <!-- SOL PANEL: SOHBET VE ODA LİSTESİ -->
+        <aside class="wa-sidebar">
+            <div class="wa-user-header">
+                <div class="user-profile-info">
+                    <div class="user-avatar" id="sidebarUserAvatar">U</div>
+                    <div class="user-meta">
+                        <h4 id="sidebarUserName">Misafir</h4>
+                        <span>Çevrimiçi • Yetkili Erişim (#33)</span>
+                    </div>
+                </div>
+                <button class="change-name-btn hover-target" onclick="reopenGateModal()">İsmi Değiştir</button>
+            </div>
+
+            <div class="wa-search-box">
+                <input type="text" id="roomSearchInput" class="wa-search-input hover-target" placeholder="Oda veya sohbet ara..." oninput="renderRoomSidebar()">
+            </div>
+
+            <ul class="wa-room-list" id="roomListContainer">
+                <!-- JavaScript ile Global Chat ve Katılınan Odalar buraya dizilir -->
+            </ul>
+        </aside>
+
+        <!-- SAĞ PANEL: AKTİF SOHBET EKRANI -->
+        <main class="wa-chat-main">
+            <div class="wa-chat-header">
+                <div class="chat-header-left">
+                    <div class="room-avatar" id="activeRoomIcon">🌐</div>
+                    <div class="chat-header-info">
+                        <h3 id="activeRoomTitle">Global Sohbet (Herkese Açık)</h3>
+                        <p id="activeRoomSub">Herhangi bir odaya katılmadan tüm üyelerle ortak mesajlaşma alanı</p>
+                    </div>
+                </div>
+                <div class="chat-header-right">
+                    <button class="copy-code-btn hover-target" id="copyRoomCodeBtn" onclick="copyActiveRoomCode()">
+                        🔑 Oda Şifresi: <span id="activeRoomCodeText">------</span> 📋
+                    </button>
+                </div>
+            </div>
+
+            <!-- MESAJ AKIŞI -->
+            <div class="wa-messages-stream" id="messagesStream">
+                <div class="system-encryption-banner">
+                    🔒 Mesajlar Uchiha protokolü ile gerçek zamanlı senkronize edilir. Sağ alttan yeni oda kurabilir veya şifreyle odaya katılabilirsiniz.
+                </div>
+            </div>
+
+            <!-- SAĞ ALT HIZLI ODA OLUŞTUR VE ODAYA KATIL BUTONLARI -->
+            <div class="room-fab-dock">
+                <button class="room-fab-btn hover-target" onclick="openCreateRoomModal()">
+                    ➕ Oda Oluştur
+                </button>
+                <button class="room-fab-btn join-variant hover-target" onclick="openJoinRoomModal()">
+                    🔑 Odaya Katıl
+                </button>
+            </div>
+
+            <!-- MESAJ YAZMA ÇUBUĞU -->
+            <div class="wa-input-bar">
+                <input type="text" id="messageInput" class="wa-message-input hover-target" placeholder="Mesajınızı yazın ve Enter'a basın..." maxlength="500" autocomplete="off">
+                <button class="wa-send-btn hover-target" onclick="sendChatMessage()">Gönder ➤</button>
+            </div>
+        </main>
+
+    </div>
+
+    <!-- MODAL 1: ODA OLUŞTUR -->
+    <div class="modal-backdrop" id="createRoomModal">
+        <div class="modal-box">
+            <button class="modal-close hover-target" onclick="closeModal('createRoomModal')">✕</button>
+            <h3>➕ Yeni Özel Oda Oluştur</h3>
+            <p>Odanıza bir isim verin. Sistem arkadaşlarınızın katılabilmesi için rastgele 6 haneli bir oda şifresi üretecektir.</p>
+            <div class="gate-field">
+                <label for="newRoomNameInput">Oda Adı</label>
+                <input type="text" id="newRoomNameInput" class="gate-input hover-target" placeholder="Örn: Akatsuki Toplantısı" maxlength="32">
+            </div>
+            <div class="gate-field">
+                <label>Oluşturulan Rastgele Oda Şifresi</label>
+                <div class="generated-code-display" id="previewGeneratedCode">------</div>
+            </div>
+            <button class="gate-submit-btn hover-target" onclick="confirmCreateRoom()">Odayı Kur ve Bağlan →</button>
+        </div>
+    </div>
+
+    <!-- MODAL 2: ODAYA KATIL -->
+    <div class="modal-backdrop" id="joinRoomModal">
+        <div class="modal-box">
+            <button class="modal-close hover-target" onclick="closeModal('joinRoomModal')">✕</button>
+            <h3>🔑 Şifre ile Odaya Katıl</h3>
+            <p>Arkadaşınızın oluşturduğu 6 haneli rastgele oda şifresini (kodunu) girerek özel sohbete katılın.</p>
+            <div class="gate-field">
+                <label for="joinRoomCodeInput">Oda Şifresi (Kodu)</label>
+                <input type="text" id="joinRoomCodeInput" class="gate-input hover-target" placeholder="Örn: K9X4M2" maxlength="6" style="text-transform:uppercase; font-family:monospace; letter-spacing:3px; text-align:center; font-size:1.3rem;">
+            </div>
+            <div class="gate-error" id="joinRoomErrorMsg"></div>
+            <button class="gate-submit-btn hover-target" onclick="confirmJoinRoom()">Odaya Katıl →</button>
+        </div>
+    </div>
+
+    <script>
+        // =========================================================================
+        // 1. FIREBASE REALTIME DATABASE REST + CANLI SENKRONİZASYON ALTYAPISI
+        // =========================================================================
+        // Kurallarda yer alan yigitqwc-games Firebase Realtime Database adresi:
+        const FIREBASE_DB_URL = "https://yigitqwc-games-default-rtdb.firebaseio.com";
+        const REQUIRED_GATE_PASSWORD = "33";
+        const ROOM_CHARS = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+
+        let currentUser = {
+            name: "",
+            authenticated: false
+        };
+
+        // Aktif kanal: 'GLOBAL' veya 6 haneli oda kodu (örn: 'K9X4M2')
+        let activeChannelId = "GLOBAL";
+        let pendingGeneratedCode = "";
+
+        // Kullanıcının katıldığı odalar listesi
+        let joinedRooms = [
+            {
+                id: "GLOBAL",
+                name: "Global Sohbet (Herkese Açık)",
+                icon: "🌐",
+                isGlobal: true,
+                lastMsg: "Tüm kullanıcıların ortak sohbet kanalı"
+            }
+        ];
+
+        // Yerel ve bulut mesaj önbelleği
+        let localMessagesStore = {
+            GLOBAL: [
+                {
+                    id: "welcome_sys",
+                    sender: "Uchiha Sistem",
+                    text: "Global Sohbet kanalına hoş geldiniz! Sağ alttaki butonlardan özel oda oluşturabilir veya rastgele oda şifresiyle arkadaşlarınızın odasına katılabilirsiniz.",
+                    at: Date.now() - 60000
+                }
+            ]
+        };
+
+        // Sekmeler arası anlık iletişim kanalı (Aynı tarayıcıdaki sekmeler için 0ms gecikme)
+        const syncChannel = ('BroadcastChannel' in window) ? new BroadcastChannel('yigitqwc_uchiha_chat_v1') : null;
+        if (syncChannel) {
+            syncChannel.onmessage = (ev) => {
+                if (ev.data && ev.data.type === 'NEW_MSG') {
+                    integrateIncomingMessage(ev.data.channelId, ev.data.msg);
+                } else if (ev.data && ev.data.type === 'NEW_ROOM') {
+                    registerRoomLocally(ev.data.roomMeta, false);
+                }
+            };
+        }
+
+        // =========================================================================
+        // 2. GİRİŞ KAPISI (İSİM + ŞİFRE "33") KONTROLÜ
+        // =========================================================================
+        function verifyEntryGate() {
+            const nameInput = document.getElementById('gateNameInput').value.trim();
+            const passInput = document.getElementById('gatePassInput').value.trim();
+            const errEl = document.getElementById('gateErrorMsg');
+
+            if (!nameInput) {
+                errEl.innerText = "⚠️ Lütfen sohbet için bir isim girin!";
+                return;
+            }
+            if (passInput !== REQUIRED_GATE_PASSWORD) {
+                errEl.innerText = "❌ Hatalı erişim şifresi! Giriş için doğru şifreyi girin.";
+                return;
+            }
+
+            errEl.innerText = "";
+            currentUser.name = nameInput;
+            currentUser.authenticated = true;
+
+            sessionStorage.setItem('uchiha_chat_username', currentUser.name);
+            sessionStorage.setItem('uchiha_chat_auth', '33');
+
+            document.getElementById('sidebarUserName').innerText = currentUser.name;
+            document.getElementById('sidebarUserAvatar').innerText = currentUser.name.charAt(0).toUpperCase();
+            document.getElementById('auth-gate-overlay').style.display = 'none';
+
+            document.getElementById('messageInput').focus();
+            pollFirebaseMessages();
+        }
+
+        function reopenGateModal() {
+            document.getElementById('gateNameInput').value = currentUser.name;
+            document.getElementById('gatePassInput').value = "33";
+            document.getElementById('auth-gate-overlay').style.display = 'flex';
+        }
+
+        document.getElementById('gatePassInput').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') verifyEntryGate();
+        });
+        document.getElementById('gateNameInput').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') document.getElementById('gatePassInput').focus();
+        });
+
+        // =========================================================================
+        // 3. RASTGELE ŞİFRELİ ODA OLUŞTURMA VE ODAYA KATILMA
+        // =========================================================================
+        function generateRandomRoomCode() {
+            let code = "";
+            for (let i = 0; i < 6; i++) {
+                code += ROOM_CHARS.charAt(Math.floor(Math.random() * ROOM_CHARS.length));
+            }
+            return code;
+        }
+
+        function openCreateRoomModal() {
+            pendingGeneratedCode = generateRandomRoomCode();
+            document.getElementById('previewGeneratedCode').innerText = pendingGeneratedCode;
+            document.getElementById('newRoomNameInput').value = "";
+            document.getElementById('createRoomModal').style.display = 'flex';
+            setTimeout(() => document.getElementById('newRoomNameInput').focus(), 80);
+        }
+
+        function openJoinRoomModal() {
+            document.getElementById('joinRoomCodeInput').value = "";
+            document.getElementById('joinRoomErrorMsg').innerText = "";
+            document.getElementById('joinRoomModal').style.display = 'flex';
+            setTimeout(() => document.getElementById('joinRoomCodeInput').focus(), 80);
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
+        async function confirmCreateRoom() {
+            const rawName = document.getElementById('newRoomNameInput').value.trim();
+            const roomName = rawName || `Oda #${pendingGeneratedCode}`;
+            const code = pendingGeneratedCode;
+
+            const roomMeta = {
+                name: roomName,
+                code: code,
+                creator: currentUser.name,
+                createdAt: Date.now(),
+                gateKey: "33"
+            };
+
+            // Firebase'e oda bilgisini kaydet
+            try {
+                await fetch(`${FIREBASE_DB_URL}/uchiha_chat/rooms/${code}/meta.json`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(roomMeta)
+                });
+            } catch (e) {}
+
+            registerRoomLocally(roomMeta, true);
+            if (syncChannel) syncChannel.postMessage({ type: 'NEW_ROOM', roomMeta });
+            closeModal('createRoomModal');
+
+            // Odaya sistem karşılama mesajı bırak
+     
+await dispatchMessageToChannel(code, {
+    id: 'sys_' + Date.now(),
+    sender: 'Uchiha Sistem',
+    text: `🔑 "${roomName}" odası ${currentUser.name} tarafından kuruldu. Oda Şifresi: ${code}`,
+    at: Date.now()
+})}
