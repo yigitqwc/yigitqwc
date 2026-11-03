@@ -266,7 +266,7 @@
 
         /* SAĞ SÜTUN: WHATSAPP MESAJLAŞMA EKRANI */
         .wa-chat-main {
-            flex-grow: 1; display: flex; flex-direction: column; height: 100%;
+            flex-grow: 1; display: flex; flex-direction: column; height: 100%; min-height: 0; min-width: 0;
             background: radial-gradient(circle at center, rgba(18, 2, 2, 0.82) 0%, rgba(4, 0, 0, 0.94) 100%);
             position: relative;
         }
@@ -297,7 +297,7 @@
         /* MESAJ AKIŞ ALANI */
         .wa-messages-stream {
             flex-grow: 1; padding: 22px 28px 95px 28px;
-            overflow-y: auto; display: flex; flex-direction: column; gap: 12px;
+            overflow-y: auto; min-height: 0; display: flex; flex-direction: column; gap: 12px;
         }
         .wa-messages-stream::-webkit-scrollbar { width: 6px; }
         .wa-messages-stream::-webkit-scrollbar-thumb { background: var(--accent-red); border-radius: 3px; }
@@ -407,6 +407,7 @@
         .room-fab-btn.join-variant {
             border-color: var(--accent-gold);
         }
+        .room-fab-btn:disabled, .gate-submit-btn:disabled, .wa-send-btn:disabled { opacity: 0.6; cursor: not-allowed; }
         .room-fab-btn.join-variant:hover {
             background: var(--accent-gold); color: #000;
             box-shadow: 0 0 30px rgba(255, 204, 0, 0.9);
@@ -516,7 +517,7 @@
                 <div class="logo-text">yigitqwc</div>
                 <div class="red-line-wrapper"></div>
             </a>
-            <span class="online-pill" id="connectionStatusBadge">Canlı Senkronizasyon Aktif</span>
+            <span class="online-pill" id="connectionStatusBadge">Bağlantı bekleniyor</span>
         </div>
         <a href="index.html" class="back-link hover-target">← Ana Sayfa</a>
     </header>
@@ -566,7 +567,7 @@
             <!-- MESAJ AKIŞI -->
             <div class="wa-messages-stream" id="messagesStream">
                 <div class="system-encryption-banner">
-                    🔒 Mesajlar Uchiha protokolü ile gerçek zamanlı senkronize edilir. Sağ alttan yeni oda kurabilir veya şifreyle odaya katılabilirsiniz.
+                    🌐 Mesajlar Firebase üzerinden senkronize edilir. Oda kodunu yalnızca davet etmek istediğiniz kişilerle paylaşın.
                 </div>
             </div>
 
@@ -603,6 +604,7 @@
                 <label>Oluşturulan Rastgele Oda Şifresi</label>
                 <div class="generated-code-display" id="previewGeneratedCode">------</div>
             </div>
+            <div class="gate-error" id="createRoomErrorMsg" role="alert"></div>
             <button class="gate-submit-btn hover-target" onclick="confirmCreateRoom()">Odayı Kur ve Bağlan →</button>
         </div>
     </div>
@@ -696,20 +698,24 @@
             currentUser.name = nameInput;
             currentUser.authenticated = true;
 
-            sessionStorage.setItem('uchiha_chat_username', currentUser.name);
-            sessionStorage.setItem('uchiha_chat_auth', '33');
+            try {
+                sessionStorage.setItem('uchiha_chat_username', currentUser.name);
+                sessionStorage.setItem('uchiha_chat_auth', REQUIRED_GATE_PASSWORD);
+            } catch (_) { /* Gizli modda depolama kisitli olabilir. */ }
 
             document.getElementById('sidebarUserName').innerText = currentUser.name;
             document.getElementById('sidebarUserAvatar').innerText = currentUser.name.charAt(0).toUpperCase();
             document.getElementById('auth-gate-overlay').style.display = 'none';
 
             document.getElementById('messageInput').focus();
+            renderRoomSidebar();
+            renderActiveChannel();
             pollFirebaseMessages();
         }
 
         function reopenGateModal() {
             document.getElementById('gateNameInput').value = currentUser.name;
-            document.getElementById('gatePassInput').value = "33";
+            document.getElementById('gatePassInput').value = '';
             document.getElementById('auth-gate-overlay').style.display = 'flex';
         }
 
@@ -725,9 +731,9 @@
         // =========================================================================
         function generateRandomRoomCode() {
             let code = "";
-            for (let i = 0; i < 6; i++) {
-                code += ROOM_CHARS.charAt(Math.floor(Math.random() * ROOM_CHARS.length));
-            }
+            const bytes = new Uint8Array(6);
+            crypto.getRandomValues(bytes);
+            for (const byte of bytes) code += ROOM_CHARS.charAt(byte % ROOM_CHARS.length);
             return code;
         }
 
@@ -735,6 +741,7 @@
             pendingGeneratedCode = generateRandomRoomCode();
             document.getElementById('previewGeneratedCode').innerText = pendingGeneratedCode;
             document.getElementById('newRoomNameInput').value = "";
+            document.getElementById('createRoomErrorMsg').textContent = '';
             document.getElementById('createRoomModal').style.display = 'flex';
             setTimeout(() => document.getElementById('newRoomNameInput').focus(), 80);
         }
@@ -751,36 +758,610 @@
         }
 
         async function confirmCreateRoom() {
+            if (!currentUser.authenticated || roomCreationInProgress) return;
             const rawName = document.getElementById('newRoomNameInput').value.trim();
-            const roomName = rawName || `Oda #${pendingGeneratedCode}`;
-            const code = pendingGeneratedCode;
-
-            const roomMeta = {
-                name: roomName,
-                code: code,
-                creator: currentUser.name,
-                createdAt: Date.now(),
-                gateKey: "33"
-            };
-
-            // Firebase'e oda bilgisini kaydet
+            const errorEl = document.getElementById('createRoomErrorMsg');
+            errorEl.textContent = '';
+            roomCreationInProgress = true;
+            const button = document.querySelector('#createRoomModal .gate-submit-btn');
+            button.disabled = true;
             try {
-                await fetch(`${FIREBASE_DB_URL}/uchiha_chat/rooms/${code}/meta.json`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(roomMeta)
+                let roomMeta = null;
+                for (let attempt = 0; attempt < 5; attempt++) {
+                    const code = attempt === 0 ? pendingGeneratedCode : generateRandomRoomCode();
+                    const roomName = rawName || `Oda #${code}`;
+                    const candidateMeta = {
+                        name: roomName,
+                        code: code,
+                        creator: currentUser.name,
+                        createdAt: Date.now()
+                    };
+                    // Kosullu PUT: kod zaten varsa mevcut oda verisi korunur.
+                    try {
+                        await firebaseRequest(`rooms/${code}.json`, {
+                            method: 'PUT',
+                            headers: { 'if-match': 'null_etag' },
+                            body: JSON.stringify({ meta: candidateMeta })
+                        });
+                        roomMeta = candidateMeta;
+                        pendingGeneratedCode = code;
+                        document.getElementById('previewGeneratedCode').textContent = code;
+                        break;
+                    } catch (error) {
+                        if (error.status !== 412) throw error;
+                    }
+                }
+                if (!roomMeta) throw new Error('Benzersiz oda kodu üretilemedi. Tekrar deneyin.');
+                registerRoomLocally(roomMeta, true);
+                if (syncChannel) syncChannel.postMessage({ type: 'NEW_ROOM', roomMeta });
+                closeModal('createRoomModal');
+                showToast('Oda oluşturuldu: ' + roomMeta.name);
+                // Oda acilsa da bildirim gonderimi hata verebilir; ayrica ele al.
+                try {
+                    await dispatchMessageToChannel(roomMeta.code, {
+                        id: 'sys_' + Date.now(),
+                        sender: 'Uchiha Sistem',
+                        senderId: 'system',
+                        text: `🔑 "${roomMeta.name}" odası ${currentUser.name} tarafından kuruldu. Oda Şifresi: ${roomMeta.code}`,
+                        at: Date.now()
+                    });
+                } catch (error) {
+                    showToast('Oda oluşturuldu ancak sistem mesajı gönderilemedi: ' + error.message, true);
+                }
+            } catch (error) {
+                errorEl.textContent = 'Oda oluşturulamadı: ' + error.message;
+            } finally {
+                roomCreationInProgress = false;
+                button.disabled = false;
+            }
+        }
+
+        // =========================================================================
+        // 4. FIREBASE REST ERISIMI VE BAGLANTI DURUMU
+        // =========================================================================
+        const MESSAGE_POLL_INTERVAL_MS = 3000;
+        const MAX_CACHED_MESSAGES = 150;
+        const ROOM_CODE_PATTERN = /^[A-HJ-NP-Z2-9]{6}$/;
+        let pollTimer = null;
+        let pollingInProgress = false;
+        let sendingMessage = false;
+        let roomCreationInProgress = false;
+        let roomJoiningInProgress = false;
+
+        function setConnectionStatus(isOnline, detail) {
+            const badge = document.getElementById('connectionStatusBadge');
+            badge.textContent = detail || (isOnline ? 'Senkronizasyon aktif' : 'Bağlantı kurulamadı');
+            badge.style.color = isOnline ? 'var(--accent-green)' : '#ff8888';
+            badge.style.borderColor = isOnline ? 'rgba(0,255,102,.35)' : 'rgba(255,0,0,.65)';
+            badge.style.background = isOnline ? 'rgba(0,255,102,.1)' : 'rgba(255,0,0,.12)';
+        }
+
+        async function firebaseRequest(relativePath, options = {}) {
+            const controller = new AbortController();
+            const timeout = setTimeout(() => controller.abort(), 12000);
+            try {
+                const response = await fetch(FIREBASE_DB_URL + '/uchiha_chat/' + relativePath, {
+                    ...options,
+                    headers: { ...(options.body ? { 'Content-Type': 'application/json' } : {}), ...(options.headers || {}) },
+                    signal: controller.signal,
+                    cache: 'no-store'
                 });
-            } catch (e) {}
+                const raw = await response.text();
+                let data = null;
+                if (raw) {
+                    try { data = JSON.parse(raw); }
+                    catch (_) { throw new Error('Sunucudan geçersiz bir yanıt alındı.'); }
+                }
+                if (!response.ok) {
+                    const error = new Error(
+                        (data && data.error) || `Firebase isteği başarısız (${response.status}).`
+                    );
+                    error.status = response.status;
+                    throw error;
+                }
+                return data;
+            } catch (error) {
+                if (error.name === 'AbortError') throw new Error('Firebase bağlantısı zaman aşımına uğradı.');
+                if (error instanceof TypeError) throw new Error('Firebase bağlantısı kurulamadı. İnternet ve veritabanı izinlerini kontrol edin.');
+                throw error;
+            } finally {
+                clearTimeout(timeout);
+            }
+        }
 
-            registerRoomLocally(roomMeta, true);
-            if (syncChannel) syncChannel.postMessage({ type: 'NEW_ROOM', roomMeta });
-            closeModal('createRoomModal');
+        function messagePath(channelId) {
+            if (channelId === 'GLOBAL') return 'global/messages.json';
+            if (!ROOM_CODE_PATTERN.test(channelId)) throw new Error('Geçersiz oda kodu.');
+            return `rooms/${channelId}/messages.json`;
+        }
 
-            // Odaya sistem karşılama mesajı bırak
-     
-await dispatchMessageToChannel(code, {
-    id: 'sys_' + Date.now(),
-    sender: 'Uchiha Sistem',
-    text: `🔑 "${roomName}" odası ${currentUser.name} tarafından kuruldu. Oda Şifresi: ${code}`,
-    at: Date.now()
-})}
+        function showToast(message, isError = false) {
+            let toast = document.getElementById('uchiha-toast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'uchiha-toast';
+                toast.setAttribute('role', 'status');
+                Object.assign(toast.style, {
+                    position: 'fixed', right: '20px', top: '80px', zIndex: '900000',
+                    maxWidth: 'min(430px,calc(100vw - 40px))', padding: '13px 17px',
+                    borderRadius: '12px', color: '#fff', fontSize: '13px',
+                    fontWeight: '700', boxShadow: '0 10px 30px rgba(0,0,0,.75)'
+                });
+                document.body.appendChild(toast);
+            }
+            toast.textContent = message;
+            toast.style.background = isError ? 'rgba(95,0,0,.98)' : 'rgba(23,37,24,.98)';
+            toast.style.border = '1px solid ' + (isError ? '#ff5555' : '#00bb66');
+            toast.style.display = 'block';
+            clearTimeout(showToast.hideTimer);
+            showToast.hideTimer = setTimeout(() => { toast.style.display = 'none'; }, 4800);
+        }
+
+        // =========================================================================
+        // 5. ODA LISTESI VE GECISLER
+        // =========================================================================
+        function saveJoinedRooms() {
+            try {
+                localStorage.setItem('uchiha_joined_rooms_v1', JSON.stringify(joinedRooms.filter(room => !room.isGlobal)));
+                sessionStorage.setItem('uchiha_active_channel_v1', activeChannelId);
+            } catch (_) { /* Depolama devre disi olsa da sohbet calismaya devam eder. */ }
+        }
+
+        function loadJoinedRooms() {
+            try {
+                const saved = JSON.parse(localStorage.getItem('uchiha_joined_rooms_v1') || '[]');
+                if (Array.isArray(saved)) {
+                    saved.forEach(room => {
+                        if (!room || !ROOM_CODE_PATTERN.test(String(room.code || room.id || ''))) return;
+                        const code = String(room.code || room.id);
+                        if (!joinedRooms.some(item => item.id === code)) {
+                            joinedRooms.push({
+                                id: code, code, name: String(room.name || ('Oda #' + code)).slice(0, 32),
+                                icon: '🔐', isGlobal: false, lastMsg: String(room.lastMsg || 'Özel sohbet odası').slice(0, 120)
+                            });
+                        }
+                    });
+                }
+                const savedActive = sessionStorage.getItem('uchiha_active_channel_v1');
+                if (joinedRooms.some(room => room.id === savedActive)) activeChannelId = savedActive;
+            } catch (_) { /* Bozuk eski veri arayuzu engellemez. */ }
+        }
+
+        function registerRoomLocally(roomMeta, shouldActivate = false) {
+            if (!roomMeta || !ROOM_CODE_PATTERN.test(String(roomMeta.code || ''))) return;
+            const code = String(roomMeta.code);
+            const existing = joinedRooms.find(room => room.id === code);
+            if (existing) {
+                existing.name = String(roomMeta.name || existing.name).slice(0, 32);
+            } else {
+                joinedRooms.push({
+                    id: code, code,
+                    name: String(roomMeta.name || ('Oda #' + code)).slice(0, 32),
+                    icon: '🔐', isGlobal: false, lastMsg: 'Özel sohbet odası'
+                });
+            }
+            if (shouldActivate) activeChannelId = code;
+            saveJoinedRooms();
+            renderRoomSidebar();
+            if (shouldActivate) {
+                renderActiveChannel();
+                pollFirebaseMessages();
+            }
+        }
+
+        function renderRoomSidebar() {
+            const list = document.getElementById('roomListContainer');
+            const query = (document.getElementById('roomSearchInput').value || '').trim().toLocaleLowerCase('tr');
+            list.replaceChildren();
+            for (const room of joinedRooms) {
+                if (query && !(room.name + ' ' + room.id).toLocaleLowerCase('tr').includes(query)) continue;
+                const item = document.createElement('li');
+                item.className = 'wa-room-item hover-target' + (activeChannelId === room.id ? ' active' : '');
+                item.tabIndex = 0;
+                item.setAttribute('role', 'button');
+                item.setAttribute('aria-label', room.name + ' sohbetini aç');
+
+                const avatar = document.createElement('div');
+                avatar.className = 'room-avatar';
+                avatar.textContent = room.icon || '🔐';
+
+                const details = document.createElement('div');
+                details.className = 'room-details';
+                const topLine = document.createElement('div');
+                topLine.className = 'room-top-line';
+                const title = document.createElement('div');
+                title.className = 'room-title';
+                title.textContent = room.name;
+                topLine.appendChild(title);
+                if (!room.isGlobal) {
+                    const code = document.createElement('span');
+                    code.className = 'room-code-tag';
+                    code.textContent = room.id;
+                    topLine.appendChild(code);
+                }
+                const preview = document.createElement('div');
+                preview.className = 'room-last-msg';
+                preview.textContent = room.lastMsg || 'Henüz mesaj yok';
+                details.append(topLine, preview);
+                item.append(avatar, details);
+                const openRoom = () => selectChannel(room.id);
+                item.addEventListener('click', openRoom);
+                item.addEventListener('keydown', event => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault();
+                        openRoom();
+                    }
+                });
+                list.appendChild(item);
+            }
+        }
+
+        function selectChannel(channelId) {
+            if (!joinedRooms.some(room => room.id === channelId)) return;
+            activeChannelId = channelId;
+            saveJoinedRooms();
+            renderRoomSidebar();
+            renderActiveChannel();
+            pollFirebaseMessages();
+        }
+
+        function renderActiveChannel() {
+            const room = joinedRooms.find(item => item.id === activeChannelId) || joinedRooms[0];
+            document.getElementById('activeRoomTitle').textContent = room.name;
+            document.getElementById('activeRoomIcon').textContent = room.icon || '🔐';
+            document.getElementById('activeRoomSub').textContent = room.isGlobal
+                ? 'Tüm üyelerin ortak mesajlaşma alanı'
+                : 'Özel oda • Oda kodunu yalnızca davet etmek istediğiniz kişilerle paylaşın';
+            document.getElementById('copyRoomCodeBtn').style.display = room.isGlobal ? 'none' : 'flex';
+            document.getElementById('activeRoomCodeText').textContent = room.isGlobal ? '------' : room.id;
+            renderMessageStream();
+        }
+
+        // =========================================================================
+        // 6. MESAJLAR: OLUSTURMA, GOSTERME, CANLI SENKRONIZASYON
+        // =========================================================================
+        function normalizeMessage(raw, fallbackId) {
+            if (!raw || typeof raw !== 'object') return null;
+            const message = {
+                id: String(raw.id || fallbackId || ''),
+                sender: String(raw.sender || 'Misafir').slice(0, 48),
+                senderId: String(raw.senderId || ''),
+                text: String(raw.text || '').slice(0, 5000),
+                at: Number(raw.at) || Date.now()
+            };
+            if (!message.id || !message.text) return null;
+            return message;
+        }
+
+        function integrateIncomingMessage(channelId, rawMsg, deferUI = false) {
+            if (channelId !== 'GLOBAL' && !ROOM_CODE_PATTERN.test(String(channelId))) return;
+            const msg = normalizeMessage(rawMsg);
+            if (!msg) return;
+            if (!localMessagesStore[channelId]) localMessagesStore[channelId] = [];
+            const messages = localMessagesStore[channelId];
+            if (messages.some(existing => existing.id === msg.id)) return false;
+            messages.push(msg);
+            messages.sort((a, b) => a.at - b.at || a.id.localeCompare(b.id));
+            if (messages.length > MAX_CACHED_MESSAGES) messages.splice(0, messages.length - MAX_CACHED_MESSAGES);
+            const room = joinedRooms.find(item => item.id === channelId);
+            if (room) {
+                room.lastMsg = msg.sender + ': ' + msg.text.slice(0, 85);
+                if (!deferUI) {
+                    saveJoinedRooms();
+                    renderRoomSidebar();
+                }
+            }
+            if (!deferUI && activeChannelId === channelId) renderMessageStream();
+            return true;
+        }
+
+        function renderMessageStream() {
+            const stream = document.getElementById('messagesStream');
+            const wasNearBottom = stream.scrollHeight - stream.scrollTop - stream.clientHeight < 110;
+            const oldScrollTop = stream.scrollTop;
+            const fragment = document.createDocumentFragment();
+            const banner = document.createElement('div');
+            banner.className = 'system-encryption-banner';
+            banner.textContent = '🌐 Mesajlar Firebase üzerinden senkronize edilir. Bu sürüm uçtan uca şifreleme sağlamaz.';
+            fragment.appendChild(banner);
+
+            const messages = localMessagesStore[activeChannelId] || [];
+            for (const msg of messages) {
+                const ownMessage = msg.senderId
+                    ? (msg.senderId !== 'system' && msg.senderId === currentUser.id)
+                    : (msg.sender !== 'Uchiha Sistem' && msg.sender === currentUser.name);
+                const bubble = document.createElement('div');
+                bubble.className = 'msg-bubble ' + (ownMessage ? 'msg-outgoing' : 'msg-incoming');
+                const sender = document.createElement('div');
+                sender.className = 'msg-sender-name';
+                sender.textContent = ownMessage ? 'Siz' : msg.sender;
+                const text = document.createElement('div');
+                text.className = 'msg-text';
+                text.style.whiteSpace = 'pre-wrap';
+                text.textContent = msg.text;
+                const meta = document.createElement('div');
+                meta.className = 'msg-meta';
+                const date = new Date(msg.at);
+                meta.textContent = Number.isFinite(date.getTime())
+                    ? date.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' }) : '';
+                if (ownMessage) {
+                    const ticks = document.createElement('span');
+                    ticks.className = 'msg-ticks';
+                    ticks.textContent = ' ✓✓';
+                    meta.appendChild(ticks);
+                }
+                bubble.append(sender, text, meta);
+                fragment.appendChild(bubble);
+            }
+            stream.replaceChildren(fragment);
+            if (wasNearBottom || oldScrollTop === 0) stream.scrollTop = stream.scrollHeight;
+            else stream.scrollTop = oldScrollTop;
+        }
+
+        async function dispatchMessageToChannel(channelId, rawMsg) {
+            const msg = normalizeMessage(rawMsg, 'msg_' + Date.now());
+            if (!msg) throw new Error('Gönderilecek mesaj geçersiz.');
+            // POST kullanimi, farkli kullanicilarin mesajlarinin birbirinin uzerine yazilmasini onler.
+            await firebaseRequest(messagePath(channelId), { method: 'POST', body: JSON.stringify(msg) });
+            integrateIncomingMessage(channelId, msg);
+            if (syncChannel) syncChannel.postMessage({ type: 'NEW_MSG', channelId, msg });
+            return msg;
+        }
+
+        async function sendChatMessage() {
+            if (!currentUser.authenticated || sendingMessage) return;
+            const input = document.getElementById('messageInput');
+            const text = input.value.trim();
+            if (!text) return;
+            const channelId = activeChannelId;
+            const button = document.querySelector('.wa-send-btn');
+            sendingMessage = true;
+            button.disabled = true;
+            try {
+                await dispatchMessageToChannel(channelId, {
+                    id: 'msg_' + (crypto.randomUUID ? crypto.randomUUID() : (Date.now() + '_' + Math.random().toString(36).slice(2))),
+                    sender: currentUser.name,
+                    senderId: currentUser.id,
+                    text: text.slice(0, 500),
+                    at: Date.now()
+                });
+                input.value = '';
+                input.focus();
+                setConnectionStatus(true, 'Senkronizasyon aktif');
+            } catch (error) {
+                setConnectionStatus(false);
+                showToast('Mesaj gönderilemedi: ' + error.message, true);
+            } finally {
+                sendingMessage = false;
+                button.disabled = false;
+            }
+        }
+
+        async function refreshChannelMessages() {
+            if (!currentUser.authenticated || pollingInProgress) return;
+            pollingInProgress = true;
+            const queriedChannel = activeChannelId;
+            try {
+                const path = messagePath(queriedChannel);
+                const query = '?orderBy=' + encodeURIComponent('"$key"') + '&limitToLast=100';
+                const data = await firebaseRequest(path + query);
+                let changed = false;
+                if (data && typeof data === 'object') {
+                    for (const [key, value] of Object.entries(data)) {
+                        // Eski kayitlarin id alani yoksa Firebase push anahtari kullanilir.
+                        if (value && typeof value === 'object') {
+                            changed = integrateIncomingMessage(
+                                queriedChannel, { ...value, id: value.id || key }, true
+                            ) || changed;
+                        }
+                    }
+                }
+                if (changed) {
+                    saveJoinedRooms();
+                    renderRoomSidebar();
+                    if (activeChannelId === queriedChannel) renderMessageStream();
+                }
+                setConnectionStatus(true, 'Senkronizasyon aktif');
+            } catch (error) {
+                setConnectionStatus(false, 'Bağlantı hatası');
+                if (!refreshChannelMessages.lastError || refreshChannelMessages.lastError !== error.message) {
+                    showToast('Mesajlar alınamadı: ' + error.message, true);
+                    refreshChannelMessages.lastError = error.message;
+                }
+                return;
+            } finally {
+                pollingInProgress = false;
+            }
+            refreshChannelMessages.lastError = '';
+        }
+
+        function pollFirebaseMessages() {
+            if (!currentUser.authenticated) return;
+            if (!pollTimer) {
+                pollTimer = setInterval(refreshChannelMessages, MESSAGE_POLL_INTERVAL_MS);
+            }
+            refreshChannelMessages();
+        }
+
+        // =========================================================================
+        // 7. ODALARA KATILMA VE KOD KOPYALAMA
+        // =========================================================================
+        async function confirmJoinRoom() {
+            if (!currentUser.authenticated || roomJoiningInProgress) return;
+            const input = document.getElementById('joinRoomCodeInput');
+            const code = input.value.trim().toUpperCase();
+            const errorBox = document.getElementById('joinRoomErrorMsg');
+            errorBox.textContent = '';
+            if (!ROOM_CODE_PATTERN.test(code)) {
+                errorBox.textContent = 'Geçerli 6 karakterli bir oda kodu girin.';
+                return;
+            }
+            if (joinedRooms.some(room => room.id === code)) {
+                closeModal('joinRoomModal');
+                selectChannel(code);
+                return;
+            }
+            roomJoiningInProgress = true;
+            const button = document.querySelector('#joinRoomModal .gate-submit-btn');
+            button.disabled = true;
+            try {
+                const meta = await firebaseRequest(`rooms/${code}/meta.json`);
+                if (!meta || meta.code !== code) {
+                    errorBox.textContent = 'Bu oda koduyla kayıtlı bir oda bulunamadı.';
+                    return;
+                }
+                registerRoomLocally(meta, true);
+                closeModal('joinRoomModal');
+                showToast('Odaya katıldınız: ' + String(meta.name || code));
+            } catch (error) {
+                errorBox.textContent = 'Odaya katılınamadı: ' + error.message;
+            } finally {
+                roomJoiningInProgress = false;
+                button.disabled = false;
+            }
+        }
+
+        async function copyActiveRoomCode() {
+            if (activeChannelId === 'GLOBAL') return;
+            const value = activeChannelId;
+            try {
+                if (navigator.clipboard && window.isSecureContext) {
+                    await navigator.clipboard.writeText(value);
+                } else {
+                    const field = document.createElement('textarea');
+                    field.value = value;
+                    field.style.position = 'fixed';
+                    field.style.opacity = '0';
+                    document.body.appendChild(field);
+                    field.select();
+                    const copied = document.execCommand('copy');
+                    field.remove();
+                    if (!copied) throw new Error('Tarayıcı kopyalamaya izin vermedi.');
+                }
+                showToast('Oda kodu kopyalandı: ' + value);
+            } catch (error) {
+                showToast('Oda kodu: ' + value + ' (otomatik kopyalanamadı)', true);
+            }
+        }
+
+        // =========================================================================
+        // 8. KLAVYE, ACILIS EKRANI VE KLASIK UCHIHA EFEKTLERI
+        // =========================================================================
+        document.getElementById('messageInput').addEventListener('keydown', event => {
+            if (event.key === 'Enter' && !event.isComposing) {
+                event.preventDefault();
+                sendChatMessage();
+            }
+        });
+        document.getElementById('newRoomNameInput').addEventListener('keydown', event => {
+            if (event.key === 'Enter') confirmCreateRoom();
+        });
+        document.getElementById('joinRoomCodeInput').addEventListener('keydown', event => {
+            if (event.key === 'Enter') confirmJoinRoom();
+        });
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Escape') {
+                closeModal('createRoomModal');
+                closeModal('joinRoomModal');
+            }
+        });
+        document.querySelectorAll('.modal-backdrop').forEach(modal => {
+            modal.addEventListener('click', event => {
+                if (event.target === modal) closeModal(modal.id);
+            });
+        });
+
+        function initializeCursorEffects() {
+            if (window.matchMedia('(pointer: coarse)').matches) return;
+            const cursor = document.getElementById('cursor');
+            document.addEventListener('pointermove', event => {
+                cursor.style.left = event.clientX + 'px';
+                cursor.style.top = event.clientY + 'px';
+                const element = event.target;
+                cursor.classList.toggle('cursor-hover', Boolean(element.closest('button,a,input,.hover-target,[role="button"]')));
+            });
+            document.addEventListener('click', event => {
+                const ripple = document.createElement('div');
+                ripple.className = 'click-ripple';
+                ripple.style.left = event.clientX + 'px';
+                ripple.style.top = event.clientY + 'px';
+                document.body.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 650);
+            });
+        }
+
+        function initializeParticles() {
+            const canvas = document.getElementById('particles-canvas');
+            const context = canvas.getContext('2d');
+            if (!context || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            let width, height, dots;
+            function reset() {
+                const scale = Math.min(window.devicePixelRatio || 1, 2);
+                width = window.innerWidth;
+                height = window.innerHeight;
+                canvas.width = Math.round(width * scale);
+                canvas.height = Math.round(height * scale);
+                context.setTransform(scale, 0, 0, scale, 0, 0);
+                dots = Array.from({ length: Math.min(48, Math.round(width / 28)) }, () => ({
+                    x: Math.random() * width, y: Math.random() * height,
+                    size: Math.random() * 1.8 + 0.35,
+                    speed: Math.random() * 0.25 + 0.08,
+                    drift: (Math.random() - 0.5) * 0.2,
+                    opacity: Math.random() * 0.35 + 0.08
+                }));
+            }
+            window.addEventListener('resize', reset);
+            reset();
+            function frame() {
+                context.clearRect(0, 0, width, height);
+                for (const dot of dots) {
+                    dot.y -= dot.speed;
+                    dot.x += dot.drift;
+                    if (dot.y < -5) { dot.y = height + 5; dot.x = Math.random() * width; }
+                    context.beginPath();
+                    context.arc(dot.x, dot.y, dot.size, 0, 2 * Math.PI);
+                    context.fillStyle = 'rgba(255,35,35,' + dot.opacity + ')';
+                    context.fill();
+                }
+                requestAnimationFrame(frame);
+            }
+            requestAnimationFrame(frame);
+        }
+
+        function initializeChat() {
+            // Ayni sekmede kullanicinin giris bilgilerini koru.
+            try {
+                currentUser.id = sessionStorage.getItem('uchiha_chat_client_id') ||
+                    (crypto.randomUUID ? crypto.randomUUID() : 'user_' + Date.now());
+                sessionStorage.setItem('uchiha_chat_client_id', currentUser.id);
+            } catch (_) { currentUser.id = 'user_' + Date.now(); }
+            loadJoinedRooms();
+            renderRoomSidebar();
+            renderActiveChannel();
+            initializeCursorEffects();
+            initializeParticles();
+            setConnectionStatus(false, 'Bağlantı bekleniyor');
+
+            const splash = document.getElementById('splash');
+            setTimeout(() => {
+                splash.style.opacity = '0';
+                splash.style.visibility = 'hidden';
+                setTimeout(() => { splash.style.display = 'none'; }, 720);
+            }, 900);
+
+            try {
+                const savedName = sessionStorage.getItem('uchiha_chat_username');
+                const savedAuth = sessionStorage.getItem('uchiha_chat_auth');
+                if (savedName && savedAuth === REQUIRED_GATE_PASSWORD) {
+                    document.getElementById('gateNameInput').value = savedName;
+                    document.getElementById('gatePassInput').value = REQUIRED_GATE_PASSWORD;
+                    verifyEntryGate();
+                    document.getElementById('gatePassInput').value = '';
+                }
+            } catch (_) { /* Gizli modda depolama kullanilamayabilir. */ }
+        }
+
+        initializeChat();
+    </script>
+</body>
+</html>
