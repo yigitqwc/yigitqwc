@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>yigitqwc | Uchiha Chat & Oda Sistemi</title>
+    <title>yigitqwc |  Chat & Oda Sistemi</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <style>
         /* ORİJİNAL KLASİK UCHIHA / KIRMIZI-SİYAH RENK PALETİ */
@@ -491,12 +491,12 @@
                     <g transform="translate(29, 62) rotate(240)"><circle cx="0" cy="0" r="6" fill="#000"/><path d="M -6 0 Q -10 -15 5 -15 Q 0 -5 6 0 Z" fill="#000"/></g>
                 </g>
             </svg>
-            <h2>UCHIHA SOHBET AĞI</h2>
+            <h2>CHAT QWC</h2>
             <p>Ağa bağlanmak için görünür isminizi belirleyin ve özel erişim şifresini girin.</p>
 
             <div class="gate-field">
                 <label for="gateNameInput">Kullanıcı Adınız (İsim)</label>
-                <input type="text" id="gateNameInput" class="gate-input hover-target" placeholder="Örn: Itachi, Yiğit, Misafir..." maxlength="24" autocomplete="off">
+                <input type="text" id="gateNameInput" class="gate-input hover-target" placeholder="Örn: lucas, swain, yigit..." maxlength="24" autocomplete="off">
             </div>
 
             <div class="gate-field">
@@ -567,7 +567,7 @@
             <!-- MESAJ AKIŞI -->
             <div class="wa-messages-stream" id="messagesStream">
                 <div class="system-encryption-banner">
-                    🌐 Mesajlar Firebase üzerinden senkronize edilir. Oda kodunu yalnızca davet etmek istediğiniz kişilerle paylaşın.
+                    🌐 Mesajlar gizlidir. Oda kodunu yalnızca davet etmek istediğiniz kişilerle paylaşın.
                 </div>
             </div>
 
@@ -629,7 +629,7 @@
         // 1. FIREBASE REALTIME DATABASE REST + CANLI SENKRONİZASYON ALTYAPISI
         // =========================================================================
         // Kurallarda yer alan yigitqwc-games Firebase Realtime Database adresi:
-        const FIREBASE_DB_URL = "https://yigitqwc-games-default-rtdb.firebaseio.com";
+        const FIREBASE_DB_URL = "https://yigitqwc-games-default-rtdb.europe-west1.firebasedatabase.app";
         const REQUIRED_GATE_PASSWORD = "33";
         const ROOM_CHARS = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 
