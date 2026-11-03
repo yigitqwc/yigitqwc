@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>yigitqwc |  Chat & Oda Sistemi</title>
+    <title>yigitqwc | Uchiha Chat & Oda Sistemi</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <style>
         /* ORİJİNAL KLASİK UCHIHA / KIRMIZI-SİYAH RENK PALETİ */
@@ -491,12 +491,12 @@
                     <g transform="translate(29, 62) rotate(240)"><circle cx="0" cy="0" r="6" fill="#000"/><path d="M -6 0 Q -10 -15 5 -15 Q 0 -5 6 0 Z" fill="#000"/></g>
                 </g>
             </svg>
-            <h2>CHAT QWC</h2>
+            <h2>UCHIHA SOHBET AĞI</h2>
             <p>Ağa bağlanmak için görünür isminizi belirleyin ve özel erişim şifresini girin.</p>
 
             <div class="gate-field">
                 <label for="gateNameInput">Kullanıcı Adınız (İsim)</label>
-                <input type="text" id="gateNameInput" class="gate-input hover-target" placeholder="Örn: lucas, swain, yigit..." maxlength="24" autocomplete="off">
+                <input type="text" id="gateNameInput" class="gate-input hover-target" placeholder="Örn: Itachi, Yiğit, Misafir..." maxlength="24" autocomplete="off">
             </div>
 
             <div class="gate-field">
@@ -567,7 +567,7 @@
             <!-- MESAJ AKIŞI -->
             <div class="wa-messages-stream" id="messagesStream">
                 <div class="system-encryption-banner">
-                    🌐 Mesajlar gizlidir. Oda kodunu yalnızca davet etmek istediğiniz kişilerle paylaşın.
+                    🌐 Mesajlar Firebase üzerinden senkronize edilir. Oda kodunu yalnızca davet etmek istediğiniz kişilerle paylaşın.
                 </div>
             </div>
 
@@ -774,14 +774,15 @@
                         name: roomName,
                         code: code,
                         creator: currentUser.name,
-                        createdAt: Date.now()
+                        createdAt: Date.now(),
+                        gateKey: REQUIRED_GATE_PASSWORD
                     };
                     // Kosullu PUT: kod zaten varsa mevcut oda verisi korunur.
                     try {
-                        await firebaseRequest(`rooms/${code}.json`, {
+                        await firebaseRequest(`rooms/${code}/meta.json`, {
                             method: 'PUT',
                             headers: { 'if-match': 'null_etag' },
-                            body: JSON.stringify({ meta: candidateMeta })
+                            body: JSON.stringify(candidateMeta)
                         });
                         roomMeta = candidateMeta;
                         pendingGeneratedCode = code;
@@ -1098,11 +1099,25 @@
             else stream.scrollTop = oldScrollTop;
         }
 
+        // Firebase kurallari .write iznini $msgId altinda veriyor.
+        // REST POST /messages.json bu alt kural yerine ust konuma yazmaya calisir.
+        // Benzersiz anahtara PUT yaparak dogrudan izin verilen kaydi olusturuyoruz.
+        function messageRecordPath(channelId, messageId) {
+            if (!/^[A-Za-z0-9_-]{1,128}$/.test(String(messageId))) {
+                throw new Error('Gecersiz mesaj kimligi.');
+            }
+            return messagePath(channelId).replace(/\.json$/, `/${messageId}.json`);
+        }
+
         async function dispatchMessageToChannel(channelId, rawMsg) {
             const msg = normalizeMessage(rawMsg, 'msg_' + Date.now());
             if (!msg) throw new Error('Gönderilecek mesaj geçersiz.');
-            // POST kullanimi, farkli kullanicilarin mesajlarinin birbirinin uzerine yazilmasini onler.
-            await firebaseRequest(messagePath(channelId), { method: 'POST', body: JSON.stringify(msg) });
+            await firebaseRequest(messageRecordPath(channelId, msg.id), {
+                method: 'PUT',
+                // Sadece bos kaydi olustur; baska bir mesaji asla ezme.
+                headers: { 'if-match': 'null_etag' },
+                body: JSON.stringify({ ...msg, gateKey: REQUIRED_GATE_PASSWORD })
+            });
             integrateIncomingMessage(channelId, msg);
             if (syncChannel) syncChannel.postMessage({ type: 'NEW_MSG', channelId, msg });
             return msg;
