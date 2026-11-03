@@ -670,6 +670,10 @@
                         body.innerHTML += `<div style="color:#00ff66;">[REDIRECT] index3.html sayfasına yönlendiriliyorsunuz...</div>`;
                         setTimeout(() => { window.location.href = 'index3.html'; }, 1000);
 
+                    } else if (val.toLowerCase() === '/tech giyen binim') {
+                        body.innerHTML += `<div style="color:#00ff66;">[REDIRECT] index31.html sayfasına yönlendiriliyorsunuz...</div>`;
+                        setTimeout(() => { window.location.href = 'index31.html'; }, 800);
+
                     } else if (val === 'exit') {
                         isAuthenticated = false;
                         body.innerHTML += `<div>[SYSTEM] Oturum kapatıldı. Şifre tekrar isteniyor.</div>`;

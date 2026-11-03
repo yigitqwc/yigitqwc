@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#070203" />
+    <meta name="description" content="yigitqwc - Tech Giyen Binim, özel fotoğraf ve ses arşivi." />
+    <title>yigitqwc | Tech Giyen Binim</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <style>
+        :root {
+            color-scheme: dark;
+            --bg: #050203;
+            --surface: #100607;
+            --red: #f01624;
+            --red-deep: #830b13;
+            --cream: #faf8f7;
+            --muted: #978d90;
+            --line: rgba(241, 58, 67, 0.25);
+            --ease: cubic-bezier(.2,.8,.2,1);
+        }
+        *, *::before, *::after { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { margin: 0; min-width: 320px; min-height: 100vh; background: var(--bg); color: var(--cream); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; overflow-x: hidden; }
+        ::selection { background: #ad1520; color: white; }
+        a { color: inherit; }
+        button, a { -webkit-tap-highlight-color: transparent; }
+        button:focus-visible, a:focus-visible { outline: 2px solid #ff6471; outline-offset: 5px; }
+        .bg-photo, .bg-veils, .bg-orb, #emberCanvas { position: fixed; inset: 0; pointer-events: none; }
+        .bg-photo { z-index: -5; background: #070203 url('bg.jpg') center / cover no-repeat; filter: brightness(.18) saturate(.8); transform: scale(1.04); }
+        .bg-veils { z-index: -4; background: radial-gradient(ellipse at 52% 7%,rgba(109,7,16,.22),transparent 43%), linear-gradient(180deg,rgba(4,0,1,.68),rgba(5,1,3,.9) 68%,#080204); }
+        .bg-orb { z-index: -3; width: min(65vw,780px); height: min(65vw,780px); top: 24vh; left: 50%; transform: translateX(-50%); border-radius: 50%; background: radial-gradient(circle,rgba(174,13,29,.1),transparent 68%); filter: blur(20px); }
+        #emberCanvas { z-index: -2; width: 100%; height: 100%; }
+
+        .splash { position: fixed; z-index: 9999; inset: 0; display: grid; place-items: center; background: #020001; transition: opacity .85s var(--ease), visibility .85s; }
+        .splash.is-hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+        .splash-content { display: flex; flex-direction: column; align-items: center; gap: 27px; }
+        .sharingan { width: 90px; height: 90px; animation: sharinganSpin 2.8s linear infinite; filter: drop-shadow(0 0 24px rgba(255,20,35,.65)); }
+        @keyframes sharinganSpin { to { transform: rotate(360deg); } }
+        .splash-label { font-size: 18px; font-weight: 900; letter-spacing: .06em; text-shadow: 0 0 20px rgba(250,0,20,.65); }
+        .splash-line { height: 2px; width: 105px; background: linear-gradient(90deg,transparent,var(--red),transparent); box-shadow: 0 0 13px var(--red); }
+
+        .site-nav { position: relative; z-index: 10; display: flex; align-items: center; justify-content: space-between; min-height: 78px; padding: 15px clamp(22px,5.4vw,86px); border-bottom: 1px solid rgba(220,25,40,.15); background: rgba(7,2,4,.5); backdrop-filter: blur(18px); }
+        .brand { position: relative; display: inline-block; padding: 4px 0 10px; color: #fff; text-decoration: none; font-size: 25px; font-weight: 900; letter-spacing: -.055em; line-height: 1; text-shadow: 0 0 20px rgba(255,0,10,.4); }
+        .brand::after { content: ''; position: absolute; bottom: 0; left: 0; height: 2px; width: 100%; background: linear-gradient(90deg,transparent,#ff0a1b,#fff,#ff0a1b,transparent); background-size: 175% 100%; box-shadow: 0 0 10px #f11526; animation: logoBeam 3s linear infinite; }
+        @keyframes logoBeam { to { background-position: -175% 0; } }
+        .back-link { display: flex; align-items: center; gap: 10px; text-decoration: none; font-size: 13px; font-weight: 650; letter-spacing: .07em; color: #d3c6c8; transition: color .25s, transform .25s; }
+        .back-link svg { width: 17px; height: 17px; }
+        .back-link:hover { color: #fff; transform: translateX(-4px); }
+
+        main { position: relative; z-index: 1; }
+        .hero { width: min(1220px,calc(100% - 48px)); margin: 0 auto; padding: clamp(76px,10vw,124px) 0 clamp(62px,8vw,95px); text-align: center; }
+        .eyebrow { display: inline-flex; align-items: center; gap: 11px; margin-bottom: 28px; color: #d29da4; font: 750 10px/1.5 ui-monospace, SFMono-Regular, Consolas, monospace; letter-spacing: .3em; }
+        .eyebrow::before, .eyebrow::after { content: ''; width: 24px; height: 1px; background: rgba(240,35,52,.6); }
+        .hero-title { display: flex; flex-direction: column; align-items: center; gap: 9px; margin: 0; }
+        .hero-line { display: block; max-width: 100%; color: #fbf8f7; font-weight: 900; letter-spacing: -.055em; line-height: 1.17; opacity: 0; transform: translateY(32px); filter: blur(7px); transition: opacity .85s var(--ease), transform .9s var(--ease), filter 1s var(--ease); text-wrap: balance; }
+        body.is-ready .hero-line { opacity: 1; transform: translateY(0); filter: blur(0); }
+        .hero-line:nth-child(1) { font-size: clamp(35px,6.55vw,88px); transition-delay: .06s; text-shadow: 0 0 35px rgba(240,18,33,.13); }
+        .hero-line:nth-child(2) { font-size: clamp(31px,5.25vw,71px); color: #f12335; transition-delay: .34s; text-shadow: 0 0 50px rgba(240,15,31,.28); }
+        .hero-line:nth-child(3) { font-size: clamp(19px,3.65vw,47px); letter-spacing: -.045em; transition-delay: .62s; }
+        .hero-divider { display: flex; justify-content: center; align-items: center; gap: 15px; margin: clamp(27px,4vw,44px) auto 22px; opacity: 0; transform: translateY(12px); transition: opacity .8s 1s, transform .8s 1s; }
+        body.is-ready .hero-divider { opacity: 1; transform: none; }
+        .hero-divider span { width: 48px; height: 1px; background: linear-gradient(90deg, transparent,#b92e39); }
+        .hero-divider span:last-child { transform: rotate(180deg); }
+        .hero-divider svg { width: 20px; height: 20px; color: #ef2432; filter: drop-shadow(0 0 9px rgba(240,20,35,.7)); }
+        .hero-sub { margin: 0; color: #d8bcc2; font: 750 11px/1.6 ui-monospace, SFMono-Regular, Consolas, monospace; letter-spacing: .22em; opacity: 0; transition: opacity .8s 1.12s; }
+        body.is-ready .hero-sub { opacity: 1; }
+        .scroll-link { display: inline-flex; align-items: center; justify-content: center; gap: 9px; margin-top: 31px; padding: 10px; text-decoration: none; color: #c6adb1; font-size: 10px; font-weight: 800; letter-spacing: .18em; transition: color .2s; opacity: 0; transition: color .2s, opacity .7s 1.2s; }
+        body.is-ready .scroll-link { opacity: 1; }
+        .scroll-link:hover { color: #fff; }
+        .scroll-link svg { width: 15px; height: 15px; animation: arrowNudge 2.2s ease-in-out infinite; }
+        @keyframes arrowNudge { 50% { transform: translateY(5px); } }
+
+        .gallery-wrap { width: min(1090px,calc(100% - 56px)); margin: 0 auto; padding-bottom: 95px; scroll-margin-top: 40px; }
+        .gallery-top { display: flex; justify-content: space-between; align-items: end; gap: 18px; padding: 0 2px 19px; border-bottom: 1px solid rgba(255,255,255,.09); margin-bottom: 32px; }
+        .gallery-kicker { display: inline-block; margin-bottom: 8px; color: #ef5260; font: 750 10px/1.2 ui-monospace, SFMono-Regular, Consolas, monospace; letter-spacing: .2em; }
+        .gallery-heading { margin: 0; color: #fff; font-size: clamp(25px,3.2vw,37px); letter-spacing: -.035em; font-weight: 900; }
+        .gallery-total { color: #c0a7ad; font: 700 11px/1.5 ui-monospace, SFMono-Regular, Consolas, monospace; letter-spacing: .12em; text-align: right; white-space: nowrap; }
+        .memory-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); column-gap: clamp(20px,3vw,34px); row-gap: 40px; }
+        .memory-card { padding: 13px 13px 17px; border: 1px solid rgba(255,64,75,.21); border-radius: 22px; background: linear-gradient(145deg,rgba(34,10,13,.9),rgba(12,5,7,.94) 65%); box-shadow: 0 15px 45px rgba(0,0,0,.35),inset 0 1px rgba(255,255,255,.035); transition: transform .5s var(--ease), border-color .4s, box-shadow .4s, opacity .7s, filter .8s; }
+        .memory-card:hover { transform: translateY(-6px); border-color: rgba(255,58,74,.56); box-shadow: 0 24px 52px rgba(0,0,0,.48),0 0 36px rgba(180,6,28,.09); }
+        .reveal { opacity: 0; filter: blur(6px); transform: translateY(35px); }
+        .reveal.in-view { opacity: 1; filter: blur(0); transform: translateY(0); }
+        .reveal.in-view:hover { transform: translateY(-6px); }
+        .photo-frame { position: relative; border: 1px solid rgba(255,255,255,.26); border-radius: 14px; padding: 5px; background: rgba(249,231,232,.07); overflow: hidden; }
+        .photo-stage { position: relative; width: 100%; aspect-ratio: 4/4.7; display: grid; place-items: center; overflow: hidden; border-radius: 10px; background: radial-gradient(circle at 50% 38%, #290b10,#0a0305 70%); }
+        .photo-stage img { position: relative; z-index: 2; display: block; width: 100%; height: 100%; object-fit: contain; transition: transform .75s var(--ease), filter .5s; }
+        .memory-card:hover .photo-stage img { transform: scale(1.025); }
+        .photo-stage img.is-missing { display: none; }
+        .photo-placeholder { position: absolute; inset: 0; z-index: 1; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 9px; color: #9e5660; background: linear-gradient(135deg, rgba(146,13,29,.06), transparent 40%,rgba(150,15,30,.05)); }
+        .photo-placeholder::before { content: ''; position: absolute; width: 68%; aspect-ratio: 1; border: 1px solid rgba(247,46,66,.13); border-radius: 50%; box-shadow: 0 0 0 40px rgba(230,24,40,.025),0 0 0 100px rgba(230,24,40,.015); }
+        .placeholder-symbol { width: 48px; height: 48px; color: #8f3844; opacity: .65; }
+        .placeholder-count { font: 900 33px/1 ui-monospace, SFMono-Regular, Consolas, monospace; letter-spacing: -.05em; }
+        .placeholder-filename { margin-top: 4px; color: #a67b82; font: 650 12px/1.5 ui-monospace, SFMono-Regular, Consolas, monospace; }
+        .photo-number { position: absolute; z-index: 4; left: 19px; top: 19px; padding: 8px 11px; border: 1px solid rgba(255,255,255,.19); border-radius: 8px; background: rgba(7,2,3,.72); backdrop-filter: blur(8px); color: #fff; font: 850 13px/1 ui-monospace, SFMono-Regular, Consolas, monospace; letter-spacing: .07em; }
+        .photo-number span { font-size: 9px; opacity: .58; }
+        .photo-glow { position: absolute; z-index: 3; pointer-events: none; inset: 5px; border-radius: 10px; box-shadow: inset 0 0 60px rgba(7,0,2,.1); }
+        .memory-controls { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 17px 5px 11px; }
+        .memory-caption { display: flex; flex-direction: column; gap: 5px; }
+        .caption-kicker { color: #f5e7e9; font-size: 14px; font-weight: 850; letter-spacing: .11em; }
+        .caption-sub { color: #9a797f; font: 650 10px/1.5 ui-monospace, SFMono-Regular, Consolas, monospace; letter-spacing: .1em; }
+        .audio-button { position: relative; display: flex; align-items: center; justify-content: center; gap: 9px; min-width: 117px; min-height: 43px; border: 1px solid rgba(247,48,63,.6); background: rgba(175,14,27,.13); border-radius: 100px; color: #fff; cursor: pointer; box-shadow: 0 0 0 rgba(255,0,30,0); transition: transform .22s, background .3s, border-color .3s, box-shadow .3s; font-size: 13px; font-weight: 800; letter-spacing: .02em; }
+        .audio-button:hover { background: rgba(221,14,33,.26); border-color: #fd495d; box-shadow: 0 0 22px rgba(235,8,31,.2); transform: translateY(-2px); }
+        .audio-button.is-playing { background: linear-gradient(110deg,#a40c1b,#df1429); border-color: #ff5568; box-shadow: 0 0 23px rgba(235,13,35,.2); }
+        .audio-button-icon { display: flex; width: 16px; height: 16px; align-items: center; }
+        .audio-button-icon svg { width: 16px; height: 16px; }
+        .pause-icon { display: none; }
+        .audio-button.is-playing .pause-icon { display: block; }
+        .audio-button.is-playing .play-icon { display: none; }
+        .audio-wave { display: inline-flex; align-items: center; justify-content: center; height: 15px; gap: 2px; }
+        .audio-wave i { width: 2px; height: 3px; border-radius: 2px; background: rgba(255,255,255,.75); }
+        .audio-button.is-playing .audio-wave i { animation: wave .75s ease-in-out infinite alternate; }
+        .audio-button.is-playing .audio-wave i:nth-child(2) { animation-delay: -.5s; }
+        .audio-button.is-playing .audio-wave i:nth-child(3) { animation-delay: -.2s; }
+        .audio-button.is-playing .audio-wave i:nth-child(4) { animation-delay: -.6s; }
+        @keyframes wave { from { height: 3px; } to { height: 14px; } }
+        .audio-meta { display: flex; align-items: center; justify-content: space-between; gap: 6px; padding: 0 6px 10px; color: #957b81; font: 650 10px/1.5 ui-monospace, SFMono-Regular, Consolas, monospace; letter-spacing: .015em; }
+        .audio-status.is-error { color: #ff8793; }
+        .audio-time { font-variant-numeric: tabular-nums; white-space: nowrap; }
+        .audio-progress { height: 3px; border-radius: 6px; margin: 0 6px; overflow: hidden; background: rgba(255,255,255,.08); }
+        .audio-progress span { display: block; height: 100%; width: 0; border-radius: inherit; background: linear-gradient(90deg,#6b0b19,#ff354b); transition: width .1s linear; }
+
+        .site-footer { position: relative; z-index: 1; display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 25px clamp(25px,5.4vw,86px); border-top: 1px solid rgba(255,255,255,.06); color: #8c7379; font: 650 10px/1.5 ui-monospace, SFMono-Regular, Consolas, monospace; letter-spacing: .12em; }
+        .site-footer a { color: #baa0a5; text-decoration: none; }
+        .site-footer a:hover { color: #fff; }
+        .custom-cursor { position: fixed; z-index: 9997; top: 0; left: 0; width: 17px; height: 17px; border: 2px solid var(--red); pointer-events: none; transform: translate(-50%,-50%) rotate(45deg); box-shadow: 0 0 10px rgba(245,5,27,.85),inset 0 0 5px rgba(245,5,27,.5); transition: width .17s,height .17s,background .17s,opacity .17s; opacity: 0; }
+        .custom-cursor::after { content: ''; position: absolute; width: 4px; height: 4px; top: 50%; left: 50%; transform: translate(-50%,-50%); background: var(--red); }
+        .custom-cursor.is-visible { opacity: 1; }
+        .custom-cursor.is-hover { width: 29px; height: 29px; background: rgba(248,10,32,.12); }
+        .click-ripple { position: fixed; z-index: 9996; pointer-events: none; top: 0; left: 0; border-radius: 50%; border: 1px solid #ec2635; box-shadow: 0 0 18px rgba(242,0,22,.35); animation: clickExpand .55s ease-out forwards; }
+        @keyframes clickExpand { from { width: 0; height: 0; transform: translate(-50%,-50%); opacity: .9; } to { width: 94px; height: 94px; transform: translate(-50%,-50%); opacity: 0; } }
+        @media (pointer:fine) { body, button, a { cursor: none; } }
+        @media (pointer:coarse) { .custom-cursor { display: none; } }
+        @media(max-width:740px) {
+            .site-nav { min-height: 70px; }
+            .brand { font-size: 22px; }
+            .back-link { font-size: 12px; }
+            .hero { padding-top: 78px; padding-bottom: 72px; width: calc(100% - 32px); }
+            .hero-title { gap: 14px; }
+            .hero-line:nth-child(1) { font-size: clamp(31px,8.5vw,62px); }
+            .hero-line:nth-child(2) { font-size: clamp(28px,7.4vw,53px); }
+            .hero-line:nth-child(3) { font-size: clamp(20px,5.3vw,39px); }
+            .gallery-wrap { width: min(530px,calc(100% - 28px)); padding-bottom: 70px; }
+            .memory-grid { grid-template-columns: 1fr; row-gap: 24px; }
+            .gallery-heading { font-size: 28px; }
+        }
+        @media(max-width:420px) {
+            .eyebrow { font-size: 9px; letter-spacing: .16em; }
+            .hero { padding-top: 64px; }
+            .hero-line:nth-child(1) { font-size: 31px; }
+            .hero-line:nth-child(2) { font-size: 29px; }
+            .hero-line:nth-child(3) { font-size: 21px; }
+            .gallery-total { font-size: 9px; }
+            .memory-card { padding: 9px 9px 14px; }
+            .site-footer { font-size: 9px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            *,*::before,*::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+            .reveal,.hero-line,.hero-sub,.hero-divider,.scroll-link { opacity: 1 !important; filter: none !important; transform: none !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-photo" aria-hidden="true"></div>
+    <div class="bg-veils" aria-hidden="true"></div>
+    <div class="bg-orb" aria-hidden="true"></div>
+    <canvas id="emberCanvas" aria-hidden="true"></canvas>
+    <div class="custom-cursor" id="cursor" aria-hidden="true"></div>
+
+    <div class="splash" id="splash" aria-hidden="true">
+        <div class="splash-content">
+            <svg class="sharingan" viewBox="0 0 100 100" aria-hidden="true">
+                <circle cx="50" cy="50" r="45" fill="#9e0012" stroke="#160103" stroke-width="4"/>
+                <circle cx="50" cy="50" r="27" fill="none" stroke="#1b0305" stroke-width="2" opacity=".7"/>
+                <circle cx="50" cy="50" r="8" fill="#0a0102"/>
+                <g fill="#090102"><g transform="translate(50 26)"><circle r="7"/><path d="M-7 0Q-13-16 5-17Q-1-6 7 0Z"/></g><g transform="translate(71 62) rotate(120)"><circle r="7"/><path d="M-7 0Q-13-16 5-17Q-1-6 7 0Z"/></g><g transform="translate(29 62) rotate(240)"><circle r="7"/><path d="M-7 0Q-13-16 5-17Q-1-6 7 0Z"/></g></g>
+            </svg>
+            <div class="splash-label">yigitqwc</div>
+            <div class="splash-line"></div>
+        </div>
+    </div>
+
+    <nav class="site-nav" aria-label="Sayfa menüsü">
+        <a class="brand" href="index.html">yigitqwc</a>
+        <a class="back-link" href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m14 6-6 6 6 6"/><path d="M9 12h12"/></svg> ANA SAYFA</a>
+    </nav>
+
+    <main>
+        <header class="hero">
+            <div class="eyebrow">ÖZEL SAYFA</div>
+            <h1 class="hero-title">
+                <span class="hero-line">korayı döven binim</span>
+                <span class="hero-line">htn olan binim</span>
+                <span class="hero-line">tech giyen binim, binimm, binimmmm</span>
+            </h1>
+            <div class="hero-divider" aria-hidden="true"><span></span><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="2" fill="currentColor"/><path d="M12 4v5m7 5-5-2m-7 7 3-5" stroke="currentColor" stroke-width="1.5"/></svg><span></span></div>
+            <p class="hero-sub">10 FOTOĞRAF / 10 SES</p>
+            <a class="scroll-link" href="#anilar">FOTOĞRAFLARA GİT <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M12 4v15m-6-6 6 6 6-6"/></svg></a>
+        </header>
+
+        <section class="gallery-wrap" id="anilar" aria-labelledby="galleryHeading">
+            <div class="gallery-top">
+                <div><span class="gallery-kicker">ÖZEL ARŞİV</span><h2 class="gallery-heading" id="galleryHeading">Anılar</h2></div>
+                <div class="gallery-total">10 / 10 KARE</div>
+            </div>
+            <div class="memory-grid">
+            <article class="memory-card reveal" data-number="1">
+                <div class="photo-frame">
+                    <div class="photo-stage">
+                        <div class="photo-placeholder" aria-hidden="true">
+                            <svg class="placeholder-symbol" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="7" y="12" width="50" height="40" rx="5"/><circle cx="23" cy="25" r="5"/><path d="M8 45l15-12 10 8 10-13 14 15"/></svg>
+                            <span class="placeholder-count">01</span>
+                            <span class="placeholder-filename">foto1.jfif</span>
+                        </div>
+                        <img src="foto1.jfif" alt="Özel fotoğraf 1" loading="lazy" decoding="async" />
+                    </div>
+                    <div class="photo-number" aria-hidden="true">01 <span>/ 10</span></div>
+                    <div class="photo-glow" aria-hidden="true"></div>
+                </div>
+                <div class="memory-controls">
+                    <div class="memory-caption"><span class="caption-kicker">KARE 01</span><span class="caption-sub">ANILAR ARŞİVİ</span></div>
+                    <button class="audio-button" type="button" data-audio="ses1.mp3" data-photo="1" aria-label="1. fotoğrafın sesini oynat" aria-pressed="false">
+                        <span class="audio-button-icon" aria-hidden="true"><svg class="play-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5c0-.8.86-1.3 1.55-.89l9.1 5.5a2.2 2.2 0 0 1 0 3.78l-9.1 5.5A1.05 1.05 0 0 1 8 18.5v-13Z"/></svg><svg class="pause-icon" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg></span>
+                        <span class="audio-button-label">Ses</span>
+                        <span class="audio-wave" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+                    </button>
+                </div>
+                <div class="audio-meta" aria-live="polite"><span class="audio-status">Sesi dinle</span><span class="audio-time">0:00 / --:--</span></div>
+                <div class="audio-progress" aria-hidden="true"><span></span></div>
+            </article>
+            <article class="memory-card reveal" data-number="2">
+                <div class="photo-frame">
+                    <div class="photo-stage">
+                        <div class="photo-placeholder" aria-hidden="true">
+                            <svg class="placeholder-symbol" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="7" y="12" width="50" height="40" rx="5"/><circle cx="23" cy="25" r="5"/><path d="M8 45l15-12 10 8 10-13 14 15"/></svg>
+                            <span class="placeholder-count">02</span>
+                            <span class="placeholder-filename">foto2.jfif</span>
+                        </div>
+                        <img src="foto2.jfif" alt="Özel fotoğraf 2" loading="lazy" decoding="async" />
+                    </div>
+                    <div class="photo-number" aria-hidden="true">02 <span>/ 10</span></div>
+                    <div class="photo-glow" aria-hidden="true"></div>
+                </div>
+                <div class="memory-controls">
+                    <div class="memory-caption"><span class="caption-kicker">KARE 02</span><span class="caption-sub">ANILAR ARŞİVİ</span></div>
+                    <button class="audio-button" type="button" data-audio="ses2.mp3" data-photo="2" aria-label="2. fotoğrafın sesini oynat" aria-pressed="false">
+                        <span class="audio-button-icon" aria-hidden="true"><svg class="play-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5c0-.8.86-1.3 1.55-.89l9.1 5.5a2.2 2.2 0 0 1 0 3.78l-9.1 5.5A1.05 1.05 0 0 1 8 18.5v-13Z"/></svg><svg class="pause-icon" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg></span>
+                        <span class="audio-button-label">Ses</span>
+                        <span class="audio-wave" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+                    </button>
+                </div>
+                <div class="audio-meta" aria-live="polite"><span class="audio-status">Sesi dinle</span><span class="audio-time">0:00 / --:--</span></div>
+                <div class="audio-progress" aria-hidden="true"><span></span></div>
+            </article>
+            <article class="memory-card reveal" data-number="3">
+                <div class="photo-frame">
+                    <div class="photo-stage">
+                        <div class="photo-placeholder" aria-hidden="true">
+                            <svg class="placeholder-symbol" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="7" y="12" width="50" height="40" rx="5"/><circle cx="23" cy="25" r="5"/><path d="M8 45l15-12 10 8 10-13 14 15"/></svg>
+                            <span class="placeholder-count">03</span>
+                            <span class="placeholder-filename">foto3.jfif</span>
+                        </div>
+                        <img src="foto3.jfif" alt="Özel fotoğraf 3" loading="lazy" decoding="async" />
+                    </div>
+                    <div class="photo-number" aria-hidden="true">03 <span>/ 10</span></div>
+                    <div class="photo-glow" aria-hidden="true"></div>
+                </div>
+                <div class="memory-controls">
+                    <div class="memory-caption"><span class="caption-kicker">KARE 03</span><span class="caption-sub">ANILAR ARŞİVİ</span></div>
+                    <button class="audio-button" type="button" data-audio="ses3.mp3" data-photo="3" aria-label="3. fotoğrafın sesini oynat" aria-pressed="false">
+                        <span class="audio-button-icon" aria-hidden="true"><svg class="play-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5c0-.8.86-1.3 1.55-.89l9.1 5.5a2.2 2.2 0 0 1 0 3.78l-9.1 5.5A1.05 1.05 0 0 1 8 18.5v-13Z"/></svg><svg class="pause-icon" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg></span>
+                        <span class="audio-button-label">Ses</span>
+                        <span class="audio-wave" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+                    </button>
+                </div>
+                <div class="audio-meta" aria-live="polite"><span class="audio-status">Sesi dinle</span><span class="audio-time">0:00 / --:--</span></div>
+                <div class="audio-progress" aria-hidden="true"><span></span></div>
+            </article>
+            <article class="memory-card reveal" data-number="4">
+                <div class="photo-frame">
+                    <div class="photo-stage">
+                        <div class="photo-placeholder" aria-hidden="true">
+                            <svg class="placeholder-symbol" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="7" y="12" width="50" height="40" rx="5"/><circle cx="23" cy="25" r="5"/><path d="M8 45l15-12 10 8 10-13 14 15"/></svg>
+                            <span class="placeholder-count">04</span>
+                            <span class="placeholder-filename">foto4.jfif</span>
+                        </div>
+                        <img src="foto4.jfif" alt="Özel fotoğraf 4" loading="lazy" decoding="async" />
+                    </div>
+                    <div class="photo-number" aria-hidden="true">04 <span>/ 10</span></div>
+                    <div class="photo-glow" aria-hidden="true"></div>
+                </div>
+                <div class="memory-controls">
+                    <div class="memory-caption"><span class="caption-kicker">KARE 04</span><span class="caption-sub">ANILAR ARŞİVİ</span></div>
+                    <button class="audio-button" type="button" data-audio="ses4.mp3" data-photo="4" aria-label="4. fotoğrafın sesini oynat" aria-pressed="false">
+                        <span class="audio-button-icon" aria-hidden="true"><svg class="play-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5c0-.8.86-1.3 1.55-.89l9.1 5.5a2.2 2.2 0 0 1 0 3.78l-9.1 5.5A1.05 1.05 0 0 1 8 18.5v-13Z"/></svg><svg class="pause-icon" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg></span>
+                        <span class="audio-button-label">Ses</span>
+                        <span class="audio-wave" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+                    </button>
+                </div>
+                <div class="audio-meta" aria-live="polite"><span class="audio-status">Sesi dinle</span><span class="audio-time">0:00 / --:--</span></div>
+                <div class="audio-progress" aria-hidden="true"><span></span></div>
+            </article>
+            <article class="memory-card reveal" data-number="5">
+                <div class="photo-frame">
+                    <div class="photo-stage">
+                        <div class="photo-placeholder" aria-hidden="true">
+                            <svg class="placeholder-symbol" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="7" y="12" width="50" height="40" rx="5"/><circle cx="23" cy="25" r="5"/><path d="M8 45l15-12 10 8 10-13 14 15"/></svg>
+                            <span class="placeholder-count">05</span>
+                            <span class="placeholder-filename">foto5.jfif</span>
+                        </div>
+                        <img src="foto5.jfif" alt="Özel fotoğraf 5" loading="lazy" decoding="async" />
+                    </div>
+                    <div class="photo-number" aria-hidden="true">05 <span>/ 10</span></div>
+                    <div class="photo-glow" aria-hidden="true"></div>
+                </div>
+                <div class="memory-controls">
+                    <div class="memory-caption"><span class="caption-kicker">KARE 05</span><span class="caption-sub">ANILAR ARŞİVİ</span></div>
+                    <button class="audio-button" type="button" data-audio="ses5.mp3" data-photo="5" aria-label="5. fotoğrafın sesini oynat" aria-pressed="false">
+                        <span class="audio-button-icon" aria-hidden="true"><svg class="play-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5c0-.8.86-1.3 1.55-.89l9.1 5.5a2.2 2.2 0 0 1 0 3.78l-9.1 5.5A1.05 1.05 0 0 1 8 18.5v-13Z"/></svg><svg class="pause-icon" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg></span>
+                        <span class="audio-button-label">Ses</span>
+                        <span class="audio-wave" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+                    </button>
+                </div>
+                <div class="audio-meta" aria-live="polite"><span class="audio-status">Sesi dinle</span><span class="audio-time">0:00 / --:--</span></div>
+                <div class="audio-progress" aria-hidden="true"><span></span></div>
+            </article>
+            <article class="memory-card reveal" data-number="6">
+                <div class="photo-frame">
+                    <div class="photo-stage">
+                        <div class="photo-placeholder" aria-hidden="true">
+                            <svg class="placeholder-symbol" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="7" y="12" width="50" height="40" rx="5"/><circle cx="23" cy="25" r="5"/><path d="M8 45l15-12 10 8 10-13 14 15"/></svg>
+                            <span class="placeholder-count">06</span>
+                            <span class="placeholder-filename">foto6.jfif</span>
+                        </div>
+                        <img src="foto6.jfif" alt="Özel fotoğraf 6" loading="lazy" decoding="async" />
+                    </div>
+                    <div class="photo-number" aria-hidden="true">06 <span>/ 10</span></div>
+                    <div class="photo-glow" aria-hidden="true"></div>
+                </div>
+                <div class="memory-controls">
+                    <div class="memory-caption"><span class="caption-kicker">KARE 06</span><span class="caption-sub">ANILAR ARŞİVİ</span></div>
+                    <button class="audio-button" type="button" data-audio="ses6.mp3" data-photo="6" aria-label="6. fotoğrafın sesini oynat" aria-pressed="false">
+                        <span class="audio-button-icon" aria-hidden="true"><svg class="play-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5c0-.8.86-1.3 1.55-.89l9.1 5.5a2.2 2.2 0 0 1 0 3.78l-9.1 5.5A1.05 1.05 0 0 1 8 18.5v-13Z"/></svg><svg class="pause-icon" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg></span>
+                        <span class="audio-button-label">Ses</span>
+                        <span class="audio-wave" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+                    </button>
+                </div>
+                <div class="audio-meta" aria-live="polite"><span class="audio-status">Sesi dinle</span><span class="audio-time">0:00 / --:--</span></div>
+                <div class="audio-progress" aria-hidden="true"><span></span></div>
+            </article>
+            <article class="memory-card reveal" data-number="7">
+                <div class="photo-frame">
+                    <div class="photo-stage">
+                        <div class="photo-placeholder" aria-hidden="true">
+                            <svg class="placeholder-symbol" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="7" y="12" width="50" height="40" rx="5"/><circle cx="23" cy="25" r="5"/><path d="M8 45l15-12 10 8 10-13 14 15"/></svg>
+                            <span class="placeholder-count">07</span>
+                            <span class="placeholder-filename">foto7.jfif</span>
+                        </div>
+                        <img src="foto7.jfif" alt="Özel fotoğraf 7" loading="lazy" decoding="async" />
+                    </div>
+                    <div class="photo-number" aria-hidden="true">07 <span>/ 10</span></div>
+                    <div class="photo-glow" aria-hidden="true"></div>
+                </div>
+                <div class="memory-controls">
+                    <div class="memory-caption"><span class="caption-kicker">KARE 07</span><span class="caption-sub">ANILAR ARŞİVİ</span></div>
+                    <button class="audio-button" type="button" data-audio="ses7.mp3" data-photo="7" aria-label="7. fotoğrafın sesini oynat" aria-pressed="false">
+                        <span class="audio-button-icon" aria-hidden="true"><svg class="play-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5c0-.8.86-1.3 1.55-.89l9.1 5.5a2.2 2.2 0 0 1 0 3.78l-9.1 5.5A1.05 1.05 0 0 1 8 18.5v-13Z"/></svg><svg class="pause-icon" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg></span>
+                        <span class="audio-button-label">Ses</span>
+                        <span class="audio-wave" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+                    </button>
+                </div>
+                <div class="audio-meta" aria-live="polite"><span class="audio-status">Sesi dinle</span><span class="audio-time">0:00 / --:--</span></div>
+                <div class="audio-progress" aria-hidden="true"><span></span></div>
+            </article>
+            <article class="memory-card reveal" data-number="8">
+                <div class="photo-frame">
+                    <div class="photo-stage">
+                        <div class="photo-placeholder" aria-hidden="true">
+                            <svg class="placeholder-symbol" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="7" y="12" width="50" height="40" rx="5"/><circle cx="23" cy="25" r="5"/><path d="M8 45l15-12 10 8 10-13 14 15"/></svg>
+                            <span class="placeholder-count">08</span>
+                            <span class="placeholder-filename">foto8.jfif</span>
+                        </div>
+                        <img src="foto8.jfif" alt="Özel fotoğraf 8" loading="lazy" decoding="async" />
+                    </div>
+                    <div class="photo-number" aria-hidden="true">08 <span>/ 10</span></div>
+                    <div class="photo-glow" aria-hidden="true"></div>
+                </div>
+                <div class="memory-controls">
+                    <div class="memory-caption"><span class="caption-kicker">KARE 08</span><span class="caption-sub">ANILAR ARŞİVİ</span></div>
+                    <button class="audio-button" type="button" data-audio="ses8.mp3" data-photo="8" aria-label="8. fotoğrafın sesini oynat" aria-pressed="false">
+                        <span class="audio-button-icon" aria-hidden="true"><svg class="play-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5c0-.8.86-1.3 1.55-.89l9.1 5.5a2.2 2.2 0 0 1 0 3.78l-9.1 5.5A1.05 1.05 0 0 1 8 18.5v-13Z"/></svg><svg class="pause-icon" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg></span>
+                        <span class="audio-button-label">Ses</span>
+                        <span class="audio-wave" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+                    </button>
+                </div>
+                <div class="audio-meta" aria-live="polite"><span class="audio-status">Sesi dinle</span><span class="audio-time">0:00 / --:--</span></div>
+                <div class="audio-progress" aria-hidden="true"><span></span></div>
+            </article>
+            <article class="memory-card reveal" data-number="9">
+                <div class="photo-frame">
+                    <div class="photo-stage">
+                        <div class="photo-placeholder" aria-hidden="true">
+                            <svg class="placeholder-symbol" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="7" y="12" width="50" height="40" rx="5"/><circle cx="23" cy="25" r="5"/><path d="M8 45l15-12 10 8 10-13 14 15"/></svg>
+                            <span class="placeholder-count">09</span>
+                            <span class="placeholder-filename">foto9.jfif</span>
+                        </div>
+                        <img src="foto9.jfif" alt="Özel fotoğraf 9" loading="lazy" decoding="async" />
+                    </div>
+                    <div class="photo-number" aria-hidden="true">09 <span>/ 10</span></div>
+                    <div class="photo-glow" aria-hidden="true"></div>
+                </div>
+                <div class="memory-controls">
+                    <div class="memory-caption"><span class="caption-kicker">KARE 09</span><span class="caption-sub">ANILAR ARŞİVİ</span></div>
+                    <button class="audio-button" type="button" data-audio="ses9.mp3" data-photo="9" aria-label="9. fotoğrafın sesini oynat" aria-pressed="false">
+                        <span class="audio-button-icon" aria-hidden="true"><svg class="play-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5c0-.8.86-1.3 1.55-.89l9.1 5.5a2.2 2.2 0 0 1 0 3.78l-9.1 5.5A1.05 1.05 0 0 1 8 18.5v-13Z"/></svg><svg class="pause-icon" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg></span>
+                        <span class="audio-button-label">Ses</span>
+                        <span class="audio-wave" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+                    </button>
+                </div>
+                <div class="audio-meta" aria-live="polite"><span class="audio-status">Sesi dinle</span><span class="audio-time">0:00 / --:--</span></div>
+                <div class="audio-progress" aria-hidden="true"><span></span></div>
+            </article>
+            <article class="memory-card reveal" data-number="10">
+                <div class="photo-frame">
+                    <div class="photo-stage">
+                        <div class="photo-placeholder" aria-hidden="true">
+                            <svg class="placeholder-symbol" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="7" y="12" width="50" height="40" rx="5"/><circle cx="23" cy="25" r="5"/><path d="M8 45l15-12 10 8 10-13 14 15"/></svg>
+                            <span class="placeholder-count">10</span>
+                            <span class="placeholder-filename">foto10.jfif</span>
+                        </div>
+                        <img src="foto10.jfif" alt="Özel fotoğraf 10" loading="lazy" decoding="async" />
+                    </div>
+                    <div class="photo-number" aria-hidden="true">10 <span>/ 10</span></div>
+                    <div class="photo-glow" aria-hidden="true"></div>
+                </div>
+                <div class="memory-controls">
+                    <div class="memory-caption"><span class="caption-kicker">KARE 10</span><span class="caption-sub">ANILAR ARŞİVİ</span></div>
+                    <button class="audio-button" type="button" data-audio="ses10.mp3" data-photo="10" aria-label="10. fotoğrafın sesini oynat" aria-pressed="false">
+                        <span class="audio-button-icon" aria-hidden="true"><svg class="play-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5c0-.8.86-1.3 1.55-.89l9.1 5.5a2.2 2.2 0 0 1 0 3.78l-9.1 5.5A1.05 1.05 0 0 1 8 18.5v-13Z"/></svg><svg class="pause-icon" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg></span>
+                        <span class="audio-button-label">Ses</span>
+                        <span class="audio-wave" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+                    </button>
+                </div>
+                <div class="audio-meta" aria-live="polite"><span class="audio-status">Sesi dinle</span><span class="audio-time">0:00 / --:--</span></div>
+                <div class="audio-progress" aria-hidden="true"><span></span></div>
+            </article>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer"><span>YIGITQWC / ÖZEL SAYFA</span><a href="index.html">ANA SAYFAYA DÖN</a></footer>
+    <audio id="sharedAudio" preload="none"></audio>
+    <script>
+        'use strict';
+
+        // Fotoğraf ve ses dosyalarını index31.html ile aynı klasöre koy:
+        // foto1.jfif ... foto10.jfif | ses1.mp3 ... ses10.mp3
+        const splash = document.getElementById('splash');
+        window.addEventListener('DOMContentLoaded', () => {
+            window.setTimeout(() => {
+                splash.classList.add('is-hidden');
+                document.body.classList.add('is-ready');
+            }, 1050);
+        });
+
+        // Fotoğraflar yüklenmediyse kırık görsel yerine dosya adı görülsün.
+        document.querySelectorAll('.photo-stage img').forEach(img => {
+            img.addEventListener('error', () => { img.classList.add('is-missing'); });
+        });
+
+        // Her kart yumuşak şekilde görünür.
+        const cards = document.querySelectorAll('.memory-card');
+        if ('IntersectionObserver' in window) {
+            const revealObserver = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('in-view');
+                        revealObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: .08, rootMargin: '0px 0px 35px 0px' });
+            cards.forEach(card => revealObserver.observe(card));
+        } else {
+            cards.forEach(card => card.classList.add('in-view'));
+        }
+
+        // Tek ses oynatıcı: başka fotoğrafa basıldığında önceki müzik durur.
+        const audio = document.getElementById('sharedAudio');
+        const buttons = document.querySelectorAll('.audio-button');
+        let selectedButton = null;
+        let selectedCard = null;
+        let hasAudioError = false;
+
+        function formatTime(seconds) {
+            if (!Number.isFinite(seconds) || seconds < 0) return '--:--';
+            return `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2, '0')}`;
+        }
+        function statusText(card, message, error = false) {
+            if (!card) return;
+            const el = card.querySelector('.audio-status');
+            el.textContent = message;
+            el.classList.toggle('is-error', error);
+        }
+        function setPlaying(playing) {
+            if (!selectedButton) return;
+            selectedButton.classList.toggle('is-playing', playing);
+            selectedButton.setAttribute('aria-pressed', String(playing));
+            const num = selectedButton.dataset.photo;
+            selectedButton.setAttribute('aria-label', `${num}. fotoğrafın sesini ${playing ? 'duraklat' : 'oynat'}`);
+            if (!hasAudioError) statusText(selectedCard, playing ? 'Çalıyor' : 'Duraklatıldı');
+        }
+        function resetCard(card, button) {
+            if (button) {
+                button.classList.remove('is-playing');
+                button.setAttribute('aria-pressed', 'false');
+                button.setAttribute('aria-label', `${button.dataset.photo}. fotoğrafın sesini oynat`);
+            }
+            if (card) {
+                statusText(card, 'Sesi dinle');
+                card.querySelector('.audio-time').textContent = '0:00 / --:--';
+                card.querySelector('.audio-progress span').style.width = '0%';
+            }
+        }
+        function attemptPlay() {
+            const requestedButton = selectedButton;
+            hasAudioError = false;
+            const playAttempt = audio.play();
+            if (playAttempt && typeof playAttempt.catch === 'function') {
+                playAttempt.catch(() => {
+                    if (selectedButton !== requestedButton) return;
+                    hasAudioError = true;
+                    setPlaying(false);
+                    statusText(selectedCard, 'Ses açılamadı; MP3 dosyasını kontrol et', true);
+                });
+            }
+        }
+        buttons.forEach(button => button.addEventListener('click', () => {
+            const card = button.closest('.memory-card');
+            if (selectedButton === button) {
+                if (audio.paused) attemptPlay();
+                else audio.pause();
+                return;
+            }
+            audio.pause();
+            resetCard(selectedCard, selectedButton);
+            selectedButton = button;
+            selectedCard = card;
+            hasAudioError = false;
+            statusText(card, 'Yükleniyor...');
+            audio.src = button.dataset.audio;
+            audio.load();
+            attemptPlay();
+        }));
+        audio.addEventListener('playing', () => setPlaying(true));
+        audio.addEventListener('pause', () => { if (selectedButton && !audio.ended && !hasAudioError) setPlaying(false); });
+        audio.addEventListener('waiting', () => { if (selectedCard && !hasAudioError) statusText(selectedCard, 'Yükleniyor...'); });
+        audio.addEventListener('timeupdate', () => {
+            if (!selectedCard) return;
+            selectedCard.querySelector('.audio-time').textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
+            const pct = Number.isFinite(audio.duration) && audio.duration > 0 ? Math.max(0, Math.min(100, audio.currentTime / audio.duration * 100)) : 0;
+            selectedCard.querySelector('.audio-progress span').style.width = `${pct}%`;
+        });
+        audio.addEventListener('loadedmetadata', () => {
+            if (selectedCard) selectedCard.querySelector('.audio-time').textContent = `0:00 / ${formatTime(audio.duration)}`;
+        });
+        audio.addEventListener('ended', () => {
+            resetCard(selectedCard, selectedButton);
+            selectedButton = null;
+            selectedCard = null;
+        });
+        audio.addEventListener('error', () => {
+            if (!selectedCard) return;
+            hasAudioError = true;
+            setPlaying(false);
+            statusText(selectedCard, `Ses dosyası bulunamadı: ${selectedButton.dataset.audio}`, true);
+        });
+
+        // Orijinal Uchiha tarzı özel imleç ve kırmızı tıklama halkası.
+        if (window.matchMedia('(pointer:fine)').matches) {
+            const cursor = document.getElementById('cursor');
+            document.addEventListener('pointermove', event => {
+                cursor.style.left = `${event.clientX}px`;
+                cursor.style.top = `${event.clientY}px`;
+                cursor.classList.add('is-visible');
+            }, { passive: true });
+            document.addEventListener('pointerover', event => {
+                cursor.classList.toggle('is-hover', Boolean(event.target.closest('a, button')));
+            }, { passive: true });
+        }
+        document.addEventListener('click', event => {
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            const ripple = document.createElement('span');
+            ripple.className = 'click-ripple';
+            ripple.style.left = `${event.clientX}px`;
+            ripple.style.top = `${event.clientY}px`;
+            document.body.appendChild(ripple);
+            ripple.addEventListener('animationend', () => ripple.remove(), { once: true });
+        });
+
+        // Düşük yoğunluklu, performans dostu arka plan kıvılcımları.
+        const canvas = document.getElementById('emberCanvas');
+        const ctx = canvas.getContext('2d');
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (ctx && !reduceMotion) {
+            let particles = [];
+            let width = 0, height = 0;
+            function resizeCanvas() {
+                const ratio = Math.min(window.devicePixelRatio || 1, 2);
+                width = window.innerWidth;
+                height = window.innerHeight;
+                canvas.width = Math.floor(width * ratio);
+                canvas.height = Math.floor(height * ratio);
+                ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+                const count = Math.min(48, Math.max(17, Math.round(width / 30)));
+                particles = Array.from({ length: count }, () => ({
+                    x: Math.random() * width, y: Math.random() * height,
+                    r: .5 + Math.random() * 1.6, vy: .12 + Math.random() * .33,
+                    vx: (Math.random() - .5) * .18, alpha: .13 + Math.random() * .32
+                }));
+            }
+            function animateEmbers() {
+                ctx.clearRect(0, 0, width, height);
+                for (const p of particles) {
+                    p.y -= p.vy; p.x += p.vx;
+                    if (p.y < -8) { p.y = height + 8; p.x = Math.random() * width; }
+                    ctx.fillStyle = `rgba(241,26,46,${p.alpha})`;
+                    ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
+                }
+                requestAnimationFrame(animateEmbers);
+            }
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas, { passive: true });
+            requestAnimationFrame(animateEmbers);
+        }
+    </script>
+</body>
+</html>
