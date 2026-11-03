@@ -491,12 +491,12 @@
                     <g transform="translate(29, 62) rotate(240)"><circle cx="0" cy="0" r="6" fill="#000"/><path d="M -6 0 Q -10 -15 5 -15 Q 0 -5 6 0 Z" fill="#000"/></g>
                 </g>
             </svg>
-            <h2>UCHIHA SOHBET AĞI</h2>
+            <h2>Anonim Chat</h2>
             <p>Ağa bağlanmak için görünür isminizi belirleyin ve özel erişim şifresini girin.</p>
 
             <div class="gate-field">
                 <label for="gateNameInput">Kullanıcı Adınız (İsim)</label>
-                <input type="text" id="gateNameInput" class="gate-input hover-target" placeholder="Örn: Itachi, Yiğit, Misafir..." maxlength="24" autocomplete="off">
+                <input type="text" id="gateNameInput" class="gate-input hover-target" placeholder="Örn: swain, qwc, misafir..." maxlength="24" autocomplete="off">
             </div>
 
             <div class="gate-field">
@@ -567,7 +567,7 @@
             <!-- MESAJ AKIŞI -->
             <div class="wa-messages-stream" id="messagesStream">
                 <div class="system-encryption-banner">
-                    🌐 Mesajlar Firebase üzerinden senkronize edilir. Oda kodunu yalnızca davet etmek istediğiniz kişilerle paylaşın.
+                    🌐 Anonim Chat Uygulamasıdır. Oda kodunu yalnızca davet etmek istediğiniz kişilerle paylaşın.
                 </div>
             </div>
 
@@ -658,7 +658,7 @@
             GLOBAL: [
                 {
                     id: "welcome_sys",
-                    sender: "Uchiha Sistem",
+                    sender: "Chat Bot",
                     text: "Global Sohbet kanalına hoş geldiniz! Sağ alttaki butonlardan özel oda oluşturabilir veya rastgele oda şifresiyle arkadaşlarınızın odasına katılabilirsiniz.",
                     at: Date.now() - 60000
                 }
@@ -1063,7 +1063,7 @@
             const fragment = document.createDocumentFragment();
             const banner = document.createElement('div');
             banner.className = 'system-encryption-banner';
-            banner.textContent = '🌐 Mesajlar Firebase üzerinden senkronize edilir. Bu sürüm uçtan uca şifreleme sağlamaz.';
+            banner.textContent = '🌐 Anonim Chat. Mesajlarınızz tamamen gizlidir, oda kodlarınızı kimseye paylaşmayın.';
             fragment.appendChild(banner);
 
             const messages = localMessagesStore[activeChannelId] || [];
