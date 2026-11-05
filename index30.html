@@ -6,16 +6,18 @@
     <title>yigitqwc | Uchiha Chat & Oda Sistemi</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <style>
-        /* ORİJİNAL KLASİK UCHIHA / KIRMIZI-SİYAH RENK PALETİ */
+        /* ORİJİNAL KLASİK UCHIHA / KIRMIZI-SİYAH RENK PALETİ + AKICI ANİMASYONLAR */
         :root {
             --bg-color: #030101;
             --text-color: #ffffff;
             --accent-red: #ff0000;
+            --accent-crimson: #b30000;
             --accent-gold: #ffcc00;
             --accent-green: #00ff66;
             --panel-bg: rgba(12, 1, 1, 0.94);
             --sidebar-bg: rgba(8, 0, 0, 0.96);
             --border-red: rgba(255, 0, 0, 0.35);
+            --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         * {
@@ -36,18 +38,18 @@
             pointer-events: none; z-index: 9999999;
             transform: translate(-50%, -50%) rotate(45deg);
             box-shadow: 0 0 10px var(--accent-red), inset 0 0 5px var(--accent-red);
-            transition: width 0.2s, height 0.2s, background-color 0.2s;
+            transition: width 0.2s var(--ease-spring), height 0.2s var(--ease-spring), background-color 0.2s, border-color 0.2s;
         }
         .custom-cursor::after {
             content: ''; position: absolute; top: 50%; left: 50%; width: 4px; height: 4px;
             background: var(--accent-red); transform: translate(-50%, -50%);
         }
-        .cursor-hover { width: 30px; height: 30px; background-color: rgba(255, 0, 0, 0.25); }
+        .cursor-hover { width: 32px; height: 32px; background-color: rgba(255, 0, 0, 0.25); border-color: var(--accent-gold); }
 
         .click-ripple {
             position: fixed; border-radius: 50%; border: 2px solid var(--accent-red);
             pointer-events: none; transform: translate(-50%, -50%);
-            animation: rippleEffect 0.6s ease-out forwards; z-index: 99998;
+            animation: rippleEffect 0.6s var(--ease-spring) forwards; z-index: 99998;
             box-shadow: 0 0 15px rgba(255,0,0,0.5);
         }
         @keyframes rippleEffect {
@@ -106,19 +108,46 @@
         }
         #particles-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
 
-        /* ================= GİRİŞ KAPISI (İSİM + ŞİFRE "33") ================= */
+        /* ================= HAVALI YÖNETİCİ (MANGEKYOU) SEMBOLÜ VE ROZETİ ================= */
+        .admin-mangekyou-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: linear-gradient(135deg, rgba(45, 0, 0, 0.95), rgba(140, 0, 0, 0.9), rgba(60, 25, 0, 0.95));
+            border: 1px solid var(--accent-gold);
+            padding: 2px 9px 2px 5px; border-radius: 999px;
+            font-size: 0.7rem; font-weight: 900; color: var(--accent-gold);
+            letter-spacing: 0.8px; text-transform: uppercase;
+            box-shadow: 0 0 14px rgba(255, 0, 0, 0.8), 0 0 6px rgba(255, 204, 0, 0.6), inset 0 0 8px rgba(255, 204, 0, 0.35);
+            animation: adminBadgePulse 2.4s infinite ease-in-out;
+            vertical-align: middle;
+        }
+        .admin-mangekyou-svg {
+            width: 17px; height: 17px; flex-shrink: 0;
+            animation: spin 3.2s linear infinite;
+            filter: drop-shadow(0 0 5px #ff0000) drop-shadow(0 0 3px #ffcc00);
+        }
+        @keyframes adminBadgePulse {
+            0%, 100% { box-shadow: 0 0 12px rgba(255, 0, 0, 0.75), 0 0 4px rgba(255, 204, 0, 0.5); transform: scale(1); }
+            50% { box-shadow: 0 0 22px rgba(255, 0, 0, 1), 0 0 12px rgba(255, 204, 0, 0.95); transform: scale(1.03); }
+        }
+
+        /* ================= GİRİŞ KAPISI (MİSAFİR "33" / YÖNETİCİ "0987654321") ================= */
         #auth-gate-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: radial-gradient(circle at center, rgba(25, 0, 0, 0.96) 0%, rgba(2, 0, 0, 0.99) 100%);
-            backdrop-filter: blur(15px); z-index: 500000;
+            backdrop-filter: blur(16px); z-index: 500000;
             display: flex; align-items: center; justify-content: center; padding: 20px;
+            transition: opacity 0.4s var(--ease-spring);
         }
         .gate-card {
             width: 100%; max-width: 430px; background: rgba(12, 1, 1, 0.95);
-            border: 2px solid var(--accent-red); border-radius: 20px; padding: 35px 30px;
+            border: 2px solid var(--accent-red); border-radius: 22px; padding: 35px 30px;
             box-shadow: 0 0 60px rgba(255, 0, 0, 0.45), inset 0 0 25px rgba(255, 0, 0, 0.1);
             display: flex; flex-direction: column; align-items: center; gap: 18px;
-            text-align: center;
+            text-align: center; animation: modalPop 0.45s var(--ease-spring);
+        }
+        @keyframes modalPop {
+            from { opacity: 0; transform: translateY(18px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
         .gate-card h2 {
             font-size: 1.75rem; font-weight: 900; color: #fff;
@@ -132,13 +161,14 @@
         }
         .gate-input {
             width: 100%; padding: 13px 16px; background: #050000;
-            border: 1px solid #660000; border-radius: 10px;
+            border: 1px solid #660000; border-radius: 12px;
             color: #fff; font-size: 1rem; font-weight: 700; outline: none;
-            transition: border-color 0.25s, box-shadow 0.25s;
+            transition: border-color 0.25s, box-shadow 0.25s, transform 0.2s;
         }
         .gate-input:focus {
             border-color: var(--accent-red);
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.45);
+            box-shadow: 0 0 18px rgba(255, 0, 0, 0.45);
+            transform: translateY(-1px);
         }
         .gate-error {
             color: #ff3333; font-size: 0.85rem; font-weight: 800; min-height: 20px;
@@ -147,7 +177,7 @@
             width: 100%; padding: 14px; background: linear-gradient(135deg, #aa0000, #ff0000);
             border: 1px solid #ff6666; border-radius: 30px; color: #fff;
             font-size: 1rem; font-weight: 900; letter-spacing: 1px; text-transform: uppercase;
-            box-shadow: 0 0 25px rgba(255, 0, 0, 0.5); transition: all 0.25s;
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.5); transition: all 0.25s var(--ease-spring);
         }
         .gate-submit-btn:hover {
             transform: translateY(-2px) scale(1.02);
@@ -156,7 +186,7 @@
 
         /* ================= ÜST BAR ================= */
         header.chat-top-nav {
-            background: rgba(5, 0, 0, 0.92); backdrop-filter: blur(10px);
+            background: rgba(5, 0, 0, 0.92); backdrop-filter: blur(12px);
             display: flex; justify-content: space-between; align-items: center;
             padding: 0.75rem 2rem; border-bottom: 1px solid var(--border-red);
             z-index: 20; height: 64px; flex-shrink: 0;
@@ -166,6 +196,7 @@
             font-size: 0.78rem; font-weight: 800; color: var(--accent-green);
             background: rgba(0, 255, 102, 0.1); border: 1px solid rgba(0, 255, 102, 0.35);
             padding: 4px 12px; border-radius: 20px; display: flex; align-items: center; gap: 6px;
+            transition: all 0.3s ease;
         }
         .online-pill::before {
             content: ''; width: 7px; height: 7px; border-radius: 50%;
@@ -185,33 +216,45 @@
 
         /* SOL SÜTUN: KULLANICI PROFİLİ + SOHBET / ODA LİSTESİ */
         .wa-sidebar {
-            width: 350px; min-width: 310px; background: var(--sidebar-bg);
+            width: 355px; min-width: 315px; background: var(--sidebar-bg);
             border-right: 1px solid var(--border-red);
             display: flex; flex-direction: column; height: 100%;
         }
 
         .wa-user-header {
-            padding: 14px 18px; background: rgba(20, 0, 0, 0.75);
+            padding: 14px 18px; background: rgba(20, 0, 0, 0.78);
             border-bottom: 1px solid #3a0000;
-            display: flex; align-items: center; justify-content: space-between;
+            display: flex; align-items: center; justify-content: space-between; gap: 8px;
         }
-        .user-profile-info { display: flex; align-items: center; gap: 12px; }
+        .user-profile-info { display: flex; align-items: center; gap: 12px; min-width: 0; }
         .user-avatar {
-            width: 42px; height: 42px; border-radius: 50%;
+            width: 44px; height: 44px; border-radius: 50%;
             background: linear-gradient(135deg, #990000, #ff0000);
             border: 2px solid #ff6666; display: flex; align-items: center; justify-content: center;
-            font-weight: 900; font-size: 1.1rem; color: #fff;
+            font-weight: 900; font-size: 1.1rem; color: #fff; flex-shrink: 0;
             box-shadow: 0 0 12px rgba(255, 0, 0, 0.6);
+            transition: all 0.35s var(--ease-spring);
         }
-        .user-meta h4 { font-size: 0.98rem; color: #fff; font-weight: 800; }
-        .user-meta span { font-size: 0.74rem; color: #ff8888; font-weight: 700; }
+        .user-avatar.admin-avatar {
+            background: radial-gradient(circle, #ff0000 0%, #4a0000 70%, #000 100%);
+            border: 2px solid var(--accent-gold);
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.95), 0 0 10px rgba(255, 204, 0, 0.8);
+        }
+        .user-meta { min-width: 0; }
+        .user-meta-top { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+        .user-meta h4 {
+            font-size: 0.96rem; color: #fff; font-weight: 800;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .user-meta span.role-sub { font-size: 0.73rem; color: #ff8888; font-weight: 700; display: block; margin-top: 2px; }
+        .user-meta span.role-sub.admin-sub { color: var(--accent-gold); text-shadow: 0 0 8px rgba(255, 204, 0, 0.45); }
 
         .change-name-btn {
             background: rgba(40, 0, 0, 0.8); border: 1px solid #660000; color: #ccc;
-            padding: 5px 10px; border-radius: 8px; font-size: 0.74rem; font-weight: 800;
-            transition: 0.2s;
+            padding: 6px 10px; border-radius: 8px; font-size: 0.73rem; font-weight: 800;
+            transition: all 0.2s var(--ease-spring); flex-shrink: 0;
         }
-        .change-name-btn:hover { background: var(--accent-red); color: #fff; }
+        .change-name-btn:hover { background: var(--accent-red); color: #fff; transform: translateY(-1px); }
 
         .wa-search-box {
             padding: 10px 14px; border-bottom: 1px solid #2a0000;
@@ -219,12 +262,12 @@
         .wa-search-input {
             width: 100%; padding: 9px 14px; background: #050000;
             border: 1px solid #4a0000; border-radius: 20px; color: #fff;
-            font-size: 0.86rem; outline: none;
+            font-size: 0.86rem; outline: none; transition: border-color 0.25s, box-shadow 0.25s;
         }
-        .wa-search-input:focus { border-color: var(--accent-red); }
+        .wa-search-input:focus { border-color: var(--accent-red); box-shadow: 0 0 12px rgba(255,0,0,0.3); }
 
         .wa-room-list {
-            flex-grow: 1; overflow-y: auto; list-style: none;
+            flex-grow: 1; overflow-y: auto; list-style: none; scroll-behavior: smooth;
         }
         .wa-room-list::-webkit-scrollbar { width: 5px; }
         .wa-room-list::-webkit-scrollbar-thumb { background: var(--accent-red); border-radius: 3px; }
@@ -232,11 +275,11 @@
         .wa-room-item {
             display: flex; align-items: center; gap: 13px;
             padding: 14px 18px; border-bottom: 1px solid rgba(255, 0, 0, 0.1);
-            transition: background 0.2s;
+            transition: background 0.25s var(--ease-spring), transform 0.2s var(--ease-spring), border-left 0.2s;
         }
-        .wa-room-item:hover { background: rgba(255, 0, 0, 0.1); }
+        .wa-room-item:hover { background: rgba(255, 0, 0, 0.12); transform: translateX(3px); }
         .wa-room-item.active {
-            background: rgba(255, 0, 0, 0.22);
+            background: linear-gradient(90deg, rgba(255, 0, 0, 0.26) 0%, rgba(255, 0, 0, 0.05) 100%);
             border-left: 4px solid var(--accent-red);
         }
         .room-avatar {
@@ -275,29 +318,57 @@
             padding: 12px 22px; background: rgba(14, 0, 0, 0.92);
             border-bottom: 1px solid var(--border-red);
             display: flex; justify-content: space-between; align-items: center;
-            flex-wrap: wrap; gap: 10px;
+            flex-wrap: wrap; gap: 10px; backdrop-filter: blur(8px);
         }
         .chat-header-left { display: flex; align-items: center; gap: 14px; }
         .chat-header-info h3 { font-size: 1.1rem; font-weight: 900; color: #fff; }
         .chat-header-info p { font-size: 0.8rem; color: #ff8888; font-weight: 600; }
 
-        .chat-header-right { display: flex; align-items: center; gap: 10px; }
+        .chat-header-right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
         .copy-code-btn {
             display: none; align-items: center; gap: 6px;
             background: rgba(255, 204, 0, 0.15); border: 1px solid var(--accent-gold);
             color: var(--accent-gold); padding: 7px 14px; border-radius: 20px;
             font-family: monospace; font-size: 0.85rem; font-weight: 900;
-            transition: all 0.2s;
+            transition: all 0.25s var(--ease-spring);
         }
         .copy-code-btn:hover {
             background: var(--accent-gold); color: #000;
-            box-shadow: 0 0 15px rgba(255, 204, 0, 0.7);
+            box-shadow: 0 0 18px rgba(255, 204, 0, 0.75); transform: translateY(-1px);
+        }
+
+        /* YÖNETİCİ HIZLI KOMUT REHBERİ ŞERİDİ */
+        .admin-command-bar {
+            display: none; align-items: center; justify-content: space-between; gap: 10px;
+            padding: 8px 22px; background: linear-gradient(90deg, rgba(45, 0, 0, 0.95), rgba(20, 0, 0, 0.95));
+            border-bottom: 1px solid rgba(255, 204, 0, 0.35);
+            font-size: 0.76rem; color: #ffdddd; flex-wrap: wrap;
+        }
+        .admin-cmd-chips { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .cmd-chip {
+            background: rgba(0, 0, 0, 0.65); border: 1px solid rgba(255, 204, 0, 0.45);
+            color: var(--accent-gold); padding: 3px 10px; border-radius: 14px;
+            font-family: monospace; font-size: 0.74rem; font-weight: 800;
+            transition: all 0.2s var(--ease-spring);
+        }
+        .cmd-chip:hover {
+            background: var(--accent-gold); color: #000;
+            box-shadow: 0 0 12px rgba(255, 204, 0, 0.65); transform: translateY(-1px);
+        }
+
+        /* CEZA (BAN / TIMEOUT) UYARI BANNERI */
+        .sanction-alert-banner {
+            display: none; align-items: center; justify-content: center; gap: 10px;
+            padding: 10px 20px; background: linear-gradient(90deg, #550000, #990000, #550000);
+            border-bottom: 1px solid #ff4444; color: #fff; font-size: 0.85rem; font-weight: 800;
+            text-align: center; box-shadow: 0 4px 20px rgba(255, 0, 0, 0.45); z-index: 30;
         }
 
         /* MESAJ AKIŞ ALANI */
         .wa-messages-stream {
             flex-grow: 1; padding: 22px 28px 95px 28px;
             overflow-y: auto; min-height: 0; display: flex; flex-direction: column; gap: 12px;
+            scroll-behavior: smooth;
         }
         .wa-messages-stream::-webkit-scrollbar { width: 6px; }
         .wa-messages-stream::-webkit-scrollbar-thumb { background: var(--accent-red); border-radius: 3px; }
@@ -306,45 +377,92 @@
             align-self: center; background: rgba(25, 0, 0, 0.85);
             border: 1px solid #550000; color: #ffaaaa;
             font-size: 0.78rem; font-weight: 700; padding: 7px 16px;
-            border-radius: 12px; text-align: center; max-width: 520px;
+            border-radius: 12px; text-align: center; max-width: 560px;
             margin-bottom: 8px; box-shadow: 0 0 15px rgba(0,0,0,0.6);
         }
 
         /* WHATSAPP MESAJ BALONLARI */
         .msg-bubble {
-            max-width: 68%; min-width: 140px; padding: 10px 14px 8px 14px;
-            border-radius: 14px; position: relative;
-            display: flex; flex-direction: column; gap: 4px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.7);
-            animation: msgPop 0.2s ease-out;
+            max-width: 68%; min-width: 155px; padding: 10px 14px 8px 14px;
+            border-radius: 15px; position: relative;
+            display: flex; flex-direction: column; gap: 5px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.72);
+            animation: msgPop 0.28s var(--ease-spring);
             word-break: break-word;
+            transition: transform 0.2s var(--ease-spring), box-shadow 0.2s;
         }
+        .msg-bubble:hover { transform: translateY(-1px); }
         @keyframes msgPop {
-            from { opacity: 0; transform: translateY(6px) scale(0.98); }
+            from { opacity: 0; transform: translateY(10px) scale(0.96); }
             to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         /* Gelen Mesaj (Sol) */
         .msg-incoming {
             align-self: flex-start;
-            background: rgba(22, 2, 2, 0.92);
+            background: rgba(22, 2, 2, 0.93);
             border: 1px solid #550000;
-            border-top-left-radius: 2px;
-        }
-        .msg-sender-name {
-            font-size: 0.78rem; font-weight: 900; color: var(--accent-gold);
-            letter-spacing: 0.3px;
+            border-top-left-radius: 3px;
         }
 
         /* Giden Mesaj (Sağ - Kullanıcı) */
         .msg-outgoing {
             align-self: flex-end;
-            background: linear-gradient(135deg, #880000 0%, #cc0000 100%);
+            background: linear-gradient(135deg, #7a0000 0%, #bf0000 100%);
             border: 1px solid #ff4444;
-            border-top-right-radius: 2px;
+            border-top-right-radius: 3px;
         }
-        .msg-outgoing .msg-sender-name {
-            color: #ffcccc;
+
+        /* YÖNETİCİ ÖZEL MESAJ BALONU */
+        .msg-bubble.msg-admin-special {
+            background: linear-gradient(135deg, rgba(40, 0, 0, 0.96) 0%, rgba(115, 0, 0, 0.95) 55%, rgba(50, 18, 0, 0.96) 100%);
+            border: 1.5px solid var(--accent-gold);
+            box-shadow: 0 0 22px rgba(255, 0, 0, 0.55), 0 0 8px rgba(255, 204, 0, 0.35);
+        }
+
+        /* Sistem Moderasyon Duyuru Balonu */
+        .msg-bubble.msg-system-notice {
+            align-self: center; max-width: 82%;
+            background: linear-gradient(90deg, rgba(40, 0, 0, 0.92), rgba(75, 0, 0, 0.92), rgba(40, 0, 0, 0.92));
+            border: 1px solid var(--accent-gold); border-radius: 12px;
+            text-align: center; padding: 8px 18px;
+        }
+
+        .msg-header-row {
+            display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;
+        }
+        .msg-sender-wrap {
+            display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+        }
+        .msg-sender-name {
+            font-size: 0.8rem; font-weight: 900; color: var(--accent-gold);
+            letter-spacing: 0.3px;
+        }
+        .msg-outgoing .msg-sender-name { color: #ffdede; }
+        .msg-admin-special .msg-sender-name {
+            color: #fff; text-shadow: 0 0 8px var(--accent-gold);
+        }
+
+        /* Mesaj Üzeri Hızlı Moderasyon Butonları (Sadece Yöneticiye Görünür) */
+        .msg-mod-actions {
+            display: inline-flex; align-items: center; gap: 4px; opacity: 0.85;
+            transition: opacity 0.2s;
+        }
+        .msg-bubble:hover .msg-mod-actions { opacity: 1; }
+        .mod-mini-btn {
+            background: rgba(0, 0, 0, 0.75); border: 1px solid rgba(255, 100, 100, 0.5);
+            color: #ffaaaa; font-size: 0.65rem; font-weight: 800;
+            padding: 2px 7px; border-radius: 6px; transition: all 0.18s;
+        }
+        .mod-mini-btn:hover {
+            background: var(--accent-red); color: #fff; border-color: #fff;
+            box-shadow: 0 0 8px rgba(255, 0, 0, 0.8);
+        }
+        .mod-mini-btn.kick-btn {
+            border-color: rgba(255, 204, 0, 0.6); color: var(--accent-gold);
+        }
+        .mod-mini-btn.kick-btn:hover {
+            background: var(--accent-gold); color: #000;
         }
 
         .msg-text {
@@ -363,6 +481,7 @@
             padding: 14px 22px; background: rgba(10, 0, 0, 0.95);
             border-top: 1px solid var(--border-red);
             display: flex; align-items: center; gap: 12px; z-index: 25;
+            backdrop-filter: blur(10px);
         }
         .wa-message-input {
             flex-grow: 1; padding: 13px 20px; background: #050000;
@@ -372,17 +491,20 @@
         }
         .wa-message-input:focus {
             border-color: var(--accent-red);
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
+            box-shadow: 0 0 16px rgba(255, 0, 0, 0.45);
+        }
+        .wa-message-input:disabled {
+            background: rgba(30, 0, 0, 0.5); color: #ff7777; border-color: #440000;
         }
         .wa-send-btn {
-            background: var(--accent-red); border: 1px solid #ff6666;
+            background: linear-gradient(135deg, #bb0000, #ff0000); border: 1px solid #ff6666;
             color: #fff; padding: 12px 24px; border-radius: 28px;
             font-weight: 900; font-size: 0.92rem; letter-spacing: 0.5px;
-            box-shadow: 0 0 18px rgba(255, 0, 0, 0.6); transition: all 0.2s;
+            box-shadow: 0 0 18px rgba(255, 0, 0, 0.6); transition: all 0.22s var(--ease-spring);
             white-space: nowrap;
         }
-        .wa-send-btn:hover {
-            transform: scale(1.05); box-shadow: 0 0 28px rgba(255, 0, 0, 0.95);
+        .wa-send-btn:hover:not(:disabled) {
+            transform: translateY(-1px) scale(1.04); box-shadow: 0 0 28px rgba(255, 0, 0, 0.95);
         }
 
         /* ================= SAĞ ALT HIZLI ODA OLUŞTUR & ODAYA KATIL BUTONLARI ================= */
@@ -397,7 +519,7 @@
             box-shadow: 0 0 22px rgba(255, 0, 0, 0.45);
             backdrop-filter: blur(10px);
             display: flex; align-items: center; gap: 7px;
-            transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.25s var(--ease-spring);
         }
         .room-fab-btn:hover {
             background: var(--accent-red);
@@ -407,7 +529,7 @@
         .room-fab-btn.join-variant {
             border-color: var(--accent-gold);
         }
-        .room-fab-btn:disabled, .gate-submit-btn:disabled, .wa-send-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+        .room-fab-btn:disabled, .gate-submit-btn:disabled, .wa-send-btn:disabled { opacity: 0.55; cursor: not-allowed; }
         .room-fab-btn.join-variant:hover {
             background: var(--accent-gold); color: #000;
             box-shadow: 0 0 30px rgba(255, 204, 0, 0.9);
@@ -425,6 +547,7 @@
             border: 2px solid var(--accent-red); border-radius: 18px; padding: 28px;
             box-shadow: 0 0 50px rgba(255, 0, 0, 0.5);
             display: flex; flex-direction: column; gap: 16px; position: relative;
+            animation: modalPop 0.3s var(--ease-spring);
         }
         .modal-close {
             position: absolute; top: 14px; right: 18px; background: none; border: none;
@@ -442,9 +565,9 @@
 
         @media (max-width: 850px) {
             .whatsapp-container { flex-direction: column; }
-            .wa-sidebar { width: 100%; height: 220px; border-right: none; border-bottom: 1px solid var(--border-red); }
+            .wa-sidebar { width: 100%; height: 225px; border-right: none; border-bottom: 1px solid var(--border-red); }
             .room-fab-dock { bottom: 74px; right: 14px; }
-            .msg-bubble { max-width: 85%; }
+            .msg-bubble { max-width: 86%; }
         }
         @media (pointer: coarse) {
             .custom-cursor { display: none !important; }
@@ -478,7 +601,7 @@
     <div class="vignette"></div>
     <canvas id="particles-canvas"></canvas>
 
-    <!-- 1. GİRİŞ KAPISI: İSİM VE ŞİFRE ("33") DOĞRULAMA EKRANI -->
+    <!-- 1. GİRİŞ KAPISI: İSİM VE ŞİFRE ("33" Misafir / "0987654321" Yönetici) -->
     <div id="auth-gate-overlay">
         <div class="gate-card">
             <svg class="sharingan" style="width:64px; height:64px; margin-bottom:5px;" viewBox="0 0 100 100">
@@ -492,16 +615,16 @@
                 </g>
             </svg>
             <h2>Anonim Chat</h2>
-            <p>Ağa bağlanmak için görünür isminizi belirleyin ve özel erişim şifresini girin.</p>
+            <p>Ağa bağlanmak için görünür isminizi belirleyin ve erişim şifresini girin.</p>
 
             <div class="gate-field">
                 <label for="gateNameInput">Kullanıcı Adınız (İsim)</label>
-                <input type="text" id="gateNameInput" class="gate-input hover-target" placeholder="Örn: swain, qwc, misafir..." maxlength="24" autocomplete="off">
+                <input type="text" id="gateNameInput" class="gate-input hover-target" placeholder="Örn: messi, efe, swain..." maxlength="24" autocomplete="off">
             </div>
 
             <div class="gate-field">
                 <label for="gatePassInput">Erişim Şifresi</label>
-                <input type="password" id="gatePassInput" class="gate-input hover-target" placeholder="Erişim şifresini girin..." autocomplete="off">
+                <input type="password" id="gatePassInput" class="gate-input hover-target" placeholder="Misafir veya Yönetici şifresi..." autocomplete="off">
             </div>
 
             <div class="gate-error" id="gateErrorMsg"></div>
@@ -531,11 +654,14 @@
                 <div class="user-profile-info">
                     <div class="user-avatar" id="sidebarUserAvatar">U</div>
                     <div class="user-meta">
-                        <h4 id="sidebarUserName">Misafir</h4>
-                        <span>Çevrimiçi • Yetkili Erişim (#33)</span>
+                        <div class="user-meta-top">
+                            <h4 id="sidebarUserName">Misafir</h4>
+                            <span id="sidebarAdminBadgeSlot"></span>
+                        </div>
+                        <span class="role-sub" id="sidebarRoleSub">Çevrimiçi • Misafir Erişimi</span>
                     </div>
                 </div>
-                <button class="change-name-btn hover-target" onclick="reopenGateModal()">İsmi Değiştir</button>
+                <button class="change-name-btn hover-target" onclick="reopenGateModal()">Hesap / İsim</button>
             </div>
 
             <div class="wa-search-box">
@@ -564,6 +690,20 @@
                 </div>
             </div>
 
+            <!-- SADECE YÖNETİCİYE GÖRÜNEN HIZLI KOMUT ÇUBUĞU -->
+            <div class="admin-command-bar" id="adminCommandBar">
+                <span>⚡ <strong>Yönetici Komutları:</strong> Tıklayarak mesaj kutusuna doldurabilirsin:</span>
+                <div class="admin-cmd-chips">
+                    <button type="button" class="cmd-chip hover-target" onclick="prefillCommand('/ban ')">/ban isim</button>
+                    <button type="button" class="cmd-chip hover-target" onclick="prefillCommand('/timeout40 ')">/timeout40 isim</button>
+                    <button type="button" class="cmd-chip hover-target" onclick="prefillCommand('/noban ')">/noban isim</button>
+                    <button type="button" class="cmd-chip hover-target" id="kickCmdChip" onclick="prefillCommand('/kick ')" style="display:none;">/kick isim (Odadan At)</button>
+                </div>
+            </div>
+
+            <!-- BAN VEYA TIMEOUT DURUMUNDA GÖRÜNEN UYARI ŞERİDİ -->
+            <div class="sanction-alert-banner" id="sanctionBanner"></div>
+
             <!-- MESAJ AKIŞI -->
             <div class="wa-messages-stream" id="messagesStream">
                 <div class="system-encryption-banner">
@@ -583,8 +723,8 @@
 
             <!-- MESAJ YAZMA ÇUBUĞU -->
             <div class="wa-input-bar">
-                <input type="text" id="messageInput" class="wa-message-input hover-target" placeholder="Mesajınızı yazın ve Enter'a basın..." maxlength="500" autocomplete="off">
-                <button class="wa-send-btn hover-target" onclick="sendChatMessage()">Gönder ➤</button>
+                <input type="text" id="messageInput" class="wa-message-input hover-target" placeholder="Mesajınızı veya yönetici komutunuzu yazıp Enter'a basın..." maxlength="500" autocomplete="off">
+                <button class="wa-send-btn hover-target" id="sendMsgBtn" onclick="sendChatMessage()">Gönder ➤</button>
             </div>
         </main>
 
@@ -626,23 +766,31 @@
 
     <script>
         // =========================================================================
-        // 1. FIREBASE REALTIME DATABASE REST + CANLI SENKRONİZASYON ALTYAPISI
+        // 1. FIREBASE REALTIME DATABASE REST + YETKİ & MODERASYON ALTYAPISI
         // =========================================================================
-        // Kurallarda yer alan yigitqwc-games Firebase Realtime Database adresi:
         const FIREBASE_DB_URL = "https://yigitqwc-games-default-rtdb.europe-west1.firebasedatabase.app";
-        const REQUIRED_GATE_PASSWORD = "33";
+        const GUEST_GATE_PASSWORD = "33";
+        const ADMIN_GATE_PASSWORD = "0987654321";
         const ROOM_CHARS = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 
         let currentUser = {
+            id: "",
             name: "",
+            role: "guest", // 'guest' veya 'admin'
+            gateKey: "",
             authenticated: false
         };
 
-        // Aktif kanal: 'GLOBAL' veya 6 haneli oda kodu (örn: 'K9X4M2')
+        // Canlı Moderasyon Durumu (Firebase'den senkronize edilir)
+        let moderationState = {
+            bans: {},
+            timeouts: {},
+            kicks: {}
+        };
+
         let activeChannelId = "GLOBAL";
         let pendingGeneratedCode = "";
 
-        // Kullanıcının katıldığı odalar listesi
         let joinedRooms = [
             {
                 id: "GLOBAL",
@@ -653,32 +801,62 @@
             }
         ];
 
-        // Yerel ve bulut mesaj önbelleği
         let localMessagesStore = {
             GLOBAL: [
                 {
                     id: "welcome_sys",
-                    sender: "Chat Bot",
-                    text: "Global Sohbet kanalına hoş geldiniz! Sağ alttaki butonlardan özel oda oluşturabilir veya rastgele oda şifresiyle arkadaşlarınızın odasına katılabilirsiniz.",
+                    sender: "Uchiha Sistem",
+                    role: "system",
+                    text: "Global Sohbet kanalına hoş geldiniz! Sağ alttaki butonlardan özel oda oluşturabilir veya oda şifresiyle arkadaşlarınızın odasına katılabilirsiniz.",
                     at: Date.now() - 60000
                 }
             ]
         };
 
-        // Sekmeler arası anlık iletişim kanalı (Aynı tarayıcıdaki sekmeler için 0ms gecikme)
-        const syncChannel = ('BroadcastChannel' in window) ? new BroadcastChannel('yigitqwc_uchiha_chat_v1') : null;
+        // Özel Mangekyou Sharingan Yönetici SVG Rozeti oluşturucu
+        function createAdminBadgeNode(labelText = "KURUCU") {
+            const badge = document.createElement('span');
+            badge.className = 'admin-mangekyou-badge';
+            badge.title = 'Uchiha Baş Yöneticisi';
+            badge.innerHTML = `
+                <svg class="admin-mangekyou-svg" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="46" fill="#120000" stroke="#ffcc00" stroke-width="5"/>
+                    <circle cx="50" cy="50" r="34" fill="#cc0000" opacity="0.9"/>
+                    <path d="M50 8 C64 30, 64 42, 50 50 C36 42, 36 30, 50 8 Z" fill="#050000"/>
+                    <path d="M86 71 C60 66, 52 58, 50 50 C62 42, 74 48, 86 71 Z" fill="#050000"/>
+                    <path d="M14 71 C26 48, 38 42, 50 50 C48 58, 40 66, 14 71 Z" fill="#050000"/>
+                    <circle cx="50" cy="50" r="9" fill="#ffcc00" stroke="#000" stroke-width="3"/>
+                </svg>
+                <span>${labelText}</span>
+            `;
+            return badge;
+        }
+
+        // Kullanıcı adını Firebase anahtarına dönüştürür (Büyük/küçük harf duyarsız eşleşme: "Messi " -> "messi")
+        function normalizeUserKey(rawName) {
+            return String(rawName || '')
+                .trim()
+                .toLocaleLowerCase('tr')
+                .replace(/[.#$\[\]\/]/g, '_')
+                .slice(0, 28);
+        }
+
+        const syncChannel = ('BroadcastChannel' in window) ? new BroadcastChannel('yigitqwc_uchiha_chat_v2') : null;
         if (syncChannel) {
             syncChannel.onmessage = (ev) => {
-                if (ev.data && ev.data.type === 'NEW_MSG') {
+                if (!ev.data) return;
+                if (ev.data.type === 'NEW_MSG') {
                     integrateIncomingMessage(ev.data.channelId, ev.data.msg);
-                } else if (ev.data && ev.data.type === 'NEW_ROOM') {
+                } else if (ev.data.type === 'NEW_ROOM') {
                     registerRoomLocally(ev.data.roomMeta, false);
+                } else if (ev.data.type === 'MOD_UPDATE') {
+                    refreshModerationState();
                 }
             };
         }
 
         // =========================================================================
-        // 2. GİRİŞ KAPISI (İSİM + ŞİFRE "33") KONTROLÜ
+        // 2. GİRİŞ KAPISI ("33" MİSAFİR & "0987654321" YÖNETİCİ) KONTROLÜ
         // =========================================================================
         function verifyEntryGate() {
             const nameInput = document.getElementById('gateNameInput').value.trim();
@@ -686,37 +864,80 @@
             const errEl = document.getElementById('gateErrorMsg');
 
             if (!nameInput) {
-                errEl.innerText = "⚠️ Lütfen sohbet için bir isim girin!";
+                errEl.innerText = "⚠️ Lütfen sohbet için bir kullanıcı adı girin!";
                 return;
             }
-            if (passInput !== REQUIRED_GATE_PASSWORD) {
-                errEl.innerText = "❌ Hatalı erişim şifresi! Giriş için doğru şifreyi girin.";
+            if (passInput !== GUEST_GATE_PASSWORD && passInput !== ADMIN_GATE_PASSWORD) {
+                errEl.innerText = "❌ Hatalı erişim şifresi! Lütfen geçerli şifreyi girin.";
                 return;
             }
 
             errEl.innerText = "";
-            currentUser.name = nameInput;
+            currentUser.name = nameInput.slice(0, 24);
+            currentUser.role = (passInput === ADMIN_GATE_PASSWORD) ? "admin" : "guest";
+            currentUser.gateKey = passInput;
             currentUser.authenticated = true;
 
             try {
                 sessionStorage.setItem('uchiha_chat_username', currentUser.name);
-                sessionStorage.setItem('uchiha_chat_auth', REQUIRED_GATE_PASSWORD);
-            } catch (_) { /* Gizli modda depolama kisitli olabilir. */ }
+                sessionStorage.setItem('uchiha_chat_auth', currentUser.gateKey);
+            } catch (_) {}
 
-            document.getElementById('sidebarUserName').innerText = currentUser.name;
-            document.getElementById('sidebarUserAvatar').innerText = currentUser.name.charAt(0).toUpperCase();
+            updateSidebarProfileUI();
             document.getElementById('auth-gate-overlay').style.display = 'none';
-
             document.getElementById('messageInput').focus();
+
             renderRoomSidebar();
             renderActiveChannel();
             pollFirebaseMessages();
         }
 
+        function updateSidebarProfileUI() {
+            const nameEl = document.getElementById('sidebarUserName');
+            const avatarEl = document.getElementById('sidebarUserAvatar');
+            const badgeSlot = document.getElementById('sidebarAdminBadgeSlot');
+            const roleSubEl = document.getElementById('sidebarRoleSub');
+            const adminCmdBar = document.getElementById('adminCommandBar');
+
+            nameEl.textContent = currentUser.name;
+            badgeSlot.replaceChildren();
+
+            if (currentUser.role === 'admin') {
+                avatarEl.classList.add('admin-avatar');
+                avatarEl.innerHTML = `
+                    <svg class="admin-mangekyou-svg" style="width:28px;height:28px;" viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="46" fill="#120000" stroke="#ffcc00" stroke-width="5"/>
+                        <circle cx="50" cy="50" r="34" fill="#ff0000"/>
+                        <path d="M50 8 C64 30, 64 42, 50 50 C36 42, 36 30, 50 8 Z" fill="#050000"/>
+                        <path d="M86 71 C60 66, 52 58, 50 50 C62 42, 74 48, 86 71 Z" fill="#050000"/>
+                        <path d="M14 71 C26 48, 38 42, 50 50 C48 58, 40 66, 14 71 Z" fill="#050000"/>
+                        <circle cx="50" cy="50" r="9" fill="#ffcc00"/>
+                    </svg>
+                `;
+                badgeSlot.appendChild(createAdminBadgeNode("YÖNETİCİ"));
+                roleSubEl.textContent = "⚡ Mangekyou Yetkisi Aktif";
+                roleSubEl.classList.add('admin-sub');
+                adminCmdBar.style.display = 'flex';
+            } else {
+                avatarEl.classList.remove('admin-avatar');
+                avatarEl.textContent = currentUser.name.charAt(0).toUpperCase();
+                roleSubEl.textContent = "Çevrimiçi • Misafir (#33)";
+                roleSubEl.classList.remove('admin-sub');
+                adminCmdBar.style.display = 'none';
+            }
+        }
+
         function reopenGateModal() {
             document.getElementById('gateNameInput').value = currentUser.name;
             document.getElementById('gatePassInput').value = '';
+            document.getElementById('gateErrorMsg').innerText = '';
             document.getElementById('auth-gate-overlay').style.display = 'flex';
+        }
+
+        function prefillCommand(cmdPrefix) {
+            const input = document.getElementById('messageInput');
+            input.value = cmdPrefix;
+            input.focus();
         }
 
         document.getElementById('gatePassInput').addEventListener('keydown', (e) => {
@@ -738,6 +959,10 @@
         }
 
         function openCreateRoomModal() {
+            if (isCurrentUserSanctioned().blocked) {
+                showToast(isCurrentUserSanctioned().reason, true);
+                return;
+            }
             pendingGeneratedCode = generateRandomRoomCode();
             document.getElementById('previewGeneratedCode').innerText = pendingGeneratedCode;
             document.getElementById('newRoomNameInput').value = "";
@@ -747,6 +972,10 @@
         }
 
         function openJoinRoomModal() {
+            if (isCurrentUserSanctioned().blocked) {
+                showToast(isCurrentUserSanctioned().reason, true);
+                return;
+            }
             document.getElementById('joinRoomCodeInput').value = "";
             document.getElementById('joinRoomErrorMsg').innerText = "";
             document.getElementById('joinRoomModal').style.display = 'flex';
@@ -775,9 +1004,8 @@
                         code: code,
                         creator: currentUser.name,
                         createdAt: Date.now(),
-                        gateKey: REQUIRED_GATE_PASSWORD
+                        gateKey: currentUser.gateKey
                     };
-                    // Kosullu PUT: kod zaten varsa mevcut oda verisi korunur.
                     try {
                         await firebaseRequest(`rooms/${code}/meta.json`, {
                             method: 'PUT',
@@ -797,18 +1025,16 @@
                 if (syncChannel) syncChannel.postMessage({ type: 'NEW_ROOM', roomMeta });
                 closeModal('createRoomModal');
                 showToast('Oda oluşturuldu: ' + roomMeta.name);
-                // Oda acilsa da bildirim gonderimi hata verebilir; ayrica ele al.
                 try {
                     await dispatchMessageToChannel(roomMeta.code, {
                         id: 'sys_' + Date.now(),
                         sender: 'Uchiha Sistem',
                         senderId: 'system',
+                        role: 'system',
                         text: `🔑 "${roomMeta.name}" odası ${currentUser.name} tarafından kuruldu. Oda Şifresi: ${roomMeta.code}`,
                         at: Date.now()
                     });
-                } catch (error) {
-                    showToast('Oda oluşturuldu ancak sistem mesajı gönderilemedi: ' + error.message, true);
-                }
+                } catch (_) {}
             } catch (error) {
                 errorEl.textContent = 'Oda oluşturulamadı: ' + error.message;
             } finally {
@@ -818,12 +1044,13 @@
         }
 
         // =========================================================================
-        // 4. FIREBASE REST ERISIMI VE BAGLANTI DURUMU
+        // 4. FIREBASE REST ERİŞİMİ VE MODERASYON KOMUT İŞLEYİCİSİ
         // =========================================================================
-        const MESSAGE_POLL_INTERVAL_MS = 3000;
+        const MESSAGE_POLL_INTERVAL_MS = 2600;
         const MAX_CACHED_MESSAGES = 150;
         const ROOM_CODE_PATTERN = /^[A-HJ-NP-Z2-9]{6}$/;
         let pollTimer = null;
+        let countdownTimer = null;
         let pollingInProgress = false;
         let sendingMessage = false;
         let roomCreationInProgress = false;
@@ -863,7 +1090,7 @@
                 return data;
             } catch (error) {
                 if (error.name === 'AbortError') throw new Error('Firebase bağlantısı zaman aşımına uğradı.');
-                if (error instanceof TypeError) throw new Error('Firebase bağlantısı kurulamadı. İnternet ve veritabanı izinlerini kontrol edin.');
+                if (error instanceof TypeError) throw new Error('Firebase bağlantısı kurulamadı.');
                 throw error;
             } finally {
                 clearTimeout(timeout);
@@ -884,28 +1111,276 @@
                 toast.setAttribute('role', 'status');
                 Object.assign(toast.style, {
                     position: 'fixed', right: '20px', top: '80px', zIndex: '900000',
-                    maxWidth: 'min(430px,calc(100vw - 40px))', padding: '13px 17px',
-                    borderRadius: '12px', color: '#fff', fontSize: '13px',
-                    fontWeight: '700', boxShadow: '0 10px 30px rgba(0,0,0,.75)'
+                    maxWidth: 'min(440px,calc(100vw - 40px))', padding: '13px 18px',
+                    borderRadius: '12px', color: '#fff', fontSize: '13.5px',
+                    fontWeight: '800', boxShadow: '0 10px 30px rgba(0,0,0,.8)',
+                    transition: 'all 0.25s ease'
                 });
                 document.body.appendChild(toast);
             }
             toast.textContent = message;
-            toast.style.background = isError ? 'rgba(95,0,0,.98)' : 'rgba(23,37,24,.98)';
-            toast.style.border = '1px solid ' + (isError ? '#ff5555' : '#00bb66');
+            toast.style.background = isError ? 'rgba(110,0,0,.98)' : 'rgba(20,38,24,.98)';
+            toast.style.border = '1px solid ' + (isError ? '#ff5555' : '#00dd77');
             toast.style.display = 'block';
             clearTimeout(showToast.hideTimer);
-            showToast.hideTimer = setTimeout(() => { toast.style.display = 'none'; }, 4800);
+            showToast.hideTimer = setTimeout(() => { toast.style.display = 'none'; }, 4500);
+        }
+
+        // Kullanıcının Ban veya Timeout durumunu kontrol eder
+        function isCurrentUserSanctioned() {
+            if (!currentUser.authenticated || currentUser.role === 'admin') {
+                return { blocked: false, reason: "" };
+            }
+            const myKey = normalizeUserKey(currentUser.name);
+            const banRecord = moderationState.bans && moderationState.bans[myKey];
+            if (banRecord && banRecord.active === true) {
+                return {
+                    blocked: true,
+                    type: 'ban',
+                    reason: `🚫 "${currentUser.name}" kullanıcı adınız yönetici tarafından kalıcı olarak banlandı.`
+                };
+            }
+            const timeoutRecord = moderationState.timeouts && moderationState.timeouts[myKey];
+            if (timeoutRecord && Number(timeoutRecord.until) > Date.now()) {
+                const remainSec = Math.ceil((Number(timeoutRecord.until) - Date.now()) / 1000);
+                const mins = Math.floor(remainSec / 60);
+                const secs = remainSec % 60;
+                return {
+                    blocked: true,
+                    type: 'timeout',
+                    reason: `⏳ Yönetici tarafından susturuldunuz. Kalan süre: ${mins} dk ${secs} sn.`
+                };
+            }
+            return { blocked: false, reason: "" };
+        }
+
+        function isCurrentUserKickedFromRoom(roomCode) {
+            if (!roomCode || roomCode === 'GLOBAL' || currentUser.role === 'admin') return false;
+            const myKey = normalizeUserKey(currentUser.name);
+            const roomKicks = moderationState.kicks && moderationState.kicks[roomCode];
+            return Boolean(roomKicks && roomKicks[myKey] && roomKicks[myKey].kicked === true);
+        }
+
+        function enforceSanctionsOnUI() {
+            const banner = document.getElementById('sanctionBanner');
+            const input = document.getElementById('messageInput');
+            const sendBtn = document.getElementById('sendMsgBtn');
+
+            // 1. Eğer aktif özel odadan kicklendiyse anında odadan çıkar ve Global'e at
+            if (activeChannelId !== 'GLOBAL' && isCurrentUserKickedFromRoom(activeChannelId)) {
+                const kickedRoomCode = activeChannelId;
+                joinedRooms = joinedRooms.filter(r => r.id !== kickedRoomCode);
+                activeChannelId = 'GLOBAL';
+                saveJoinedRooms();
+                renderRoomSidebar();
+                renderActiveChannel();
+                showToast(`⚠️ Yönetici tarafından #${kickedRoomCode} odasından çıkarıldınız!`, true);
+            }
+
+            // 2. Ban veya Timeout kontrolü
+            const status = isCurrentUserSanctioned();
+            if (status.blocked) {
+                banner.style.display = 'flex';
+                banner.textContent = status.reason;
+                input.disabled = true;
+                input.placeholder = status.reason;
+                sendBtn.disabled = true;
+            } else {
+                banner.style.display = 'none';
+                input.disabled = false;
+                input.placeholder = currentUser.role === 'admin'
+                    ? "Mesajınızı veya komutunuzu (/ban isim, /timeout40 isim, /noban isim) yazın..."
+                    : "Mesajınızı yazın ve Enter'a basın...";
+                if (!sendingMessage) sendBtn.disabled = false;
+            }
+        }
+
+        // YÖNETİCİ KOMUTLARINI İŞLEYEN FONKSİYON (/ban, /timeout40, /noban, /kick)
+        async function executeAdminCommand(rawText) {
+            const trimmed = rawText.trim();
+
+            // 1. /ban (isim)
+            const banMatch = trimmed.match(/^\/ban\s+(.+)$/i);
+            if (banMatch) {
+                const targetDisplayName = banMatch[1].trim().replace(/^\(|\)$/g, '').trim();
+                const targetKey = normalizeUserKey(targetDisplayName);
+                if (!targetKey) {
+                    showToast("Lütfen banlanacak kullanıcının ismini yazın. Örn: /ban messi", true);
+                    return true;
+                }
+                await firebaseRequest(`moderation/bans/${targetKey}.json`, {
+                    method: 'PUT',
+                    body: JSON.stringify({
+                        active: true,
+                        targetName: targetDisplayName,
+                        by: currentUser.name,
+                        adminKey: ADMIN_GATE_PASSWORD,
+                        updatedAt: Date.now()
+                    })
+                });
+                await dispatchSystemNotice(`🚫 "${targetDisplayName}" yönetici ${currentUser.name} tarafından sohbetten kalıcı olarak BANLANDI!`);
+                await refreshModerationState();
+                if (syncChannel) syncChannel.postMessage({ type: 'MOD_UPDATE' });
+                showToast(`🚫 ${targetDisplayName} başarıyla banlandı.`);
+                return true;
+            }
+
+            // 2. /timeout40 (isim) veya /timeoutX (isim)
+            const timeoutMatch = trimmed.match(/^\/timeout(\d+)?\s+(.+)$/i);
+            if (timeoutMatch) {
+                const minutes = timeoutMatch[1] ? Math.max(1, Math.min(1440, parseInt(timeoutMatch[1], 10))) : 40;
+                const targetDisplayName = timeoutMatch[2].trim().replace(/^\(|\)$/g, '').trim();
+                const targetKey = normalizeUserKey(targetDisplayName);
+                if (!targetKey) {
+                    showToast("Lütfen susturulacak kullanıcının ismini yazın. Örn: /timeout40 efe", true);
+                    return true;
+                }
+                const untilTimestamp = Date.now() + minutes * 60 * 1000;
+                await firebaseRequest(`moderation/timeouts/${targetKey}.json`, {
+                    method: 'PUT',
+                    body: JSON.stringify({
+                        until: untilTimestamp,
+                        minutes: minutes,
+                        targetName: targetDisplayName,
+                        by: currentUser.name,
+                        adminKey: ADMIN_GATE_PASSWORD,
+                        updatedAt: Date.now()
+                    })
+                });
+                await dispatchSystemNotice(`⏳ "${targetDisplayName}" yönetici ${currentUser.name} tarafından ${minutes} dakika boyunca susturuldu (Timeout).`);
+                await refreshModerationState();
+                if (syncChannel) syncChannel.postMessage({ type: 'MOD_UPDATE' });
+                showToast(`⏳ ${targetDisplayName} ${minutes} dk susturuldu.`);
+                return true;
+            }
+
+            // 3. /noban (isim) -> Hem Banı Hem Timeout'u Hem Oda Kick'ini Kaldırır
+            const nobanMatch = trimmed.match(/^\/noban\s+(.+)$/i);
+            if (nobanMatch) {
+                const targetDisplayName = nobanMatch[1].trim().replace(/^\(|\)$/g, '').trim();
+                const targetKey = normalizeUserKey(targetDisplayName);
+                if (!targetKey) {
+                    showToast("Lütfen cezası kaldırılacak kullanıcının ismini yazın. Örn: /noban messi", true);
+                    return true;
+                }
+                await Promise.all([
+                    firebaseRequest(`moderation/bans/${targetKey}.json`, {
+                        method: 'PUT',
+                        body: JSON.stringify({
+                            active: false,
+                            targetName: targetDisplayName,
+                            by: currentUser.name,
+                            adminKey: ADMIN_GATE_PASSWORD,
+                            updatedAt: Date.now()
+                        })
+                    }),
+                    firebaseRequest(`moderation/timeouts/${targetKey}.json`, {
+                        method: 'PUT',
+                        body: JSON.stringify({
+                            until: 0,
+                            targetName: targetDisplayName,
+                            by: currentUser.name,
+                            adminKey: ADMIN_GATE_PASSWORD,
+                            updatedAt: Date.now()
+                        })
+                    }),
+                    activeChannelId !== 'GLOBAL'
+                        ? firebaseRequest(`moderation/kicks/${activeChannelId}/${targetKey}.json`, {
+                            method: 'PUT',
+                            body: JSON.stringify({
+                                kicked: false,
+                                targetName: targetDisplayName,
+                                by: currentUser.name,
+                                adminKey: ADMIN_GATE_PASSWORD,
+                                updatedAt: Date.now()
+                            })
+                        })
+                        : Promise.resolve()
+                ]);
+                await dispatchSystemNotice(`✅ "${targetDisplayName}" adlı kullanıcının tüm ban ve susturma cezaları yönetici ${currentUser.name} tarafından kaldırıldı.`);
+                await refreshModerationState();
+                if (syncChannel) syncChannel.postMessage({ type: 'MOD_UPDATE' });
+                showToast(`✅ ${targetDisplayName} kullanıcısının cezası kaldırıldı.`);
+                return true;
+            }
+
+            // 4. /kick (isim) -> Özel Odadan Atma
+            const kickMatch = trimmed.match(/^\/kick\s+(.+)$/i);
+            if (kickMatch) {
+                if (activeChannelId === 'GLOBAL') {
+                    showToast("Global Sohbet'ten atmak yerine /ban veya /timeout40 kullanabilirsiniz. /kick özel odalar içindir.", true);
+                    return true;
+                }
+                const targetDisplayName = kickMatch[1].trim().replace(/^\(|\)$/g, '').trim();
+                await kickUserFromCurrentRoom(targetDisplayName);
+                return true;
+            }
+
+            return false;
+        }
+
+        async function kickUserFromCurrentRoom(targetDisplayName) {
+            if (currentUser.role !== 'admin' || activeChannelId === 'GLOBAL') return;
+            const targetKey = normalizeUserKey(targetDisplayName);
+            if (!targetKey) return;
+            try {
+                await firebaseRequest(`moderation/kicks/${activeChannelId}/${targetKey}.json`, {
+                    method: 'PUT',
+                    body: JSON.stringify({
+                        kicked: true,
+                        targetName: targetDisplayName,
+                        by: currentUser.name,
+                        adminKey: ADMIN_GATE_PASSWORD,
+                        updatedAt: Date.now()
+                    })
+                });
+                await dispatchSystemNotice(`🚪 "${targetDisplayName}" yönetici ${currentUser.name} tarafından bu özel odadan atıldı!`);
+                await refreshModerationState();
+                if (syncChannel) syncChannel.postMessage({ type: 'MOD_UPDATE' });
+                showToast(`🚪 ${targetDisplayName} odadan atıldı.`);
+            } catch (error) {
+                showToast('Kullanıcı odadan atılamadı: ' + error.message, true);
+            }
+        }
+
+        async function quickModAction(commandPrefix, targetName) {
+            if (currentUser.role !== 'admin') return;
+            await executeAdminCommand(`${commandPrefix} ${targetName}`);
+        }
+
+        async function dispatchSystemNotice(noticeText) {
+            try {
+                await dispatchMessageToChannel(activeChannelId, {
+                    id: 'sys_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7),
+                    sender: 'Uchiha Moderasyon',
+                    senderId: 'system',
+                    role: 'system',
+                    text: noticeText,
+                    at: Date.now()
+                });
+            } catch (_) {}
+        }
+
+        async function refreshModerationState() {
+            try {
+                const modData = await firebaseRequest('moderation.json');
+                moderationState = {
+                    bans: (modData && modData.bans) || {},
+                    timeouts: (modData && modData.timeouts) || {},
+                    kicks: (modData && modData.kicks) || {}
+                };
+                enforceSanctionsOnUI();
+            } catch (_) {}
         }
 
         // =========================================================================
-        // 5. ODA LISTESI VE GECISLER
+        // 5. ODA LİSTESİ VE GEÇİŞLER
         // =========================================================================
         function saveJoinedRooms() {
             try {
                 localStorage.setItem('uchiha_joined_rooms_v1', JSON.stringify(joinedRooms.filter(room => !room.isGlobal)));
                 sessionStorage.setItem('uchiha_active_channel_v1', activeChannelId);
-            } catch (_) { /* Depolama devre disi olsa da sohbet calismaya devam eder. */ }
+            } catch (_) {}
         }
 
         function loadJoinedRooms() {
@@ -925,7 +1400,7 @@
                 }
                 const savedActive = sessionStorage.getItem('uchiha_active_channel_v1');
                 if (joinedRooms.some(room => room.id === savedActive)) activeChannelId = savedActive;
-            } catch (_) { /* Bozuk eski veri arayuzu engellemez. */ }
+            } catch (_) {}
         }
 
         function registerRoomLocally(roomMeta, shouldActivate = false) {
@@ -999,6 +1474,10 @@
 
         function selectChannel(channelId) {
             if (!joinedRooms.some(room => room.id === channelId)) return;
+            if (channelId !== 'GLOBAL' && isCurrentUserKickedFromRoom(channelId)) {
+                showToast('Bu özel odadan yönetici tarafından çıkarıldınız.', true);
+                return;
+            }
             activeChannelId = channelId;
             saveJoinedRooms();
             renderRoomSidebar();
@@ -1015,19 +1494,24 @@
                 : 'Özel oda • Oda kodunu yalnızca davet etmek istediğiniz kişilerle paylaşın';
             document.getElementById('copyRoomCodeBtn').style.display = room.isGlobal ? 'none' : 'flex';
             document.getElementById('activeRoomCodeText').textContent = room.isGlobal ? '------' : room.id;
+
+            const kickChip = document.getElementById('kickCmdChip');
+            if (kickChip) kickChip.style.display = room.isGlobal ? 'none' : 'inline-block';
+
             renderMessageStream();
         }
 
         // =========================================================================
-        // 6. MESAJLAR: OLUSTURMA, GOSTERME, CANLI SENKRONIZASYON
+        // 6. MESAJLAR: OLUŞTURMA, GÖSTERME, YÖNETİCİ ROZETİ VE CANLI SENKRONİZASYON
         // =========================================================================
         function normalizeMessage(raw, fallbackId) {
             if (!raw || typeof raw !== 'object') return null;
             const message = {
                 id: String(raw.id || fallbackId || ''),
-                sender: String(raw.sender || 'Misafir').slice(0, 48),
+                sender: String(raw.sender || 'Misafir').slice(0, 28),
                 senderId: String(raw.senderId || ''),
-                text: String(raw.text || '').slice(0, 5000),
+                role: (raw.role === 'admin' || raw.role === 'system') ? raw.role : 'guest',
+                text: String(raw.text || '').slice(0, 600),
                 at: Number(raw.at) || Date.now()
             };
             if (!message.id || !message.text) return null;
@@ -1035,9 +1519,9 @@
         }
 
         function integrateIncomingMessage(channelId, rawMsg, deferUI = false) {
-            if (channelId !== 'GLOBAL' && !ROOM_CODE_PATTERN.test(String(channelId))) return;
+            if (channelId !== 'GLOBAL' && !ROOM_CODE_PATTERN.test(String(channelId))) return false;
             const msg = normalizeMessage(rawMsg);
-            if (!msg) return;
+            if (!msg) return false;
             if (!localMessagesStore[channelId]) localMessagesStore[channelId] = [];
             const messages = localMessagesStore[channelId];
             if (messages.some(existing => existing.id === msg.id)) return false;
@@ -1058,28 +1542,86 @@
 
         function renderMessageStream() {
             const stream = document.getElementById('messagesStream');
-            const wasNearBottom = stream.scrollHeight - stream.scrollTop - stream.clientHeight < 110;
+            const wasNearBottom = stream.scrollHeight - stream.scrollTop - stream.clientHeight < 120;
             const oldScrollTop = stream.scrollTop;
             const fragment = document.createDocumentFragment();
             const banner = document.createElement('div');
             banner.className = 'system-encryption-banner';
-            banner.textContent = '🌐 Anonim Chat. Mesajlarınızz tamamen gizlidir, oda kodlarınızı kimseye paylaşmayın.';
+            banner.textContent = '🌐 Anonim Chat. Mesajlarınız gizlidir, özel oda kodlarınızı yalnızca güvendiğiniz kişilerle paylaşın.';
             fragment.appendChild(banner);
 
             const messages = localMessagesStore[activeChannelId] || [];
             for (const msg of messages) {
-                const ownMessage = msg.senderId
-                    ? (msg.senderId !== 'system' && msg.senderId === currentUser.id)
-                    : (msg.sender !== 'Uchiha Sistem' && msg.sender === currentUser.name);
+                const isSystem = msg.role === 'system' || msg.senderId === 'system';
+                const ownMessage = !isSystem && (
+                    msg.senderId
+                        ? msg.senderId === currentUser.id
+                        : msg.sender === currentUser.name
+                );
+
                 const bubble = document.createElement('div');
-                bubble.className = 'msg-bubble ' + (ownMessage ? 'msg-outgoing' : 'msg-incoming');
+                if (isSystem) {
+                    bubble.className = 'msg-bubble msg-system-notice';
+                } else {
+                    bubble.className = 'msg-bubble ' + (ownMessage ? 'msg-outgoing' : 'msg-incoming') + (msg.role === 'admin' ? ' msg-admin-special' : '');
+                }
+
+                const headerRow = document.createElement('div');
+                headerRow.className = 'msg-header-row';
+
+                const senderWrap = document.createElement('div');
+                senderWrap.className = 'msg-sender-wrap';
+
                 const sender = document.createElement('div');
                 sender.className = 'msg-sender-name';
-                sender.textContent = ownMessage ? 'Siz' : msg.sender;
+                sender.textContent = ownMessage ? `${msg.sender} (Siz)` : msg.sender;
+                senderWrap.appendChild(sender);
+
+                if (msg.role === 'admin') {
+                    senderWrap.appendChild(createAdminBadgeNode("YÖNETİCİ"));
+                }
+
+                headerRow.appendChild(senderWrap);
+
+                // Yönetici için diğer kullanıcıların mesajlarında tek tıkla Ban / 40dk / Odadan At butonları
+                if (currentUser.role === 'admin' && !ownMessage && !isSystem && msg.role !== 'admin') {
+                    const modActions = document.createElement('div');
+                    modActions.className = 'msg-mod-actions';
+
+                    const banBtn = document.createElement('button');
+                    banBtn.type = 'button';
+                    banBtn.className = 'mod-mini-btn hover-target';
+                    banBtn.textContent = 'Banla';
+                    banBtn.title = `/ban ${msg.sender}`;
+                    banBtn.onclick = () => quickModAction('/ban', msg.sender);
+
+                    const timeoutBtn = document.createElement('button');
+                    timeoutBtn.type = 'button';
+                    timeoutBtn.className = 'mod-mini-btn hover-target';
+                    timeoutBtn.textContent = '40dk Sustur';
+                    timeoutBtn.title = `/timeout40 ${msg.sender}`;
+                    timeoutBtn.onclick = () => quickModAction('/timeout40', msg.sender);
+
+                    modActions.append(banBtn, timeoutBtn);
+
+                    if (activeChannelId !== 'GLOBAL') {
+                        const kickBtn = document.createElement('button');
+                        kickBtn.type = 'button';
+                        kickBtn.className = 'mod-mini-btn kick-btn hover-target';
+                        kickBtn.textContent = 'Odadan At';
+                        kickBtn.title = `/kick ${msg.sender}`;
+                        kickBtn.onclick = () => kickUserFromCurrentRoom(msg.sender);
+                        modActions.appendChild(kickBtn);
+                    }
+
+                    headerRow.appendChild(modActions);
+                }
+
                 const text = document.createElement('div');
                 text.className = 'msg-text';
                 text.style.whiteSpace = 'pre-wrap';
                 text.textContent = msg.text;
+
                 const meta = document.createElement('div');
                 meta.className = 'msg-meta';
                 const date = new Date(msg.at);
@@ -1091,7 +1633,8 @@
                     ticks.textContent = ' ✓✓';
                     meta.appendChild(ticks);
                 }
-                bubble.append(sender, text, meta);
+
+                bubble.append(headerRow, text, meta);
                 fragment.appendChild(bubble);
             }
             stream.replaceChildren(fragment);
@@ -1099,12 +1642,9 @@
             else stream.scrollTop = oldScrollTop;
         }
 
-        // Firebase kurallari .write iznini $msgId altinda veriyor.
-        // REST POST /messages.json bu alt kural yerine ust konuma yazmaya calisir.
-        // Benzersiz anahtara PUT yaparak dogrudan izin verilen kaydi olusturuyoruz.
         function messageRecordPath(channelId, messageId) {
             if (!/^[A-Za-z0-9_-]{1,128}$/.test(String(messageId))) {
-                throw new Error('Gecersiz mesaj kimligi.');
+                throw new Error('Geçersiz mesaj kimliği.');
             }
             return messagePath(channelId).replace(/\.json$/, `/${messageId}.json`);
         }
@@ -1114,9 +1654,11 @@
             if (!msg) throw new Error('Gönderilecek mesaj geçersiz.');
             await firebaseRequest(messageRecordPath(channelId, msg.id), {
                 method: 'PUT',
-                // Sadece bos kaydi olustur; baska bir mesaji asla ezme.
                 headers: { 'if-match': 'null_etag' },
-                body: JSON.stringify({ ...msg, gateKey: REQUIRED_GATE_PASSWORD })
+                body: JSON.stringify({
+                    ...msg,
+                    gateKey: currentUser.gateKey || GUEST_GATE_PASSWORD
+                })
             });
             integrateIncomingMessage(channelId, msg);
             if (syncChannel) syncChannel.postMessage({ type: 'NEW_MSG', channelId, msg });
@@ -1128,8 +1670,46 @@
             const input = document.getElementById('messageInput');
             const text = input.value.trim();
             if (!text) return;
+
+            // Eğer kullanıcı yöneticiyse ve "/" ile başlayan bir moderasyon komutu yazdıysa
+            if (text.startsWith('/')) {
+                if (currentUser.role !== 'admin') {
+                    showToast("❌ Moderasyon komutlarını yalnızca yöneticiler kullanabilir!", true);
+                    return;
+                }
+                sendingMessage = true;
+                const button = document.getElementById('sendMsgBtn');
+                button.disabled = true;
+                try {
+                    const handled = await executeAdminCommand(text);
+                    if (handled) {
+                        input.value = '';
+                        input.focus();
+                        return;
+                    }
+                } catch (err) {
+                    showToast("Komut uygulanamadı: " + err.message, true);
+                    return;
+                } finally {
+                    sendingMessage = false;
+                    button.disabled = false;
+                }
+            }
+
+            // Normal mesaj göndermeden önce Ban / Timeout / Kick kontrolü
+            await refreshModerationState();
+            const sanction = isCurrentUserSanctioned();
+            if (sanction.blocked) {
+                showToast(sanction.reason, true);
+                return;
+            }
+            if (activeChannelId !== 'GLOBAL' && isCurrentUserKickedFromRoom(activeChannelId)) {
+                enforceSanctionsOnUI();
+                return;
+            }
+
             const channelId = activeChannelId;
-            const button = document.querySelector('.wa-send-btn');
+            const button = document.getElementById('sendMsgBtn');
             sendingMessage = true;
             button.disabled = true;
             try {
@@ -1137,6 +1717,7 @@
                     id: 'msg_' + (crypto.randomUUID ? crypto.randomUUID() : (Date.now() + '_' + Math.random().toString(36).slice(2))),
                     sender: currentUser.name,
                     senderId: currentUser.id,
+                    role: currentUser.role,
                     text: text.slice(0, 500),
                     at: Date.now()
                 });
@@ -1148,7 +1729,7 @@
                 showToast('Mesaj gönderilemedi: ' + error.message, true);
             } finally {
                 sendingMessage = false;
-                button.disabled = false;
+                enforceSanctionsOnUI();
             }
         }
 
@@ -1157,13 +1738,13 @@
             pollingInProgress = true;
             const queriedChannel = activeChannelId;
             try {
+                await refreshModerationState();
                 const path = messagePath(queriedChannel);
                 const query = '?orderBy=' + encodeURIComponent('"$key"') + '&limitToLast=100';
                 const data = await firebaseRequest(path + query);
                 let changed = false;
                 if (data && typeof data === 'object') {
                     for (const [key, value] of Object.entries(data)) {
-                        // Eski kayitlarin id alani yoksa Firebase push anahtari kullanilir.
                         if (value && typeof value === 'object') {
                             changed = integrateIncomingMessage(
                                 queriedChannel, { ...value, id: value.id || key }, true
@@ -1195,6 +1776,9 @@
             if (!pollTimer) {
                 pollTimer = setInterval(refreshChannelMessages, MESSAGE_POLL_INTERVAL_MS);
             }
+            if (!countdownTimer) {
+                countdownTimer = setInterval(enforceSanctionsOnUI, 1000);
+            }
             refreshChannelMessages();
         }
 
@@ -1209,6 +1793,11 @@
             errorBox.textContent = '';
             if (!ROOM_CODE_PATTERN.test(code)) {
                 errorBox.textContent = 'Geçerli 6 karakterli bir oda kodu girin.';
+                return;
+            }
+            await refreshModerationState();
+            if (isCurrentUserKickedFromRoom(code)) {
+                errorBox.textContent = '🚫 Yönetici tarafından bu odadan uzaklaştırıldınız.';
                 return;
             }
             if (joinedRooms.some(room => room.id === code)) {
@@ -1260,7 +1849,7 @@
         }
 
         // =========================================================================
-        // 8. KLAVYE, ACILIS EKRANI VE KLASIK UCHIHA EFEKTLERI
+        // 8. KLAVYE, AÇILIŞ EKRANI VE KLASİK UCHIHA EFEKTLERİ
         // =========================================================================
         document.getElementById('messageInput').addEventListener('keydown', event => {
             if (event.key === 'Enter' && !event.isComposing) {
@@ -1344,7 +1933,6 @@
         }
 
         function initializeChat() {
-            // Ayni sekmede kullanicinin giris bilgilerini koru.
             try {
                 currentUser.id = sessionStorage.getItem('uchiha_chat_client_id') ||
                     (crypto.randomUUID ? crypto.randomUUID() : 'user_' + Date.now());
@@ -1367,13 +1955,13 @@
             try {
                 const savedName = sessionStorage.getItem('uchiha_chat_username');
                 const savedAuth = sessionStorage.getItem('uchiha_chat_auth');
-                if (savedName && savedAuth === REQUIRED_GATE_PASSWORD) {
+                if (savedName && (savedAuth === GUEST_GATE_PASSWORD || savedAuth === ADMIN_GATE_PASSWORD)) {
                     document.getElementById('gateNameInput').value = savedName;
-                    document.getElementById('gatePassInput').value = REQUIRED_GATE_PASSWORD;
+                    document.getElementById('gatePassInput').value = savedAuth;
                     verifyEntryGate();
                     document.getElementById('gatePassInput').value = '';
                 }
-            } catch (_) { /* Gizli modda depolama kullanilamayabilir. */ }
+            } catch (_) {}
         }
 
         initializeChat();
