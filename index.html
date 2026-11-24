@@ -30,6 +30,69 @@
       --accent-bg: #09090b;
       --accent-text: #ffffff;
     }
+    body.theme-midnight {
+      --bg-page: #040814;
+      --bg-surface: #0a1224;
+      --bg-elevated: #111d38;
+      --text-primary: #f0f6ff;
+      --text-secondary: #94a3b8;
+      --border-line: rgba(96, 165, 250, 0.24);
+      --accent-bg: #60a5fa;
+      --accent-text: #040814;
+    }
+    body.theme-emerald {
+      --bg-page: #030b08;
+      --bg-surface: #071610;
+      --bg-elevated: #0d261c;
+      --text-primary: #ecfdf5;
+      --text-secondary: #9ca3af;
+      --border-line: rgba(52, 211, 153, 0.24);
+      --accent-bg: #34d399;
+      --accent-text: #030b08;
+    }
+    body.theme-crimson {
+      --bg-page: #0c0405;
+      --bg-surface: #18080a;
+      --bg-elevated: #260d10;
+      --text-primary: #fef2f2;
+      --text-secondary: #a1a1aa;
+      --border-line: rgba(248, 113, 113, 0.25);
+      --accent-bg: #f87171;
+      --accent-text: #0c0405;
+    }
+    body.reduce-motion * {
+      transition: none !important;
+      animation: none !important;
+    }
+    .theme-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+    .theme-opt-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 11px;
+      border-radius: 8px;
+      border: 1px solid var(--border-line);
+      background-color: var(--bg-elevated);
+      color: var(--text-primary);
+      font-size: 12px;
+      font-weight: 600;
+      text-align: left;
+    }
+    .theme-opt-btn.active {
+      border-color: var(--accent-bg);
+      box-shadow: 0 0 0 1px var(--accent-bg);
+    }
+    .theme-dot {
+      width: 15px;
+      height: 15px;
+      border-radius: 9999px;
+      border: 1px solid rgba(255,255,255,0.35);
+      flex-shrink: 0;
+    }
 
     * {
       box-sizing: border-box;
@@ -83,20 +146,24 @@
       border-color: var(--border-line);
     }
 
-    /* Hover zoom for text & images */
+    /* Hover zoom only on desktop/pointer devices (mobile-safe) */
     img {
       transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
     }
-    img:hover {
-      transform: scale(1.06);
-    }
-
     h1, h2, h3, p, nav a, .mono-surface dt, .mono-surface dd {
       transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
       transform-origin: left center;
     }
-    h1:hover, h2:hover, h3:hover, p:hover, nav a:hover, .mono-surface dt:hover, .mono-surface dd:hover {
-      transform: scale(1.03);
+    @media (hover: hover) and (pointer: fine) {
+      img:hover {
+        transform: scale(1.06);
+      }
+      h1:hover, h2:hover, h3:hover, p:hover, nav a:hover, .mono-surface dt:hover, .mono-surface dd:hover {
+        transform: scale(1.025);
+      }
+    }
+    @media (max-width: 640px) {
+      input, select, textarea { font-size: 16px !important; }
     }
 
 
@@ -200,6 +267,9 @@
         <button type="button" data-quick-info="eba" class="mono-muted hover:underline">EBA</button>
         <span class="mono-muted">|</span>
         <span id="shared-auth-badge" class="hidden px-2 py-0.5 rounded border mono-border font-mono-tech text-[10px]"></span>
+        <button id="menu-custom-btn" type="button" class="px-2.5 py-0.5 rounded border mono-border hover:opacity-80 transition-opacity">
+          🎨 Menü &amp; Renkler
+        </button>
         <button id="theme-toggle-btn" type="button" class="px-2 py-0.5 rounded border mono-border hover:opacity-80 transition-opacity">
           ◐ Mod Değiştir
         </button>
@@ -481,6 +551,64 @@
         <h3 id="m-title" class="text-xl font-bold leading-snug"></h3>
         <div id="m-meta" class="font-mono-tech text-[11px] mono-muted"></div>
         <div id="m-body" class="text-sm leading-relaxed space-y-3 mono-muted"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Menü & Renk Özelleştirme Modalı -->
+  <div id="home-menu-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+    <div class="mono-surface rounded-xl w-full max-w-md overflow-hidden flex flex-col shadow-2xl">
+      <div class="flex items-center justify-between px-5 py-3.5 border-b mono-border">
+        <span class="font-mono-tech text-xs font-bold uppercase tracking-wider">🎨 Ana Menü &amp; Tema Ayarları</span>
+        <button id="hm-close-btn" type="button" class="w-7 h-7 rounded-lg border mono-border flex items-center justify-center text-xs hover:opacity-70">✕</button>
+      </div>
+      <div class="p-5 space-y-5 text-xs">
+        <div class="space-y-2">
+          <div class="font-mono-tech text-[11px] uppercase mono-muted">Hazır Renk Temaları</div>
+          <div class="theme-grid">
+            <button type="button" class="theme-opt-btn" data-home-theme="dark">
+              <span class="theme-dot" style="background:#09090b;"></span> Siyah &amp; Beyaz
+            </button>
+            <button type="button" class="theme-opt-btn" data-home-theme="light">
+              <span class="theme-dot" style="background:#f5f5f5;"></span> Açık Beyaz
+            </button>
+            <button type="button" class="theme-opt-btn" data-home-theme="midnight">
+              <span class="theme-dot" style="background:#1e3a8a;"></span> Gece Mavisi
+            </button>
+            <button type="button" class="theme-opt-btn" data-home-theme="emerald">
+              <span class="theme-dot" style="background:#065f46;"></span> Zümrüt Siyah
+            </button>
+            <button type="button" class="theme-opt-btn" data-home-theme="crimson">
+              <span class="theme-dot" style="background:#991b1b;"></span> Kızıl Siyah
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div class="space-y-1.5">
+            <label for="hm-bg-picker" class="block font-mono-tech text-[11px] uppercase mono-muted">Arka Plan Rengi</label>
+            <input id="hm-bg-picker" type="color" value="#09090b" class="w-full h-9 rounded-lg border mono-border bg-transparent cursor-pointer" />
+          </div>
+          <div class="space-y-1.5">
+            <label for="hm-accent-picker" class="block font-mono-tech text-[11px] uppercase mono-muted">Vurgu / Buton Rengi</label>
+            <input id="hm-accent-picker" type="color" value="#ffffff" class="w-full h-9 rounded-lg border mono-border bg-transparent cursor-pointer" />
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <div class="font-mono-tech text-[11px] uppercase mono-muted">Yazı Boyutu &amp; Hareket</div>
+          <div class="flex flex-wrap items-center gap-2">
+            <button type="button" class="px-3 py-1.5 rounded-lg border mono-border hover:opacity-80" data-home-font="14px">Küçük</button>
+            <button type="button" class="px-3 py-1.5 rounded-lg border mono-border hover:opacity-80" data-home-font="16px">Normal</button>
+            <button type="button" class="px-3 py-1.5 rounded-lg border mono-border hover:opacity-80" data-home-font="18px">Büyük</button>
+            <button type="button" id="hm-motion-btn" class="px-3 py-1.5 rounded-lg border mono-border hover:opacity-80 ml-auto">Animasyon: Açık</button>
+          </div>
+        </div>
+
+        <div class="pt-2 border-t mono-border flex items-center justify-between gap-2">
+          <button type="button" id="hm-reset-btn" class="px-3.5 py-2 rounded-lg border mono-border hover:opacity-80">Varsayılana Sıfırla</button>
+          <button type="button" id="hm-done-btn" class="px-4 py-2 rounded-lg font-semibold mono-btn-primary">Tamam</button>
+        </div>
       </div>
     </div>
   </div>
@@ -1079,11 +1207,103 @@
       renderSlide();
     });
 
-    document.getElementById('theme-toggle-btn').addEventListener('click', () => {
-      document.body.classList.toggle('light-mono');
-      const isLight = document.body.classList.contains('light-mono');
-      showToast(isLight ? 'Açık monokrom tema etkin.' : 'Koyu siyah-beyaz tema etkin.');
+    const HOME_THEME_KEY = 'yg_home_theme_v1';
+    let homeThemeState = { theme: 'dark', customBg: '', customAccent: '', fontSize: '16px', reduceMotion: false };
+
+    function applyHomeTheme() {
+      document.body.classList.remove('light-mono', 'theme-midnight', 'theme-emerald', 'theme-crimson', 'reduce-motion');
+      if (homeThemeState.theme === 'light') document.body.classList.add('light-mono');
+      else if (homeThemeState.theme !== 'dark') document.body.classList.add('theme-' + homeThemeState.theme);
+      if (homeThemeState.reduceMotion) document.body.classList.add('reduce-motion');
+
+      if (homeThemeState.customBg) document.documentElement.style.setProperty('--bg-page', homeThemeState.customBg);
+      else document.documentElement.style.removeProperty('--bg-page');
+
+      if (homeThemeState.customAccent) document.documentElement.style.setProperty('--accent-bg', homeThemeState.customAccent);
+      else document.documentElement.style.removeProperty('--accent-bg');
+
+      document.documentElement.style.fontSize = homeThemeState.fontSize || '16px';
+      document.querySelectorAll('[data-home-theme]').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-home-theme') === homeThemeState.theme);
+      });
+      const mBtn = document.getElementById('hm-motion-btn');
+      if (mBtn) mBtn.textContent = homeThemeState.reduceMotion ? 'Animasyon: Kapalı' : 'Animasyon: Açık';
+    }
+
+    function saveHomeTheme() {
+      try { localStorage.setItem(HOME_THEME_KEY, JSON.stringify(homeThemeState)); } catch (_) {}
+    }
+
+    function loadHomeTheme() {
+      try {
+        const raw = JSON.parse(localStorage.getItem(HOME_THEME_KEY) || 'null');
+        if (raw && typeof raw === 'object') homeThemeState = { ...homeThemeState, ...raw };
+      } catch (_) {}
+      applyHomeTheme();
+    }
+
+    function openHomeMenuModal() {
+      const m = document.getElementById('home-menu-modal');
+      m.classList.remove('hidden');
+      m.classList.add('flex');
+    }
+    function closeHomeMenuModal() {
+      const m = document.getElementById('home-menu-modal');
+      m.classList.add('hidden');
+      m.classList.remove('flex');
+    }
+
+    document.getElementById('menu-custom-btn').addEventListener('click', openHomeMenuModal);
+    document.getElementById('hm-close-btn').addEventListener('click', closeHomeMenuModal);
+    document.getElementById('hm-done-btn').addEventListener('click', closeHomeMenuModal);
+    document.getElementById('home-menu-modal').addEventListener('click', (e) => {
+      if (e.target.id === 'home-menu-modal') closeHomeMenuModal();
     });
+
+    document.getElementById('hm-bg-picker').addEventListener('input', (e) => {
+      homeThemeState.customBg = e.target.value;
+      saveHomeTheme(); applyHomeTheme();
+    });
+    document.getElementById('hm-accent-picker').addEventListener('input', (e) => {
+      homeThemeState.customAccent = e.target.value;
+      saveHomeTheme(); applyHomeTheme();
+    });
+    document.getElementById('hm-motion-btn').addEventListener('click', () => {
+      homeThemeState.reduceMotion = !homeThemeState.reduceMotion;
+      saveHomeTheme(); applyHomeTheme();
+    });
+    document.getElementById('hm-reset-btn').addEventListener('click', () => {
+      homeThemeState = { theme: 'dark', customBg: '', customAccent: '', fontSize: '16px', reduceMotion: false };
+      document.getElementById('hm-bg-picker').value = '#09090b';
+      document.getElementById('hm-accent-picker').value = '#ffffff';
+      saveHomeTheme(); applyHomeTheme();
+      showToast('Ana menü varsayılan siyah-beyaz temaya sıfırlandı.');
+    });
+
+    document.getElementById('theme-toggle-btn').addEventListener('click', () => {
+      homeThemeState.theme = homeThemeState.theme === 'light' ? 'dark' : 'light';
+      homeThemeState.customBg = ''; homeThemeState.customAccent = '';
+      saveHomeTheme(); applyHomeTheme();
+      showToast(homeThemeState.theme === 'light' ? 'Açık monokrom tema etkin.' : 'Koyu siyah-beyaz tema etkin.');
+    });
+
+    document.addEventListener('click', (e) => {
+      const tBtn = e.target.closest('[data-home-theme]');
+      if (tBtn) {
+        homeThemeState.theme = tBtn.getAttribute('data-home-theme');
+        homeThemeState.customBg = ''; homeThemeState.customAccent = '';
+        saveHomeTheme(); applyHomeTheme();
+        return;
+      }
+      const fBtn = e.target.closest('[data-home-font]');
+      if (fBtn) {
+        homeThemeState.fontSize = fBtn.getAttribute('data-home-font');
+        saveHomeTheme(); applyHomeTheme();
+        showToast('Yazı boyutu güncellendi.');
+      }
+    });
+
+    loadHomeTheme();
 
     document.getElementById('site-search').addEventListener('input', (e) => {
       searchQuery = e.target.value;

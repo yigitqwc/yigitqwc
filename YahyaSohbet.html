@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>YahyaSohbet Pro • Yahya Günsür MTAL İletişim Platformu</title>
+  <title>YahyaSohbet • Yahya Günsür MTAL Sohbet &amp; Oda Sistemi</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
@@ -18,9 +18,20 @@
       --sidebar-bg: rgba(10, 10, 13, 0.96);
       --border-line: rgba(255, 255, 255, 0.14);
       --border-strong: rgba(255, 255, 255, 0.38);
-      --chat-font-size: 0.91rem;
+      --chat-font-size: 0.92rem;
     }
 
+    body.theme-oled {
+      --bg-color: #000000;
+      --text-color: #ffffff;
+      --accent-white: #ffffff;
+      --accent-text: #000000;
+      --muted-text: #8e8e93;
+      --panel-bg: rgba(4, 4, 5, 0.98);
+      --sidebar-bg: rgba(0, 0, 0, 0.99);
+      --border-line: rgba(255, 255, 255, 0.12);
+      --border-strong: rgba(255, 255, 255, 0.42);
+    }
     body.theme-light {
       --bg-color: #f4f4f5;
       --text-color: #09090b;
@@ -41,7 +52,7 @@
       --panel-bg: rgba(10, 18, 36, 0.94);
       --sidebar-bg: rgba(7, 13, 28, 0.96);
       --border-line: rgba(96, 165, 250, 0.22);
-      --border-strong: rgba(96, 165, 250, 0.5);
+      --border-strong: rgba(96, 165, 250, 0.52);
     }
     body.theme-emerald {
       --bg-color: #030b08;
@@ -52,7 +63,7 @@
       --panel-bg: rgba(7, 22, 16, 0.94);
       --sidebar-bg: rgba(5, 16, 12, 0.96);
       --border-line: rgba(52, 211, 153, 0.22);
-      --border-strong: rgba(52, 211, 153, 0.5);
+      --border-strong: rgba(52, 211, 153, 0.52);
     }
     body.theme-crimson {
       --bg-color: #0c0405;
@@ -63,36 +74,41 @@
       --panel-bg: rgba(24, 8, 10, 0.94);
       --sidebar-bg: rgba(16, 5, 7, 0.96);
       --border-line: rgba(248, 113, 113, 0.24);
-      --border-strong: rgba(248, 113, 113, 0.52);
+      --border-strong: rgba(248, 113, 113, 0.54);
     }
-
-    .theme-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 8px;
+    body.theme-nebula {
+      --bg-color: #090412;
+      --text-color: #f5f3ff;
+      --accent-white: #c084fc;
+      --accent-text: #090412;
+      --muted-text: #a1a1aa;
+      --panel-bg: rgba(18, 9, 32, 0.94);
+      --sidebar-bg: rgba(12, 6, 22, 0.96);
+      --border-line: rgba(192, 132, 252, 0.24);
+      --border-strong: rgba(192, 132, 252, 0.54);
     }
-    .theme-card-btn {
-      display: flex; align-items: center; gap: 9px; padding: 10px 12px;
-      border-radius: 10px; border: 1px solid var(--border-line);
-      background: rgba(255,255,255,0.04); color: var(--text-color);
-      font-size: 0.78rem; font-weight: 700; text-align: left;
+    body.theme-gold {
+      --bg-color: #0b0904;
+      --text-color: #fefce8;
+      --accent-white: #facc15;
+      --accent-text: #0b0904;
+      --muted-text: #a1a1aa;
+      --panel-bg: rgba(24, 20, 8, 0.94);
+      --sidebar-bg: rgba(16, 13, 5, 0.96);
+      --border-line: rgba(250, 204, 21, 0.24);
+      --border-strong: rgba(250, 204, 21, 0.54);
     }
-    .theme-card-btn.active {
-      border-color: var(--accent-white);
-      box-shadow: 0 0 0 1px var(--accent-white);
+    body.theme-cyber {
+      --bg-color: #030b0d;
+      --text-color: #ecfeff;
+      --accent-white: #22d3ee;
+      --accent-text: #030b0d;
+      --muted-text: #94a3b8;
+      --panel-bg: rgba(6, 22, 26, 0.94);
+      --sidebar-bg: rgba(4, 15, 18, 0.96);
+      --border-line: rgba(34, 211, 238, 0.24);
+      --border-strong: rgba(34, 211, 238, 0.54);
     }
-    .theme-swatch {
-      width: 18px; height: 18px; border-radius: 50%; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.35);
-    }
-    .poll-box {
-      margin-top: 6px; display: flex; flex-direction: column; gap: 6px;
-    }
-    .poll-option-btn {
-      display: flex; align-items: center; justify-content: space-between; gap: 8px;
-      padding: 6px 10px; border-radius: 8px; border: 1px solid rgba(128,128,128,0.35);
-      background: rgba(128,128,128,0.12); color: inherit; font-size: 0.8rem; font-weight: 600;
-    }
-    .poll-option-btn:hover { background: rgba(128,128,128,0.25); }
 
     * {
       margin: 0;
@@ -109,126 +125,130 @@
       height: 100vh;
       display: flex;
       flex-direction: column;
+      transition: background-color 0.25s ease, color 0.25s ease;
     }
 
     button, a, [role="button"] { cursor: pointer; }
     .font-mono-tech { font-family: 'JetBrains Mono', monospace; }
 
-    /* OWNER ÖZEL ANİMASYONLARI */
+    /* OWNER GELİŞMİŞ ANİMASYONLARI */
     @keyframes ownerShimmer {
-      0% { background-position: -200% center; }
-      100% { background-position: 200% center; }
+      0% { background-position: -220% center; }
+      100% { background-position: 220% center; }
     }
     @keyframes ownerCrownFloat {
-      0%, 100% { transform: translateY(0) scale(1); }
-      50% { transform: translateY(-1.5px) scale(1.12); }
+      0%, 100% { transform: translateY(0) rotate(-4deg) scale(1); }
+      50% { transform: translateY(-2.5px) rotate(4deg) scale(1.16); }
     }
     @keyframes ownerAuraPulse {
-      0%, 100% { box-shadow: 0 0 14px rgba(255,255,255,0.28), 0 0 28px rgba(255,255,255,0.1), inset 0 0 8px rgba(255,255,255,0.08); }
-      50% { box-shadow: 0 0 26px rgba(255,255,255,0.65), 0 0 46px rgba(255,255,255,0.22), inset 0 0 14px rgba(255,255,255,0.18); }
+      0%, 100% {
+        box-shadow: 0 0 12px rgba(255,255,255,0.28), 0 0 28px rgba(255,255,255,0.12), inset 0 0 10px rgba(255,255,255,0.08);
+      }
+      50% {
+        box-shadow: 0 0 28px rgba(255,255,255,0.72), 0 0 54px rgba(255,255,255,0.28), inset 0 0 16px rgba(255,255,255,0.2);
+      }
+    }
+    @keyframes ownerBorderSweep {
+      0% { transform: translateX(-120%) skewX(-18deg); }
+      100% { transform: translateX(240%) skewX(-18deg); }
     }
     @keyframes ownerAvatarOrbit {
-      0%, 100% { transform: scale(1); box-shadow: 0 0 0 2px rgba(255,255,255,0.35), 0 0 14px rgba(255,255,255,0.65); }
-      50% { transform: scale(1.06); box-shadow: 0 0 0 4px rgba(255,255,255,0.65), 0 0 26px rgba(255,255,255,0.95); }
+      0%, 100% {
+        transform: scale(1) rotate(0deg);
+        box-shadow: 0 0 0 2px var(--accent-white), 0 0 16px var(--accent-white);
+      }
+      50% {
+        transform: scale(1.07) rotate(3deg);
+        box-shadow: 0 0 0 4px rgba(255,255,255,0.55), 0 0 30px var(--accent-white);
+      }
     }
     @keyframes ownerIntroRing {
-      0% { transform: scale(0.4); opacity: 0.95; }
-      100% { transform: scale(2.4); opacity: 0; }
+      0% { transform: scale(0.3); opacity: 0.95; }
+      100% { transform: scale(2.8); opacity: 0; }
     }
     @keyframes ownerIntroFade {
-      0% { opacity: 0; transform: translateY(10px) scale(0.96); }
-      15% { opacity: 1; transform: translateY(0) scale(1); }
-      82% { opacity: 1; transform: translateY(0) scale(1); }
-      100% { opacity: 0; transform: translateY(-8px) scale(1.02); }
+      0% { opacity: 0; transform: translateY(14px) scale(0.92); }
+      14% { opacity: 1; transform: translateY(0) scale(1); }
+      84% { opacity: 1; transform: translateY(0) scale(1); }
+      100% { opacity: 0; transform: translateY(-10px) scale(1.04); }
     }
 
     #owner-entrance-overlay {
       position: fixed; inset: 0; z-index: 950000;
-      background: rgba(0, 0, 0, 0.88); backdrop-filter: blur(10px);
+      background: radial-gradient(circle at center, rgba(30, 30, 38, 0.92) 0%, rgba(0, 0, 0, 0.96) 100%);
+      backdrop-filter: blur(12px);
       display: none; align-items: center; justify-content: center; pointer-events: none;
     }
     .owner-entrance-box {
-      position: relative; display: flex; flex-direction: column; align-items: center; gap: 10px;
-      animation: ownerIntroFade 1.85s ease forwards; text-align: center;
+      position: relative; display: flex; flex-direction: column; align-items: center; gap: 12px;
+      animation: ownerIntroFade 2.1s cubic-bezier(0.22, 1, 0.36, 1) forwards; text-align: center;
     }
     .owner-entrance-ring {
       position: absolute; width: 130px; height: 130px; border-radius: 50%;
-      border: 2px solid rgba(255, 255, 255, 0.7); animation: ownerIntroRing 1.4s ease-out infinite;
+      border: 2px solid var(--accent-white); animation: ownerIntroRing 1.5s ease-out infinite;
     }
+    .owner-entrance-ring.delay { animation-delay: 0.55s; }
     .owner-entrance-crown {
-      font-size: 2.6rem; color: #ffffff; text-shadow: 0 0 24px rgba(255, 255, 255, 0.9);
-      animation: ownerCrownFloat 1.2s ease-in-out infinite;
+      font-size: 3rem; color: var(--accent-white); text-shadow: 0 0 28px var(--accent-white);
+      animation: ownerCrownFloat 1.1s ease-in-out infinite;
     }
     .owner-entrance-title {
-      font-family: 'JetBrains Mono', monospace; font-size: 1.15rem; font-weight: 800; letter-spacing: 3px; color: #ffffff;
+      font-family: 'JetBrains Mono', monospace; font-size: 1.2rem; font-weight: 800; letter-spacing: 3.5px; color: #ffffff;
+    }
+    .owner-entrance-sub {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: #a1a1aa; letter-spacing: 1px;
     }
 
     .owner-badge {
       display: inline-flex; align-items: center; gap: 4px; padding: 2px 9px; border-radius: 6px;
       font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; font-weight: 800; letter-spacing: 0.6px;
       text-transform: lowercase; color: #09090b;
-      background: linear-gradient(90deg, #d4d4d8 0%, #ffffff 35%, #a1a1aa 55%, #ffffff 75%, #d4d4d8 100%);
-      background-size: 200% auto; animation: ownerShimmer 2.4s linear infinite;
-      border: 1px solid #ffffff; box-shadow: 0 0 12px rgba(255, 255, 255, 0.45); vertical-align: middle;
+      background: linear-gradient(90deg, #d4d4d8 0%, #ffffff 30%, #71717a 50%, #ffffff 70%, #d4d4d8 100%);
+      background-size: 220% auto; animation: ownerShimmer 2.1s linear infinite;
+      border: 1px solid #ffffff; box-shadow: 0 0 14px rgba(255, 255, 255, 0.55); vertical-align: middle;
     }
-    .owner-badge-crown { display: inline-block; animation: ownerCrownFloat 1.6s ease-in-out infinite; }
+    .owner-badge-crown { display: inline-block; animation: ownerCrownFloat 1.5s ease-in-out infinite; }
 
     .headadmin-badge {
       display: inline-flex; align-items: center; gap: 3px; padding: 2px 7px; border-radius: 6px;
-      font-family: 'JetBrains Mono', monospace; font-size: 0.64rem; font-weight: 700; color: #ffffff;
-      background: rgba(255, 255, 255, 0.14); border: 1px solid rgba(255, 255, 255, 0.45); vertical-align: middle;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.64rem; font-weight: 700; color: var(--text-color);
+      background: rgba(128, 128, 128, 0.18); border: 1px solid var(--border-strong); vertical-align: middle;
     }
-    @keyframes ownerSheenSweep {
-      0% { transform: translateX(-140%) skewX(-20deg); }
-      45%, 100% { transform: translateX(240%) skewX(-20deg); }
+    :root {
+      --owner-glow: rgba(255, 255, 255, 0.72);
+      --owner-border: #ffffff;
     }
+    body.owner-gold { --owner-glow: rgba(250, 204, 21, 0.85); --owner-border: #facc15; }
+    body.owner-crimson { --owner-glow: rgba(248, 113, 113, 0.85); --owner-border: #f87171; }
+    body.owner-cyber { --owner-glow: rgba(96, 165, 250, 0.85); --owner-border: #60a5fa; }
+    body.owner-emerald { --owner-glow: rgba(52, 211, 153, 0.85); --owner-border: #34d399; }
+    body.owner-purple { --owner-glow: rgba(192, 132, 252, 0.85); --owner-border: #c084fc; }
+
+    @keyframes ownerCustomPulse {
+      0%, 100% { box-shadow: 0 0 12px var(--owner-glow), inset 0 0 6px rgba(255,255,255,0.1); }
+      50% { box-shadow: 0 0 28px var(--owner-glow), inset 0 0 14px rgba(255,255,255,0.22); }
+    }
+
     .msg-owner-bubble {
-      position: relative;
-      overflow: hidden;
-      background: linear-gradient(145deg, #060608 0%, #16161c 55%, #08080b 100%) !important;
-      color: #ffffff !important;
-      border: 1px solid rgba(255, 255, 255, 0.72) !important;
-      border-left: 3.5px solid #ffffff !important;
-      box-shadow: 0 8px 26px rgba(0, 0, 0, 0.75), 0 0 18px rgba(255, 255, 255, 0.16) !important;
-      animation: msgPop 0.22s ease-out, ownerAuraPulse 3.4s ease-in-out infinite !important;
+      position: relative; overflow: hidden;
+      animation: msgPop 0.22s ease-out, ownerCustomPulse 2.4s ease-in-out infinite !important;
+      border: 1.5px solid var(--owner-border) !important;
+    }
+    .owner-badge {
+      border-color: var(--owner-border) !important;
+      box-shadow: 0 0 14px var(--owner-glow) !important;
+    }
+    .owner-avatar-glow {
+      box-shadow: 0 0 18px var(--owner-glow) !important;
     }
     .msg-owner-bubble::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 45%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.11), transparent);
-      pointer-events: none;
-      animation: ownerSheenSweep 4.5s ease-in-out infinite;
+      content: ''; position: absolute; top: 0; left: 0; width: 42%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.14), transparent);
+      animation: ownerBorderSweep 3.4s ease-in-out infinite; pointer-events: none;
     }
-    .msg-owner-bubble .msg-sender-name { color: #ffffff !important; }
-    .msg-owner-bubble .msg-sender-email { color: #a1a1aa !important; }
-    .msg-owner-bubble .msg-text { color: #f4f4f5 !important; }
-    .msg-owner-bubble .owner-badge {
-      background: linear-gradient(90deg, #e4e4e7 0%, #ffffff 45%, #a1a1aa 70%, #ffffff 100%) !important;
-      color: #09090b !important;
-      border-color: #ffffff !important;
-    }
-    .room-delete-btn {
-      background: transparent;
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      color: #a1a1aa;
-      border-radius: 6px;
-      padding: 2px 6px;
-      font-size: 0.68rem;
-      line-height: 1.2;
-      transition: all 0.16s ease;
-    }
-    .room-delete-btn:hover {
-      background: #ef4444;
-      border-color: #ef4444;
-      color: #ffffff;
-    }
-    .owner-avatar-glow { animation: ownerAvatarOrbit 2.4s ease-in-out infinite; }
+    .owner-avatar-glow { animation: ownerAvatarOrbit 2.3s ease-in-out infinite; }
 
-    /* MONOKROM YÜKLEME EKRANI */
+    /* YÜKLEME EKRANI */
     #splash {
       position: fixed; inset: 0; background-color: #000000; display: flex; flex-direction: column;
       align-items: center; justify-content: center; z-index: 1000000; transition: opacity 0.6s ease, visibility 0.6s ease;
@@ -239,7 +259,7 @@
     }
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     .splash-title { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.5px; color: #ffffff; }
-    .splash-sub { font-size: 0.78rem; color: var(--muted-text); margin-top: 6px; font-family: 'JetBrains Mono', monospace; }
+    .splash-sub { font-size: 0.78rem; color: #a1a1aa; margin-top: 6px; font-family: 'JetBrains Mono', monospace; }
 
     #particles-canvas { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
 
@@ -251,7 +271,7 @@
       padding: 20px; overflow-y: auto;
     }
     .gate-card {
-      width: 100%; max-width: 450px; background: rgba(12, 12, 16, 0.96); border: 1px solid var(--border-strong);
+      width: 100%; max-width: 450px; background: var(--panel-bg); border: 1px solid var(--border-strong);
       border-radius: 16px; padding: 28px 26px; box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85);
       display: flex; flex-direction: column; align-items: center; gap: 13px; text-align: center;
     }
@@ -263,265 +283,298 @@
     .gate-card p { font-size: 0.83rem; color: var(--muted-text); line-height: 1.45; }
     .gate-field { width: 100%; display: flex; flex-direction: column; gap: 5px; text-align: left; }
     .gate-field label {
-      font-size: 0.7rem; font-weight: 700; color: #d4d4d8; text-transform: uppercase;
+      font-size: 0.7rem; font-weight: 700; color: var(--muted-text); text-transform: uppercase;
       letter-spacing: 0.8px; font-family: 'JetBrains Mono', monospace;
     }
     .gate-input {
-      width: 100%; padding: 11px 13px; background: #070709; border: 1px solid var(--border-line);
+      width: 100%; padding: 11px 13px; background: var(--bg-color); border: 1px solid var(--border-line);
       border-radius: 10px; color: var(--text-color); font-size: 0.9rem; font-weight: 500; outline: none;
       transition: border-color 0.2s, box-shadow 0.2s;
     }
-    .gate-input:focus { border-color: #ffffff; box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.14); }
+    .gate-input:focus { border-color: var(--accent-white); }
     .gate-error { color: #f87171; font-size: 0.8rem; font-weight: 600; min-height: 18px; }
     .gate-submit-btn {
-      width: 100%; padding: 12px; background: #ffffff; border: 1px solid #ffffff; border-radius: 10px;
-      color: #09090b; font-size: 0.9rem; font-weight: 800; letter-spacing: 0.4px; transition: opacity 0.2s, transform 0.2s;
+      width: 100%; padding: 12px; background: var(--accent-white); border: 1px solid var(--accent-white);
+      border-radius: 10px; color: var(--accent-text); font-size: 0.9rem; font-weight: 800;
+      letter-spacing: 0.4px; transition: opacity 0.2s, transform 0.2s;
     }
     .gate-submit-btn:hover { opacity: 0.9; transform: translateY(-1px); }
     .gate-password-hint {
       width: 100%; padding-top: 10px; border-top: 1px solid var(--border-line);
-      font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: #e4e4e7;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--text-color);
     }
 
     /* ÜST BAR */
     header.chat-top-nav {
       background: var(--panel-bg); backdrop-filter: blur(10px);
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 0.7rem 1.4rem; border-bottom: 1px solid var(--border-line);
-      z-index: 20; height: 62px; flex-shrink: 0; gap: 10px;
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;
+      padding: 0.6rem 1.2rem; border-bottom: 1px solid var(--border-line);
+      z-index: 20; min-height: 62px; flex-shrink: 0; gap: 8px;
     }
-    .top-left-group, .top-right-group { display: flex; align-items: center; gap: 8px; }
-    .brand-link { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #ffffff; }
+    .top-left-group, .top-right-group { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+    .brand-link { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text-color); }
     .brand-badge {
       width: 34px; height: 34px; border-radius: 8px; background: var(--accent-white); color: var(--accent-text);
       display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.85rem;
     }
     .brand-title { font-size: 1.02rem; font-weight: 800; letter-spacing: -0.3px; }
     .online-pill {
-      font-size: 0.71rem; font-weight: 600; font-family: 'JetBrains Mono', monospace; color: #e4e4e7;
-      background: rgba(255, 255, 255, 0.06); border: 1px solid var(--border-line);
+      font-size: 0.71rem; font-weight: 600; font-family: 'JetBrains Mono', monospace; color: var(--text-color);
+      background: rgba(128, 128, 128, 0.12); border: 1px solid var(--border-line);
       padding: 4px 10px; border-radius: 20px; display: flex; align-items: center; gap: 6px;
     }
-    .online-dot { width: 7px; height: 7px; border-radius: 50%; background: #ffffff; }
+    .online-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent-white); }
     .top-tool-btn {
       display: inline-flex; align-items: center; gap: 5px;
-      background: transparent; color: #e4e4e7; border: 1px solid var(--border-line);
+      background: transparent; color: var(--text-color); border: 1px solid var(--border-line);
       padding: 6px 11px; border-radius: 8px; font-size: 0.78rem; font-weight: 600; transition: all 0.2s;
     }
-    .top-tool-btn:hover, .top-tool-btn.active { background: var(--accent-white); color: var(--accent-text); border-color: #ffffff; }
+    .top-tool-btn:hover { background: var(--accent-white); color: var(--accent-text); border-color: var(--accent-white); }
     .powers-btn {
       display: none; align-items: center; gap: 6px; background: var(--accent-white); color: var(--accent-text);
-      border: 1px solid #ffffff; padding: 6px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 800;
+      border: 1px solid var(--accent-white); padding: 6px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 800;
     }
     .powers-btn:hover { opacity: 0.9; }
     .back-link {
-      color: #d4d4d8; text-decoration: none; font-size: 0.8rem; font-weight: 600;
+      color: var(--text-color); text-decoration: none; font-size: 0.8rem; font-weight: 600;
       padding: 6px 11px; border: 1px solid var(--border-line); border-radius: 8px; transition: all 0.2s;
     }
     .back-link:hover { background: var(--accent-white); color: var(--accent-text); }
 
-    /* 3-SÜTUNLU PRO SOHBET DÜZENİ */
+    /* KLASİK WHATSAPP TARZI 2 SÜTUNLU SİYAH-BEYAZ DÜZEN */
     .whatsapp-container {
       position: relative; z-index: 10; flex-grow: 1; display: flex;
       width: 100%; height: calc(100vh - 62px); overflow: hidden;
     }
 
+    /* SOL PANEL */
     .wa-sidebar {
-      width: 315px; min-width: 270px; background: var(--sidebar-bg);
+      width: 340px; min-width: 290px; background: var(--sidebar-bg);
       border-right: 1px solid var(--border-line); display: flex; flex-direction: column; height: 100%;
     }
     .wa-user-header {
-      padding: 13px 15px; background: rgba(255, 255, 255, 0.03); border-bottom: 1px solid var(--border-line);
+      padding: 13px 15px; background: rgba(128, 128, 128, 0.06); border-bottom: 1px solid var(--border-line);
       display: flex; align-items: center; justify-content: space-between; gap: 8px;
     }
     .user-profile-info { display: flex; align-items: center; gap: 10px; min-width: 0; }
     .user-avatar {
-      width: 38px; height: 38px; border-radius: 50%; background: var(--accent-white); color: var(--accent-text);
-      display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.98rem; flex-shrink: 0;
+      width: 40px; height: 40px; border-radius: 50%; background: var(--accent-white); color: var(--accent-text);
+      display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1rem; flex-shrink: 0;
     }
     .user-meta { min-width: 0; }
     .user-meta h4 {
-      font-size: 0.88rem; color: var(--text-color); font-weight: 700; display: flex; align-items: center; gap: 5px; flex-wrap: wrap;
+      font-size: 0.9rem; color: var(--text-color); font-weight: 700; display: flex; align-items: center; gap: 5px; flex-wrap: wrap;
     }
     .user-meta span.user-email-sub {
-      display: block; font-size: 0.69rem; color: var(--muted-text); font-family: 'JetBrains Mono', monospace;
+      display: block; font-size: 0.7rem; color: var(--muted-text); font-family: 'JetBrains Mono', monospace;
       white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
-    .status-toggle-btn {
-      margin-top: 3px; background: transparent; border: none; color: #d4d4d8;
-      font-size: 0.69rem; font-family: 'JetBrains Mono', monospace; padding: 0; text-align: left;
-    }
-    .status-toggle-btn:hover { color: #ffffff; text-decoration: underline; }
-
     .user-actions { display: flex; gap: 5px; flex-shrink: 0; }
     .change-name-btn {
-      background: transparent; border: 1px solid var(--border-line); color: #e4e4e7;
-      padding: 4px 8px; border-radius: 7px; font-size: 0.7rem; font-weight: 600; transition: 0.2s;
+      background: transparent; border: 1px solid var(--border-line); color: var(--text-color);
+      padding: 4px 8px; border-radius: 7px; font-size: 0.71rem; font-weight: 600; transition: 0.2s;
     }
     .change-name-btn:hover { background: var(--accent-white); color: var(--accent-text); }
 
-    .wa-search-box { padding: 10px 14px; border-bottom: 1px solid var(--border-line); display: flex; flex-direction: column; gap: 8px; }
+    .wa-search-box { padding: 10px 14px; border-bottom: 1px solid var(--border-line); }
     .wa-search-input {
-      width: 100%; padding: 8px 12px; background: #070709; border: 1px solid var(--border-line);
-      border-radius: 8px; color: var(--text-color); font-size: 0.82rem; outline: none;
+      width: 100%; padding: 8px 12px; background: var(--bg-color); border: 1px solid var(--border-line);
+      border-radius: 8px; color: var(--text-color); font-size: 0.83rem; outline: none;
     }
-    .wa-search-input:focus { border-color: #ffffff; }
-    .sidebar-quick-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
-    .sidebar-action-btn {
-      padding: 7px 8px; border-radius: 8px; border: 1px solid var(--border-line);
-      background: rgba(255, 255, 255, 0.04); color: #ffffff; font-size: 0.73rem; font-weight: 700; transition: all 0.18s;
-    }
-    .sidebar-action-btn:hover { background: var(--accent-white); color: var(--accent-text); }
+    .wa-search-input:focus { border-color: var(--accent-white); }
 
     .wa-room-list { flex-grow: 1; overflow-y: auto; list-style: none; }
     .wa-room-list::-webkit-scrollbar { width: 5px; }
-    .wa-room-list::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.28); border-radius: 3px; }
+    .wa-room-list::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
     .wa-room-item {
-      display: flex; align-items: center; gap: 11px; padding: 11px 14px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06); transition: background 0.18s;
+      display: flex; align-items: center; gap: 12px; padding: 13px 16px;
+      border-bottom: 1px solid var(--border-line); transition: background 0.18s;
     }
-    .wa-room-item:hover { background: rgba(255, 255, 255, 0.06); }
-    .wa-room-item.active { background: rgba(255, 255, 255, 0.12); border-left: 3px solid #ffffff; }
+    .wa-room-item:hover { background: rgba(128, 128, 128, 0.1); }
+    .wa-room-item.active { background: rgba(128, 128, 128, 0.18); border-left: 3px solid var(--accent-white); }
     .room-avatar {
-      width: 38px; height: 38px; border-radius: 10px; background: rgba(255, 255, 255, 0.08);
+      width: 42px; height: 42px; border-radius: 10px; background: rgba(128, 128, 128, 0.12);
       border: 1px solid var(--border-line); display: flex; align-items: center; justify-content: center;
-      font-size: 1.05rem; flex-shrink: 0;
+      font-size: 1.15rem; flex-shrink: 0;
     }
     .room-details { flex-grow: 1; overflow: hidden; }
     .room-top-line { display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px; gap: 6px; }
-    .room-title { font-size: 0.86rem; font-weight: 700; color: var(--text-color); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .room-title { font-size: 0.9rem; font-weight: 700; color: var(--text-color); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .room-code-tag {
-      font-family: 'JetBrains Mono', monospace; font-size: 0.66rem; font-weight: 700; color: #ffffff;
-      background: rgba(255, 255, 255, 0.12); border: 1px solid var(--border-line); padding: 1px 5px; border-radius: 5px;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; font-weight: 700; color: var(--text-color);
+      background: rgba(128, 128, 128, 0.16); border: 1px solid var(--border-line); padding: 2px 6px; border-radius: 5px;
     }
-    .unread-badge {
-      background: var(--accent-white); color: var(--accent-text); font-family: 'JetBrains Mono', monospace;
-      font-size: 0.65rem; font-weight: 800; padding: 1px 6px; border-radius: 999px;
-    }
-    .room-last-msg { font-size: 0.74rem; color: var(--muted-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .room-last-msg { font-size: 0.77rem; color: var(--muted-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-    /* ORTA SÜTUN */
+    /* SAĞ PANEL (MESAJLAŞMA ALANI) */
     .wa-chat-main {
       flex-grow: 1; display: flex; flex-direction: column; height: 100%; min-height: 0; min-width: 0;
-      background: var(--bg-color);
-      position: relative;
+      background: var(--bg-color); position: relative;
     }
     .wa-chat-header {
-      padding: 11px 20px; background: var(--panel-bg); border-bottom: 1px solid var(--border-line);
+      padding: 12px 22px; background: var(--panel-bg); border-bottom: 1px solid var(--border-line);
       display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
     }
     .chat-header-left { display: flex; align-items: center; gap: 12px; }
-    .chat-header-info h3 { font-size: 1rem; font-weight: 800; color: var(--text-color); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-    .chat-header-info p { font-size: 0.74rem; color: var(--muted-text); }
+    .chat-header-info h3 { font-size: 1.03rem; font-weight: 800; color: var(--text-color); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .chat-header-info p { font-size: 0.76rem; color: var(--muted-text); }
     .room-status-pill {
       font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; padding: 2px 7px; border-radius: 6px;
-      background: rgba(255, 255, 255, 0.12); border: 1px solid var(--border-strong); color: #ffffff;
+      background: rgba(128, 128, 128, 0.16); border: 1px solid var(--border-strong); color: var(--text-color);
     }
+    .pinned-banner {
+      display: none; align-items: center; justify-content: space-between; gap: 10px;
+      padding: 8px 22px; background: rgba(128, 128, 128, 0.12); border-bottom: 1px solid var(--border-line);
+      font-size: 0.77rem; color: var(--text-color);
+    }
+    .copy-code-btn {
+      display: none; align-items: center; gap: 6px; background: transparent;
+      border: 1px solid var(--border-strong); color: var(--text-color); padding: 6px 12px; border-radius: 8px;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; font-weight: 700; transition: all 0.2s;
+    }
+    .copy-code-btn:hover { background: var(--accent-white); color: var(--accent-text); }
+
+    .wa-messages-stream {
+      flex-grow: 1; padding: 20px 26px 88px 26px; overflow-y: auto; min-height: 0;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .wa-messages-stream::-webkit-scrollbar { width: 6px; }
+    .wa-messages-stream::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+    .system-encryption-banner {
+      flex-shrink: 0;
+      align-self: center; background: rgba(128, 128, 128, 0.1); border: 1px solid var(--border-line);
+      color: var(--muted-text); font-size: 0.75rem; font-weight: 500; padding: 7px 14px; border-radius: 10px;
+      text-align: center; max-width: 560px; margin-bottom: 4px;
+    }
+
+    .msg-bubble {
+      flex-shrink: 0;
+      max-width: 68%; min-width: 155px; padding: 10px 14px 8px 14px; border-radius: 12px;
+      display: flex; flex-direction: column; gap: 4px; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+      animation: msgPop 0.18s ease-out; word-break: break-word;
+    }
+    @keyframes msgPop { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+    .msg-incoming { align-self: flex-start; background: var(--panel-bg); border: 1px solid var(--border-line); border-top-left-radius: 2px; color: var(--text-color); }
+    .msg-sender-name { font-size: 0.76rem; font-weight: 700; color: var(--text-color); display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .msg-sender-clickable { text-decoration: underline dotted rgba(128,128,128,0.6); text-underline-offset: 3px; cursor: pointer; }
+    .msg-sender-email { font-size: 0.66rem; font-family: 'JetBrains Mono', monospace; color: var(--muted-text); font-weight: 400; }
+
+    .msg-outgoing { align-self: flex-end; background: var(--accent-white); color: var(--accent-text); border: 1px solid var(--accent-white); border-top-right-radius: 2px; }
+    .msg-outgoing .msg-sender-name { color: var(--accent-text); }
+    .msg-outgoing .msg-sender-email { color: var(--accent-text); opacity: 0.72; }
+    .msg-outgoing .owner-badge { background: #09090b; color: #ffffff; border-color: #09090b; }
+    .msg-outgoing .headadmin-badge { background: rgba(0,0,0,0.22); color: var(--accent-text); border-color: rgba(0,0,0,0.35); }
+
+    .msg-text { font-size: var(--chat-font-size); line-height: 1.45; user-select: text; }
+    .msg-meta { display: flex; align-items: center; justify-content: flex-end; gap: 4px; font-size: 0.68rem; font-family: 'JetBrains Mono', monospace; opacity: 0.72; margin-top: 2px; }
+
+    .poll-box { margin-top: 6px; display: flex; flex-direction: column; gap: 6px; }
+    .poll-option-btn {
+      display: flex; align-items: center; justify-content: space-between; gap: 8px;
+      padding: 6px 10px; border-radius: 8px; border: 1px solid rgba(128,128,128,0.35);
+      background: rgba(128,128,128,0.12); color: inherit; font-size: 0.8rem; font-weight: 600;
+    }
+    .poll-option-btn:hover { background: rgba(128,128,128,0.25); }
+
+    /* SAĞ ALT HIZLI ODA OLUŞTUR & ODAYA KATIL BUTONLARI */
+    .room-fab-dock {
+      position: fixed; bottom: 80px; right: 24px; z-index: 90;
+      display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end;
+    }
+    .room-fab-btn {
+      background: var(--panel-bg); border: 1px solid var(--border-strong); color: var(--text-color);
+      padding: 9px 16px; border-radius: 10px; font-size: 0.8rem; font-weight: 700;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55); backdrop-filter: blur(8px);
+      display: flex; align-items: center; gap: 6px; transition: all 0.2s;
+    }
+    .room-fab-btn:hover { background: var(--accent-white); color: var(--accent-text); transform: translateY(-2px); }
+
+    /* ALT MESAJ YAZMA ÇUBUĞU */
+    .wa-input-bar {
+      padding: 12px 20px; background: var(--sidebar-bg); border-top: 1px solid var(--border-line);
+      display: flex; align-items: center; gap: 10px; z-index: 25;
+    }
+    .wa-message-input {
+      flex-grow: 1; padding: 12px 16px; background: var(--bg-color); border: 1px solid var(--border-line);
+      border-radius: 10px; color: var(--text-color); font-size: 0.92rem; outline: none; transition: border-color 0.2s;
+    }
+    .wa-message-input:focus { border-color: var(--accent-white); }
+    .wa-message-input:disabled { opacity: 0.55; border-color: #ef4444; }
+    .wa-send-btn {
+      background: var(--accent-white); border: 1px solid var(--accent-white); color: var(--accent-text);
+      padding: 12px 20px; border-radius: 10px; font-weight: 800; font-size: 0.88rem; transition: opacity 0.2s; white-space: nowrap;
+    }
+    .wa-send-btn:hover { opacity: 0.88; }
+    .gate-submit-btn:disabled, .wa-send-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+
+    /* MODALLAR */
+    .modal-backdrop {
+      position: fixed; inset: 0; background: rgba(0, 0, 0, 0.82); backdrop-filter: blur(8px);
+      z-index: 400000; display: none; align-items: center; justify-content: center; padding: 20px;
+    }
+    .modal-box {
+      width: 100%; max-width: 460px; max-height: 86vh; overflow-y: auto; background: var(--panel-bg);
+      border: 1px solid var(--border-strong); border-radius: 16px; padding: 24px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85); display: flex; flex-direction: column; gap: 13px; position: relative;
+    }
+    .modal-box.wide { max-width: 600px; }
+    .modal-close { position: absolute; top: 14px; right: 16px; background: none; border: none; color: var(--muted-text); font-size: 1.15rem; }
+    .modal-close:hover { color: var(--text-color); }
+    .modal-box h3 { color: var(--text-color); font-size: 1.18rem; font-weight: 800; }
+    .modal-box p { color: var(--muted-text); font-size: 0.84rem; line-height: 1.5; }
+    .generated-code-display {
+      font-family: 'JetBrains Mono', monospace; font-size: 1.7rem; font-weight: 800; color: var(--text-color);
+      background: rgba(128, 128, 128, 0.1); border: 1px dashed var(--border-strong); border-radius: 10px;
+      padding: 10px; text-align: center; letter-spacing: 5px;
+    }
+
+    .theme-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+    .theme-card-btn {
+      display: flex; align-items: center; gap: 9px; padding: 9px 11px;
+      border-radius: 10px; border: 1px solid var(--border-line);
+      background: rgba(128,128,128,0.08); color: var(--text-color);
+      font-size: 0.77rem; font-weight: 700; text-align: left;
+    }
+    .theme-card-btn.active { border-color: var(--accent-white); box-shadow: 0 0 0 1px var(--accent-white); }
+    .theme-swatch { width: 17px; height: 17px; border-radius: 50%; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.4); }
+
+    .cmd-item {
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+      padding: 10px 12px; border-radius: 10px; background: rgba(128, 128, 128, 0.08); border: 1px solid var(--border-line);
+    }
+    .cmd-code { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; font-weight: 700; color: var(--text-color); }
+    .cmd-desc { font-size: 0.74rem; color: var(--muted-text); margin-top: 2px; }
+    .mini-action-btn {
+      padding: 6px 10px; border-radius: 7px; border: 1px solid var(--border-strong); background: transparent;
+      color: var(--text-color); font-size: 0.72rem; font-weight: 700; white-space: nowrap; transition: all 0.18s;
+    }
+    .mini-action-btn:hover { background: var(--accent-white); color: var(--accent-text); }
+    .mini-action-btn.danger { border-color: rgba(248, 113, 113, 0.65); color: #fca5a5; }
+    .mini-action-btn.danger:hover { background: #ef4444; color: #ffffff; border-color: #ef4444; }
+
+    @media (max-width: 850px) {
+      .whatsapp-container { flex-direction: column; }
+      .wa-sidebar { width: 100%; height: 225px; border-right: none; border-bottom: 1px solid var(--border-line); }
+      .room-fab-dock { bottom: 72px; right: 14px; }
+      .msg-bubble { max-width: 86%; }
+    }
+
+    .top-tool-btn {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: transparent; color: #e4e4e7; border: 1px solid var(--border-line);
+      padding: 6px 11px; border-radius: 8px; font-size: 0.78rem; font-weight: 600; transition: all 0.2s;
+    }
+    .top-tool-btn:hover, .top-tool-btn.active { background: var(--accent-white); color: var(--accent-text); border-color: var(--accent-white); }
     .inchat-search-bar {
-      display: none; padding: 8px 20px; background: rgba(14, 14, 18, 0.96); border-bottom: 1px solid var(--border-line);
+      display: none; padding: 8px 20px; background: var(--panel-bg); border-bottom: 1px solid var(--border-line);
       align-items: center; gap: 8px;
     }
     .inchat-search-input {
       flex-grow: 1; padding: 7px 12px; background: #070709; border: 1px solid var(--border-line);
       border-radius: 8px; color: var(--text-color); font-size: 0.82rem; outline: none;
     }
-    .pinned-banner {
-      display: none; align-items: center; justify-content: space-between; gap: 10px;
-      padding: 8px 20px; background: rgba(255, 255, 255, 0.06); border-bottom: 1px solid var(--border-line);
-      font-size: 0.77rem; color: #e4e4e7;
-    }
-    .copy-code-btn {
-      display: none; align-items: center; gap: 6px; background: rgba(255, 255, 255, 0.08);
-      border: 1px solid var(--border-strong); color: #ffffff; padding: 6px 11px; border-radius: 8px;
-      font-family: 'JetBrains Mono', monospace; font-size: 0.76rem; font-weight: 700; transition: all 0.2s;
-    }
-    .copy-code-btn:hover { background: var(--accent-white); color: var(--accent-text); }
-
-    .wa-messages-stream {
-      flex-grow: 1; padding: 18px 22px; overflow-y: auto; min-height: 0;
-      display: flex; flex-direction: column; gap: 11px;
-    }
-    .wa-messages-stream::-webkit-scrollbar { width: 6px; }
-    .wa-messages-stream::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.25); border-radius: 3px; }
-    .system-encryption-banner {
-      align-self: center; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-line);
-      color: #d4d4d8; font-size: 0.74rem; font-weight: 500; padding: 7px 14px; border-radius: 10px;
-      text-align: center; max-width: 580px; margin-bottom: 4px;
-    }
-
-    .msg-bubble {
-      max-width: 72%; min-width: 170px; padding: 10px 14px 8px 14px; border-radius: 12px;
-      display: flex; flex-direction: column; gap: 5px; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
-      animation: msgPop 0.18s ease-out; word-break: break-word;
-    }
-    @keyframes msgPop { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-    .msg-incoming { align-self: flex-start; background: var(--panel-bg); border: 1px solid var(--border-line); border-top-left-radius: 2px; }
-    .msg-sender-name { font-size: 0.75rem; font-weight: 700; color: #ffffff; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-    .msg-sender-clickable { text-decoration: underline dotted rgba(255,255,255,0.45); text-underline-offset: 3px; cursor: pointer; }
-    .msg-sender-email { font-size: 0.66rem; font-family: 'JetBrains Mono', monospace; color: var(--muted-text); font-weight: 400; }
-
-    .msg-outgoing { align-self: flex-end; background: var(--accent-white); color: var(--accent-text); border: 1px solid #ffffff; border-top-right-radius: 2px; }
-    .msg-outgoing .msg-sender-name { color: #18181b; }
-    .msg-outgoing .msg-sender-email { color: #52525b; }
-    .msg-outgoing .owner-badge { background: #09090b; color: #ffffff; border-color: #09090b; }
-    .msg-outgoing .headadmin-badge { background: #18181b; color: #ffffff; border-color: #18181b; }
-
-    .msg-reply-quote {
-      font-size: 0.73rem; padding: 5px 8px; border-left: 2px solid currentColor;
-      background: rgba(128, 128, 128, 0.12); border-radius: 4px; opacity: 0.85;
-    }
-    .msg-text { font-size: var(--chat-font-size); line-height: 1.45; user-select: text; }
-    .inline-code-pill {
-      font-family: 'JetBrains Mono', monospace; font-size: 0.82em; padding: 1px 5px;
-      border-radius: 4px; background: rgba(128, 128, 128, 0.22); border: 1px solid rgba(128, 128, 128, 0.35);
-    }
-    .msg-footer-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 2px; }
-    .msg-actions { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
-    .msg-react-btn {
-      border: 1px solid rgba(128, 128, 128, 0.3); background: transparent; color: inherit;
-      font-size: 0.67rem; padding: 1px 6px; border-radius: 999px; opacity: 0.75; transition: opacity 0.15s;
-    }
-    .msg-react-btn:hover { opacity: 1; }
-    .msg-meta { display: flex; align-items: center; gap: 4px; font-size: 0.67rem; font-family: 'JetBrains Mono', monospace; opacity: 0.7; }
-
-    .reply-preview-bar {
-      display: none; align-items: center; justify-content: space-between; padding: 7px 20px;
-      background: rgba(255, 255, 255, 0.06); border-top: 1px solid var(--border-line); font-size: 0.76rem; color: #e4e4e7;
-    }
-    .emoji-picker-bar {
-      display: none; padding: 8px 20px; background: #0d0d11; border-top: 1px solid var(--border-line); gap: 8px; flex-wrap: wrap;
-    }
-    .emoji-chip {
-      padding: 4px 10px; border-radius: 8px; border: 1px solid var(--border-line);
-      background: rgba(255, 255, 255, 0.05); color: #ffffff; font-size: 0.9rem;
-    }
-    .emoji-chip:hover { background: var(--accent-white); color: var(--accent-text); }
-
-    .wa-input-bar {
-      padding: 11px 18px; background: var(--sidebar-bg); border-top: 1px solid var(--border-line);
-      display: flex; align-items: center; gap: 8px; z-index: 25;
-    }
-    .wa-icon-btn {
-      padding: 10px 12px; border-radius: 10px; border: 1px solid var(--border-line);
-      background: #070709; color: #ffffff; font-size: 0.9rem;
-    }
-    .wa-icon-btn:hover { background: var(--accent-white); color: var(--accent-text); }
-    .wa-message-input {
-      flex-grow: 1; padding: 11px 14px; background: #070709; border: 1px solid var(--border-line);
-      border-radius: 10px; color: var(--text-color); font-size: 0.9rem; outline: none; transition: border-color 0.2s;
-    }
-    .wa-message-input:focus { border-color: #ffffff; }
-    .wa-message-input:disabled { opacity: 0.55; border-color: #ef4444; }
-    .wa-send-btn {
-      background: #ffffff; border: 1px solid #ffffff; color: #09090b; padding: 11px 18px;
-      border-radius: 10px; font-weight: 800; font-size: 0.86rem; transition: opacity 0.2s; white-space: nowrap;
-    }
-    .wa-send-btn:hover { opacity: 0.88; }
-    .gate-submit-btn:disabled, .wa-send-btn:disabled { opacity: 0.55; cursor: not-allowed; }
-
-    /* SAĞ SÜTUN: ÜYELER & ODA MÜFETTİŞİ */
     .wa-inspector {
-      width: 270px; min-width: 240px; background: var(--sidebar-bg); border-left: 1px solid var(--border-line);
+      width: 265px; min-width: 235px; background: var(--sidebar-bg); border-left: 1px solid var(--border-line);
       display: flex; flex-direction: column; height: 100%; overflow-y: auto; padding: 14px; gap: 16px;
     }
     .wa-inspector.collapsed { display: none; }
@@ -542,71 +595,36 @@
     }
     .member-name { font-size: 0.78rem; font-weight: 600; color: var(--text-color); display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
     .member-email { font-size: 0.66rem; font-family: 'JetBrains Mono', monospace; color: var(--muted-text); }
-
-    /* MODALLAR */
-    .modal-backdrop {
-      position: fixed; inset: 0; background: rgba(0, 0, 0, 0.82); backdrop-filter: blur(8px);
-      z-index: 400000; display: none; align-items: center; justify-content: center; padding: 20px;
-    }
-    .modal-box {
-      width: 100%; max-width: 440px; max-height: 85vh; overflow-y: auto; background: #101014;
-      border: 1px solid var(--border-strong); border-radius: 16px; padding: 24px;
-      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85); display: flex; flex-direction: column; gap: 13px; position: relative;
-    }
-    .modal-box.wide { max-width: 600px; }
-    .modal-close { position: absolute; top: 14px; right: 16px; background: none; border: none; color: #a1a1aa; font-size: 1.15rem; }
-    .modal-close:hover { color: var(--text-color); }
-    .modal-box h3 { color: #ffffff; font-size: 1.18rem; font-weight: 800; }
-    .modal-box p { color: var(--muted-text); font-size: 0.84rem; line-height: 1.5; }
-    .generated-code-display {
-      font-family: 'JetBrains Mono', monospace; font-size: 1.7rem; font-weight: 800; color: #ffffff;
-      background: rgba(255, 255, 255, 0.06); border: 1px dashed var(--border-strong); border-radius: 10px;
-      padding: 10px; text-align: center; letter-spacing: 5px;
-    }
-    .cmd-item {
-      display: flex; align-items: center; justify-content: space-between; gap: 10px;
-      padding: 10px 12px; border-radius: 10px; background: rgba(255, 255, 255, 0.04); border: 1px solid var(--border-line);
-    }
-    .cmd-code { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; font-weight: 700; color: #ffffff; }
-    .cmd-desc { font-size: 0.74rem; color: var(--muted-text); margin-top: 2px; }
-    .mini-action-btn {
-      padding: 6px 10px; border-radius: 7px; border: 1px solid var(--border-strong); background: transparent;
-      color: #ffffff; font-size: 0.72rem; font-weight: 700; white-space: nowrap; transition: all 0.18s;
-    }
-    .mini-action-btn:hover { background: var(--accent-white); color: var(--accent-text); }
-    .mini-action-btn.danger { border-color: rgba(248, 113, 113, 0.6); color: #fca5a5; }
-    .mini-action-btn.danger:hover { background: #ef4444; color: #ffffff; border-color: #ef4444; }
-
     @media (max-width: 1080px) {
       .wa-inspector { display: none; }
       .wa-inspector.mobile-open { display: flex; position: fixed; right: 0; top: 62px; height: calc(100vh - 62px); z-index: 60; }
     }
-    @media (max-width: 800px) {
-      .whatsapp-container { flex-direction: column; }
-      .wa-sidebar { width: 100%; height: 235px; border-right: none; border-bottom: 1px solid var(--border-line); }
-      .msg-bubble { max-width: 88%; }
-    }
+
   </style>
 </head>
 <body>
 
+  <!-- YÜKLEME EKRANI -->
   <div id="splash">
     <div class="mono-loader-ring"></div>
     <div class="splash-title">YahyaSohbet</div>
-    <div class="splash-sub">YAHYA GÜNSÜR MTAL • PRO SOHBET PLATFORMU</div>
+    <div class="splash-sub">YAHYA GÜNSÜR MTAL • SİYAH &amp; BEYAZ</div>
   </div>
 
+  <!-- OWNER ÖZEL GİRİŞ ANİMASYONU -->
   <div id="owner-entrance-overlay">
     <div class="owner-entrance-box">
       <div class="owner-entrance-ring"></div>
+      <div class="owner-entrance-ring delay"></div>
       <div class="owner-entrance-crown">♛</div>
-      <div class="owner-entrance-title">OWNER YETKİLERİ AKTİF</div>
+      <div class="owner-entrance-title">OWNER OTURUMU AÇILDI</div>
+      <div class="owner-entrance-sub">Tam Yetki &amp; Moderasyon Aktif</div>
     </div>
   </div>
 
   <canvas id="particles-canvas"></canvas>
 
-  <!-- GİRİŞ KAPISI -->
+  <!-- 1. GİRİŞ KAPISI -->
   <div id="auth-gate-overlay">
     <div class="gate-card">
       <div class="gate-emblem">YS</div>
@@ -641,7 +659,7 @@
     </div>
   </div>
 
-  <!-- ÜST BAR -->
+  <!-- 2. ÜST BAR -->
   <header class="chat-top-nav">
     <div class="top-left-group">
       <a href="index.html" class="brand-link">
@@ -658,14 +676,15 @@
       <button type="button" id="soundToggleBtn" class="top-tool-btn active" title="Bildirim Sesi">🔔 Ses</button>
       <button type="button" id="searchToggleBtn" class="top-tool-btn" title="Mesajlarda Ara">🔍 Ara</button>
       <button type="button" id="inspectorToggleBtn" class="top-tool-btn active" title="Üyeler ve Oda Bilgisi">👥 Üyeler</button>
+      <a href="YahyaPost.html" id="postNavBtn" class="top-tool-btn" style="text-decoration:none;" title="YahyaPost Sayfasına Git">📝 Post</a>
+      <button type="button" id="ownerRoomsBtn" class="powers-btn" onclick="openOwnerRoomsModal()">🔐 Odalar</button>
       <button type="button" id="powersBtn" class="powers-btn" onclick="openPowersModal()">♛ Yetkiler</button>
       <a href="index.html" class="back-link">← Okul Sitesi</a>
     </div>
   </header>
 
-  <!-- 3-SÜTUNLU ANA SOHBET DÜZENİ -->
+  <!-- 3. KLASİK WHATSAPP TARZI 2 SÜTUNLU SOHBET ARAYÜZÜ -->
   <div class="whatsapp-container">
-    <!-- SOL SÜTUN -->
     <aside class="wa-sidebar">
       <div class="wa-user-header">
         <div class="user-profile-info">
@@ -673,7 +692,6 @@
           <div class="user-meta">
             <h4 id="sidebarUserName">Kullanıcı</h4>
             <span class="user-email-sub" id="sidebarUserEmail">ornek@gmail.com</span>
-            <button type="button" id="statusCycleBtn" class="status-toggle-btn">● Çevrimiçi</button>
           </div>
         </div>
         <div class="user-actions">
@@ -684,16 +702,11 @@
 
       <div class="wa-search-box">
         <input type="text" id="roomSearchInput" class="wa-search-input" placeholder="Oda veya sohbet ara..." oninput="renderRoomSidebar()" />
-        <div class="sidebar-quick-actions">
-          <button type="button" class="sidebar-action-btn" onclick="openCreateRoomModal()">➕ Oda Oluştur</button>
-          <button type="button" class="sidebar-action-btn" onclick="openJoinRoomModal()">🔑 Odaya Katıl</button>
-        </div>
       </div>
 
       <ul class="wa-room-list" id="roomListContainer"></ul>
     </aside>
 
-    <!-- ORTA SÜTUN -->
     <main class="wa-chat-main">
       <div class="wa-chat-header">
         <div class="chat-header-left">
@@ -707,12 +720,9 @@
             <p id="activeRoomSub">Tüm kayıtlı üyelerin ortak mesajlaşma alanı</p>
           </div>
         </div>
-        <div class="chat-header-right" style="display:flex; gap:8px; align-items:center;">
+        <div class="chat-header-right">
           <button type="button" class="copy-code-btn" id="copyRoomCodeBtn" onclick="copyActiveRoomCode()">
-            🔑 Oda Kodu: <span id="activeRoomCodeText">------</span> 📋
-          </button>
-          <button type="button" class="copy-code-btn" id="deleteRoomHeaderBtn" onclick="deleteRoomById(activeChannelId)" style="border-color:rgba(248,113,113,0.55); color:#fca5a5;">
-            🗑 Odayı Sil
+            🔑 Oda Şifresi: <span id="activeRoomCodeText">------</span> 📋
           </button>
         </div>
       </div>
@@ -729,30 +739,18 @@
 
       <div class="wa-messages-stream" id="messagesStream"></div>
 
-      <div id="replyPreviewBar" class="reply-preview-bar">
-        <span id="replyPreviewText"></span>
-        <button type="button" class="mini-action-btn" onclick="clearReplyTarget()">✕</button>
-      </div>
-
-      <div id="emojiPickerBar" class="emoji-picker-bar">
-        <button type="button" class="emoji-chip" data-emoji="✦">✦</button>
-        <button type="button" class="emoji-chip" data-emoji="👍">👍</button>
-        <button type="button" class="emoji-chip" data-emoji="🔥">🔥</button>
-        <button type="button" class="emoji-chip" data-emoji="👏">👏</button>
-        <button type="button" class="emoji-chip" data-emoji="😄">😄</button>
-        <button type="button" class="emoji-chip" data-emoji="🎓">🎓</button>
-        <button type="button" class="emoji-chip" data-emoji="💻">💻</button>
-        <button type="button" class="emoji-chip" data-emoji="⚡">⚡</button>
+      <div class="room-fab-dock">
+        <button type="button" class="room-fab-btn" onclick="openCreateRoomModal()">➕ Oda Oluştur</button>
+        <button type="button" class="room-fab-btn" onclick="openJoinRoomModal()">🔑 Odaya Katıl</button>
       </div>
 
       <div class="wa-input-bar">
-        <button type="button" id="emojiToggleBtn" class="wa-icon-btn" title="Sembol / Emoji">✦</button>
-        <input type="text" id="messageInput" class="wa-message-input" placeholder="Mesajınızı yazın (`kod` için ters tırnak kullanabilirsiniz)..." maxlength="500" autocomplete="off" />
+        <input type="text" id="messageInput" class="wa-message-input" placeholder="Mesajınızı yazın ve Enter'a basın..." maxlength="500" autocomplete="off" />
         <button type="button" class="wa-send-btn" onclick="sendChatMessage()">Gönder →</button>
       </div>
     </main>
 
-    <!-- SAĞ SÜTUN: ODA İSTATİSTİKLERİ & ÜYELER -->
+    <!-- SAĞ SÜTUN: ODA İSTATİSTİKLERİ & GİZLİ ÜYELER -->
     <aside id="rightInspectorPanel" class="wa-inspector">
       <div class="inspector-section">
         <div class="inspector-title">Oda İstatistikleri</div>
@@ -769,16 +767,8 @@
       </div>
 
       <div class="inspector-section">
-        <div class="inspector-title">Odadaki Üyeler &amp; Roller</div>
+        <div class="inspector-title">Odadaki Üyeler</div>
         <div id="inspectorMembersList" style="display:flex; flex-direction:column; gap:6px;"></div>
-      </div>
-
-      <div class="inspector-section">
-        <div class="inspector-title">Kısayollar</div>
-        <p style="font-size:0.74rem; color:var(--muted-text); line-height:1.5;">
-          • Mesajlarda <code>`kod`</code> yazarak kod vurgusu yapabilirsiniz.<br />
-          • Owner/Head-Admin yetkileri için isimlere tıklayabilirsiniz.
-        </p>
       </div>
     </aside>
   </div>
@@ -825,13 +815,13 @@
       <p id="powersModalSub"></p>
       <div id="powersCommandsList" style="display:flex; flex-direction:column; gap:8px;"></div>
       <div id="powersUsersSection" style="display:none; flex-direction:column; gap:8px; margin-top:6px;">
-        <div class="font-mono-tech" style="font-size:0.72rem; color:#d4d4d8; text-transform:uppercase; border-top:1px solid var(--border-line); padding-top:10px;">
-          Kullanıcı Yetkilendirme &amp; Moderasyon
+        <div class="font-mono-tech" style="font-size:0.72rem; color:var(--muted-text); text-transform:uppercase; border-top:1px solid var(--border-line); padding-top:10px;">
+          Kullanıcı Yetkilendirme &amp; Silme
         </div>
         <div id="powersUsersList" style="display:flex; flex-direction:column; gap:8px;"></div>
       </div>
       <div id="powersBansSection" style="display:none; flex-direction:column; gap:8px; margin-top:6px;">
-        <div class="font-mono-tech" style="font-size:0.72rem; color:#d4d4d8; text-transform:uppercase; border-top:1px solid var(--border-line); padding-top:10px;">
+        <div class="font-mono-tech" style="font-size:0.72rem; color:var(--muted-text); text-transform:uppercase; border-top:1px solid var(--border-line); padding-top:10px;">
           Banlı Kullanıcılar (Ban Açma)
         </div>
         <div id="powersBansList" style="display:flex; flex-direction:column; gap:8px;"></div>
@@ -849,31 +839,36 @@
     </div>
   </div>
 
-  <!-- MODAL 5: MENÜ & ARAYÜZ RENKLERİ -->
+  <!-- MODAL 5: MENÜ & RENK ÇEŞİTLERİ -->
+  <div class="modal-backdrop" id="ownerRoomsModal">
+    <div class="modal-box wide">
+      <button type="button" class="modal-close" onclick="closeModal('ownerRoomsModal')">✕</button>
+      <h3>🔐 Tüm Oluşturulan Odalar (owner)</h3>
+      <p>Sistemdeki tüm özel odaları görüntüleyebilir, bildirim gitmeden gizlice girebilir veya kalıcı olarak silebilirsiniz.</p>
+      <div id="ownerRoomsList" style="display:flex; flex-direction:column; gap:8px;">
+        <div style="font-size:0.8rem; color:var(--muted-text);">Odalar yükleniyor...</div>
+      </div>
+    </div>
+  </div>
+
   <div class="modal-backdrop" id="themeMenuModal">
     <div class="modal-box">
       <button type="button" class="modal-close" onclick="closeModal('themeMenuModal')">✕</button>
-      <h3>🎨 Menü &amp; Arayüz Renkleri</h3>
-      <p>Sohbet arayüzünün renk temasını, vurgu rengini ve yazı boyutunu dilediğiniz gibi özelleştirin.</p>
+      <h3>🎨 Menü &amp; Renk Çeşitleri</h3>
+      <p>Klasik siyah-beyaz görünümü dilediğiniz renk temasıyla veya özel vurgu rengiyle özelleştirin.</p>
 
       <div class="gate-field">
-        <label>Hazır Renk Temaları</label>
-        <div class="theme-grid" id="themeCardsGrid">
-          <button type="button" class="theme-card-btn" data-set-theme="mono">
-            <span class="theme-swatch" style="background:#050507;"></span> Siyah &amp; Beyaz
-          </button>
-          <button type="button" class="theme-card-btn" data-set-theme="light">
-            <span class="theme-swatch" style="background:#f4f4f5;"></span> Açık Beyaz
-          </button>
-          <button type="button" class="theme-card-btn" data-set-theme="midnight">
-            <span class="theme-swatch" style="background:#1e3a8a;"></span> Gece Mavisi
-          </button>
-          <button type="button" class="theme-card-btn" data-set-theme="emerald">
-            <span class="theme-swatch" style="background:#065f46;"></span> Zümrüt Siyah
-          </button>
-          <button type="button" class="theme-card-btn" data-set-theme="crimson">
-            <span class="theme-swatch" style="background:#991b1b;"></span> Kızıl Siyah
-          </button>
+        <label>Renk Temaları (9 Çeşit)</label>
+        <div class="theme-grid">
+          <button type="button" class="theme-card-btn" data-set-theme="mono"><span class="theme-swatch" style="background:#050507;"></span> Klasik Siyah-Beyaz</button>
+          <button type="button" class="theme-card-btn" data-set-theme="oled"><span class="theme-swatch" style="background:#000000;"></span> Saf OLED Siyah</button>
+          <button type="button" class="theme-card-btn" data-set-theme="light"><span class="theme-swatch" style="background:#f4f4f5;"></span> Açık Beyaz</button>
+          <button type="button" class="theme-card-btn" data-set-theme="midnight"><span class="theme-swatch" style="background:#3b82f6;"></span> Gece Mavisi</button>
+          <button type="button" class="theme-card-btn" data-set-theme="emerald"><span class="theme-swatch" style="background:#10b981;"></span> Zümrüt Siyah</button>
+          <button type="button" class="theme-card-btn" data-set-theme="crimson"><span class="theme-swatch" style="background:#ef4444;"></span> Kızıl Siyah</button>
+          <button type="button" class="theme-card-btn" data-set-theme="nebula"><span class="theme-swatch" style="background:#a855f7;"></span> Mor Nebula</button>
+          <button type="button" class="theme-card-btn" data-set-theme="gold"><span class="theme-swatch" style="background:#eab308;"></span> Altın Siyah</button>
+          <button type="button" class="theme-card-btn" data-set-theme="cyber"><span class="theme-swatch" style="background:#06b6d4;"></span> Turkuaz Siber</button>
         </div>
       </div>
 
@@ -881,22 +876,28 @@
         <label for="customAccentPicker">Özel Vurgu Rengi</label>
         <div style="display:flex; align-items:center; gap:10px;">
           <input type="color" id="customAccentPicker" value="#ffffff" style="width:48px; height:34px; border:1px solid var(--border-line); border-radius:8px; background:transparent;" />
-          <button type="button" class="mini-action-btn" onclick="resetThemePreferences()">Varsayılana Sıfırla</button>
+          <button type="button" class="mini-action-btn" onclick="resetThemePreferences()">Klasik Siyah-Beyaza Dön</button>
+        </div>
+      </div>
+
+      <div id="ownerColorSection" class="gate-field" style="display:none;">
+        <label>♛ Owner Özel Aura &amp; Animasyon Rengi</label>
+        <div style="display:flex; gap:6px; flex-wrap:wrap;">
+          <button type="button" class="mini-action-btn" data-owner-color="white">✦ Beyaz</button>
+          <button type="button" class="mini-action-btn" data-owner-color="gold">♛ Altın</button>
+          <button type="button" class="mini-action-btn" data-owner-color="crimson">🔥 Kızıl</button>
+          <button type="button" class="mini-action-btn" data-owner-color="cyber">⚡ Mavi</button>
+          <button type="button" class="mini-action-btn" data-owner-color="emerald">◈ Zümrüt</button>
+          <button type="button" class="mini-action-btn" data-owner-color="purple">✧ Mor</button>
         </div>
       </div>
 
       <div class="gate-field">
-        <label>Mesaj Yazı Boyutu</label>
-        <div style="display:flex; gap:8px;">
-          <button type="button" class="mini-action-btn" data-font-size="0.82rem">Küçük</button>
-          <button type="button" class="mini-action-btn" data-font-size="0.91rem">Normal</button>
-          <button type="button" class="mini-action-btn" data-font-size="1.03rem">Büyük</button>
-        </div>
-      </div>
-
-      <div class="gate-field">
-        <label>Hızlı İşlemler</label>
+        <label>Mesaj Yazı Boyutu &amp; Dışa Aktarma</label>
         <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <button type="button" class="mini-action-btn" data-font-size="0.82rem">Küçük</button>
+          <button type="button" class="mini-action-btn" data-font-size="0.92rem">Normal</button>
+          <button type="button" class="mini-action-btn" data-font-size="1.04rem">Büyük</button>
           <button type="button" class="mini-action-btn" onclick="exportActiveChat()">💾 Sohbeti İndir (.txt)</button>
         </div>
       </div>
@@ -911,23 +912,13 @@
     const SHARED_AUTH_KEY = "yg_shared_user_v1";
     const MOD_LOCAL_KEY = "ys_moderation_cache_v1";
     const ACCOUNTS_LOCAL_KEY = "ys_accounts_cache_v1";
-    const STATUS_OPTIONS = ['● Çevrimiçi', '◐ Meşgul', '○ Rahatsız Etmeyin'];
+    const THEME_STORAGE_KEY = "ys_theme_prefs_v1";
 
-    let currentUser = {
-      id: "", name: "", email: "", role: "user", statusIndex: 0, authenticated: false
-    };
-
-    let moderationState = {
-      bans: {}, timeouts: {}, kicks: {}, headAdmins: {}, roomStates: {}
-    };
-
+    let currentUser = { id: "", name: "", email: "", role: "user", authenticated: false };
+    let moderationState = { bans: {}, timeouts: {}, kicks: {}, deleted: {}, headAdmins: {}, roomStates: {} };
     let activeChannelId = "GLOBAL";
     let pendingGeneratedCode = "";
-    let replyTarget = null;
     let lastSentMessageAt = 0;
-    let inchatSearchQuery = "";
-    let soundEnabled = true;
-    let unreadCounts = {};
 
     let joinedRooms = [
       { id: "GLOBAL", name: "Global Sohbet (Herkese Açık)", icon: "🌐", isGlobal: true, lastMsg: "Tüm kayıtlı üyelerin ortak sohbet kanalı" }
@@ -940,7 +931,7 @@
           sender: "YahyaSohbet Sistem",
           senderEmail: "sistem@yahyagunsur.meb.k12.tr",
           senderRole: "system",
-          text: "Global Sohbet kanalına hoş geldiniz! Sol menüden özel oda oluşturabilir, sağ panelden odadaki üyeleri görebilirsiniz.",
+          text: "Global Sohbet kanalına hoş geldiniz! Sağ alttaki butonlardan özel oda oluşturabilir veya oda koduyla arkadaşlarınıza katılabilirsiniz.",
           at: Date.now() - 60000
         }
       ]
@@ -960,31 +951,13 @@
           refreshRoleAndRestrictions();
           renderActiveChannelHeaderExtras();
           renderMessageStream();
-          renderInspector();
+        } else if (ev.data.type === 'PURGE_USER') {
+          purgeUserLocally(ev.data.targetName, ev.data.targetEmail);
         }
       };
     }
 
     const authBroadcast = ('BroadcastChannel' in window) ? new BroadcastChannel('yg_auth_sync_v1') : null;
-
-    // Web Audio API Sentetik Bildirim Sesi
-    let audioCtx = null;
-    function playPingSound(isOwn = false) {
-      if (!soundEnabled) return;
-      try {
-        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(isOwn ? 520 : 680, audioCtx.currentTime);
-        gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.12);
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.start();
-        osc.stop(audioCtx.currentTime + 0.13);
-      } catch (_) {}
-    }
 
     function normalizeKey(str) {
       return String(str || '').trim().toLocaleLowerCase('tr').replace(/[^a-z0-9çğıöşü_-]/g, '_');
@@ -1024,6 +997,10 @@
     function saveLocalAccount(emailKey, record) {
       try { const all = getLocalAccounts(); all[emailKey] = record; localStorage.setItem(ACCOUNTS_LOCAL_KEY, JSON.stringify(all)); } catch (_) {}
     }
+    function removeLocalAccount(emailKey) {
+      try { const all = getLocalAccounts(); delete all[emailKey]; localStorage.setItem(ACCOUNTS_LOCAL_KEY, JSON.stringify(all)); } catch (_) {}
+    }
+
     function saveLocalModeration() {
       try { localStorage.setItem(MOD_LOCAL_KEY, JSON.stringify(moderationState)); } catch (_) {}
     }
@@ -1034,6 +1011,7 @@
           moderationState.bans = raw.bans || {};
           moderationState.timeouts = raw.timeouts || {};
           moderationState.kicks = raw.kicks || {};
+          moderationState.deleted = raw.deleted || {};
           moderationState.headAdmins = raw.headAdmins || {};
           moderationState.roomStates = raw.roomStates || {};
         }
@@ -1067,7 +1045,7 @@
     function triggerOwnerEntranceAnimation() {
       const overlay = document.getElementById('owner-entrance-overlay');
       overlay.style.display = 'flex';
-      setTimeout(() => { overlay.style.display = 'none'; }, 1850);
+      setTimeout(() => { overlay.style.display = 'none'; }, 2100);
     }
 
     function updateSidebarUserUI() {
@@ -1080,34 +1058,37 @@
 
       avatarEl.classList.remove('owner-avatar-glow');
       if (currentUser.role === 'owner') {
-        const badge = document.createElement('span');
-        badge.className = 'owner-badge';
-        const crown = document.createElement('span');
-        crown.className = 'owner-badge-crown';
-        crown.textContent = '♛';
+        const badge = document.createElement('span'); badge.className = 'owner-badge';
+        const crown = document.createElement('span'); crown.className = 'owner-badge-crown'; crown.textContent = '♛';
         badge.append(crown, document.createTextNode(' owner'));
         nameEl.appendChild(badge);
         avatarEl.classList.add('owner-avatar-glow');
         powersBtn.style.display = 'inline-flex';
+        document.getElementById('ownerRoomsBtn').style.display = 'inline-flex';
       } else if (currentUser.role === 'head-admin') {
-        const badge = document.createElement('span');
-        badge.className = 'headadmin-badge';
+        const badge = document.createElement('span'); badge.className = 'headadmin-badge';
         badge.textContent = '★ Head-Admin';
         nameEl.appendChild(badge);
         powersBtn.style.display = 'inline-flex';
+        document.getElementById('ownerRoomsBtn').style.display = 'none';
       } else {
         powersBtn.style.display = 'none';
+        document.getElementById('ownerRoomsBtn').style.display = 'none';
       }
 
       document.getElementById('sidebarUserEmail').textContent = currentUser.email || 'ornek@gmail.com';
       avatarEl.textContent = (currentUser.name || 'Y').charAt(0).toUpperCase();
-      document.getElementById('statusCycleBtn').textContent = STATUS_OPTIONS[currentUser.statusIndex || 0];
     }
 
     function refreshRoleAndRestrictions() {
       if (!currentUser.authenticated) return;
       if (currentUser.role !== 'owner') {
         currentUser.role = getRoleForUser(currentUser.name, currentUser.role);
+        const delRec = moderationState.deleted && moderationState.deleted[normalizeKey(currentUser.name)];
+        if (delRec && delRec.deletedAt > (currentUser.loggedInAt || 0)) {
+          logoutUser('Hesabınız ve verileriniz owner tarafından kalıcı olarak silindi.');
+          return;
+        }
         const kickRec = moderationState.kicks && moderationState.kicks[normalizeKey(currentUser.name)];
         if (kickRec && kickRec.kickedAt > (currentUser.loggedInAt || 0)) {
           logoutUser('Owner tarafından odadan çıkarıldınız.');
@@ -1143,7 +1124,7 @@
       msgInput.disabled = false; sendBtn.disabled = false;
       msgInput.placeholder = rState.slowmodeSec > 0 && currentUser.role === 'user'
         ? `Yavaş mod aktif (${rState.slowmodeSec} sn) — Mesajınızı yazın...`
-        : "Mesajınızı yazın (`kod` için ters tırnak kullanabilirsiniz)...";
+        : "Mesajınızı yazın ve Enter'a basın...";
     }
 
     async function verifyEntryGate() {
@@ -1169,9 +1150,7 @@
         return;
       }
 
-      btn.disabled = true;
-      errEl.textContent = "";
-
+      btn.disabled = true; errEl.textContent = "";
       try {
         const emailKey = normalizeEmailKey(emailInput);
         const passHash = await hashSecret(emailInput + '::' + accountPassInput);
@@ -1183,8 +1162,7 @@
         if (existingAcc && existingAcc.passwordHash) {
           if (existingAcc.passwordHash !== passHash) {
             errEl.textContent = "Bu Gmail adresi başka bir şifreyle kayıtlı! Şifrenizi kontrol edin.";
-            btn.disabled = false;
-            return;
+            btn.disabled = false; return;
           }
         } else {
           const newAccount = { email: emailInput, name: nameInput, passwordHash: passHash, createdAt: Date.now(), gateKey: REQUIRED_GATE_PASSWORD };
@@ -1196,11 +1174,8 @@
           } catch (_) {}
         }
 
-        currentUser.name = nameInput;
-        currentUser.email = emailInput;
-        currentUser.role = assignedRole;
-        currentUser.authenticated = true;
-        currentUser.loggedInAt = Date.now();
+        currentUser.name = nameInput; currentUser.email = emailInput;
+        currentUser.role = assignedRole; currentUser.authenticated = true; currentUser.loggedInAt = Date.now();
 
         broadcastSharedAuth({
           id: currentUser.id, name: currentUser.name, email: currentUser.email,
@@ -1209,10 +1184,7 @@
 
         updateSidebarUserUI();
         document.getElementById('auth-gate-overlay').style.display = 'none';
-        refreshRoleAndRestrictions();
-        renderRoomSidebar();
-        renderActiveChannel();
-        pollFirebaseMessages();
+        refreshRoleAndRestrictions(); renderRoomSidebar(); renderActiveChannel(); pollFirebaseMessages();
 
         if (currentUser.role === 'owner') {
           triggerOwnerEntranceAnimation();
@@ -1221,9 +1193,7 @@
           showToast(`Hoş geldin ${currentUser.name}!`);
         }
         document.getElementById('messageInput').focus();
-      } finally {
-        btn.disabled = false;
-      }
+      } finally { btn.disabled = false; }
     }
 
     function reopenGateModal() {
@@ -1243,18 +1213,113 @@
       showToast(customMsg || 'Oturum tüm sayfalarda sonlandırıldı.', Boolean(customMsg));
     }
 
-    document.getElementById('gateNameInput').addEventListener('keydown', (e) => { if (e.key === 'Enter') document.getElementById('gateEmailInput').focus(); });
-    document.getElementById('gateEmailInput').addEventListener('keydown', (e) => { if (e.key === 'Enter') document.getElementById('gateAccountPassInput').focus(); });
-    document.getElementById('gateAccountPassInput').addEventListener('keydown', (e) => { if (e.key === 'Enter') document.getElementById('gatePassInput').focus(); });
-    document.getElementById('gatePassInput').addEventListener('keydown', (e) => { if (e.key === 'Enter') verifyEntryGate(); });
+    document.getElementById('gateNameInput').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('gateEmailInput').focus(); });
+    document.getElementById('gateEmailInput').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('gateAccountPassInput').focus(); });
+    document.getElementById('gateAccountPassInput').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('gatePassInput').focus(); });
+    document.getElementById('gatePassInput').addEventListener('keydown', e => { if (e.key === 'Enter') verifyEntryGate(); });
 
     // =========================================================================
-    // MODERASYON & KOMUTLAR
+    // MODERASYON & KALICI KULLANICI SİLME (/delete)
     // =========================================================================
     function extractCommandArg(rawArg) {
       const trimmed = rawArg.trim();
       if ((trimmed.startsWith('"') && trimmed.endsWith('"')) || (trimmed.startsWith("'") && trimmed.endsWith("'"))) return trimmed.slice(1, -1).trim();
       return trimmed;
+    }
+
+    function purgeUserLocally(targetName, targetEmail) {
+      const targetKey = normalizeKey(targetName);
+      const emailSet = new Set();
+      if (targetEmail) emailSet.add(targetEmail.toLowerCase());
+
+      // Collect any known email for this user from messages
+      Object.values(localMessagesStore).forEach(arr => {
+        arr.forEach(m => {
+          if (normalizeKey(m.sender) === targetKey && m.senderEmail) emailSet.add(m.senderEmail.toLowerCase());
+        });
+      });
+
+      // Purge messages in all channels
+      Object.keys(localMessagesStore).forEach(ch => {
+        localMessagesStore[ch] = localMessagesStore[ch].filter(m => {
+          const sameName = normalizeKey(m.sender) === targetKey && m.senderId !== 'system';
+          const sameEmail = m.senderEmail && emailSet.has(m.senderEmail.toLowerCase()) && m.senderId !== 'system';
+          return !(sameName || sameEmail);
+        });
+      });
+
+      // Purge local account cache
+      emailSet.forEach(em => removeLocalAccount(normalizeEmailKey(em)));
+
+      // Remove roles & active restrictions
+      delete moderationState.headAdmins[targetKey];
+      delete moderationState.timeouts[targetKey];
+      delete moderationState.bans[targetKey];
+      delete moderationState.kicks[targetKey];
+
+      // Update room previews
+      joinedRooms.forEach(r => {
+        const list = localMessagesStore[r.id] || [];
+        const last = list[list.length - 1];
+        r.lastMsg = last ? `${last.sender}: ${last.text.slice(0, 80)}` : 'Henüz mesaj yok';
+      });
+
+      if (currentUser.authenticated && currentUser.role !== 'owner' && normalizeKey(currentUser.name) === targetKey) {
+        logoutUser('Hesabınız ve verileriniz owner tarafından kalıcı olarak silindi.');
+      }
+      renderRoomSidebar();
+      renderMessageStream();
+      if (typeof renderInspector === 'function') renderInspector();
+    }
+
+    async function applyDeleteUser(targetName) {
+      if (currentUser.role !== 'owner') return showToast('Bu işlem yalnızca owner içindir.', true);
+      const cleanName = extractCommandArg(targetName);
+      if (!cleanName) return;
+      if (normalizeKey(cleanName) === normalizeKey(currentUser.name)) {
+        return showToast('Kendi owner hesabınızı silemezsiniz.', true);
+      }
+
+      const key = normalizeKey(cleanName);
+      const matchedMsgs = [];
+      const matchedEmails = new Set();
+
+      Object.entries(localMessagesStore).forEach(([ch, arr]) => {
+        arr.forEach(m => {
+          if (normalizeKey(m.sender) === key && m.senderId !== 'system') {
+            matchedMsgs.push({ ch, id: m.id });
+            if (m.senderEmail) matchedEmails.add(m.senderEmail.toLowerCase());
+          }
+        });
+      });
+
+      // Mark deleted timestamp so active sessions log out
+      const delRecord = { name: cleanName, deletedAt: Date.now(), gateKey: REQUIRED_GATE_PASSWORD };
+      moderationState.deleted[key] = delRecord;
+      purgeUserLocally(cleanName, Array.from(matchedEmails)[0] || '');
+      broadcastModerationSync();
+      if (syncChannel) syncChannel.postMessage({ type: 'PURGE_USER', targetName: cleanName, targetEmail: Array.from(matchedEmails)[0] || '' });
+
+      // Delete from Firebase (accounts, messages, roles, moderation)
+      try {
+        const ops = [
+          firebaseRequest(`moderation/deleted/${key}.json`, { method: 'PUT', body: JSON.stringify(delRecord) }),
+          firebaseRequest(`roles/headAdmins/${key}.json`, { method: 'DELETE' }).catch(() => null),
+          firebaseRequest(`moderation/bans/${key}.json`, { method: 'DELETE' }).catch(() => null),
+          firebaseRequest(`moderation/timeouts/${key}.json`, { method: 'DELETE' }).catch(() => null)
+        ];
+        matchedEmails.forEach(em => {
+          ops.push(firebaseRequest(`accounts/${normalizeEmailKey(em)}.json`, { method: 'DELETE' }).catch(() => null));
+        });
+        matchedMsgs.forEach(item => {
+          ops.push(firebaseRequest(messageRecordPath(item.ch, item.id), { method: 'DELETE' }).catch(() => null));
+        });
+        await Promise.all(ops);
+      } catch (_) {}
+
+      await postSystemMessage(`🗑️ "${cleanName}" kullanıcısı ve tüm verileri owner tarafından kalıcı olarak silindi.`);
+      showToast(`${cleanName} ve tüm verileri kalıcı olarak silindi.`);
+      if (document.getElementById('powersModal').style.display === 'flex') openPowersModal();
     }
 
     async function applyBan(targetName, shouldBan) {
@@ -1352,7 +1417,6 @@
         showToast(`${cleanName} Head-Admin oldu.`);
       }
       renderMessageStream();
-      renderInspector();
       if (document.getElementById('powersModal').style.display === 'flex') openPowersModal();
     }
 
@@ -1371,9 +1435,12 @@
       const cmd = parts[0].toLowerCase();
       const rest = rawText.trim().slice(cmd.length).trim();
 
+      if (cmd === '/delete') { if (currentUser.role !== 'owner') return showToast('Yalnızca owner içindir.', true); if (!rest) return showToast('Kullanım: /delete "kişi ismi"', true); await applyDeleteUser(rest); return true; }
       if (cmd === '/ban') { if (currentUser.role !== 'owner') return showToast('Yalnızca owner içindir.', true); if (!rest) return showToast('Kullanım: /ban "kişi"', true); await applyBan(rest, true); return true; }
       if (cmd === '/unban') { if (currentUser.role !== 'owner') return showToast('Yalnızca owner içindir.', true); if (!rest) return showToast('Kullanım: /unban "kişi"', true); await applyBan(rest, false); return true; }
       if (cmd === '/timeout15') { if (currentUser.role !== 'owner') return showToast('Yalnızca owner içindir.', true); if (!rest) return showToast('Kullanım: /timeout15 "kişi"', true); await applyTimeout(rest, 15); return true; }
+      if (cmd === '/timeout30') { if (currentUser.role !== 'owner') return showToast('Yalnızca owner içindir.', true); if (!rest) return showToast('Kullanım: /timeout30 "kişi"', true); await applyTimeout(rest, 30); return true; }
+      if (cmd === '/timeout60') { if (currentUser.role !== 'owner') return showToast('Yalnızca owner içindir.', true); if (!rest) return showToast('Kullanım: /timeout60 "kişi"', true); await applyTimeout(rest, 60); return true; }
       if (cmd === '/timeout5') { if (currentUser.role !== 'owner' && currentUser.role !== 'head-admin') return showToast('Yetkiniz yok.', true); if (!rest) return showToast('Kullanım: /timeout5 "kişi"', true); await applyTimeout(rest, 5); return true; }
       if (cmd === '/untimeout') { if (currentUser.role !== 'owner') return showToast('Yalnızca owner içindir.', true); if (!rest) return showToast('Kullanım: /untimeout "kişi"', true); await applyTimeout(rest, 0); return true; }
       if (cmd === '/kick') { if (currentUser.role !== 'owner') return showToast('Yalnızca owner içindir.', true); if (!rest) return showToast('Kullanım: /kick "kişi"', true); await applyKick(rest); return true; }
@@ -1389,17 +1456,11 @@
       if (cmd === '/unlock') { if (currentUser.role !== 'owner') return showToast('Yalnızca owner içindir.', true); await applyRoomStateUpdate({ locked: false }); await postSystemMessage('🔓 Oda kilidi owner tarafından açıldı.'); return true; }
       if (cmd === '/pin') { if (currentUser.role !== 'owner') return showToast('Yalnızca owner içindir.', true); if (!rest) return showToast('Kullanım: /pin "mesaj"', true); await applyPin(rest); return true; }
       if (cmd === '/unpin') { if (currentUser.role !== 'owner') return showToast('Yalnızca owner içindir.', true); await applyPin(''); return true; }
-      if (cmd === '/clear') { if (currentUser.role !== 'owner') return showToast('Yalnızca owner içindir.', true); localMessagesStore[activeChannelId] = []; renderMessageStream(); renderInspector(); await postSystemMessage('🧹 Sohbet akışı owner tarafından temizlendi.'); return true; }
-      if (cmd === '/announce') { if (currentUser.role !== 'owner') return showToast('Yalnızca owner içindir.', true); const msg = extractCommandArg(rest); if (!msg) return showToast('Kullanım: /announce "mesaj"', true); await postSystemMessage(`📢 DUYURU: ${msg}`); return true; }
-
-      if (cmd === '/timeout30') { if (currentUser.role !== 'owner') return showToast('Yalnızca owner içindir.', true); if (!rest) return showToast('Kullanım: /timeout30 "kişi"', true); await applyTimeout(rest, 30); return true; }
-      if (cmd === '/timeout60') { if (currentUser.role !== 'owner') return showToast('Yalnızca owner içindir.', true); if (!rest) return showToast('Kullanım: /timeout60 "kişi"', true); await applyTimeout(rest, 60); return true; }
       if (cmd === '/warn') {
         if (currentUser.role !== 'owner') return showToast('Yalnızca owner içindir.', true);
-        if (!rest) return showToast('Kullanım: /warn kişi ismi | sebep', true);
+        if (!rest) return showToast('Kullanım: /warn kişi | sebep', true);
         const [target, reason] = rest.split('|').map(x => extractCommandArg(x || ''));
         await postSystemMessage(`⚠️ UYARI (${target}): ${reason || 'Sohbet kurallarına dikkat ediniz.'}`);
-        showToast(`${target} uyarıldı.`);
         return true;
       }
       if (cmd === '/rename') {
@@ -1432,15 +1493,25 @@
         });
         return true;
       }
-      if (cmd === '/export') {
-        exportActiveChat();
-        return true;
-      }
       if (cmd === '/maintenance') {
         if (currentUser.role !== 'owner') return showToast('Yalnızca owner içindir.', true);
         const nextVal = !getChannelState(activeChannelId).locked;
         await applyRoomStateUpdate({ locked: nextVal });
         await postSystemMessage(nextVal ? '🛠️ Bakım modu aktif: Sadece owner/Head-Admin yazabilir.' : '✅ Bakım modu kapatıldı.');
+        return true;
+      }
+      if (cmd === '/export') { exportActiveChat(); return true; }
+      if (cmd === '/clear') {
+        if (currentUser.role !== 'owner') return showToast('Yalnızca owner içindir.', true);
+        localMessagesStore[activeChannelId] = []; renderMessageStream();
+        await postSystemMessage('🧹 Sohbet akışı owner tarafından temizlendi.');
+        return true;
+      }
+      if (cmd === '/announce') {
+        if (currentUser.role !== 'owner') return showToast('Yalnızca owner içindir.', true);
+        const msg = extractCommandArg(rest);
+        if (!msg) return showToast('Kullanım: /announce "mesaj"', true);
+        await postSystemMessage(`📢 DUYURU: ${msg}`);
         return true;
       }
 
@@ -1454,31 +1525,31 @@
 
       document.getElementById('powersModalTitle').textContent = isOwner ? '♛ owner Yetkileri & Komut Merkezi' : '★ Head-Admin Yetkileri';
       document.getElementById('powersModalSub').textContent = isOwner
-        ? 'Tüm moderasyon, oda kontrolü, Head-Admin atama ve ban açma yetkilerine sahipsiniz.'
+        ? 'Tüm moderasyon, kalıcı veri silme (/delete), oda kontrolü ve Head-Admin atama yetkilerine sahipsiniz.'
         : 'Head-Admin olarak kullanıcılara 5 dakikalık uzaklaştırma (/timeout5) uygulayabilirsiniz.';
 
       const commands = isOwner
         ? [
+            { cmd: '/delete "kişi ismi"', desc: 'Kullanıcıyı ve tüm verilerini siteden kalıcı olarak siler.' },
             { cmd: '/ban "kişi ismi"', desc: 'Kullanıcıyı kalıcı olarak yasaklar.' },
             { cmd: '/unban "kişi ismi"', desc: 'Yasaklı kullanıcının banını açar.' },
             { cmd: '/timeout15 "kişi ismi"', desc: 'Kullanıcıyı 15 dakika susturur.' },
-            { cmd: '/timeout5 "kişi ismi"', desc: 'Kullanıcıyı 5 dakika susturur.' },
-            { cmd: '/untimeout "kişi ismi"', desc: 'Aktif susturmayı hemen kaldırır.' },
-            { cmd: '/kick "kişi ismi"', desc: 'Kullanıcıyı odadan çıkarıp giriş kapısına atar.' },
-            { cmd: '/headadmin "kişi ismi"', desc: 'Head-Admin yetkisi verir veya geri alır.' },
-            { cmd: '/slowmode 10', desc: 'Odada yavaş mod açar (0 ile kapatılır).' },
-            { cmd: '/lock', desc: 'Odayı kilitler (sadece yetkililer yazar).' },
-            { cmd: '/unlock', desc: 'Oda kilidini açar.' },
-            { cmd: '/pin "mesaj"', desc: 'Odanın üstüne duyuru sabitler (/unpin kaldırır).' },
-            { cmd: '/announce "mesaj"', desc: 'Odaya sistem duyurusu gönderir.' },
             { cmd: '/timeout30 "kişi ismi"', desc: 'Kullanıcıyı 30 dakika susturur.' },
             { cmd: '/timeout60 "kişi ismi"', desc: 'Kullanıcıyı 60 dakika susturur.' },
-            { cmd: '/warn kişi | sebep', desc: 'Kullanıcıya resmi uyarı mesajı gönderir.' },
-            { cmd: '/rename "oda adı"', desc: 'Aktif odanın görünen adını değiştirir.' },
-            { cmd: '/topic "açıklama"', desc: 'Aktif odanın alt açıklamasını günceller.' },
+            { cmd: '/timeout5 "kişi ismi"', desc: 'Kullanıcıyı 5 dakika susturur.' },
+            { cmd: '/untimeout "kişi ismi"', desc: 'Aktif susturmayı hemen kaldırır.' },
+            { cmd: '/kick "kişi ismi"', desc: 'Kullanıcıyı odadan çıkarır.' },
+            { cmd: '/headadmin "kişi ismi"', desc: 'Head-Admin yetkisi verir veya geri alır.' },
+            { cmd: '/warn kişi | sebep', desc: 'Kullanıcıya resmi uyarı gönderir.' },
+            { cmd: '/slowmode 10', desc: 'Odada yavaş mod açar (0 ile kapatılır).' },
+            { cmd: '/lock / /unlock', desc: 'Odayı kilitler veya kilidi açar.' },
+            { cmd: '/pin "mesaj"', desc: 'Üst kısma duyuru sabitler (/unpin kaldırır).' },
+            { cmd: '/rename "oda adı"', desc: 'Aktif odanın adını değiştirir.' },
+            { cmd: '/topic "açıklama"', desc: 'Aktif odanın açıklamasını günceller.' },
             { cmd: '/poll Soru? | A | B', desc: 'Odada tıklanabilir anket başlatır.' },
-            { cmd: '/maintenance', desc: 'Bakım modunu (kilit) açıp kapatır.' },
-            { cmd: '/export', desc: 'Aktif oda sohbetini .txt olarak indirir.' },
+            { cmd: '/maintenance', desc: 'Bakım modunu açıp kapatır.' },
+            { cmd: '/announce "mesaj"', desc: 'Odaya sistem duyurusu gönderir.' },
+            { cmd: '/export', desc: 'Sohbet geçmişini .txt olarak indirir.' },
             { cmd: '/clear', desc: 'Aktif oda mesajlarını temizler.' }
           ]
         : [{ cmd: '/timeout5 "kişi ismi"', desc: 'Kullanıcıyı 5 dakika boyunca susturur.' }];
@@ -1512,8 +1583,8 @@
                   <div><div class="cmd-code">${u.name} ${isHA ? '★ Head-Admin' : ''}</div><div class="cmd-desc">${u.email || ''}</div></div>
                   <div style="display:flex; gap:6px; flex-wrap:wrap;">
                     <button type="button" class="mini-action-btn" data-ha-user="${u.name}">${isHA ? 'Yetkiyi Al' : 'Head-Admin Yap'}</button>
-                    <button type="button" class="mini-action-btn" data-kick-user="${u.name}">Çıkar</button>
-                    <button type="button" class="mini-action-btn danger" data-ban-user="${u.name}">Banla</button>
+                    <button type="button" class="mini-action-btn" data-ban-user="${u.name}">Banla</button>
+                    <button type="button" class="mini-action-btn danger" data-delete-user="${u.name}">Kalıcı Sil</button>
                   </div>
                 </div>`;
             }).join('');
@@ -1556,13 +1627,14 @@
           ? `<button type="button" class="mini-action-btn" data-ua-unban="${targetName}">✅ Banı Aç (/unban)</button>`
           : `<button type="button" class="mini-action-btn danger" data-ua-ban="${targetName}">🚫 Kalıcı Ban At (/ban)</button>`
         );
+        btns.push(`<button type="button" class="mini-action-btn danger" data-ua-delete="${targetName}">🗑️ Kullanıcıyı Kalıcı Sil (/delete)</button>`);
       }
       document.getElementById('uaButtons').innerHTML = btns.join('');
       document.getElementById('userActionModal').style.display = 'flex';
     }
 
     // =========================================================================
-    // ODA, MESAJLAŞMA & SAĞ MÜFETTİŞ PANELİ
+    // ODA OLUŞTURMA, KATILMA, MESAJLAŞMA & FIREBASE
     // =========================================================================
     function generateRandomRoomCode() {
       let code = ""; const bytes = new Uint8Array(6); crypto.getRandomValues(bytes);
@@ -1637,9 +1709,9 @@
         document.body.appendChild(toast);
       }
       toast.textContent = message;
-      toast.style.background = isError ? '#1f1010' : '#ffffff';
-      toast.style.color = isError ? '#fca5a5' : '#09090b';
-      toast.style.border = isError ? '1px solid #ef4444' : '1px solid #ffffff';
+      toast.style.background = isError ? '#1f1010' : 'var(--accent-white)';
+      toast.style.color = isError ? '#fca5a5' : 'var(--accent-text)';
+      toast.style.border = isError ? '1px solid #ef4444' : '1px solid var(--accent-white)';
       toast.style.display = 'block';
       clearTimeout(showToast.hideTimer);
       showToast.hideTimer = setTimeout(() => { toast.style.display = 'none'; }, 4000);
@@ -1724,21 +1796,9 @@
         const title = document.createElement('div'); title.className = 'room-title'; title.textContent = room.name;
         topLine.appendChild(title);
 
-        if (unreadCounts[room.id] > 0 && activeChannelId !== room.id) {
-          const ub = document.createElement('span'); ub.className = 'unread-badge'; ub.textContent = unreadCounts[room.id];
-          topLine.appendChild(ub);
-        } else if (!room.isGlobal) {
-          const rightWrap = document.createElement('div');
-          rightWrap.style.cssText = 'display:flex; align-items:center; gap:4px;';
+        if (!room.isGlobal) {
           const code = document.createElement('span'); code.className = 'room-code-tag'; code.textContent = room.id;
-          const delBtn = document.createElement('button');
-          delBtn.type = 'button';
-          delBtn.className = 'room-delete-btn';
-          delBtn.title = 'Odayı Sil';
-          delBtn.textContent = '✕';
-          delBtn.setAttribute('data-delete-room', room.id);
-          rightWrap.append(code, delBtn);
-          topLine.appendChild(rightWrap);
+          topLine.appendChild(code);
         }
 
         const preview = document.createElement('div'); preview.className = 'room-last-msg'; preview.textContent = room.lastMsg || 'Henüz mesaj yok';
@@ -1750,23 +1810,9 @@
       }
     }
 
-    async function deleteRoomById(channelId) {
-      if (!channelId || channelId === 'GLOBAL') return showToast('Global Sohbet odası silinemez.', true);
-      joinedRooms = joinedRooms.filter(r => r.id !== channelId);
-      delete localMessagesStore[channelId];
-      delete unreadCounts[channelId];
-      if (activeChannelId === channelId) activeChannelId = 'GLOBAL';
-      saveJoinedRooms();
-      renderRoomSidebar();
-      renderActiveChannel();
-      try { await firebaseRequest(`rooms/${channelId}.json`, { method: 'DELETE' }); } catch (_) {}
-      showToast(`Oda (${channelId}) silindi.`);
-    }
-
     function selectChannel(channelId) {
       if (!joinedRooms.some(r => r.id === channelId)) return;
-      activeChannelId = channelId; unreadCounts[channelId] = 0;
-      clearReplyTarget(); saveJoinedRooms(); renderRoomSidebar(); renderActiveChannel(); pollFirebaseMessages();
+      activeChannelId = channelId; saveJoinedRooms(); renderRoomSidebar(); renderActiveChannel(); pollFirebaseMessages();
     }
 
     function renderActiveChannelHeaderExtras() {
@@ -1784,77 +1830,20 @@
       } else pinBanner.style.display = 'none';
     }
 
-    function renderInspector() {
-      const msgs = localMessagesStore[activeChannelId] || [];
-      document.getElementById('statMsgCount').textContent = msgs.length;
-
-      const membersMap = new Map();
-      if (currentUser.authenticated) {
-        membersMap.set(normalizeKey(currentUser.name), { name: currentUser.name, email: currentUser.email, role: currentUser.role });
-      }
-      msgs.forEach(m => {
-        if (m.senderId !== 'system') {
-          const k = normalizeKey(m.sender);
-          const role = m.senderRole === 'owner' ? 'owner' : getRoleForUser(m.sender, m.senderRole);
-          if (!membersMap.has(k)) membersMap.set(k, { name: m.sender, email: m.senderEmail, role });
-        }
-      });
-
-      document.getElementById('statMemberCount').textContent = membersMap.size;
-      const listEl = document.getElementById('inspectorMembersList');
-      listEl.replaceChildren();
-
-      Array.from(membersMap.values()).forEach(u => {
-        const row = document.createElement('div');
-        row.className = 'member-row';
-        const left = document.createElement('div');
-        const nameLine = document.createElement('div');
-        nameLine.className = 'member-name';
-        const nSpan = document.createElement('span');
-        nSpan.textContent = u.name;
-        if ((currentUser.role === 'owner' || currentUser.role === 'head-admin') && u.name !== currentUser.name) {
-          nSpan.className = 'msg-sender-clickable';
-          nSpan.setAttribute('data-user-click', u.name);
-          nSpan.setAttribute('data-user-email', u.email || '');
-        }
-        nameLine.appendChild(nSpan);
-        if (u.role === 'owner') {
-          const ob = document.createElement('span'); ob.className = 'owner-badge'; ob.textContent = '♛ owner'; nameLine.appendChild(ob);
-        } else if (u.role === 'head-admin') {
-          const hb = document.createElement('span'); hb.className = 'headadmin-badge'; hb.textContent = '★ HA'; nameLine.appendChild(hb);
-        }
-        const emailLine = document.createElement('div');
-        emailLine.className = 'member-email';
-        emailLine.textContent = u.email || '';
-        left.append(nameLine, emailLine);
-        row.appendChild(left);
-        listEl.appendChild(row);
-      });
-    }
-
     function renderActiveChannel() {
       const room = joinedRooms.find(i => i.id === activeChannelId) || joinedRooms[0];
+      const rState = getChannelState(activeChannelId);
       document.getElementById('activeRoomTitle').textContent = room.name;
       document.getElementById('activeRoomIcon').textContent = room.icon || '🔐';
-      document.getElementById('activeRoomSub').textContent = room.isGlobal
+      document.getElementById('activeRoomSub').textContent = rState.topicText || (room.isGlobal
         ? 'Tüm kayıtlı üyelerin ortak mesajlaşma alanı'
-        : 'Özel oda • Oda kodunu yalnızca davet etmek istediğiniz kişilerle paylaşın';
+        : 'Özel oda • Oda kodunu yalnızca davet etmek istediğiniz kişilerle paylaşın');
       document.getElementById('copyRoomCodeBtn').style.display = room.isGlobal ? 'none' : 'flex';
-      document.getElementById('deleteRoomHeaderBtn').style.display = room.isGlobal ? 'none' : 'flex';
       document.getElementById('activeRoomCodeText').textContent = room.isGlobal ? '------' : room.id;
       renderActiveChannelHeaderExtras();
       refreshRoleAndRestrictions();
       renderMessageStream();
-      renderInspector();
     }
-
-    function setReplyTarget(sender, text) {
-      replyTarget = { sender, text: text.slice(0, 90) };
-      document.getElementById('replyPreviewText').textContent = `↩ ${sender}: "${replyTarget.text}"`;
-      document.getElementById('replyPreviewBar').style.display = 'flex';
-      document.getElementById('messageInput').focus();
-    }
-    function clearReplyTarget() { replyTarget = null; document.getElementById('replyPreviewBar').style.display = 'none'; }
 
     function normalizeMessage(raw, fallbackId) {
       if (!raw || typeof raw !== 'object') return null;
@@ -1864,9 +1853,7 @@
         senderId: String(raw.senderId || ''),
         senderEmail: String(raw.senderEmail || '').slice(0, 64),
         senderRole: String(raw.senderRole || 'user'),
-        replyTo: raw.replyTo && raw.replyTo.sender ? raw.replyTo : null,
         poll: raw.poll && raw.poll.question ? raw.poll : null,
-        reactions: raw.reactions && typeof raw.reactions === 'object' ? raw.reactions : {},
         text: String(raw.text || '').slice(0, 5000),
         at: Number(raw.at) || Date.now()
       };
@@ -1878,6 +1865,10 @@
       if (channelId !== 'GLOBAL' && !ROOM_CODE_PATTERN.test(String(channelId))) return false;
       const msg = normalizeMessage(rawMsg);
       if (!msg) return false;
+      // Skip messages from deleted users
+      if (msg.senderId !== 'system' && moderationState.deleted && moderationState.deleted[normalizeKey(msg.sender)]) {
+        if (msg.at <= moderationState.deleted[normalizeKey(msg.sender)].deletedAt) return false;
+      }
       if (!localMessagesStore[channelId]) localMessagesStore[channelId] = [];
       const messages = localMessagesStore[channelId];
       if (messages.some(existing => existing.id === msg.id)) return false;
@@ -1885,36 +1876,13 @@
       messages.sort((a, b) => a.at - b.at || a.id.localeCompare(b.id));
       if (messages.length > MAX_CACHED_MESSAGES) messages.splice(0, messages.length - MAX_CACHED_MESSAGES);
 
-      if (activeChannelId !== channelId) {
-        unreadCounts[channelId] = (unreadCounts[channelId] || 0) + 1;
-      } else if (!deferUI && msg.senderId !== currentUser.id) {
-        playPingSound(false);
-      }
-
       const room = joinedRooms.find(i => i.id === channelId);
       if (room) {
         room.lastMsg = msg.sender + ': ' + msg.text.slice(0, 85);
         if (!deferUI) { saveJoinedRooms(); renderRoomSidebar(); }
       }
-      if (!deferUI && activeChannelId === channelId) {
-        renderMessageStream();
-        renderInspector();
-      }
+      if (!deferUI && activeChannelId === channelId) renderMessageStream();
       return true;
-    }
-
-    function appendFormattedText(container, rawText) {
-      const segments = String(rawText).split(/(`[^`]+`)/g);
-      for (const seg of segments) {
-        if (seg.startsWith('`') && seg.endsWith('`') && seg.length > 2) {
-          const codeEl = document.createElement('code');
-          codeEl.className = 'inline-code-pill';
-          codeEl.textContent = seg.slice(1, -1);
-          container.appendChild(codeEl);
-        } else {
-          container.appendChild(document.createTextNode(seg));
-        }
-      }
     }
 
     function renderMessageStream() {
@@ -1925,15 +1893,11 @@
 
       const banner = document.createElement('div');
       banner.className = 'system-encryption-banner';
-      banner.textContent = 'YahyaSohbet Pro • Takma isim ve kayıtlı Gmail hesabı ile doğrulamalı sohbet.';
+      banner.textContent = 'YahyaSohbet • Takma isim ve kayıtlı Gmail hesabı ile doğrulamalı klasik siyah-beyaz sohbet.';
       fragment.appendChild(banner);
 
-      const q = inchatSearchQuery.trim().toLowerCase();
-      const messages = (localMessagesStore[activeChannelId] || []).filter(m => {
-        if (!q) return true;
-        return (`${m.sender} ${m.text}`).toLowerCase().includes(q);
-      });
-
+      const qSearch = (typeof inchatSearchQuery === 'string' ? inchatSearchQuery : '').trim().toLowerCase();
+      const messages = (localMessagesStore[activeChannelId] || []).filter(m => !qSearch || (`${m.sender} ${m.text}`).toLowerCase().includes(qSearch));
       for (const msg of messages) {
         const ownMessage = msg.senderId
           ? (msg.senderId !== 'system' && msg.senderId === currentUser.id)
@@ -1972,64 +1936,27 @@
         }
         bubble.appendChild(senderRow);
 
-        if (msg.replyTo) {
-          const qEl = document.createElement('div'); qEl.className = 'msg-reply-quote';
-          qEl.textContent = `↩ ${msg.replyTo.sender}: ${msg.replyTo.text}`; bubble.appendChild(qEl);
-        }
-
         const text = document.createElement('div'); text.className = 'msg-text'; text.style.whiteSpace = 'pre-wrap';
-        appendFormattedText(text, msg.text);
+        text.textContent = msg.text;
         bubble.appendChild(text);
 
         if (msg.poll && Array.isArray(msg.poll.options)) {
-          const pBox = document.createElement('div');
-          pBox.className = 'poll-box';
+          const pBox = document.createElement('div'); pBox.className = 'poll-box';
           msg.poll.options.forEach((opt, idx) => {
-            const pBtn = document.createElement('button');
-            pBtn.type = 'button';
-            pBtn.className = 'poll-option-btn';
-            pBtn.setAttribute('data-poll-msg', msg.id);
-            pBtn.setAttribute('data-poll-idx', String(idx));
+            const pBtn = document.createElement('button'); pBtn.type = 'button'; pBtn.className = 'poll-option-btn';
+            pBtn.setAttribute('data-poll-msg', msg.id); pBtn.setAttribute('data-poll-idx', String(idx));
             const lSpan = document.createElement('span'); lSpan.textContent = opt.label;
             const vSpan = document.createElement('span'); vSpan.className = 'font-mono-tech'; vSpan.textContent = `${opt.votes || 0} oy`;
-            pBtn.append(lSpan, vSpan);
-            pBox.appendChild(pBtn);
+            pBtn.append(lSpan, vSpan); pBox.appendChild(pBtn);
           });
           bubble.appendChild(pBox);
-        }
-
-        const footer = document.createElement('div'); footer.className = 'msg-footer-row';
-        const actions = document.createElement('div'); actions.className = 'msg-actions';
-
-        const replyBtn = document.createElement('button'); replyBtn.type = 'button'; replyBtn.className = 'msg-react-btn';
-        replyBtn.textContent = '↩ Yanıtla'; replyBtn.setAttribute('data-reply-sender', msg.sender); replyBtn.setAttribute('data-reply-text', msg.text);
-        actions.appendChild(replyBtn);
-
-        ['👍', '✦'].forEach(sym => {
-          const rBtn = document.createElement('button'); rBtn.type = 'button'; rBtn.className = 'msg-react-btn';
-          const count = (msg.reactions && msg.reactions[sym]) || 0;
-          rBtn.textContent = count > 0 ? `${sym} ${count}` : sym;
-          rBtn.setAttribute('data-react-id', msg.id); rBtn.setAttribute('data-react-sym', sym);
-          actions.appendChild(rBtn);
-        });
-
-        const copyBtn = document.createElement('button'); copyBtn.type = 'button'; copyBtn.className = 'msg-react-btn';
-        copyBtn.textContent = '📋'; copyBtn.title = 'Kopyala'; copyBtn.setAttribute('data-copy-text', msg.text);
-        actions.appendChild(copyBtn);
-
-        if (ownMessage || currentUser.role === 'owner') {
-          const delBtn = document.createElement('button'); delBtn.type = 'button'; delBtn.className = 'msg-react-btn';
-          delBtn.textContent = '🗑'; delBtn.title = 'Mesajı Sil'; delBtn.setAttribute('data-delete-msg', msg.id);
-          actions.appendChild(delBtn);
         }
 
         const meta = document.createElement('div'); meta.className = 'msg-meta';
         const date = new Date(msg.at);
         meta.textContent = Number.isFinite(date.getTime()) ? date.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' }) : '';
         if (ownMessage) { const ticks = document.createElement('span'); ticks.textContent = ' ✓✓'; meta.appendChild(ticks); }
-
-        footer.append(actions, meta);
-        bubble.appendChild(footer);
+        bubble.appendChild(meta);
         fragment.appendChild(bubble);
       }
 
@@ -2075,11 +2002,10 @@
         await dispatchMessageToChannel(channelId, {
           id: 'msg_' + (crypto.randomUUID ? crypto.randomUUID() : (Date.now() + '_' + Math.random().toString(36).slice(2))),
           sender: currentUser.name, senderId: currentUser.id, senderEmail: currentUser.email,
-          senderRole: currentUser.role, replyTo: replyTarget, text: text.slice(0, 500), at: Date.now()
+          senderRole: currentUser.role, text: text.slice(0, 500), at: Date.now()
         });
-        playPingSound(true);
         lastSentMessageAt = Date.now();
-        input.value = ''; clearReplyTarget(); input.focus();
+        input.value = ''; input.focus();
         setConnectionStatus(true, 'Senkronizasyon aktif');
       } catch (error) {
         setConnectionStatus(false, 'Bağlantı hatası');
@@ -2101,6 +2027,7 @@
           moderationState.bans = modData.bans || {};
           moderationState.timeouts = modData.timeouts || {};
           moderationState.kicks = modData.kicks || {};
+          moderationState.deleted = modData.deleted || {};
           moderationState.roomStates = modData.roomStates || {};
         }
         if (rolesData && typeof rolesData === 'object') moderationState.headAdmins = rolesData.headAdmins || {};
@@ -2116,7 +2043,7 @@
         }
         if (changed) {
           saveJoinedRooms(); renderRoomSidebar();
-          if (activeChannelId === queriedChannel) { renderMessageStream(); renderInspector(); }
+          if (activeChannelId === queriedChannel) renderMessageStream();
         }
         setConnectionStatus(true, 'Senkronizasyon aktif');
       } catch (_) { setConnectionStatus(false, 'Bağlantı hatası'); }
@@ -2149,99 +2076,98 @@
 
     async function copyActiveRoomCode() {
       if (activeChannelId === 'GLOBAL') return;
-      copyString(activeChannelId, 'Oda kodu kopyalandı: ' + activeChannelId);
+      const value = activeChannelId;
+      try {
+        if (navigator.clipboard && window.isSecureContext) await navigator.clipboard.writeText(value);
+        else {
+          const field = document.createElement('textarea'); field.value = value; field.style.position = 'fixed'; field.style.opacity = '0';
+          document.body.appendChild(field); field.select();
+          const copied = document.execCommand('copy'); field.remove();
+          if (!copied) throw new Error('Kopyalama engellendi.');
+        }
+        showToast('Oda kodu kopyalandı: ' + value);
+      } catch (_) { showToast('Oda kodu: ' + value, true); }
     }
 
-    function copyString(value, successMsg) {
-      if (navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(value).then(() => showToast(successMsg)).catch(() => fallbackCopy(value, successMsg));
-      } else fallbackCopy(value, successMsg);
-    }
-    function fallbackCopy(value, successMsg) {
-      const f = document.createElement('textarea'); f.value = value; f.style.position = 'fixed'; f.style.opacity = '0';
-      document.body.appendChild(f); f.select();
-      try { document.execCommand('copy'); showToast(successMsg); } catch (_) { showToast('Kopyalanamadı.', true); }
-      f.remove();
-    }
+    // =========================================================================
+    // MENÜ & TEMA YÖNETİMİ
+    // =========================================================================
+    let themePrefs = { theme: 'mono', accent: '', fontSize: '0.92rem', ownerColor: 'white' };
+    const ALL_THEMES = ['theme-oled', 'theme-light', 'theme-midnight', 'theme-emerald', 'theme-crimson', 'theme-nebula', 'theme-gold', 'theme-cyber'];
 
-    // Event listeners
-    document.getElementById('soundToggleBtn').addEventListener('click', (e) => {
-      soundEnabled = !soundEnabled;
-      e.currentTarget.classList.toggle('active', soundEnabled);
-      e.currentTarget.textContent = soundEnabled ? '🔔 Ses' : '🔕 Sessiz';
-    });
-
-    document.getElementById('searchToggleBtn').addEventListener('click', (e) => {
-      const bar = document.getElementById('inchatSearchBar');
-      const open = bar.style.display === 'flex';
-      bar.style.display = open ? 'none' : 'flex';
-      e.currentTarget.classList.toggle('active', !open);
-      if (!open) document.getElementById('inchatSearchInput').focus();
-      else { inchatSearchQuery = ''; document.getElementById('inchatSearchInput').value = ''; renderMessageStream(); }
-    });
-
-    document.getElementById('inchatSearchInput').addEventListener('input', (e) => {
-      inchatSearchQuery = e.target.value;
-      renderMessageStream();
-    });
-    document.getElementById('clearInchatSearchBtn').addEventListener('click', () => {
-      inchatSearchQuery = ''; document.getElementById('inchatSearchInput').value = ''; renderMessageStream();
-    });
-
-    document.getElementById('inspectorToggleBtn').addEventListener('click', (e) => {
-      const panel = document.getElementById('rightInspectorPanel');
-      if (window.innerWidth <= 1080) {
-        panel.classList.toggle('mobile-open');
-        e.currentTarget.classList.toggle('active', panel.classList.contains('mobile-open'));
-      } else {
-        panel.classList.toggle('collapsed');
-        e.currentTarget.classList.toggle('active', !panel.classList.contains('collapsed'));
+    function applyThemePrefs() {
+      document.body.classList.remove(...ALL_THEMES, 'owner-gold', 'owner-crimson', 'owner-cyber', 'owner-emerald', 'owner-purple');
+      if (themePrefs.ownerColor && themePrefs.ownerColor !== 'white') document.body.classList.add('owner-' + themePrefs.ownerColor);
+      if (themePrefs.theme && themePrefs.theme !== 'mono') {
+        document.body.classList.add('theme-' + themePrefs.theme);
       }
-    });
+      if (themePrefs.accent) {
+        document.documentElement.style.setProperty('--accent-white', themePrefs.accent);
+      } else {
+        document.documentElement.style.removeProperty('--accent-white');
+      }
+      document.documentElement.style.setProperty('--chat-font-size', themePrefs.fontSize || '0.92rem');
+      document.querySelectorAll('[data-set-theme]').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-set-theme') === themePrefs.theme);
+      });
+    }
+    function saveThemePrefs() { try { localStorage.setItem(THEME_STORAGE_KEY, JSON.stringify(themePrefs)); } catch (_) {} }
+    function loadThemePrefs() {
+      try {
+        const raw = JSON.parse(localStorage.getItem(THEME_STORAGE_KEY) || 'null');
+        if (raw && typeof raw === 'object') themePrefs = { theme: raw.theme || 'mono', accent: raw.accent || '', fontSize: raw.fontSize || '0.92rem', ownerColor: raw.ownerColor || 'white' };
+      } catch (_) {}
+      applyThemePrefs();
+    }
+    function openThemeMenuModal() {
+      applyThemePrefs();
+      const ownerSec = document.getElementById('ownerColorSection');
+      if (ownerSec) ownerSec.style.display = currentUser.role === 'owner' ? 'flex' : 'none';
+      document.getElementById('themeMenuModal').style.display = 'flex';
+    }
+    function resetThemePreferences() {
+      themePrefs = { theme: 'mono', accent: '', fontSize: '0.92rem', ownerColor: 'white' };
+      document.getElementById('customAccentPicker').value = '#ffffff';
+      saveThemePrefs(); applyThemePrefs(); showToast('Klasik siyah-beyaz temaya dönüldü.');
+    }
+    function exportActiveChat() {
+      const msgs = localMessagesStore[activeChannelId] || [];
+      const lines = msgs.map(m => `[${new Date(m.at).toLocaleTimeString('tr-TR')}] ${m.sender} (${m.senderEmail || '-'}): ${m.text}`);
+      const blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = `YahyaSohbet_${activeChannelId}.txt`;
+      document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+      showToast('Sohbet geçmişi indirildi.');
+    }
 
-    document.getElementById('statusCycleBtn').addEventListener('click', () => {
-      currentUser.statusIndex = ((currentUser.statusIndex || 0) + 1) % STATUS_OPTIONS.length;
-      updateSidebarUserUI();
-    });
-
-    document.getElementById('emojiToggleBtn').addEventListener('click', () => {
-      const bar = document.getElementById('emojiPickerBar');
-      bar.style.display = bar.style.display === 'flex' ? 'none' : 'flex';
+    document.getElementById('customAccentPicker').addEventListener('input', e => {
+      themePrefs.accent = e.target.value; saveThemePrefs(); applyThemePrefs();
     });
 
     document.addEventListener('click', (e) => {
-      const emojiChip = e.target.closest('[data-emoji]');
-      if (emojiChip) { const inp = document.getElementById('messageInput'); inp.value += emojiChip.getAttribute('data-emoji'); inp.focus(); return; }
-      const replyBtn = e.target.closest('[data-reply-sender]');
-      if (replyBtn) { setReplyTarget(replyBtn.getAttribute('data-reply-sender'), replyBtn.getAttribute('data-reply-text')); return; }
-      const copyBtn = e.target.closest('[data-copy-text]');
-      if (copyBtn) { copyString(copyBtn.getAttribute('data-copy-text'), 'Mesaj kopyalandı.'); return; }
-      const delRoomBtn = e.target.closest('[data-delete-room]');
-      if (delRoomBtn) { e.stopPropagation(); deleteRoomById(delRoomBtn.getAttribute('data-delete-room')); return; }
-      const delBtn = e.target.closest('[data-delete-msg]');
-      if (delBtn) {
-        const id = delBtn.getAttribute('data-delete-msg');
-        localMessagesStore[activeChannelId] = (localMessagesStore[activeChannelId] || []).filter(m => m.id !== id);
-        renderMessageStream(); renderInspector();
-        showToast('Mesaj silindi.');
+      const ocBtn = e.target.closest('[data-owner-color]');
+      if (ocBtn) { themePrefs.ownerColor = ocBtn.getAttribute('data-owner-color'); saveThemePrefs(); applyThemePrefs(); showToast('Owner aura rengi güncellendi.'); return; }
+      const tBtn = e.target.closest('[data-set-theme]');
+      if (tBtn) { themePrefs.theme = tBtn.getAttribute('data-set-theme'); themePrefs.accent = ''; saveThemePrefs(); applyThemePrefs(); return; }
+      const fBtn = e.target.closest('[data-font-size]');
+      if (fBtn) { themePrefs.fontSize = fBtn.getAttribute('data-font-size'); saveThemePrefs(); applyThemePrefs(); showToast('Yazı boyutu güncellendi.'); return; }
+      const pBtn = e.target.closest('[data-poll-msg]');
+      if (pBtn) {
+        const msgId = pBtn.getAttribute('data-poll-msg'), idx = parseInt(pBtn.getAttribute('data-poll-idx'), 10);
+        const msg = (localMessagesStore[activeChannelId] || []).find(m => m.id === msgId);
+        if (msg && msg.poll && msg.poll.options[idx]) { msg.poll.options[idx].votes = (msg.poll.options[idx].votes || 0) + 1; renderMessageStream(); showToast('Oyunuz kaydedildi.'); }
         return;
       }
-      const reactBtn = e.target.closest('[data-react-id]');
-      if (reactBtn) {
-        const id = reactBtn.getAttribute('data-react-id'), sym = reactBtn.getAttribute('data-react-sym');
-        const msg = (localMessagesStore[activeChannelId] || []).find(m => m.id === id);
-        if (msg) { msg.reactions[sym] = (msg.reactions[sym] || 0) + 1; renderMessageStream(); }
-        return;
-      }
+
       const userClick = e.target.closest('[data-user-click]');
       if (userClick) { openUserActionModal(userClick.getAttribute('data-user-click'), userClick.getAttribute('data-user-email')); return; }
       const fillCmd = e.target.closest('[data-fill-cmd]');
       if (fillCmd) { closeModal('powersModal'); const inp = document.getElementById('messageInput'); inp.value = fillCmd.getAttribute('data-fill-cmd'); inp.focus(); return; }
 
       const haUser = e.target.closest('[data-ha-user]'); if (haUser) { toggleHeadAdmin(haUser.getAttribute('data-ha-user')); return; }
-      const kickUser = e.target.closest('[data-kick-user]'); if (kickUser) { applyKick(kickUser.getAttribute('data-kick-user')); return; }
       const banUser = e.target.closest('[data-ban-user]'); if (banUser) { applyBan(banUser.getAttribute('data-ban-user'), true); return; }
       const unbanUser = e.target.closest('[data-unban-user]'); if (unbanUser) { applyBan(unbanUser.getAttribute('data-unban-user'), false); return; }
+      const delUser = e.target.closest('[data-delete-user]'); if (delUser) { applyDeleteUser(delUser.getAttribute('data-delete-user')); return; }
 
       const uaHa = e.target.closest('[data-ua-ha]'); if (uaHa) { closeModal('userActionModal'); toggleHeadAdmin(uaHa.getAttribute('data-ua-ha')); return; }
       const uaT15 = e.target.closest('[data-ua-t15]'); if (uaT15) { closeModal('userActionModal'); applyTimeout(uaT15.getAttribute('data-ua-t15'), 15); return; }
@@ -2250,13 +2176,17 @@
       const uaKick = e.target.closest('[data-ua-kick]'); if (uaKick) { closeModal('userActionModal'); applyKick(uaKick.getAttribute('data-ua-kick')); return; }
       const uaBan = e.target.closest('[data-ua-ban]'); if (uaBan) { closeModal('userActionModal'); applyBan(uaBan.getAttribute('data-ua-ban'), true); return; }
       const uaUnban = e.target.closest('[data-ua-unban]'); if (uaUnban) { closeModal('userActionModal'); applyBan(uaUnban.getAttribute('data-ua-unban'), false); return; }
+      const uaDel = e.target.closest('[data-ua-delete]'); if (uaDel) { closeModal('userActionModal'); applyDeleteUser(uaDel.getAttribute('data-ua-delete')); return; }
     });
 
     document.getElementById('messageInput').addEventListener('keydown', e => { if (e.key === 'Enter' && !e.isComposing) { e.preventDefault(); sendChatMessage(); } });
     document.getElementById('newRoomNameInput').addEventListener('keydown', e => { if (e.key === 'Enter') confirmCreateRoom(); });
     document.getElementById('joinRoomCodeInput').addEventListener('keydown', e => { if (e.key === 'Enter') confirmJoinRoom(); });
     document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') { closeModal('createRoomModal'); closeModal('joinRoomModal'); closeModal('powersModal'); closeModal('userActionModal'); closeModal('themeMenuModal'); }
+      if (e.key === 'Escape') {
+        closeModal('createRoomModal'); closeModal('joinRoomModal');
+        closeModal('powersModal'); closeModal('userActionModal'); closeModal('themeMenuModal'); closeModal('ownerRoomsModal');
+      }
     });
     document.querySelectorAll('.modal-backdrop').forEach(modal => { modal.addEventListener('click', e => { if (e.target === modal) closeModal(modal.id); }); });
 
@@ -2319,100 +2249,195 @@
       }
     }
 
-    const THEME_STORAGE_KEY = 'ys_theme_prefs_v1';
-    let themePrefs = { theme: 'mono', accent: '', fontSize: '0.91rem' };
+    let inchatSearchQuery = '';
+    let soundEnabled = true;
+    let audioCtx = null;
 
-    function applyThemePrefs() {
-      document.body.classList.remove('theme-light', 'theme-midnight', 'theme-emerald', 'theme-crimson');
-      if (themePrefs.theme && themePrefs.theme !== 'mono') {
-        document.body.classList.add('theme-' + themePrefs.theme);
+    function playPingSound(isOwn = false) {
+      if (!soundEnabled) return;
+      try {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(isOwn ? 520 : 680, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.12);
+        osc.connect(gain); gain.connect(audioCtx.destination);
+        osc.start(); osc.stop(audioCtx.currentTime + 0.13);
+      } catch (_) {}
+    }
+
+    function renderInspector() {
+      const msgs = localMessagesStore[activeChannelId] || [];
+      const statMsg = document.getElementById('statMsgCount');
+      const statMem = document.getElementById('statMemberCount');
+      const listEl = document.getElementById('inspectorMembersList');
+      if (!statMsg || !statMem || !listEl) return;
+
+      statMsg.textContent = msgs.length;
+      const membersMap = new Map();
+      if (currentUser.authenticated) {
+        membersMap.set(normalizeKey(currentUser.name), { name: currentUser.name, role: currentUser.role });
       }
-      if (themePrefs.accent) {
-        document.documentElement.style.setProperty('--accent-white', themePrefs.accent);
-      } else {
-        document.documentElement.style.removeProperty('--accent-white');
-      }
-      document.documentElement.style.setProperty('--chat-font-size', themePrefs.fontSize || '0.91rem');
-      document.querySelectorAll('[data-set-theme]').forEach(btn => {
-        btn.classList.toggle('active', btn.getAttribute('data-set-theme') === themePrefs.theme);
+      msgs.forEach(m => {
+        if (m.senderId !== 'system') {
+          const k = normalizeKey(m.sender);
+          const role = m.senderRole === 'owner' ? 'owner' : getRoleForUser(m.sender, m.senderRole);
+          if (!membersMap.has(k)) membersMap.set(k, { name: m.sender, role });
+        }
+      });
+
+      statMem.textContent = membersMap.size;
+      listEl.replaceChildren();
+      Array.from(membersMap.values()).forEach((u, idx) => {
+        const row = document.createElement('div');
+        row.className = 'member-row';
+        const left = document.createElement('div');
+        const nameLine = document.createElement('div');
+        nameLine.className = 'member-name';
+        const nSpan = document.createElement('span');
+        const isSelf = u.name === currentUser.name;
+        nSpan.textContent = isSelf ? `Gizli Üye #${idx + 1} (Siz)` : `Gizli Üye #${idx + 1}`;
+        if ((currentUser.role === 'owner' || currentUser.role === 'head-admin') && !isSelf) {
+          nSpan.className = 'msg-sender-clickable';
+          nSpan.setAttribute('data-user-click', u.name);
+          nSpan.setAttribute('data-user-email', '');
+        }
+        nameLine.appendChild(nSpan);
+        if (u.role === 'owner') {
+          const ob = document.createElement('span'); ob.className = 'owner-badge'; ob.textContent = '♛ owner'; nameLine.appendChild(ob);
+        } else if (u.role === 'head-admin') {
+          const hb = document.createElement('span'); hb.className = 'headadmin-badge'; hb.textContent = '★ HA'; nameLine.appendChild(hb);
+        }
+        const privacyLine = document.createElement('div');
+        privacyLine.className = 'member-email';
+        privacyLine.textContent = 'İsim & Gmail gizli';
+        left.append(nameLine, privacyLine);
+        row.appendChild(left);
+        listEl.appendChild(row);
       });
     }
 
-    function saveThemePrefs() {
-      try { localStorage.setItem(THEME_STORAGE_KEY, JSON.stringify(themePrefs)); } catch (_) {}
-    }
+    async function openOwnerRoomsModal() {
+      if (currentUser.role !== 'owner') {
+        showToast('Bu alan yalnızca owner içindir.', true);
+        return;
+      }
+      const modal = document.getElementById('ownerRoomsModal');
+      const listEl = document.getElementById('ownerRoomsList');
+      listEl.innerHTML = '<div style="font-size:0.8rem; color:var(--muted-text);">Odalar veritabanından getiriliyor...</div>';
+      modal.style.display = 'flex';
 
-    function loadThemePrefs() {
+      const roomsMap = new Map();
+      joinedRooms.filter(r => !r.isGlobal).forEach(r => {
+        roomsMap.set(r.id, { code: r.id, name: r.name, creator: 'Yerel', createdAt: null });
+      });
+
       try {
-        const raw = JSON.parse(localStorage.getItem(THEME_STORAGE_KEY) || 'null');
-        if (raw && typeof raw === 'object') {
-          themePrefs = { theme: raw.theme || 'mono', accent: raw.accent || '', fontSize: raw.fontSize || '0.91rem' };
+        const remoteRooms = await firebaseRequest('rooms.json');
+        if (remoteRooms && typeof remoteRooms === 'object') {
+          for (const [code, obj] of Object.entries(remoteRooms)) {
+            if (obj && obj.meta) {
+              roomsMap.set(code, {
+                code,
+                name: obj.meta.name || `Oda #${code}`,
+                creator: obj.meta.creator || 'Bilinmiyor',
+                createdAt: obj.meta.createdAt || null
+              });
+            }
+          }
         }
       } catch (_) {}
-      applyThemePrefs();
+
+      if (roomsMap.size === 0) {
+        listEl.innerHTML = '<div style="font-size:0.8rem; color:var(--muted-text);">Henüz oluşturulmuş özel bir oda bulunmuyor.</div>';
+        return;
+      }
+
+      listEl.innerHTML = Array.from(roomsMap.values()).map(r => {
+        const timeStr = r.createdAt ? new Date(r.createdAt).toLocaleString('tr-TR') : 'Kayıtlı oda';
+        return `
+          <div class="cmd-item">
+            <div>
+              <div class="cmd-code">${r.name} <span style="opacity:0.7;">[${r.code}]</span></div>
+              <div class="cmd-desc">Kurucu: ${r.creator} • ${timeStr}</div>
+            </div>
+            <div style="display:flex; gap:6px; flex-wrap:wrap;">
+              <button type="button" class="mini-action-btn" data-stealth-room="${r.code}" data-stealth-name="${r.name}">👁️ Gizlice Gir</button>
+              <button type="button" class="mini-action-btn danger" data-delete-room="${r.code}">🗑️ Sil</button>
+            </div>
+          </div>
+        `;
+      }).join('');
     }
 
-    function openThemeMenuModal() {
-      applyThemePrefs();
-      document.getElementById('themeMenuModal').style.display = 'flex';
+    function stealthEnterRoom(code, name) {
+      if (currentUser.role !== 'owner') return;
+      registerRoomLocally({ code, name: name || `Oda #${code}` }, true);
+      closeModal('ownerRoomsModal');
+      showToast(`👁️ "${name || code}" odasına gizlice girildi.`);
     }
 
-    function resetThemePreferences() {
-      themePrefs = { theme: 'mono', accent: '', fontSize: '0.91rem' };
-      document.getElementById('customAccentPicker').value = '#ffffff';
-      saveThemePrefs();
-      applyThemePrefs();
-      showToast('Arayüz varsayılan siyah-beyaz temaya sıfırlandı.');
+    async function deleteRoomAsOwner(code) {
+      if (currentUser.role !== 'owner') return;
+      try { await firebaseRequest(`rooms/${code}.json`, { method: 'DELETE' }); } catch (_) {}
+      joinedRooms = joinedRooms.filter(r => r.id !== code);
+      delete localMessagesStore[code];
+      if (activeChannelId === code) {
+        activeChannelId = 'GLOBAL';
+        renderActiveChannel();
+      }
+      saveJoinedRooms();
+      renderRoomSidebar();
+      showToast(`🗑️ Oda (${code}) silindi.`);
+      openOwnerRoomsModal();
     }
 
-    function exportActiveChat() {
-      const msgs = localMessagesStore[activeChannelId] || [];
-      const lines = msgs.map(m => `[${new Date(m.at).toLocaleTimeString('tr-TR')}] ${m.sender} (${m.senderEmail || '-'}): ${m.text}`);
-      const blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `YahyaSohbet_${activeChannelId}.txt`;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(url);
-      showToast('Sohbet geçmişi indirildi.');
-    }
+    document.getElementById('soundToggleBtn').addEventListener('click', (e) => {
+      soundEnabled = !soundEnabled;
+      e.currentTarget.classList.toggle('active', soundEnabled);
+      e.currentTarget.textContent = soundEnabled ? '🔔 Ses' : '🔕 Sessiz';
+    });
 
-    document.getElementById('customAccentPicker').addEventListener('input', (e) => {
-      themePrefs.accent = e.target.value;
-      saveThemePrefs();
-      applyThemePrefs();
+    document.getElementById('searchToggleBtn').addEventListener('click', (e) => {
+      const bar = document.getElementById('inchatSearchBar');
+      const open = bar.style.display === 'flex';
+      bar.style.display = open ? 'none' : 'flex';
+      e.currentTarget.classList.toggle('active', !open);
+      if (!open) document.getElementById('inchatSearchInput').focus();
+      else { inchatSearchQuery = ''; document.getElementById('inchatSearchInput').value = ''; renderMessageStream(); }
+    });
+
+    document.getElementById('inchatSearchInput').addEventListener('input', (e) => {
+      inchatSearchQuery = e.target.value;
+      renderMessageStream();
+    });
+    document.getElementById('clearInchatSearchBtn').addEventListener('click', () => {
+      inchatSearchQuery = ''; document.getElementById('inchatSearchInput').value = ''; renderMessageStream();
+    });
+
+    document.getElementById('inspectorToggleBtn').addEventListener('click', (e) => {
+      const panel = document.getElementById('rightInspectorPanel');
+      if (window.innerWidth <= 1080) {
+        panel.classList.toggle('mobile-open');
+        e.currentTarget.classList.toggle('active', panel.classList.contains('mobile-open'));
+      } else {
+        panel.classList.toggle('collapsed');
+        e.currentTarget.classList.toggle('active', !panel.classList.contains('collapsed'));
+      }
     });
 
     document.addEventListener('click', (e) => {
-      const tBtn = e.target.closest('[data-set-theme]');
-      if (tBtn) {
-        themePrefs.theme = tBtn.getAttribute('data-set-theme');
-        themePrefs.accent = '';
-        saveThemePrefs();
-        applyThemePrefs();
+      const stealthBtn = e.target.closest('[data-stealth-room]');
+      if (stealthBtn) {
+        stealthEnterRoom(stealthBtn.getAttribute('data-stealth-room'), stealthBtn.getAttribute('data-stealth-name'));
         return;
       }
-      const fBtn = e.target.closest('[data-font-size]');
-      if (fBtn) {
-        themePrefs.fontSize = fBtn.getAttribute('data-font-size');
-        saveThemePrefs();
-        applyThemePrefs();
-        showToast('Yazı boyutu güncellendi.');
+      const delRoomBtn = e.target.closest('[data-delete-room]');
+      if (delRoomBtn) {
+        deleteRoomAsOwner(delRoomBtn.getAttribute('data-delete-room'));
         return;
-      }
-      const pBtn = e.target.closest('[data-poll-msg]');
-      if (pBtn) {
-        const msgId = pBtn.getAttribute('data-poll-msg');
-        const idx = parseInt(pBtn.getAttribute('data-poll-idx'), 10);
-        const msg = (localMessagesStore[activeChannelId] || []).find(m => m.id === msgId);
-        if (msg && msg.poll && msg.poll.options[idx]) {
-          msg.poll.options[idx].votes = (msg.poll.options[idx].votes || 0) + 1;
-          renderMessageStream();
-          showToast('Oyunuz kaydedildi.');
-        }
       }
     });
 
