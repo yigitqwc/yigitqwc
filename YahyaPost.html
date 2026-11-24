@@ -1,0 +1,1955 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YahyaPost • X Tarzı Okul Sosyal Ağı</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --x-bg: #000000;
+      --x-surface: #16181c;
+      --x-hover: rgba(255, 255, 255, 0.05);
+      --x-border: #2f3336;
+      --x-text: #e7e9ea;
+      --x-muted: #71767b;
+      --x-accent: #ffffff;
+      --x-accent-text: #000000;
+      --x-like: #f91880;
+      --x-repost: #00ba7c;
+      --x-reply: #1d9bf0;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background-color: var(--x-bg);
+      color: var(--x-text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    button, a { cursor: pointer; color: inherit; }
+    .font-mono-tech { font-family: 'JetBrains Mono', monospace; }
+
+    /* X 3-SÜTUNLU ANA YERLEŞİM */
+    .x-shell {
+      max-width: 1265px;
+      margin: 0 auto;
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* SOL SÜTUN */
+    .x-left-nav {
+      width: 265px;
+      flex-shrink: 0;
+      padding: 12px 14px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-right: 1px solid var(--x-border);
+    }
+
+    .x-logo-btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 9999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.55rem;
+      font-weight: 900;
+      background: transparent;
+      border: none;
+      margin-bottom: 6px;
+      transition: background 0.18s;
+    }
+    .x-logo-btn:hover { background: var(--x-hover); }
+
+    .x-nav-list {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .x-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 11px 16px;
+      border-radius: 9999px;
+      background: transparent;
+      border: none;
+      font-size: 1.08rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: background 0.18s;
+      width: fit-content;
+    }
+    .x-nav-item:hover { background: var(--x-hover); }
+    .x-nav-item.active { font-weight: 800; color: #ffffff; }
+    .x-nav-icon { font-size: 1.25rem; width: 24px; text-align: center; }
+
+    .x-post-cta {
+      margin-top: 14px;
+      width: 92%;
+      padding: 14px 20px;
+      border-radius: 9999px;
+      background: var(--x-accent);
+      color: var(--x-accent-text);
+      border: none;
+      font-size: 0.96rem;
+      font-weight: 800;
+      transition: opacity 0.18s;
+    }
+    .x-post-cta:hover { opacity: 0.9; }
+
+    .x-user-pill {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 9999px;
+      background: transparent;
+      border: none;
+      width: 100%;
+      text-align: left;
+      transition: background 0.18s;
+    }
+    .x-user-pill:hover { background: var(--x-hover); }
+
+    .x-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 9999px;
+      background: #ffffff;
+      color: #000000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .x-avatar.sm { width: 36px; height: 36px; font-size: 0.9rem; }
+
+    /* ORTA SÜTUN (AKIŞ) */
+    .x-main-col {
+      flex: 1;
+      max-width: 600px;
+      min-width: 0;
+      border-right: 1px solid var(--x-border);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .x-sticky-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(0, 0, 0, 0.78);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--x-border);
+    }
+
+    .x-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .x-tab-btn {
+      padding: 15px 12px;
+      background: transparent;
+      border: none;
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--x-muted);
+      position: relative;
+      transition: background 0.18s, color 0.18s;
+    }
+    .x-tab-btn:hover { background: var(--x-hover); color: var(--x-text); }
+    .x-tab-btn.active { color: #ffffff; font-weight: 700; }
+    .x-tab-btn.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 56px;
+      height: 4px;
+      border-radius: 9999px;
+      background: #ffffff;
+    }
+
+    /* POST OLUŞTURUCU ("Neler oluyor?") */
+    .x-composer {
+      display: flex;
+      gap: 12px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--x-border);
+    }
+    .x-composer-body {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .x-composer-textarea {
+      width: 100%;
+      background: transparent;
+      border: none;
+      color: #ffffff;
+      font-size: 1.15rem;
+      line-height: 1.4;
+      resize: none;
+      outline: none;
+      min-height: 54px;
+    }
+    .x-composer-textarea::placeholder { color: var(--x-muted); }
+
+    .x-url-box {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 12px;
+      background: var(--x-surface);
+      border: 1px solid var(--x-border);
+    }
+    .x-url-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: #ffffff;
+      font-size: 0.84rem;
+      outline: none;
+    }
+    .x-img-preview-wrap {
+      display: none;
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--x-border);
+      max-height: 320px;
+    }
+    .x-img-preview-wrap img {
+      width: 100%;
+      max-height: 320px;
+      object-fit: cover;
+      display: block;
+    }
+    .x-remove-img-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 30px;
+      height: 30px;
+      border-radius: 9999px;
+      background: rgba(0, 0, 0, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      color: #ffffff;
+      font-size: 0.85rem;
+    }
+
+    .x-composer-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 8px;
+      border-top: 1px solid rgba(47, 51, 54, 0.65);
+    }
+    .x-tool-icons {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .x-tool-icon-btn {
+      padding: 7px 10px;
+      border-radius: 9999px;
+      background: transparent;
+      border: none;
+      color: #ffffff;
+      font-size: 0.82rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: background 0.18s;
+    }
+    .x-tool-icon-btn:hover { background: var(--x-hover); }
+
+    .x-submit-post-btn {
+      padding: 8px 18px;
+      border-radius: 9999px;
+      background: var(--x-accent);
+      color: var(--x-accent-text);
+      border: none;
+      font-size: 0.88rem;
+      font-weight: 800;
+      transition: opacity 0.18s;
+    }
+    .x-submit-post-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+    /* POST KARTLARI */
+    .x-post-card {
+      display: flex;
+      gap: 12px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--x-border);
+      transition: background 0.15s;
+    }
+    .x-post-card:hover { background: rgba(255, 255, 255, 0.02); }
+    .x-post-body { flex: 1; min-width: 0; }
+    .x-post-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+    .x-post-author-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      min-width: 0;
+    }
+    .x-author-name {
+      font-weight: 700;
+      font-size: 0.94rem;
+      color: #ffffff;
+    }
+    .x-author-handle, .x-post-time {
+      font-size: 0.84rem;
+      color: var(--x-muted);
+    }
+    .x-owner-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      font-weight: 800;
+      padding: 1px 6px;
+      border-radius: 4px;
+      background: #ffffff;
+      color: #000000;
+    }
+    .x-mini-follow-btn {
+      padding: 4px 12px;
+      border-radius: 9999px;
+      border: 1px solid var(--x-border);
+      background: transparent;
+      color: #ffffff;
+      font-size: 0.76rem;
+      font-weight: 700;
+      transition: all 0.16s;
+      flex-shrink: 0;
+    }
+    .x-mini-follow-btn.following { background: transparent; color: var(--x-muted); }
+    .x-mini-follow-btn:not(.following) { background: #ffffff; color: #000000; border-color: #ffffff; }
+
+    .x-post-text {
+      font-size: 0.95rem;
+      line-height: 1.48;
+      color: var(--x-text);
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .x-post-media {
+      margin-top: 10px;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--x-border);
+      max-height: 400px;
+    }
+    .x-post-media img {
+      width: 100%;
+      max-height: 400px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .x-post-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 440px;
+      margin-top: 10px;
+    }
+    .x-act-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: transparent;
+      border: none;
+      color: var(--x-muted);
+      font-size: 0.8rem;
+      padding: 5px 8px;
+      border-radius: 9999px;
+      transition: color 0.16s, background 0.16s;
+    }
+    .x-act-btn.reply:hover { color: var(--x-reply); background: rgba(29, 155, 240, 0.12); }
+    .x-act-btn.repost:hover, .x-act-btn.repost.active { color: var(--x-repost); background: rgba(0, 186, 124, 0.12); }
+    .x-act-btn.like:hover, .x-act-btn.like.active { color: var(--x-like); background: rgba(249, 24, 128, 0.12); }
+    .x-act-btn.bookmark:hover, .x-act-btn.bookmark.active { color: #ffffff; background: var(--x-hover); }
+
+    .x-replies-list {
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 1px solid rgba(47, 51, 54, 0.55);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .x-reply-item {
+      font-size: 0.82rem;
+      color: #d4d4d8;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 6px 10px;
+      border-radius: 10px;
+    }
+
+    /* SAĞ SÜTUN (KEŞFET & KİMİ TAKİP ETMELİ) */
+    .x-right-col {
+      width: 350px;
+      flex-shrink: 0;
+      padding: 12px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+    .x-search-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 16px;
+      border-radius: 9999px;
+      background: #202327;
+      border: 1px solid transparent;
+    }
+    .x-search-bar:focus-within { border-color: #ffffff; background: #000000; }
+    .x-search-bar input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      color: #ffffff;
+      font-size: 0.9rem;
+      outline: none;
+    }
+
+    .x-card {
+      background: var(--x-surface);
+      border: 1px solid var(--x-border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .x-card-title {
+      padding: 14px 16px 10px 16px;
+      font-size: 1.08rem;
+      font-weight: 800;
+    }
+    .x-trend-row {
+      padding: 10px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .x-trend-row:hover { background: var(--x-hover); }
+    .x-trend-meta { font-size: 0.75rem; color: var(--x-muted); }
+    .x-trend-topic { font-size: 0.92rem; font-weight: 700; }
+
+    .x-who-row {
+      padding: 11px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      transition: background 0.15s;
+    }
+    .x-who-row:hover { background: var(--x-hover); }
+    .x-who-left { display: flex; align-items: center; gap: 10px; min-width: 0; }
+    .x-who-name { font-size: 0.88rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .x-who-handle { font-size: 0.78rem; color: var(--x-muted); }
+
+    /* PROFİL & AYARLAR GÖRÜNÜMÜ */
+    .x-view-header {
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .x-profile-banner {
+      height: 135px;
+      background: linear-gradient(135deg, #18181b 0%, #27272a 100%);
+      border-bottom: 1px solid var(--x-border);
+    }
+    .x-profile-info {
+      padding: 0 16px 16px 16px;
+      border-bottom: 1px solid var(--x-border);
+    }
+    .x-profile-avatar-lg {
+      width: 78px;
+      height: 78px;
+      border-radius: 9999px;
+      background: #ffffff;
+      color: #000000;
+      border: 4px solid #000000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin-top: -39px;
+      margin-bottom: 10px;
+    }
+    .x-stats-row {
+      display: flex;
+      gap: 18px;
+      margin-top: 10px;
+      font-size: 0.86rem;
+      color: var(--x-muted);
+    }
+    .x-stats-row strong { color: #ffffff; }
+
+    .x-settings-box {
+      padding: 16px;
+      border-bottom: 1px solid var(--x-border);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* GİRİŞ KAPISI & MODALLAR */
+    #auth-gate-overlay {
+      position: fixed; inset: 0; z-index: 500000;
+      background: rgba(0, 0, 0, 0.92); backdrop-filter: blur(12px);
+      display: flex; align-items: center; justify-content: center; padding: 20px;
+    }
+    .gate-card {
+      width: 100%; max-width: 420px; background: #09090b;
+      border: 1px solid var(--x-border); border-radius: 16px; padding: 28px;
+      display: flex; flex-direction: column; gap: 13px; text-align: center;
+    }
+    .gate-field { display: flex; flex-direction: column; gap: 5px; text-align: left; }
+    .gate-field label { font-size: 0.72rem; font-weight: 700; color: #a1a1aa; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; }
+    .gate-input {
+      width: 100%; padding: 11px 13px; background: #000000;
+      border: 1px solid var(--x-border); border-radius: 10px; color: #ffffff; font-size: 0.9rem; outline: none;
+    }
+    .gate-input:focus { border-color: #ffffff; }
+    .gate-error { color: #f87171; font-size: 0.8rem; min-height: 18px; }
+
+    .modal-backdrop {
+      position: fixed; inset: 0; background: rgba(91, 112, 131, 0.35);
+      backdrop-filter: blur(4px); z-index: 400000; display: none;
+      align-items: center; justify-content: center; padding: 20px;
+    }
+    .modal-box {
+      width: 100%; max-width: 500px; background: #000000;
+      border: 1px solid var(--x-border); border-radius: 16px; padding: 20px;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+
+    @media (max-width: 1050px) {
+      .x-right-col { display: none; }
+    }
+    @media (max-width: 720px) {
+      .x-left-nav { width: 68px; padding: 10px 8px; align-items: center; }
+      .x-nav-label, .x-post-cta-text, .x-user-pill-text { display: none; }
+      .x-nav-item { padding: 12px; }
+      .x-post-cta { width: 46px; height: 46px; padding: 0; display: flex; align-items: center; justify-content: center; }
+    }
+
+    /* Avatar image support */
+    .x-avatar img, .x-profile-avatar-lg img {
+      width: 100%; height: 100%; object-fit: cover; border-radius: 9999px; display: block;
+    }
+
+    /* Owner Post Style Bar */
+    .owner-style-bar {
+      display: none;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      margin-bottom: 8px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.22);
+      background: rgba(255,255,255,0.04);
+      font-size: 0.74rem;
+    }
+    .owner-style-select {
+      background: #09090b;
+      color: #ffffff;
+      border: 1px solid var(--x-border);
+      border-radius: 6px;
+      padding: 4px 8px;
+      font-size: 0.74rem;
+      outline: none;
+    }
+
+    /* Owner Post Colors */
+    .owner-post-color-gold { background: linear-gradient(135deg, rgba(250,204,21,0.12), rgba(10,10,12,0.95)); border-left: 3px solid #facc15; }
+    .owner-post-color-crimson { background: linear-gradient(135deg, rgba(239,68,68,0.14), rgba(10,10,12,0.95)); border-left: 3px solid #ef4444; }
+    .owner-post-color-emerald { background: linear-gradient(135deg, rgba(16,185,129,0.14), rgba(10,10,12,0.95)); border-left: 3px solid #10b981; }
+    .owner-post-color-midnight { background: linear-gradient(135deg, rgba(59,130,246,0.14), rgba(10,10,12,0.95)); border-left: 3px solid #3b82f6; }
+    .owner-post-color-violet { background: linear-gradient(135deg, rgba(168,85,247,0.15), rgba(10,10,12,0.95)); border-left: 3px solid #a855f7; }
+
+    /* Owner Post Animations */
+    @keyframes ypGlow {
+      0%, 100% { box-shadow: inset 0 0 12px rgba(255,255,255,0.08); }
+      50% { box-shadow: inset 0 0 26px rgba(255,255,255,0.24); }
+    }
+    @keyframes ypFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-2px); }
+    }
+    @keyframes ypShimmerBorder {
+      0% { filter: brightness(1); }
+      50% { filter: brightness(1.22); }
+      100% { filter: brightness(1); }
+    }
+    @keyframes ypPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.008); }
+    }
+    .owner-post-anim-glow { animation: ypGlow 2.6s ease-in-out infinite; }
+    .owner-post-anim-float { animation: ypFloat 2.8s ease-in-out infinite; }
+    .owner-post-anim-shimmer { animation: ypShimmerBorder 2.2s ease-in-out infinite; }
+    .owner-post-anim-pulse { animation: ypPulse 2.4s ease-in-out infinite; }
+
+    /* DM & Admin Panels */
+    .dm-shell {
+      display: grid;
+      grid-template-columns: 210px 1fr;
+      min-height: 520px;
+      border-bottom: 1px solid var(--x-border);
+    }
+    .dm-contacts {
+      border-right: 1px solid var(--x-border);
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      overflow-y: auto;
+      max-height: 600px;
+    }
+    .dm-contact-btn {
+      text-align: left;
+      padding: 9px 10px;
+      border-radius: 10px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--x-text);
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .dm-contact-btn:hover, .dm-contact-btn.active {
+      background: rgba(255,255,255,0.08);
+      border-color: var(--x-border);
+    }
+    .dm-thread-pane {
+      display: flex;
+      flex-direction: column;
+      height: 560px;
+    }
+    .dm-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .dm-bubble {
+      max-width: 78%;
+      padding: 9px 12px;
+      border-radius: 12px;
+      font-size: 0.86rem;
+      line-height: 1.4;
+      word-break: break-word;
+    }
+    .dm-bubble.in { align-self: flex-start; background: #18181b; border: 1px solid var(--x-border); color: #fafafa; }
+    .dm-bubble.out { align-self: flex-end; background: #ffffff; color: #09090b; }
+    .dm-input-row {
+      display: flex;
+      gap: 8px;
+      padding: 12px;
+      border-top: 1px solid var(--x-border);
+    }
+    .admin-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--x-border);
+    }
+    @media (max-width: 640px) {
+      .dm-shell { grid-template-columns: 1fr; }
+      .dm-contacts { border-right: none; border-bottom: 1px solid var(--x-border); max-height: 180px; }
+    }
+
+    /* Genişletilebilir / Daraltılabilir Yorum Zinciri (Thread Box) */
+    .yp-thread-box {
+      margin-top: 10px;
+      padding: 9px 12px;
+      border-radius: 12px;
+      border-left: 2px solid var(--x-reply);
+      background: rgba(255, 255, 255, 0.04);
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      cursor: pointer;
+      transition: background 0.18s;
+    }
+    .yp-thread-box:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .yp-thread-item {
+      font-size: 0.85rem;
+      line-height: 1.42;
+      padding-bottom: 6px;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.12);
+      word-break: break-word;
+    }
+    .yp-thread-item:last-of-type {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    .yp-thread-hint {
+      font-size: 0.72rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--x-reply);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    /* Masaüstü & Mobil Tam Uyumluluk */
+    @media (max-width: 720px) {
+      .x-shell { flex-direction: column; }
+      .x-left-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        top: auto;
+        width: 100%;
+        height: 58px;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-around;
+        padding: 4px 8px;
+        background: rgba(0, 0, 0, 0.94);
+        backdrop-filter: blur(12px);
+        border-right: none;
+        border-top: 1px solid var(--x-border);
+        z-index: 50;
+      }
+      .x-left-nav > div:first-child {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-around;
+        width: 100%;
+      }
+      .x-logo-btn, .x-post-cta, .x-left-nav > div:last-child { display: none; }
+      .x-nav-list {
+        flex-direction: row;
+        width: 100%;
+        justify-content: space-around;
+        gap: 0;
+      }
+      .x-nav-item { padding: 8px 10px; }
+      .x-main-col {
+        max-width: 100%;
+        border-right: none;
+        padding-bottom: 74px;
+      }
+      .x-composer { padding: 12px; gap: 10px; }
+      .x-composer-textarea, .gate-input { font-size: 16px; }
+      .x-post-card { padding: 12px; gap: 10px; }
+      .x-post-actions { flex-wrap: wrap; gap: 6px; }
+      .dm-thread-pane { height: calc(100dvh - 260px); }
+      .modal-box { max-width: 94vw; padding: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ORTAK GİRİŞ KAPISI (YahyaSohbet ile senkronize) -->
+  <div id="auth-gate-overlay">
+    <div class="gate-card">
+      <div style="font-size:2rem; font-weight:900;">𝕏</div>
+      <h2 style="font-size:1.35rem; font-weight:800;">YahyaPost'a Giriş Yap</h2>
+      <p style="font-size:0.83rem; color:var(--x-muted);">YahyaSohbet hesabınız varsa otomatik bağlanır; yoksa buradan giriş yapabilirsiniz.</p>
+
+      <div class="gate-field">
+        <label for="gateNameInput">Takma İsminiz</label>
+        <input type="text" id="gateNameInput" class="gate-input" placeholder="Örn: Ahmet, Yigit..." maxlength="24" />
+      </div>
+      <div class="gate-field">
+        <label for="gateEmailInput">Gmail Adresiniz</label>
+        <input type="email" id="gateEmailInput" class="gate-input" placeholder="adiniz@gmail.com" maxlength="64" />
+      </div>
+      <div class="gate-field">
+        <label for="gateAccountPassInput">Gmail Hesap Şifreniz (Kayıt / Giriş)</label>
+        <input type="password" id="gateAccountPassInput" class="gate-input" placeholder="Bu Gmail için en az 4 karakterli şifre..." autocomplete="current-password" />
+      </div>
+      <div class="gate-field">
+        <label for="gatePassInput">Site Erişim Şifresi</label>
+        <input type="password" id="gatePassInput" class="gate-input" placeholder="Erişim şifresini girin..." />
+      </div>
+      <div class="gate-error" id="gateErrorMsg"></div>
+      <button type="button" class="x-submit-post-btn" style="width:100%; padding:12px;" onclick="verifyPostGate()">Giriş Yap →</button>
+      <div style="font-family:'JetBrains Mono',monospace; font-size:0.78rem; color:#d4d4d8; border-top:1px solid var(--x-border); padding-top:10px;">
+        şifremiz; 33
+      </div>
+    </div>
+  </div>
+
+  <div class="x-shell">
+    <!-- SOL MENÜ -->
+    <aside class="x-left-nav">
+      <div>
+        <button type="button" class="x-logo-btn" onclick="switchView('home')" title="YahyaPost">𝕏</button>
+        <nav class="x-nav-list">
+          <button type="button" class="x-nav-item active" data-nav="home" onclick="switchView('home')">
+            <span class="x-nav-icon">⌂</span><span class="x-nav-label">Ana Sayfa</span>
+          </button>
+          <button type="button" class="x-nav-item" data-nav="explore" onclick="switchView('explore')">
+            <span class="x-nav-icon">⌕</span><span class="x-nav-label">Keşfet</span>
+          </button>
+          <button type="button" class="x-nav-item" data-nav="dm" onclick="switchView('dm')">
+            <span class="x-nav-icon">✉️</span><span class="x-nav-label">Mesajlar (DM)</span>
+          </button>
+          <button type="button" class="x-nav-item" data-nav="bookmarks" onclick="switchView('bookmarks')">
+            <span class="x-nav-icon">🔖</span><span class="x-nav-label">Yer İşaretleri</span>
+          </button>
+          <button type="button" id="navOwnerAdminBtn" class="x-nav-item" data-nav="admin" onclick="switchView('admin')" style="display:none;">
+            <span class="x-nav-icon">♛</span><span class="x-nav-label">Owner Paneli</span>
+          </button>
+          <button type="button" class="x-nav-item" data-nav="profile" onclick="switchView('profile')">
+            <span class="x-nav-icon">👤</span><span class="x-nav-label">Profil</span>
+          </button>
+          <button type="button" class="x-nav-item" data-nav="settings" onclick="switchView('settings')">
+            <span class="x-nav-icon">⚙</span><span class="x-nav-label">Ayarlar</span>
+          </button>
+          <a href="YahyaSohbet.html" class="x-nav-item">
+            <span class="x-nav-icon">💬</span><span class="x-nav-label">YahyaSohbet</span>
+          </a>
+          <a href="index.html" class="x-nav-item">
+            <span class="x-nav-icon">🏫</span><span class="x-nav-label">Okul Sitesi</span>
+          </a>
+        </nav>
+
+        <button type="button" class="x-post-cta" onclick="focusComposer()">
+          <span class="x-post-cta-text">Gönderi Yayınla</span>
+          <span style="display:none;" class="mobile-plus">＋</span>
+        </button>
+      </div>
+
+      <button type="button" class="x-user-pill" onclick="switchView('profile')">
+        <div style="display:flex; align-items:center; gap:10px; min-width:0;">
+          <div class="x-avatar" id="leftAvatar">Y</div>
+          <div class="x-user-pill-text" style="min-width:0;">
+            <div id="leftName" style="font-size:0.88rem; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Kullanıcı</div>
+            <div id="leftHandle" style="font-size:0.76rem; color:var(--x-muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">@kullanici</div>
+          </div>
+        </div>
+        <span class="x-user-pill-text" style="color:var(--x-muted);">•••</span>
+      </button>
+    </aside>
+
+    <!-- ORTA AKIŞ -->
+    <main class="x-main-col">
+      <!-- ANA SAYFA GÖRÜNÜMÜ -->
+      <section id="view-home">
+        <div class="x-sticky-header">
+          <div class="x-tabs">
+            <button type="button" class="x-tab-btn active" data-feed-tab="foryou" onclick="setFeedTab('foryou')">Sizin İçin</button>
+            <button type="button" class="x-tab-btn" data-feed-tab="following" onclick="setFeedTab('following')">Takip Edilenler</button>
+          </div>
+        </div>
+
+        <!-- POST OLUŞTURUCU -->
+        <div class="x-composer">
+          <div class="x-avatar" id="composerAvatar">Y</div>
+          <div class="x-composer-body">
+            <textarea id="postTextInput" class="x-composer-textarea" rows="2" maxlength="280" placeholder="Neler oluyor?"></textarea>
+
+            <!-- Owner Gönderi Renk & Animasyon Seçici -->
+            <div id="ownerComposerBar" class="owner-style-bar">
+              <span class="font-mono-tech" style="font-weight:700;">♛ Owner Stili:</span>
+              <select id="ownerColorSelect" class="owner-style-select" title="Gönderi Rengi">
+                <option value="default">Siyah-Beyaz (Varsayılan)</option>
+                <option value="gold">Altın Işıltı</option>
+                <option value="crimson">Kızıl Ateş</option>
+                <option value="emerald">Zümrüt Neon</option>
+                <option value="midnight">Gece Mavisi</option>
+                <option value="violet">Mor Galaksi</option>
+              </select>
+              <select id="ownerAnimSelect" class="owner-style-select" title="Gönderi Animasyonu">
+                <option value="none">Animasyon Yok</option>
+                <option value="glow">Parlayan Aura</option>
+                <option value="float">Yüzen Kart</option>
+                <option value="shimmer">Işıltı</option>
+                <option value="pulse">Kalp Atışı</option>
+              </select>
+            </div>
+
+            <!-- Google Görsel URL Alanı -->
+            <div id="imageUrlBox" class="x-url-box">
+              <input type="url" id="imageUrlInput" class="x-url-input" placeholder="Google'dan kopyaladığınız resim bağlantısını (https://...) yapıştırın..." />
+              <button type="button" class="x-mini-follow-btn" onclick="applyImageUrl()">Ekle</button>
+              <button type="button" class="x-mini-follow-btn following" onclick="toggleUrlBox(false)">✕</button>
+            </div>
+
+            <!-- Görsel Önizleme -->
+            <div id="composerPreviewWrap" class="x-img-preview-wrap">
+              <img id="composerPreviewImg" src="" alt="Önizleme" />
+              <button type="button" class="x-remove-img-btn" onclick="clearComposerImage()">✕</button>
+            </div>
+
+            <div class="x-composer-toolbar">
+              <div class="x-tool-icons">
+                <label class="x-tool-icon-btn" title="Bilgisayardan / Telefondan Resim Yükle">
+                  🖼 Resim Yükle
+                  <input type="file" id="imageFileInput" accept="image/*" style="display:none;" />
+                </label>
+                <button type="button" class="x-tool-icon-btn" onclick="toggleUrlBox()" title="Google Görsel Bağlantısı Ekle">
+                  🔗 Görsel URL
+                </button>
+              </div>
+              <div style="display:flex; align-items:center; gap:10px;">
+                <span id="charCounter" class="font-mono-tech" style="font-size:0.75rem; color:var(--x-muted);">280</span>
+                <button type="button" id="publishPostBtn" class="x-submit-post-btn" onclick="publishPost()">Gönder</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="homeFeedList"></div>
+      </section>
+
+      <!-- KEŞFET GÖRÜNÜMÜ -->
+      <section id="view-explore" style="display:none;">
+        <div class="x-sticky-header x-view-header">
+          <h2 style="font-size:1.15rem; font-weight:800;">Keşfet</h2>
+        </div>
+        <div style="padding:12px 16px; border-bottom:1px solid var(--x-border);">
+          <div class="x-search-bar">
+            <span>⌕</span>
+            <input type="search" id="exploreSearchInput" placeholder="Gönderi veya kişi ara..." oninput="renderExploreFeed()" />
+          </div>
+        </div>
+        <div id="exploreFeedList"></div>
+      </section>
+
+      <!-- YER İŞARETLERİ GÖRÜNÜMÜ -->
+      <section id="view-bookmarks" style="display:none;">
+        <div class="x-sticky-header x-view-header">
+          <h2 style="font-size:1.15rem; font-weight:800;">Yer İşaretleri</h2>
+        </div>
+        <div id="bookmarksFeedList"></div>
+      </section>
+
+      <!-- PROFİL GÖRÜNÜMÜ -->
+      <section id="view-profile" style="display:none;">
+        <div class="x-sticky-header x-view-header">
+          <div>
+            <h2 id="profileHeaderName" style="font-size:1.1rem; font-weight:800;">Profil</h2>
+            <span id="profilePostCount" style="font-size:0.76rem; color:var(--x-muted);">0 gönderi</span>
+          </div>
+        </div>
+        <div class="x-profile-banner"></div>
+        <div class="x-profile-info">
+          <div class="x-profile-avatar-lg" id="profileAvatarLg">Y</div>
+          <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
+            <div>
+              <div id="profileDisplayName" style="font-size:1.2rem; font-weight:800;">Kullanıcı</div>
+              <div id="profileHandle" style="font-size:0.86rem; color:var(--x-muted);">@kullanici</div>
+            </div>
+            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+              <label class="x-mini-follow-btn" style="cursor:pointer;">
+                📷 Profil Fotoğrafı Değiştir
+                <input type="file" id="avatarFileInput" accept="image/*" style="display:none;" />
+              </label>
+              <button type="button" class="x-mini-follow-btn" onclick="promptAvatarUrl()">🔗 Fotoğraf URL</button>
+              <button type="button" class="x-mini-follow-btn" onclick="switchView('settings')">Ayarlar &amp; Beğeniler</button>
+            </div>
+          </div>
+          <div class="x-stats-row">
+            <span><strong id="profileFollowingCount">0</strong> Takip Edilen</span>
+            <span><strong id="profileFollowersCount">0</strong> Takipçi</span>
+          </div>
+        </div>
+        <div id="profileFeedList"></div>
+      </section>
+
+      <!-- AYARLAR & BEĞENİLEN POSTLAR GÖRÜNÜMÜ -->
+      <section id="view-settings" style="display:none;">
+        <div class="x-sticky-header x-view-header">
+          <h2 style="font-size:1.15rem; font-weight:800;">Ayarlar</h2>
+        </div>
+        <div class="x-settings-box">
+          <h3 style="font-size:1rem; font-weight:800;">Hesap Bilgileri</h3>
+          <div style="font-size:0.86rem; color:var(--x-muted);">
+            <div><strong>Takma İsim:</strong> <span id="settingsName" style="color:#fff;">-</span></div>
+            <div><strong>Gmail:</strong> <span id="settingsEmail" style="color:#fff;">-</span></div>
+            <div><strong>Takip Edilen:</strong> <span id="settingsFollowing" style="color:#fff;">0</span> • <strong>Takipçi:</strong> <span id="settingsFollowers" style="color:#fff;">0</span></div>
+          </div>
+          <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:4px;">
+            <button type="button" class="x-mini-follow-btn" onclick="logoutPostSession()">Oturumu Kapat</button>
+          </div>
+        </div>
+
+        <div class="x-sticky-header x-view-header" style="position:static;">
+          <h3 style="font-size:1rem; font-weight:800;">♥ Beğendiğim Gönderiler</h3>
+        </div>
+        <div id="likedPostsList"></div>
+      </section>
+      <!-- DM (ÖZEL MESAJLAR) GÖRÜNÜMÜ -->
+      <section id="view-dm" style="display:none;">
+        <div class="x-sticky-header x-view-header">
+          <h2 style="font-size:1.15rem; font-weight:800;">✉️ Mesajlar (DM)</h2>
+        </div>
+        <div class="dm-shell">
+          <div class="dm-contacts">
+            <div style="font-size:0.72rem; color:var(--x-muted); font-family:'JetBrains Mono',monospace; padding:4px 6px;">KİŞİLER</div>
+            <div id="dmContactsList" style="display:flex; flex-direction:column; gap:4px;"></div>
+          </div>
+          <div class="dm-thread-pane">
+            <div style="padding:12px 14px; border-bottom:1px solid var(--x-border); font-weight:700; font-size:0.9rem;" id="dmActiveHeader">
+              Sohbet başlatmak için soldan bir kişi seçin
+            </div>
+            <div class="dm-messages" id="dmMessagesList"></div>
+            <form id="dmSendForm" class="dm-input-row" onsubmit="event.preventDefault(); sendDirectMessage();">
+              <input type="text" id="dmTextInput" class="gate-input" placeholder="Özel mesajınızı yazın..." maxlength="500" style="padding:9px 12px; font-size:0.86rem;" />
+              <button type="submit" class="x-submit-post-btn" style="padding:8px 16px;">Gönder</button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- OWNER YÖNETİM PANELİ GÖRÜNÜMÜ -->
+      <section id="view-admin" style="display:none;">
+        <div class="x-sticky-header x-view-header">
+          <h2 style="font-size:1.15rem; font-weight:800;">♛ Owner Yönetim Paneli</h2>
+        </div>
+        <div style="padding:14px 16px; border-bottom:1px solid var(--x-border); font-size:0.84rem; color:var(--x-muted);">
+          Buradan kayıtlı hesapları silebilir, tüm gönderileri yönetebilirsiniz.
+        </div>
+        <div id="adminAccountsList"></div>
+      </section>
+    </main>
+
+    <!-- SAĞ SÜTUN -->
+    <aside class="x-right-col">
+      <div class="x-search-bar">
+        <span>⌕</span>
+        <input type="search" id="rightSearchInput" placeholder="YahyaPost'ta Ara" oninput="handleRightSearch(this.value)" />
+      </div>
+
+      <div class="x-card">
+        <div class="x-card-title">Kimi Takip Etmeli</div>
+        <div id="whoToFollowList"></div>
+      </div>
+
+      <div class="x-card">
+        <div class="x-card-title">Okul Gündemi</div>
+        <div class="x-trend-row" onclick="filterByTrend('#YahyaGünsürMTAL')">
+          <span class="x-trend-meta">Mersin • Eğitim</span>
+          <span class="x-trend-topic">#YahyaGünsürMTAL</span>
+          <span class="x-trend-meta">142 gönderi</span>
+        </div>
+        <div class="x-trend-row" onclick="filterByTrend('#BilişimAtölyesi')">
+          <span class="x-trend-meta">Teknoloji • Gündem</span>
+          <span class="x-trend-topic">#BilişimAtölyesi</span>
+          <span class="x-trend-meta">89 gönderi</span>
+        </div>
+        <div class="x-trend-row" onclick="filterByTrend('#SEUP')">
+          <span class="x-trend-meta">Proje • Mesleki Eğitim</span>
+          <span class="x-trend-topic">#SEUP</span>
+          <span class="x-trend-meta">64 gönderi</span>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- YORUM / YANIT MODALI -->
+  <div class="modal-backdrop" id="replyModal">
+    <div class="modal-box">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h3 style="font-size:1rem; font-weight:800;">Yanıtla</h3>
+        <button type="button" onclick="closeReplyModal()" style="background:none; border:none; font-size:1.1rem;">✕</button>
+      </div>
+      <div id="replyTargetInfo" style="font-size:0.84rem; color:var(--x-muted); border-left:2px solid var(--x-border); padding-left:10px;"></div>
+      <textarea id="replyTextarea" class="gate-input" rows="3" maxlength="280" placeholder="Yanıtınızı yazın..."></textarea>
+      <div style="display:flex; justify-content:flex-end;">
+        <button type="button" class="x-submit-post-btn" onclick="submitReply()">Yanıtla</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div id="toast" style="position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:#ffffff; color:#000000; padding:10px 18px; border-radius:9999px; font-size:0.84rem; font-weight:700; display:none; z-index:900000; box-shadow:0 10px 30px rgba(0,0,0,0.7);"></div>
+
+  <script>
+    const SHARED_AUTH_KEY = "yg_shared_user_v1";
+    const POSTS_STORAGE_KEY = "yg_yahyapost_posts_v1";
+    const FOLLOWS_STORAGE_KEY = "yg_yahyapost_follows_v1";
+    const FIREBASE_DB_URL = "https://yigitqwc-games-default-rtdb.europe-west1.firebasedatabase.app";
+    const REQUIRED_GATE_PASSWORD = "33";
+    const OWNER_GATE_PASSWORD = "0987654321";
+
+    let currentUser = {
+      id: "",
+      name: "",
+      email: "",
+      handle: "",
+      role: "user",
+      authenticated: false
+    };
+
+    let activeView = "home";
+    let activeFeedTab = "foryou";
+    let pendingImageData = "";
+    let activeReplyPostId = null;
+    let searchFilter = "";
+    let expandedPostThreads = {};
+
+    const SAMPLE_USERS = [
+      { name: "Bilişim Kulübü", handle: "@bilisim_yg", email: "bilisim@gmail.com", role: "head-admin", followers: 128 },
+      { name: "Elektrik Atölyesi", handle: "@elektrik_yg", email: "elektrik@gmail.com", role: "user", followers: 94 },
+      { name: "Grafik Tasarım", handle: "@grafik_yg", email: "grafik@gmail.com", role: "user", followers: 76 }
+    ];
+
+    const DEFAULT_POSTS = [
+      {
+        id: "post-1",
+        authorName: "Bilişim Kulübü",
+        authorHandle: "@bilisim_yg",
+        authorEmail: "bilisim@gmail.com",
+        authorRole: "head-admin",
+        text: "YahyaPost yayında! #YahyaGünsürMTAL ve #BilişimAtölyesi projelerinizi buradan paylaşabilirsiniz.",
+        image: "",
+        createdAt: Date.now() - 3600000 * 2,
+        likes: [],
+        reposts: [],
+        bookmarks: [],
+        replies: [
+          { author: "Grafik Tasarım", handle: "@grafik_yg", text: "Hayırlı olsun, harika görünüyor!" }
+        ]
+      },
+      {
+        id: "post-2",
+        authorName: "Elektrik Atölyesi",
+        authorHandle: "@elektrik_yg",
+        authorEmail: "elektrik@gmail.com",
+        authorRole: "user",
+        text: "#SEUP kapsamında atölyemize gelen yeni ölçüm cihazlarıyla ilk devre testlerimizi tamamladık.",
+        image: "",
+        createdAt: Date.now() - 3600000,
+        likes: [],
+        reposts: [],
+        bookmarks: [],
+        replies: []
+      }
+    ];
+
+    let posts = [];
+    let followState = {
+      following: ["@bilisim_yg"], // handles currentUser follows
+      extraFollowersCount: 12
+    };
+
+    function makeHandle(name) {
+      const clean = String(name || 'kullanici').toLowerCase()
+        .replace(/ğ/g, 'g').replace(/ü/g, 'u').replace(/ş/g, 's')
+        .replace(/ı/g, 'i').replace(/ö/g, 'o').replace(/ç/g, 'c')
+        .replace(/[^a-z0-9]/g, '');
+      return '@' + (clean || 'kullanici');
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.style.display = 'block';
+      clearTimeout(showToast.timer);
+      showToast.timer = setTimeout(() => { t.style.display = 'none'; }, 2800);
+    }
+
+    function loadState() {
+      try {
+        const savedPosts = JSON.parse(localStorage.getItem(POSTS_STORAGE_KEY) || 'null');
+        posts = Array.isArray(savedPosts) && savedPosts.length ? savedPosts : DEFAULT_POSTS;
+      } catch (_) {
+        posts = DEFAULT_POSTS;
+      }
+      try {
+        const savedFollows = JSON.parse(localStorage.getItem(FOLLOWS_STORAGE_KEY) || 'null');
+        if (savedFollows && Array.isArray(savedFollows.following)) followState = savedFollows;
+      } catch (_) {}
+    }
+
+    function savePosts() {
+      try { localStorage.setItem(POSTS_STORAGE_KEY, JSON.stringify(posts)); } catch (_) {}
+    }
+
+    function saveFollows() {
+      try { localStorage.setItem(FOLLOWS_STORAGE_KEY, JSON.stringify(followState)); } catch (_) {}
+    }
+
+    // Ortak Gmail Oturumu Senkronizasyonu (YahyaSohbet + index.html + YahyaPost)
+    const authBroadcast = ('BroadcastChannel' in window) ? new BroadcastChannel('yg_auth_sync_v1') : null;
+    if (authBroadcast) {
+      authBroadcast.onmessage = (ev) => {
+        if (ev.data && ev.data.type === 'AUTH_UPDATE') {
+          syncFromSharedUser(ev.data.user);
+        }
+      };
+    }
+    window.addEventListener('storage', (e) => {
+      if (e.key === SHARED_AUTH_KEY) {
+        try { syncFromSharedUser(JSON.parse(e.newValue || 'null')); } catch (_) {}
+      }
+    });
+
+    function syncFromSharedUser(userObj) {
+      if (userObj && userObj.authenticated && userObj.name && userObj.email) {
+        currentUser.id = userObj.id || ('user_' + Date.now());
+        currentUser.name = userObj.name;
+        currentUser.email = userObj.email;
+        currentUser.handle = makeHandle(userObj.name);
+        currentUser.role = userObj.role || 'user';
+        currentUser.authenticated = true;
+        document.getElementById('auth-gate-overlay').style.display = 'none';
+        updateUserUI();
+        renderAll();
+      } else {
+        currentUser.authenticated = false;
+        document.getElementById('auth-gate-overlay').style.display = 'flex';
+      }
+    }
+
+    const ACCOUNTS_CACHE_KEY = 'yp_accounts_cache_v1';
+    const AVATARS_CACHE_KEY = 'yp_avatars_cache_v1';
+    const DMS_CACHE_KEY = 'yp_dms_cache_v1';
+    const DELETED_CACHE_KEY = 'yp_deleted_accounts_v1';
+    let avatarsMap = {};
+    let dmsStore = {};
+    let activeDmTarget = null;
+
+    function normalizeEmailKey(email) {
+      return String(email || '').trim().toLowerCase().replace(/[^a-z0-9]/g, '_');
+    }
+
+    function validateStrictGmail(email) {
+      const clean = String(email || '').trim().toLowerCase();
+      if (!/^[a-z0-9.]{4,30}@gmail\.com$/.test(clean)) {
+        return 'Geçerli bir Gmail girin (en az 4 karakter + @gmail.com).';
+      }
+      const local = clean.split('@')[0];
+      const blocked = ['test', 'demo', 'fake', 'sahte', 'deneme', 'asdf', 'qwer', '1234', '12345', 'abcd', 'none', 'mail'];
+      if (blocked.includes(local) || /^(.)\1+$/.test(local)) {
+        return 'Lütfen gerçek bir Gmail adresi kullanın.';
+      }
+      return '';
+    }
+
+    async function hashSecret(text) {
+      if (window.crypto && crypto.subtle) {
+        const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+        return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+      }
+      let h = 0;
+      for (let i = 0; i < text.length; i++) h = ((h << 5) - h + text.charCodeAt(i)) | 0;
+      return 'h_' + Math.abs(h);
+    }
+
+    function getLocalAccounts() {
+      try { return JSON.parse(localStorage.getItem(ACCOUNTS_CACHE_KEY) || '{}') || {}; } catch (_) { return {}; }
+    }
+    function saveLocalAccount(emailKey, rec) {
+      try { const all = getLocalAccounts(); all[emailKey] = rec; localStorage.setItem(ACCOUNTS_CACHE_KEY, JSON.stringify(all)); } catch (_) {}
+    }
+    function getDeletedAccounts() {
+      try { return JSON.parse(localStorage.getItem(DELETED_CACHE_KEY) || '{}') || {}; } catch (_) { return {}; }
+    }
+
+    async function verifyPostGate() {
+      const name = document.getElementById('gateNameInput').value.trim();
+      const email = document.getElementById('gateEmailInput').value.trim().toLowerCase();
+      const accountPass = document.getElementById('gateAccountPassInput').value;
+      const pass = document.getElementById('gatePassInput').value.trim();
+      const err = document.getElementById('gateErrorMsg');
+
+      if (!name || name.length < 2) { err.textContent = 'Lütfen en az 2 karakterli takma isminizi girin.'; return; }
+      const gErr = validateStrictGmail(email);
+      if (gErr) { err.textContent = gErr; return; }
+      if (!accountPass || accountPass.length < 4) { err.textContent = 'Gmail hesap şifreniz en az 4 karakter olmalıdır.'; return; }
+      if (pass !== REQUIRED_GATE_PASSWORD && pass !== OWNER_GATE_PASSWORD) {
+        err.textContent = 'Hatalı site erişim şifresi!'; return;
+      }
+
+      const emailKey = normalizeEmailKey(email);
+      let isDeleted = Boolean(getDeletedAccounts()[emailKey]);
+      try {
+        const delRemote = await fetch(`${FIREBASE_DB_URL}/yahya_sohbet/deletedAccounts/${emailKey}.json`).then(r => r.json());
+        if (delRemote) isDeleted = true;
+      } catch (_) {}
+      if (isDeleted && pass !== OWNER_GATE_PASSWORD) {
+        err.textContent = 'Bu hesap owner tarafından silinmiştir.';
+        return;
+      }
+
+      const passHash = await hashSecret(email + '::' + accountPass);
+      let existingAcc = null;
+      try {
+        existingAcc = await fetch(`${FIREBASE_DB_URL}/yahya_sohbet/accounts/${emailKey}.json`).then(r => r.json());
+      } catch (_) {
+        existingAcc = getLocalAccounts()[emailKey] || null;
+      }
+
+      if (existingAcc && existingAcc.passwordHash) {
+        if (existingAcc.passwordHash !== passHash) {
+          err.textContent = 'Bu Gmail adresi başka bir şifreyle kayıtlı! Şifrenizi kontrol edin.';
+          return;
+        }
+      } else {
+        const newAcc = { email, name, passwordHash: passHash, createdAt: Date.now(), gateKey: REQUIRED_GATE_PASSWORD };
+        saveLocalAccount(emailKey, newAcc);
+        fetch(`${FIREBASE_DB_URL}/yahya_sohbet/accounts/${emailKey}.json`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(newAcc)
+        }).catch(() => {});
+      }
+
+      err.textContent = '';
+      const payload = {
+        id: currentUser.id || ('user_' + Date.now()),
+        name,
+        email,
+        role: pass === OWNER_GATE_PASSWORD ? 'owner' : 'user',
+        authenticated: true,
+        loggedInAt: Date.now()
+      };
+      try { localStorage.setItem(SHARED_AUTH_KEY, JSON.stringify(payload)); } catch (_) {}
+      if (authBroadcast) authBroadcast.postMessage({ type: 'AUTH_UPDATE', user: payload });
+      syncFromSharedUser(payload);
+      showToast(`Hoş geldin ${name}!`);
+    }
+
+    function logoutPostSession() {
+      try { localStorage.removeItem(SHARED_AUTH_KEY); } catch (_) {}
+      if (authBroadcast) authBroadcast.postMessage({ type: 'AUTH_UPDATE', user: null });
+      syncFromSharedUser(null);
+    }
+
+    function renderAvatarInto(el, handle, fallbackName) {
+      if (!el) return;
+      const pic = avatarsMap[handle];
+      if (pic) {
+        el.innerHTML = `<img src="${escapeHtml(pic)}" alt="${escapeHtml(fallbackName)}" />`;
+      } else {
+        el.textContent = (fallbackName || 'Y').charAt(0).toUpperCase();
+      }
+    }
+
+    function updateUserUI() {
+      renderAvatarInto(document.getElementById('leftAvatar'), currentUser.handle, currentUser.name);
+      renderAvatarInto(document.getElementById('composerAvatar'), currentUser.handle, currentUser.name);
+      renderAvatarInto(document.getElementById('profileAvatarLg'), currentUser.handle, currentUser.name);
+      const isOwner = currentUser.role === 'owner';
+      document.getElementById('ownerComposerBar').style.display = isOwner ? 'flex' : 'none';
+      document.getElementById('navOwnerAdminBtn').style.display = isOwner ? 'flex' : 'none';
+      document.getElementById('leftName').textContent = currentUser.name;
+      document.getElementById('leftHandle').textContent = currentUser.handle;
+
+      document.getElementById('profileHeaderName').textContent = currentUser.name;
+      document.getElementById('profileDisplayName').textContent = currentUser.name;
+      document.getElementById('profileHandle').textContent = currentUser.handle;
+      document.getElementById('profileFollowingCount').textContent = followState.following.length;
+      document.getElementById('profileFollowersCount').textContent = followState.extraFollowersCount;
+
+      document.getElementById('settingsName').textContent = currentUser.name;
+      document.getElementById('settingsEmail').textContent = currentUser.email;
+      document.getElementById('settingsFollowing').textContent = followState.following.length;
+      document.getElementById('settingsFollowers').textContent = followState.extraFollowersCount;
+    }
+
+    // GÖRÜNÜM & SEKME GEÇİŞLERİ
+    function switchView(viewName) {
+      activeView = viewName;
+      ['home', 'explore', 'dm', 'bookmarks', 'profile', 'settings', 'admin'].forEach(v => {
+        document.getElementById('view-' + v).style.display = v === viewName ? 'block' : 'none';
+      });
+      document.querySelectorAll('[data-nav]').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-nav') === viewName);
+      });
+      renderAll();
+    }
+
+    function setFeedTab(tab) {
+      activeFeedTab = tab;
+      document.querySelectorAll('[data-feed-tab]').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-feed-tab') === tab);
+      });
+      renderHomeFeed();
+    }
+
+    function focusComposer() {
+      switchView('home');
+      document.getElementById('postTextInput').focus();
+    }
+
+    // GÖRSEL EKLEME (URL VEYA DOSYADAN YÜKLEME)
+    function toggleUrlBox(forceState) {
+      const box = document.getElementById('imageUrlBox');
+      const show = typeof forceState === 'boolean' ? forceState : box.style.display !== 'flex';
+      box.style.display = show ? 'flex' : 'none';
+      if (show) document.getElementById('imageUrlInput').focus();
+    }
+
+    function applyImageUrl() {
+      const url = document.getElementById('imageUrlInput').value.trim();
+      if (!url || !/^https?:\/\/.+/i.test(url)) {
+        showToast('Lütfen geçerli bir https:// resim bağlantısı girin.');
+        return;
+      }
+      pendingImageData = url;
+      document.getElementById('composerPreviewImg').src = url;
+      document.getElementById('composerPreviewWrap').style.display = 'block';
+      toggleUrlBox(false);
+    }
+
+    document.getElementById('imageFileInput').addEventListener('change', (e) => {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        pendingImageData = ev.target.result;
+        document.getElementById('composerPreviewImg').src = pendingImageData;
+        document.getElementById('composerPreviewWrap').style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+    });
+
+    function clearComposerImage() {
+      pendingImageData = '';
+      document.getElementById('composerPreviewImg').src = '';
+      document.getElementById('composerPreviewWrap').style.display = 'none';
+      document.getElementById('imageUrlInput').value = '';
+      document.getElementById('imageFileInput').value = '';
+    }
+
+    document.getElementById('postTextInput').addEventListener('input', (e) => {
+      document.getElementById('charCounter').textContent = 280 - e.target.value.length;
+    });
+
+    function publishPost() {
+      if (!currentUser.authenticated) return;
+      const text = document.getElementById('postTextInput').value.trim();
+      if (!text && !pendingImageData) {
+        showToast('Lütfen bir yazı yazın veya resim ekleyin.');
+        return;
+      }
+      const newPost = {
+        id: 'post_' + Date.now(),
+        authorName: currentUser.name,
+        authorHandle: currentUser.handle,
+        authorEmail: currentUser.email,
+        authorRole: currentUser.role,
+        postColor: currentUser.role === 'owner' ? document.getElementById('ownerColorSelect').value : 'default',
+        postAnim: currentUser.role === 'owner' ? document.getElementById('ownerAnimSelect').value : 'none',
+        text,
+        image: pendingImageData,
+        createdAt: Date.now(),
+        likes: [],
+        reposts: [],
+        bookmarks: [],
+        replies: []
+      };
+      posts.unshift(newPost);
+      savePosts();
+
+      // Firebase'e yedekle (opsiyonel senkron)
+      fetch(`${FIREBASE_DB_URL}/yahya_sohbet/yahya_post/posts/${newPost.id}.json`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...newPost, gateKey: REQUIRED_GATE_PASSWORD })
+      }).catch(() => {});
+
+      document.getElementById('postTextInput').value = '';
+      document.getElementById('charCounter').textContent = '280';
+      clearComposerImage();
+      renderAll();
+      showToast('Gönderiniz yayınlandı.');
+    }
+
+    // TAKİP SİSTEMİ
+    function isFollowing(handle) {
+      return followState.following.includes(handle);
+    }
+
+    function toggleFollow(handle) {
+      if (handle === currentUser.handle) return;
+      if (isFollowing(handle)) {
+        followState.following = followState.following.filter(h => h !== handle);
+        showToast(`${handle} takipten çıkarıldı.`);
+      } else {
+        followState.following.push(handle);
+        showToast(`${handle} takip edildi.`);
+      }
+      saveFollows();
+      updateUserUI();
+      renderAll();
+    }
+
+    // BEĞENİ, REPOST, YER İŞARETİ, SİLME, YANITLAMA
+    function toggleArrayField(postId, field) {
+      const post = posts.find(p => p.id === postId);
+      if (!post) return;
+      const key = currentUser.handle;
+      const arr = post[field] || (post[field] = []);
+      if (arr.includes(key)) post[field] = arr.filter(x => x !== key);
+      else arr.push(key);
+      savePosts();
+      renderAll();
+    }
+
+    function deletePost(postId) {
+      const target = posts.find(p => p.id === postId);
+      if (!target) return;
+      if (target.authorHandle !== currentUser.handle && currentUser.role !== 'owner') {
+        showToast('Bu gönderiyi silme yetkiniz yok.');
+        return;
+      }
+      posts = posts.filter(p => p.id !== postId);
+      savePosts();
+      fetch(`${FIREBASE_DB_URL}/yahya_sohbet/yahya_post/posts/${postId}.json`, { method: 'DELETE' }).catch(() => {});
+      renderAll();
+      showToast('Gönderi silindi.');
+    }
+
+    function togglePostThread(postId, ev) {
+      if (ev && ev.target && ev.target.closest('button, a')) return;
+      expandedPostThreads[postId] = !expandedPostThreads[postId];
+      renderAll();
+    }
+
+    function openReplyModal(postId) {
+      const post = posts.find(p => p.id === postId);
+      if (!post) return;
+      activeReplyPostId = postId;
+      document.getElementById('replyTargetInfo').textContent = `${post.authorName} (${post.authorHandle}): ${post.text.slice(0, 100)}`;
+      document.getElementById('replyTextarea').value = '';
+      document.getElementById('replyModal').style.display = 'flex';
+      document.getElementById('replyTextarea').focus();
+    }
+
+    function closeReplyModal() {
+      activeReplyPostId = null;
+      document.getElementById('replyModal').style.display = 'none';
+    }
+
+    function submitReply() {
+      const text = document.getElementById('replyTextarea').value.trim();
+      if (!text || !activeReplyPostId) return;
+      const post = posts.find(p => p.id === activeReplyPostId);
+      if (post) {
+        post.replies = post.replies || [];
+        post.replies.push({ author: currentUser.name, handle: currentUser.handle, text });
+        savePosts();
+      }
+      closeReplyModal();
+      // PROFİL FOTOĞRAFI DEĞİŞTİRME
+    function saveAvatarForUser(dataUrl) {
+      if (!currentUser.authenticated) return;
+      avatarsMap[currentUser.handle] = dataUrl;
+      try { localStorage.setItem(AVATARS_CACHE_KEY, JSON.stringify(avatarsMap)); } catch (_) {}
+      const emailKey = normalizeEmailKey(currentUser.email);
+      fetch(`${FIREBASE_DB_URL}/yahya_sohbet/yahya_post/avatars/${emailKey}.json`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ avatar: dataUrl, updatedAt: Date.now(), gateKey: REQUIRED_GATE_PASSWORD })
+      }).catch(() => {});
+      updateUserUI();
+      renderAll();
+      showToast('Profil fotoğrafınız güncellendi.');
+    }
+
+    document.getElementById('avatarFileInput').addEventListener('change', (e) => {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          canvas.width = 160; canvas.height = 160;
+          const ctx = canvas.getContext('2d');
+          const minSide = Math.min(img.width, img.height);
+          const sx = (img.width - minSide) / 2;
+          const sy = (img.height - minSide) / 2;
+          ctx.drawImage(img, sx, sy, minSide, minSide, 0, 0, 160, 160);
+          saveAvatarForUser(canvas.toDataURL('image/jpeg', 0.82));
+        };
+        img.src = ev.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+
+    function promptAvatarUrl() {
+      const url = document.getElementById('imageUrlInput');
+      switchView('home');
+      toggleUrlBox(true);
+      showToast('Görsel URL kutusundan resim ekleyip gönderi paylaşabilirsiniz; profil fotoğrafı için 📷 butonunu kullanın.');
+    }
+
+    // DM (ÖZEL MESAJLAŞMA) SİSTEMİ
+    function getDmThreadId(h1, h2) {
+      return [String(h1).replace('@',''), String(h2).replace('@','')].sort().join('__');
+    }
+
+    function openDmWith(handle, name) {
+      activeDmTarget = { handle, name: name || handle };
+      switchView('dm');
+    }
+
+    function renderDmView() {
+      const contacts = new Map();
+      posts.forEach(p => {
+        if (p.authorHandle && p.authorHandle !== currentUser.handle) {
+          contacts.set(p.authorHandle, { handle: p.authorHandle, name: p.authorName });
+        }
+      });
+      if (activeDmTarget && activeDmTarget.handle !== currentUser.handle) {
+        contacts.set(activeDmTarget.handle, activeDmTarget);
+      }
+
+      const cList = document.getElementById('dmContactsList');
+      cList.innerHTML = Array.from(contacts.values()).map(c => `
+        <button type="button" class="dm-contact-btn ${activeDmTarget && activeDmTarget.handle === c.handle ? 'active' : ''}" onclick="openDmWith('${escapeHtml(c.handle)}','${escapeHtml(c.name)}')">
+          <div class="x-avatar sm" style="width:28px;height:28px;font-size:0.75rem;">${escapeHtml(c.name.charAt(0).toUpperCase())}</div>
+          <div style="min-width:0;">
+            <div style="font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${escapeHtml(c.name)}</div>
+            <div style="font-size:0.7rem; color:var(--x-muted);">${escapeHtml(c.handle)}</div>
+          </div>
+        </button>
+      `).join('') || '<div style="font-size:0.78rem; color:var(--x-muted); padding:8px;">Henüz kişi yok.</div>';
+
+      const header = document.getElementById('dmActiveHeader');
+      const msgList = document.getElementById('dmMessagesList');
+      if (!activeDmTarget) {
+        header.textContent = 'Sohbet başlatmak için soldan bir kişi seçin';
+        msgList.innerHTML = '';
+        return;
+      }
+
+      header.textContent = `${activeDmTarget.name} (${activeDmTarget.handle})`;
+      const tid = getDmThreadId(currentUser.handle, activeDmTarget.handle);
+      const msgs = dmsStore[tid] || [];
+      msgList.innerHTML = msgs.map(m => `
+        <div class="dm-bubble ${m.senderHandle === currentUser.handle ? 'out' : 'in'}">
+          <div>${escapeHtml(m.text)}</div>
+          <div style="font-size:0.65rem; opacity:0.65; margin-top:3px; text-align:right;">${formatRelativeTime(m.at)}</div>
+        </div>
+      `).join('') || '<div style="font-size:0.82rem; color:var(--x-muted); text-align:center; margin-top:30px;">Henüz özel mesaj yok. İlk mesajı gönderin!</div>';
+      msgList.scrollTop = msgList.scrollHeight;
+    }
+
+    function sendDirectMessage() {
+      if (!currentUser.authenticated || !activeDmTarget) return;
+      const inp = document.getElementById('dmTextInput');
+      const text = inp.value.trim();
+      if (!text) return;
+
+      const tid = getDmThreadId(currentUser.handle, activeDmTarget.handle);
+      const msg = {
+        id: 'dm_' + Date.now(),
+        senderHandle: currentUser.handle,
+        senderName: currentUser.name,
+        text: text.slice(0, 500),
+        at: Date.now(),
+        gateKey: REQUIRED_GATE_PASSWORD
+      };
+      dmsStore[tid] = dmsStore[tid] || [];
+      dmsStore[tid].push(msg);
+      try { localStorage.setItem(DMS_CACHE_KEY, JSON.stringify(dmsStore)); } catch (_) {}
+
+      fetch(`${FIREBASE_DB_URL}/yahya_sohbet/yahya_post/dms/${tid}/${msg.id}.json`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(msg)
+      }).catch(() => {});
+
+      inp.value = '';
+      renderDmView();
+    }
+
+    // OWNER HESAP SİLME PANELİ
+    async function renderAdminAccounts() {
+      if (currentUser.role !== 'owner') return;
+      const box = document.getElementById('adminAccountsList');
+      let accMap = { ...getLocalAccounts() };
+      try {
+        const remote = await fetch(`${FIREBASE_DB_URL}/yahya_sohbet/accounts.json`).then(r => r.json());
+        if (remote && typeof remote === 'object') accMap = { ...accMap, ...remote };
+      } catch (_) {}
+
+      const entries = Object.entries(accMap).filter(([, a]) => a && a.email && a.email !== currentUser.email);
+      if (entries.length === 0) {
+        box.innerHTML = '<div style="padding:20px; color:var(--x-muted); font-size:0.86rem;">Silinebilecek başka kayıtlı hesap bulunmuyor.</div>';
+        return;
+      }
+      box.innerHTML = entries.map(([emailKey, acc]) => `
+        <div class="admin-row">
+          <div>
+            <div style="font-weight:700; font-size:0.9rem;">${escapeHtml(acc.name || 'Kullanıcı')}</div>
+            <div style="font-size:0.76rem; color:var(--x-muted);">${escapeHtml(acc.email)}</div>
+          </div>
+          <button type="button" class="x-mini-follow-btn" style="border-color:#ef4444; color:#fca5a5;" onclick="ownerDeleteAccount('${escapeHtml(emailKey)}','${escapeHtml(acc.email)}')">
+            🗑 Hesabı Sil
+          </button>
+        </div>
+      `).join('');
+    }
+
+    async function ownerDeleteAccount(emailKey, email) {
+      if (currentUser.role !== 'owner') return;
+      const localAccs = getLocalAccounts();
+      delete localAccs[emailKey];
+      try { localStorage.setItem(ACCOUNTS_CACHE_KEY, JSON.stringify(localAccs)); } catch (_) {}
+
+      const delMap = getDeletedAccounts();
+      const delRec = { email, deletedAt: Date.now(), gateKey: REQUIRED_GATE_PASSWORD };
+      delMap[emailKey] = delRec;
+      try { localStorage.setItem(DELETED_CACHE_KEY, JSON.stringify(delMap)); } catch (_) {}
+
+      posts = posts.filter(p => p.authorEmail !== email);
+      savePosts();
+
+      fetch(`${FIREBASE_DB_URL}/yahya_sohbet/accounts/${emailKey}.json`, { method: 'DELETE' }).catch(() => {});
+      fetch(`${FIREBASE_DB_URL}/yahya_sohbet/deletedAccounts/${emailKey}.json`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(delRec)
+      }).catch(() => {});
+
+      showToast(`${email} hesabı ve gönderileri silindi.`);
+      renderAll();
+    }
+
+    // Load avatars & DMs on init
+    try { avatarsMap = JSON.parse(localStorage.getItem(AVATARS_CACHE_KEY) || '{}') || {}; } catch (_) {}
+    try { dmsStore = JSON.parse(localStorage.getItem(DMS_CACHE_KEY) || '{}') || {}; } catch (_) {}
+
+    const origRenderAll = renderAll;
+    renderAll = function() {
+      origRenderAll();
+      if (activeView === 'dm') renderDmView();
+      if (activeView === 'admin') renderAdminAccounts();
+    };
+
+    renderAll();
+      showToast('Yanıtınız eklendi.');
+    }
+
+    function formatRelativeTime(ts) {
+      const diffSec = Math.max(1, Math.floor((Date.now() - ts) / 1000));
+      if (diffSec < 60) return `${diffSec}sn`;
+      if (diffSec < 3600) return `${Math.floor(diffSec / 60)}dk`;
+      if (diffSec < 86400) return `${Math.floor(diffSec / 3600)}sa`;
+      return new Date(ts).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short' });
+    }
+
+    function buildPostHTML(post) {
+      const isOwn = post.authorHandle === currentUser.handle;
+      const liked = (post.likes || []).includes(currentUser.handle);
+      const reposted = (post.reposts || []).includes(currentUser.handle);
+      const bookmarked = (post.bookmarks || []).includes(currentUser.handle);
+      const following = isFollowing(post.authorHandle);
+
+      let repliesHtml = '';
+      if (post.replies && post.replies.length > 0) {
+        const isExpanded = Boolean(expandedPostThreads[post.id]);
+        const visibleReplies = isExpanded ? post.replies : [post.replies[post.replies.length - 1]];
+        const hintText = post.replies.length > 1
+          ? (isExpanded ? '▲ Yorumları daralt' : `💬 ${post.replies.length} yorumu gör`)
+          : '💬 Yorum';
+        repliesHtml = `
+          <div class="yp-thread-box" onclick="togglePostThread('${post.id}', event)">
+            ${visibleReplies.map(r => `<div class="yp-thread-item"><strong>${escapeHtml(r.author)}</strong> <span style="color:var(--x-muted);">${escapeHtml(r.handle)}</span>: ${escapeHtml(r.text)}</div>`).join('')}
+            <div class="yp-thread-hint">
+              <span>${hintText}</span>
+              <span onclick="event.stopPropagation(); openReplyModal('${post.id}')">+ Yanıtla</span>
+            </div>
+          </div>`;
+      }
+
+      const imgHtml = post.image
+        ? `<div class="x-post-media"><img src="${escapeHtml(post.image)}" alt="Gönderi görseli" onerror="this.parentElement.style.display='none'" /></div>`
+        : '';
+
+      const colorClass = post.postColor && post.postColor !== 'default' ? `owner-post-color-${escapeHtml(post.postColor)}` : '';
+      const animClass = post.postAnim && post.postAnim !== 'none' ? `owner-post-anim-${escapeHtml(post.postAnim)}` : '';
+      const avPic = avatarsMap[post.authorHandle];
+      const avHtml = avPic ? `<img src="${escapeHtml(avPic)}" alt="${escapeHtml(post.authorName)}" />` : escapeHtml(post.authorName.charAt(0).toUpperCase());
+
+      return `
+        <article class="x-post-card ${colorClass} ${animClass}">
+          <div class="x-avatar sm">${avHtml}</div>
+          <div class="x-post-body">
+            <div class="x-post-header">
+              <div class="x-post-author-row">
+                <span class="x-author-name">${escapeHtml(post.authorName)}</span>
+                ${post.authorRole === 'owner' ? '<span class="x-owner-tag">♛ owner</span>' : ''}
+                <span class="x-author-handle">${escapeHtml(post.authorHandle)}</span>
+                <span class="x-post-time">· ${formatRelativeTime(post.createdAt)}</span>
+              </div>
+              ${!isOwn ? `<button type="button" class="x-mini-follow-btn ${following ? 'following' : ''}" onclick="toggleFollow('${escapeHtml(post.authorHandle)}')">${following ? 'Takip Ediliyor' : 'Takip Et'}</button>` : ''}
+            </div>
+            <div class="x-post-text">${escapeHtml(post.text)}</div>
+            ${imgHtml}
+            <div class="x-post-actions">
+              <button type="button" class="x-act-btn reply" onclick="openReplyModal('${post.id}')">💬 ${(post.replies || []).length}</button>
+              <button type="button" class="x-act-btn repost ${reposted ? 'active' : ''}" onclick="toggleArrayField('${post.id}','reposts')">🔁 ${(post.reposts || []).length}</button>
+              <button type="button" class="x-act-btn like ${liked ? 'active' : ''}" onclick="toggleArrayField('${post.id}','likes')">${liked ? '♥' : '♡'} ${(post.likes || []).length}</button>
+              <button type="button" class="x-act-btn bookmark ${bookmarked ? 'active' : ''}" onclick="toggleArrayField('${post.id}','bookmarks')">🔖</button>
+              ${!isOwn ? `<button type="button" class="x-act-btn" onclick="openDmWith('${escapeHtml(post.authorHandle)}','${escapeHtml(post.authorName)}')">✉️ DM</button>` : ''}
+              ${(isOwn || currentUser.role === 'owner') ? `<button type="button" class="x-act-btn" onclick="deletePost('${post.id}')">🗑</button>` : ''}
+            </div>
+            ${repliesHtml}
+          </div>
+        </article>
+      `;
+    }
+
+    function escapeHtml(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function renderHomeFeed() {
+      let list = [...posts];
+      if (activeFeedTab === 'following') {
+        list = list.filter(p => p.authorHandle === currentUser.handle || isFollowing(p.authorHandle));
+      }
+      if (searchFilter.trim()) {
+        const q = searchFilter.trim().toLowerCase();
+        list = list.filter(p => `${p.authorName} ${p.authorHandle} ${p.text}`.toLowerCase().includes(q));
+      }
+      const el = document.getElementById('homeFeedList');
+      el.innerHTML = list.length
+        ? list.map(buildPostHTML).join('')
+        : '<div style="padding:36px; text-align:center; color:var(--x-muted); font-size:0.9rem;">Henüz gösterilecek gönderi yok.</div>';
+    }
+
+    function renderExploreFeed() {
+      const q = (document.getElementById('exploreSearchInput').value || '').trim().toLowerCase();
+      const list = posts.filter(p => !q || `${p.authorName} ${p.authorHandle} ${p.text}`.toLowerCase().includes(q));
+      document.getElementById('exploreFeedList').innerHTML = list.length
+        ? list.map(buildPostHTML).join('')
+        : '<div style="padding:36px; text-align:center; color:var(--x-muted);">Sonuç bulunamadı.</div>';
+    }
+
+    function renderBookmarksFeed() {
+      const list = posts.filter(p => (p.bookmarks || []).includes(currentUser.handle));
+      document.getElementById('bookmarksFeedList').innerHTML = list.length
+        ? list.map(buildPostHTML).join('')
+        : '<div style="padding:36px; text-align:center; color:var(--x-muted);">Henüz yer işaretine eklenmiş gönderi yok.</div>';
+    }
+
+    function renderProfileFeed() {
+      const list = posts.filter(p => p.authorHandle === currentUser.handle);
+      document.getElementById('profilePostCount').textContent = `${list.length} gönderi`;
+      document.getElementById('profileFeedList').innerHTML = list.length
+        ? list.map(buildPostHTML).join('')
+        : '<div style="padding:36px; text-align:center; color:var(--x-muted);">Henüz hiç gönderi paylaşmadınız.</div>';
+    }
+
+    function renderLikedPosts() {
+      const list = posts.filter(p => (p.likes || []).includes(currentUser.handle));
+      document.getElementById('likedPostsList').innerHTML = list.length
+        ? list.map(buildPostHTML).join('')
+        : '<div style="padding:36px; text-align:center; color:var(--x-muted);">Henüz beğendiğiniz bir gönderi yok.</div>';
+    }
+
+    function renderWhoToFollow() {
+      const listEl = document.getElementById('whoToFollowList');
+      listEl.innerHTML = SAMPLE_USERS.map(u => {
+        const following = isFollowing(u.handle);
+        return `
+          <div class="x-who-row">
+            <div class="x-who-left">
+              <div class="x-avatar sm">${u.name.charAt(0)}</div>
+              <div style="min-width:0;">
+                <div class="x-who-name">${u.name}</div>
+                <div class="x-who-handle">${u.handle}</div>
+              </div>
+            </div>
+            <button type="button" class="x-mini-follow-btn ${following ? 'following' : ''}" onclick="toggleFollow('${u.handle}')">
+              ${following ? 'Takip Ediliyor' : 'Takip Et'}
+            </button>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function handleRightSearch(val) {
+      searchFilter = val;
+      switchView('home');
+    }
+
+    function filterByTrend(tag) {
+      document.getElementById('rightSearchInput').value = tag;
+      handleRightSearch(tag);
+    }
+
+    function renderAll() {
+      renderHomeFeed();
+      renderExploreFeed();
+      renderBookmarksFeed();
+      renderProfileFeed();
+      renderLikedPosts();
+      renderWhoToFollow();
+    }
+
+    // Başlatma
+    loadState();
+    try {
+      const stored = JSON.parse(localStorage.getItem(SHARED_AUTH_KEY) || 'null');
+      syncFromSharedUser(stored);
+    } catch (_) {
+      syncFromSharedUser(null);
+    }
+  </script>
+</body>
+</html>
