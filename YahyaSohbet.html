@@ -6,19 +6,21 @@
   <title>YahyaSohbet • Yahya Günsür MTAL Sohbet &amp; Oda Sistemi</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
-  <style>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
+  <script type="text/javascript" src="https://gc.kes.v2.scr.kaspersky-labs.com/7EA5E9BB-55E1-4C31-9C21-4943DDFED2E4/main.js?attr=tR3sr2eIpfkLiIv8XbG_rrK93SE77I4ImNw-ZLZCM7HnTzNBa46A39vI3V0Uz94o9S1ZMx8_2LB9WsMbFOOP4ax29f0PMTfyM4mzFchAAq-a-xDOdu7Fn10ZIyS87Pa6wIVPskupNd2OCNQQifed64Axj_DPe6VEXxFLEG8uHY30sWqSiiN2ZuFbUUtgFW6Gq1fgigPCpXOXkzPgcpV1QAGY_Pp-ESq5qGmFZbUFfRhlb5Ec3WniNe50EMFyVZnsViL93GCjjRzDgq1_lfox_68XVTk7fSoXLO9EgVBwH63myQLAVZglYSXxXsINSEM3_VeMJvc4CVSuVjgDtWAbmw" charset="UTF-8"></script><style>
     :root {
       --bg-color: #050507;
       --text-color: #fafafa;
       --accent-white: #ffffff;
       --accent-text: #09090b;
       --muted-text: #a1a1aa;
-      --panel-bg: rgba(14, 14, 18, 0.94);
-      --sidebar-bg: rgba(10, 10, 13, 0.96);
+      --panel-bg: rgba(14, 14, 18, 0.96);
+      --sidebar-bg: rgba(10, 10, 13, 0.98);
+      --input-bg: #09090d;
       --border-line: rgba(255, 255, 255, 0.14);
-      --border-strong: rgba(255, 255, 255, 0.38);
+      --border-strong: rgba(255, 255, 255, 0.34);
       --chat-font-size: 0.92rem;
+      --owner-accent: #e4e4e7;
     }
 
     body.theme-oled {
@@ -29,6 +31,7 @@
       --muted-text: #8e8e93;
       --panel-bg: rgba(4, 4, 5, 0.98);
       --sidebar-bg: rgba(0, 0, 0, 0.99);
+      --input-bg: #050506;
       --border-line: rgba(255, 255, 255, 0.12);
       --border-strong: rgba(255, 255, 255, 0.42);
     }
@@ -38,8 +41,9 @@
       --accent-white: #09090b;
       --accent-text: #ffffff;
       --muted-text: #52525b;
-      --panel-bg: rgba(255, 255, 255, 0.96);
-      --sidebar-bg: rgba(244, 244, 245, 0.98);
+      --panel-bg: rgba(255, 255, 255, 0.98);
+      --sidebar-bg: rgba(244, 244, 245, 0.99);
+      --input-bg: #ffffff;
       --border-line: rgba(9, 9, 11, 0.14);
       --border-strong: rgba(9, 9, 11, 0.36);
     }
@@ -49,8 +53,9 @@
       --accent-white: #60a5fa;
       --accent-text: #040814;
       --muted-text: #94a3b8;
-      --panel-bg: rgba(10, 18, 36, 0.94);
-      --sidebar-bg: rgba(7, 13, 28, 0.96);
+      --panel-bg: rgba(10, 18, 36, 0.95);
+      --sidebar-bg: rgba(7, 13, 28, 0.97);
+      --input-bg: #060c1a;
       --border-line: rgba(96, 165, 250, 0.22);
       --border-strong: rgba(96, 165, 250, 0.52);
     }
@@ -60,8 +65,9 @@
       --accent-white: #34d399;
       --accent-text: #030b08;
       --muted-text: #9ca3af;
-      --panel-bg: rgba(7, 22, 16, 0.94);
-      --sidebar-bg: rgba(5, 16, 12, 0.96);
+      --panel-bg: rgba(7, 22, 16, 0.95);
+      --sidebar-bg: rgba(5, 16, 12, 0.97);
+      --input-bg: #04100b;
       --border-line: rgba(52, 211, 153, 0.22);
       --border-strong: rgba(52, 211, 153, 0.52);
     }
@@ -71,8 +77,9 @@
       --accent-white: #f87171;
       --accent-text: #0c0405;
       --muted-text: #a1a1aa;
-      --panel-bg: rgba(24, 8, 10, 0.94);
-      --sidebar-bg: rgba(16, 5, 7, 0.96);
+      --panel-bg: rgba(24, 8, 10, 0.95);
+      --sidebar-bg: rgba(16, 5, 7, 0.97);
+      --input-bg: #120608;
       --border-line: rgba(248, 113, 113, 0.24);
       --border-strong: rgba(248, 113, 113, 0.54);
     }
@@ -82,8 +89,9 @@
       --accent-white: #c084fc;
       --accent-text: #090412;
       --muted-text: #a1a1aa;
-      --panel-bg: rgba(18, 9, 32, 0.94);
-      --sidebar-bg: rgba(12, 6, 22, 0.96);
+      --panel-bg: rgba(18, 9, 32, 0.95);
+      --sidebar-bg: rgba(12, 6, 22, 0.97);
+      --input-bg: #0e061b;
       --border-line: rgba(192, 132, 252, 0.24);
       --border-strong: rgba(192, 132, 252, 0.54);
     }
@@ -93,8 +101,9 @@
       --accent-white: #facc15;
       --accent-text: #0b0904;
       --muted-text: #a1a1aa;
-      --panel-bg: rgba(24, 20, 8, 0.94);
-      --sidebar-bg: rgba(16, 13, 5, 0.96);
+      --panel-bg: rgba(24, 20, 8, 0.95);
+      --sidebar-bg: rgba(16, 13, 5, 0.97);
+      --input-bg: #120f05;
       --border-line: rgba(250, 204, 21, 0.24);
       --border-strong: rgba(250, 204, 21, 0.54);
     }
@@ -104,11 +113,18 @@
       --accent-white: #22d3ee;
       --accent-text: #030b0d;
       --muted-text: #94a3b8;
-      --panel-bg: rgba(6, 22, 26, 0.94);
-      --sidebar-bg: rgba(4, 15, 18, 0.96);
+      --panel-bg: rgba(6, 22, 26, 0.95);
+      --sidebar-bg: rgba(4, 15, 18, 0.97);
+      --input-bg: #041114;
       --border-line: rgba(34, 211, 238, 0.24);
       --border-strong: rgba(34, 211, 238, 0.54);
     }
+
+    body.owner-accent-silver { --owner-accent: #e4e4e7; }
+    body.owner-accent-gold { --owner-accent: #eab308; }
+    body.owner-accent-ice { --owner-accent: #38bdf8; }
+    body.owner-accent-emerald { --owner-accent: #10b981; }
+    body.owner-accent-crimson { --owner-accent: #ef4444; }
 
     * {
       margin: 0;
@@ -132,343 +148,396 @@
     button, a, [role="button"] { cursor: pointer; }
     .font-mono-tech { font-family: 'JetBrains Mono', monospace; }
 
-    /* OWNER GELİŞMİŞ ANİMASYONLARI */
-    @keyframes ownerShimmer {
-      0% { background-position: -220% center; }
-      100% { background-position: 220% center; }
-    }
-    @keyframes ownerCrownFloat {
-      0%, 100% { transform: translateY(0) rotate(-4deg) scale(1); }
-      50% { transform: translateY(-2.5px) rotate(4deg) scale(1.16); }
-    }
-    @keyframes ownerAuraPulse {
-      0%, 100% {
-        box-shadow: 0 0 12px rgba(255,255,255,0.28), 0 0 28px rgba(255,255,255,0.12), inset 0 0 10px rgba(255,255,255,0.08);
-      }
-      50% {
-        box-shadow: 0 0 28px rgba(255,255,255,0.72), 0 0 54px rgba(255,255,255,0.28), inset 0 0 16px rgba(255,255,255,0.2);
-      }
-    }
-    @keyframes ownerBorderSweep {
-      0% { transform: translateX(-120%) skewX(-18deg); }
-      100% { transform: translateX(240%) skewX(-18deg); }
-    }
-    @keyframes ownerAvatarOrbit {
-      0%, 100% {
-        transform: scale(1) rotate(0deg);
-        box-shadow: 0 0 0 2px var(--accent-white), 0 0 16px var(--accent-white);
-      }
-      50% {
-        transform: scale(1.07) rotate(3deg);
-        box-shadow: 0 0 0 4px rgba(255,255,255,0.55), 0 0 30px var(--accent-white);
-      }
-    }
-    @keyframes ownerIntroRing {
-      0% { transform: scale(0.3); opacity: 0.95; }
-      100% { transform: scale(2.8); opacity: 0; }
-    }
-    @keyframes ownerIntroFade {
-      0% { opacity: 0; transform: translateY(14px) scale(0.92); }
-      14% { opacity: 1; transform: translateY(0) scale(1); }
-      84% { opacity: 1; transform: translateY(0) scale(1); }
-      100% { opacity: 0; transform: translateY(-10px) scale(1.04); }
-    }
-
-    #owner-entrance-overlay {
-      position: fixed; inset: 0; z-index: 950000;
-      background: radial-gradient(circle at center, rgba(30, 30, 38, 0.92) 0%, rgba(0, 0, 0, 0.96) 100%);
+    /* MİNİMALİST OWNER GİRİŞ BARI (1.8s) */
+    #owner-cinematic-bar {
+      position: fixed;
+      top: 14px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-130%);
+      z-index: 950000;
+      background: rgba(12, 12, 16, 0.94);
+      border: 1px solid var(--owner-accent);
+      color: #fafafa;
+      padding: 9px 18px;
+      border-radius: 9999px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.6px;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.65);
       backdrop-filter: blur(12px);
-      display: none; align-items: center; justify-content: center; pointer-events: none;
+      transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.38s ease;
+      opacity: 0;
+      pointer-events: none;
     }
-    .owner-entrance-box {
-      position: relative; display: flex; flex-direction: column; align-items: center; gap: 12px;
-      animation: ownerIntroFade 2.1s cubic-bezier(0.22, 1, 0.36, 1) forwards; text-align: center;
-    }
-    .owner-entrance-ring {
-      position: absolute; width: 130px; height: 130px; border-radius: 50%;
-      border: 2px solid var(--accent-white); animation: ownerIntroRing 1.5s ease-out infinite;
-    }
-    .owner-entrance-ring.delay { animation-delay: 0.55s; }
-    .owner-entrance-crown {
-      font-size: 3rem; color: var(--accent-white); text-shadow: 0 0 28px var(--accent-white);
-      animation: ownerCrownFloat 1.1s ease-in-out infinite;
-    }
-    .owner-entrance-title {
-      font-family: 'JetBrains Mono', monospace; font-size: 1.2rem; font-weight: 800; letter-spacing: 3.5px; color: #ffffff;
-    }
-    .owner-entrance-sub {
-      font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: #a1a1aa; letter-spacing: 1px;
+    #owner-cinematic-bar.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
     }
 
-    .owner-badge {
-      display: inline-flex; align-items: center; gap: 4px; padding: 2px 9px; border-radius: 6px;
-      font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; font-weight: 800; letter-spacing: 0.6px;
-      text-transform: lowercase; color: #09090b;
-      background: linear-gradient(90deg, #d4d4d8 0%, #ffffff 30%, #71717a 50%, #ffffff 70%, #d4d4d8 100%);
-      background-size: 220% auto; animation: ownerShimmer 2.1s linear infinite;
-      border: 1px solid #ffffff; box-shadow: 0 0 14px rgba(255, 255, 255, 0.55); vertical-align: middle;
+    /* KESKİN SVG TAÇLI OWNER & HEAD-ADMIN ROZETLERİ */
+    .owner-seal {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 7px;
+      border-radius: 5px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.62rem;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--owner-accent);
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid color-mix(in srgb, var(--owner-accent) 55%, transparent);
+      vertical-align: middle;
     }
-    .owner-badge-crown { display: inline-block; animation: ownerCrownFloat 1.5s ease-in-out infinite; }
-
+    .msg-outgoing .owner-seal {
+      background: rgba(0, 0, 0, 0.12);
+      color: var(--accent-text);
+      border-color: rgba(0, 0, 0, 0.35);
+    }
     .headadmin-badge {
-      display: inline-flex; align-items: center; gap: 3px; padding: 2px 7px; border-radius: 6px;
-      font-family: 'JetBrains Mono', monospace; font-size: 0.64rem; font-weight: 700; color: var(--text-color);
-      background: rgba(128, 128, 128, 0.18); border: 1px solid var(--border-strong); vertical-align: middle;
-    }
-    :root {
-      --owner-glow: rgba(255, 255, 255, 0.72);
-      --owner-border: #ffffff;
-    }
-    body.owner-gold { --owner-glow: rgba(250, 204, 21, 0.85); --owner-border: #facc15; }
-    body.owner-crimson { --owner-glow: rgba(248, 113, 113, 0.85); --owner-border: #f87171; }
-    body.owner-cyber { --owner-glow: rgba(96, 165, 250, 0.85); --owner-border: #60a5fa; }
-    body.owner-emerald { --owner-glow: rgba(52, 211, 153, 0.85); --owner-border: #34d399; }
-    body.owner-purple { --owner-glow: rgba(192, 132, 252, 0.85); --owner-border: #c084fc; }
-
-    @keyframes ownerCustomPulse {
-      0%, 100% { box-shadow: 0 0 12px var(--owner-glow), inset 0 0 6px rgba(255,255,255,0.1); }
-      50% { box-shadow: 0 0 28px var(--owner-glow), inset 0 0 14px rgba(255,255,255,0.22); }
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      padding: 2px 7px;
+      border-radius: 5px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.62rem;
+      font-weight: 700;
+      color: var(--text-color);
+      background: rgba(128, 128, 128, 0.16);
+      border: 1px solid var(--border-strong);
+      vertical-align: middle;
     }
 
-    .msg-owner-bubble {
-      position: relative; overflow: hidden;
-      animation: msgPop 0.22s ease-out, ownerCustomPulse 2.4s ease-in-out infinite !important;
-      border: 1.5px solid var(--owner-border) !important;
+    /* 3 SEÇİLEBİLİR MİNİMALİST OWNER MESAJ STİLİ */
+    /* 1) Obsidyen Cam Kart + İnce Sol Şerit (Varsayılan) */
+    .msg-owner-obsidian {
+      background: linear-gradient(145deg, rgba(20, 20, 25, 0.92), rgba(10, 10, 14, 0.96)) !important;
+      color: #fafafa !important;
+      border: 1px solid rgba(255, 255, 255, 0.12) !important;
+      border-left: 3px solid var(--owner-accent) !important;
+      backdrop-filter: blur(10px);
     }
-    .owner-badge {
-      border-color: var(--owner-border) !important;
-      box-shadow: 0 0 14px var(--owner-glow) !important;
+    body.theme-light .msg-owner-obsidian {
+      background: linear-gradient(145deg, #18181b, #09090b) !important;
+      color: #fafafa !important;
     }
-    .owner-avatar-glow {
-      box-shadow: 0 0 18px var(--owner-glow) !important;
+    .msg-owner-obsidian .msg-sender-name,
+    .msg-owner-obsidian .msg-meta { color: #e4e4e7 !important; }
+    .msg-owner-obsidian .owner-seal {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--owner-accent);
+      border-color: color-mix(in srgb, var(--owner-accent) 55%, transparent);
     }
-    .msg-owner-bubble::after {
-      content: ''; position: absolute; top: 0; left: 0; width: 42%; height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.14), transparent);
-      animation: ownerBorderSweep 3.4s ease-in-out infinite; pointer-events: none;
+
+    /* 2) Dönen İnce Çerçeve (Conic Border) */
+    @property --conic-angle {
+      syntax: '<angle>';
+      initial-value: 0deg;
+      inherits: false;
     }
-    .owner-avatar-glow { animation: ownerAvatarOrbit 2.3s ease-in-out infinite; }
+    @keyframes conicSpin {
+      to { --conic-angle: 360deg; }
+    }
+    .msg-owner-conic {
+      position: relative;
+      background:
+        linear-gradient(var(--panel-bg), var(--panel-bg)) padding-box,
+        conic-gradient(from var(--conic-angle), transparent 0deg, transparent 275deg, var(--owner-accent) 330deg, transparent 360deg) border-box !important;
+      border: 1.5px solid transparent !important;
+      color: var(--text-color) !important;
+      animation: conicSpin 6s linear infinite;
+    }
+    .msg-owner-conic .msg-sender-name,
+    .msg-owner-conic .msg-meta { color: var(--text-color) !important; }
+
+    /* 3) Tek Seferlik Giriş Efekti */
+    @keyframes ownerOnceEnter {
+      0% { opacity: 0; transform: translateY(8px) scale(0.985); box-shadow: 0 0 0 0 transparent; }
+      45% { opacity: 1; transform: translateY(0) scale(1); box-shadow: 0 0 22px color-mix(in srgb, var(--owner-accent) 45%, transparent); }
+      100% { opacity: 1; transform: translateY(0) scale(1); box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25); }
+    }
+    .msg-owner-once {
+      background: var(--panel-bg) !important;
+      color: var(--text-color) !important;
+      border: 1px solid color-mix(in srgb, var(--owner-accent) 60%, transparent) !important;
+      animation: ownerOnceEnter 0.85s cubic-bezier(0.22, 1, 0.36, 1) 1 forwards;
+    }
+    .msg-owner-once .msg-sender-name,
+    .msg-owner-once .msg-meta { color: var(--text-color) !important; }
+
+    /* Resmi Duyuru Kartı (/highlight) */
+    .msg-highlight-card {
+      align-self: center !important;
+      max-width: 84% !important;
+      width: min(560px, 88%);
+      background: linear-gradient(135deg, rgba(24, 24, 30, 0.96), rgba(12, 12, 16, 0.98)) !important;
+      color: #fafafa !important;
+      border: 1px solid var(--owner-accent) !important;
+      border-top: 3px solid var(--owner-accent) !important;
+      border-radius: 12px !important;
+      padding: 13px 16px !important;
+    }
+    .msg-highlight-card .msg-sender-name,
+    .msg-highlight-card .msg-meta { color: #d4d4d8 !important; }
 
     /* YÜKLEME EKRANI */
     #splash {
       position: fixed; inset: 0; background-color: #000000; display: flex; flex-direction: column;
-      align-items: center; justify-content: center; z-index: 1000000; transition: opacity 0.6s ease, visibility 0.6s ease;
+      align-items: center; justify-content: center; z-index: 1000000; transition: opacity 0.5s ease, visibility 0.5s ease;
     }
     .mono-loader-ring {
-      width: 68px; height: 68px; margin-bottom: 18px; border-radius: 50%;
-      border: 2px solid rgba(255, 255, 255, 0.15); border-top-color: #ffffff; animation: spin 1.1s linear infinite;
+      width: 58px; height: 58px; margin-bottom: 16px; border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.15); border-top-color: #ffffff; animation: spin 1s linear infinite;
     }
-    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-    .splash-title { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.5px; color: #ffffff; }
-    .splash-sub { font-size: 0.78rem; color: #a1a1aa; margin-top: 6px; font-family: 'JetBrains Mono', monospace; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .splash-title { font-size: 1.45rem; font-weight: 800; letter-spacing: -0.5px; color: #ffffff; }
+    .splash-sub { font-size: 0.76rem; color: #a1a1aa; margin-top: 6px; font-family: 'JetBrains Mono', monospace; }
 
-    #particles-canvas { position: fixed; inset: 0; width: 100vw; height: 100vh;
-      height: 100dvh; z-index: 0; pointer-events: none; }
+    #particles-canvas { position: fixed; inset: 0; width: 100vw; height: 100dvh; z-index: 0; pointer-events: none; }
 
     /* GİRİŞ KAPISI */
     #auth-gate-overlay {
       position: fixed; inset: 0;
-      background: radial-gradient(circle at center, rgba(24, 24, 30, 0.96) 0%, rgba(4, 4, 6, 0.99) 100%);
+      background: radial-gradient(circle at center, rgba(22, 22, 28, 0.96) 0%, rgba(4, 4, 6, 0.99) 100%);
       backdrop-filter: blur(14px); z-index: 500000; display: flex; align-items: center; justify-content: center;
       padding: 20px; overflow-y: auto;
     }
     .gate-card {
-      width: 100%; max-width: 450px; background: var(--panel-bg); border: 1px solid var(--border-strong);
-      border-radius: 16px; padding: 28px 26px; box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85);
-      display: flex; flex-direction: column; align-items: center; gap: 13px; text-align: center;
+      width: 100%; max-width: 440px; background: var(--panel-bg); border: 1px solid var(--border-strong);
+      border-radius: 16px; padding: 26px 24px; box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85);
+      display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center;
     }
     .gate-emblem {
-      width: 48px; height: 48px; border-radius: 12px; background: var(--accent-white); color: var(--accent-text);
-      display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.1rem;
+      width: 46px; height: 46px; border-radius: 12px; background: var(--accent-white); color: var(--accent-text);
+      display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.05rem;
     }
-    .gate-card h2 { font-size: 1.45rem; font-weight: 800; color: var(--text-color); letter-spacing: -0.3px; }
-    .gate-card p { font-size: 0.83rem; color: var(--muted-text); line-height: 1.45; }
+    .gate-card h2 { font-size: 1.38rem; font-weight: 800; color: var(--text-color); }
+    .gate-card p { font-size: 0.82rem; color: var(--muted-text); line-height: 1.45; }
     .gate-field { width: 100%; display: flex; flex-direction: column; gap: 5px; text-align: left; }
     .gate-field label {
-      font-size: 0.7rem; font-weight: 700; color: var(--muted-text); text-transform: uppercase;
-      letter-spacing: 0.8px; font-family: 'JetBrains Mono', monospace;
+      font-size: 0.69rem; font-weight: 700; color: var(--muted-text); text-transform: uppercase;
+      letter-spacing: 0.7px; font-family: 'JetBrains Mono', monospace;
     }
     .gate-input {
-      width: 100%; padding: 11px 13px; background: var(--bg-color); border: 1px solid var(--border-line);
-      border-radius: 10px; color: var(--text-color); font-size: 0.9rem; font-weight: 500; outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
+      width: 100%; padding: 10px 13px; background: var(--input-bg); border: 1px solid var(--border-line);
+      border-radius: 10px; color: var(--text-color); font-size: 0.88rem; font-weight: 500; outline: none;
+      transition: border-color 0.2s;
     }
     .gate-input:focus { border-color: var(--accent-white); }
-    .gate-error { color: #f87171; font-size: 0.8rem; font-weight: 600; min-height: 18px; }
+    .gate-error { color: #f87171; font-size: 0.79rem; font-weight: 600; min-height: 18px; }
     .gate-submit-btn {
-      width: 100%; padding: 12px; background: var(--accent-white); border: 1px solid var(--accent-white);
-      border-radius: 10px; color: var(--accent-text); font-size: 0.9rem; font-weight: 800;
-      letter-spacing: 0.4px; transition: opacity 0.2s, transform 0.2s;
+      width: 100%; padding: 11px; background: var(--accent-white); border: 1px solid var(--accent-white);
+      border-radius: 10px; color: var(--accent-text); font-size: 0.88rem; font-weight: 800;
+      transition: opacity 0.18s;
     }
-    .gate-submit-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+    .gate-submit-btn:hover { opacity: 0.9; }
     .gate-password-hint {
       width: 100%; padding-top: 10px; border-top: 1px solid var(--border-line);
-      font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--text-color);
+      font-family: 'JetBrains Mono', monospace; font-size: 0.76rem; color: var(--text-color);
     }
 
     /* ÜST BAR */
     header.chat-top-nav {
       background: var(--panel-bg); backdrop-filter: blur(10px);
       display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;
-      padding: 0.6rem 1.2rem; border-bottom: 1px solid var(--border-line);
-      z-index: 20; min-height: 62px; flex-shrink: 0; gap: 8px;
+      padding: 0.55rem 1.1rem; border-bottom: 1px solid var(--border-line);
+      z-index: 20; min-height: 60px; flex-shrink: 0; gap: 8px;
     }
-    .top-left-group, .top-right-group { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
-    .brand-link { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text-color); }
+    .top-left-group, .top-right-group { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .brand-link { display: flex; align-items: center; gap: 9px; text-decoration: none; color: var(--text-color); }
     .brand-badge {
       width: 34px; height: 34px; border-radius: 8px; background: var(--accent-white); color: var(--accent-text);
       display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.85rem;
     }
-    .brand-title { font-size: 1.02rem; font-weight: 800; letter-spacing: -0.3px; }
+    .brand-title { font-size: 1rem; font-weight: 800; letter-spacing: -0.3px; }
     .online-pill {
-      font-size: 0.71rem; font-weight: 600; font-family: 'JetBrains Mono', monospace; color: var(--text-color);
+      font-size: 0.7rem; font-weight: 600; font-family: 'JetBrains Mono', monospace; color: var(--text-color);
       background: rgba(128, 128, 128, 0.12); border: 1px solid var(--border-line);
       padding: 4px 10px; border-radius: 20px; display: flex; align-items: center; gap: 6px;
     }
     .online-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent-white); }
+
     .top-tool-btn {
       display: inline-flex; align-items: center; gap: 5px;
       background: transparent; color: var(--text-color); border: 1px solid var(--border-line);
-      padding: 6px 11px; border-radius: 8px; font-size: 0.78rem; font-weight: 600; transition: all 0.2s;
+      padding: 6px 10px; border-radius: 8px; font-size: 0.77rem; font-weight: 600;
+      text-decoration: none; transition: all 0.18s;
     }
-    .top-tool-btn:hover { background: var(--accent-white); color: var(--accent-text); border-color: var(--accent-white); }
+    .top-tool-btn:hover, .top-tool-btn.active {
+      background: var(--accent-white); color: var(--accent-text); border-color: var(--accent-white);
+    }
     .powers-btn {
-      display: none; align-items: center; gap: 6px; background: var(--accent-white); color: var(--accent-text);
-      border: 1px solid var(--accent-white); padding: 6px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 800;
+      display: none; align-items: center; gap: 5px; background: var(--accent-white); color: var(--accent-text);
+      border: 1px solid var(--accent-white); padding: 6px 11px; border-radius: 8px; font-size: 0.77rem; font-weight: 800;
     }
     .powers-btn:hover { opacity: 0.9; }
-    .back-link {
-      color: var(--text-color); text-decoration: none; font-size: 0.8rem; font-weight: 600;
-      padding: 6px 11px; border: 1px solid var(--border-line); border-radius: 8px; transition: all 0.2s;
-    }
-    .back-link:hover { background: var(--accent-white); color: var(--accent-text); }
 
-    /* KLASİK WHATSAPP TARZI 2 SÜTUNLU SİYAH-BEYAZ DÜZEN */
+    /* ANA 3-SÜTUNLU DÜZEN */
     .whatsapp-container {
       position: relative; z-index: 10; flex-grow: 1; display: flex;
-      width: 100%; height: calc(100dvh - 62px); overflow: hidden;
+      width: 100%; height: calc(100dvh - 60px); overflow: hidden;
     }
 
     /* SOL PANEL */
     .wa-sidebar {
-      width: 340px; min-width: 290px; background: var(--sidebar-bg);
+      width: 320px; min-width: 280px; background: var(--sidebar-bg);
       border-right: 1px solid var(--border-line); display: flex; flex-direction: column; height: 100%;
     }
     .wa-user-header {
-      padding: 13px 15px; background: rgba(128, 128, 128, 0.06); border-bottom: 1px solid var(--border-line);
+      padding: 12px 14px; background: rgba(128, 128, 128, 0.06); border-bottom: 1px solid var(--border-line);
       display: flex; align-items: center; justify-content: space-between; gap: 8px;
     }
     .user-profile-info { display: flex; align-items: center; gap: 10px; min-width: 0; }
     .user-avatar {
-      width: 40px; height: 40px; border-radius: 50%; background: var(--accent-white); color: var(--accent-text);
-      display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1rem; flex-shrink: 0;
+      width: 38px; height: 38px; border-radius: 50%; background: var(--accent-white); color: var(--accent-text);
+      display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.95rem; flex-shrink: 0;
     }
     .user-meta { min-width: 0; }
     .user-meta h4 {
-      font-size: 0.9rem; color: var(--text-color); font-weight: 700; display: flex; align-items: center; gap: 5px; flex-wrap: wrap;
+      font-size: 0.88rem; color: var(--text-color); font-weight: 700; display: flex; align-items: center; gap: 5px; flex-wrap: wrap;
     }
     .user-meta span.user-email-sub {
-      display: block; font-size: 0.7rem; color: var(--muted-text); font-family: 'JetBrains Mono', monospace;
+      display: block; font-size: 0.69rem; color: var(--muted-text); font-family: 'JetBrains Mono', monospace;
       white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
     .user-actions { display: flex; gap: 5px; flex-shrink: 0; }
     .change-name-btn {
       background: transparent; border: 1px solid var(--border-line); color: var(--text-color);
-      padding: 4px 8px; border-radius: 7px; font-size: 0.71rem; font-weight: 600; transition: 0.2s;
+      padding: 4px 8px; border-radius: 7px; font-size: 0.7rem; font-weight: 600; transition: 0.18s;
     }
     .change-name-btn:hover { background: var(--accent-white); color: var(--accent-text); }
 
     .wa-search-box { padding: 10px 14px; border-bottom: 1px solid var(--border-line); }
     .wa-search-input {
-      width: 100%; padding: 8px 12px; background: var(--bg-color); border: 1px solid var(--border-line);
-      border-radius: 8px; color: var(--text-color); font-size: 0.83rem; outline: none;
+      width: 100%; padding: 8px 12px; background: var(--input-bg); border: 1px solid var(--border-line);
+      border-radius: 8px; color: var(--text-color); font-size: 0.82rem; outline: none;
     }
     .wa-search-input:focus { border-color: var(--accent-white); }
 
     .wa-room-list { flex-grow: 1; overflow-y: auto; list-style: none; }
-    .wa-room-list::-webkit-scrollbar { width: 5px; }
-    .wa-room-list::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
     .wa-room-item {
-      display: flex; align-items: center; gap: 12px; padding: 13px 16px;
-      border-bottom: 1px solid var(--border-line); transition: background 0.18s;
+      display: flex; align-items: center; gap: 11px; padding: 12px 14px;
+      border-bottom: 1px solid var(--border-line); transition: background 0.16s;
     }
-    .wa-room-item:hover { background: rgba(128, 128, 128, 0.1); }
-    .wa-room-item.active { background: rgba(128, 128, 128, 0.18); border-left: 3px solid var(--accent-white); }
+    .wa-room-item:hover { background: rgba(128, 128, 128, 0.09); }
+    .wa-room-item.active { background: rgba(128, 128, 128, 0.16); border-left: 3px solid var(--accent-white); }
     .room-avatar {
-      width: 42px; height: 42px; border-radius: 10px; background: rgba(128, 128, 128, 0.12);
+      width: 40px; height: 40px; border-radius: 10px; background: rgba(128, 128, 128, 0.12);
       border: 1px solid var(--border-line); display: flex; align-items: center; justify-content: center;
-      font-size: 1.15rem; flex-shrink: 0;
+      font-size: 1.1rem; flex-shrink: 0;
     }
     .room-details { flex-grow: 1; overflow: hidden; }
     .room-top-line { display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px; gap: 6px; }
-    .room-title { font-size: 0.9rem; font-weight: 700; color: var(--text-color); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .room-title { font-size: 0.88rem; font-weight: 700; color: var(--text-color); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .room-code-tag {
-      font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; font-weight: 700; color: var(--text-color);
-      background: rgba(128, 128, 128, 0.16); border: 1px solid var(--border-line); padding: 2px 6px; border-radius: 5px;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.66rem; font-weight: 700; color: var(--text-color);
+      background: rgba(128, 128, 128, 0.15); border: 1px solid var(--border-line); padding: 1px 6px; border-radius: 5px;
     }
-    .room-last-msg { font-size: 0.77rem; color: var(--muted-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .unread-badge {
+      background: var(--accent-white); color: var(--accent-text);
+      font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; font-weight: 800;
+      min-width: 19px; height: 19px; padding: 0 5px; border-radius: 9999px;
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .room-last-msg { font-size: 0.75rem; color: var(--muted-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-    /* SAĞ PANEL (MESAJLAŞMA ALANI) */
+    /* ORTA MESAJLAŞMA ALANI */
     .wa-chat-main {
       flex-grow: 1; display: flex; flex-direction: column; height: 100%; min-height: 0; min-width: 0;
       background: var(--bg-color); position: relative;
     }
     .wa-chat-header {
-      padding: 12px 22px; background: var(--panel-bg); border-bottom: 1px solid var(--border-line);
+      padding: 11px 20px; background: var(--panel-bg); border-bottom: 1px solid var(--border-line);
       display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
     }
-    .chat-header-left { display: flex; align-items: center; gap: 12px; }
-    .chat-header-info h3 { font-size: 1.03rem; font-weight: 800; color: var(--text-color); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-    .chat-header-info p { font-size: 0.76rem; color: var(--muted-text); }
+    .chat-header-left { display: flex; align-items: center; gap: 11px; }
+    .chat-header-info h3 { font-size: 1rem; font-weight: 800; color: var(--text-color); display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+    .chat-header-info p { font-size: 0.74rem; color: var(--muted-text); }
     .room-status-pill {
-      font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; padding: 2px 7px; border-radius: 6px;
-      background: rgba(128, 128, 128, 0.16); border: 1px solid var(--border-strong); color: var(--text-color);
-    }
-    .pinned-banner {
-      display: none; align-items: center; justify-content: space-between; gap: 10px;
-      padding: 8px 22px; background: rgba(128, 128, 128, 0.12); border-bottom: 1px solid var(--border-line);
-      font-size: 0.77rem; color: var(--text-color);
+      font-family: 'JetBrains Mono', monospace; font-size: 0.64rem; padding: 2px 7px; border-radius: 6px;
+      background: rgba(128, 128, 128, 0.15); border: 1px solid var(--border-strong); color: var(--text-color);
     }
     .copy-code-btn {
       display: none; align-items: center; gap: 6px; background: transparent;
-      border: 1px solid var(--border-strong); color: var(--text-color); padding: 6px 12px; border-radius: 8px;
-      font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; font-weight: 700; transition: all 0.2s;
+      border: 1px solid var(--border-strong); color: var(--text-color); padding: 6px 11px; border-radius: 8px;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 700; transition: all 0.18s;
     }
     .copy-code-btn:hover { background: var(--accent-white); color: var(--accent-text); }
 
-    .wa-messages-stream {
-      flex-grow: 1; padding: 20px 26px 88px 26px; overflow-y: auto; min-height: 0;
-      display: flex; flex-direction: column; gap: 12px;
+    .inchat-search-bar {
+      display: none; padding: 8px 20px; background: var(--panel-bg); border-bottom: 1px solid var(--border-line);
+      align-items: center; gap: 8px;
     }
-    .wa-messages-stream::-webkit-scrollbar { width: 6px; }
-    .wa-messages-stream::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+    .inchat-search-input {
+      flex-grow: 1; padding: 7px 12px; background: var(--input-bg); border: 1px solid var(--border-line);
+      border-radius: 8px; color: var(--text-color); font-size: 0.82rem; outline: none;
+    }
+    .pinned-banner {
+      display: none; align-items: center; justify-content: space-between; gap: 10px;
+      padding: 8px 20px; background: rgba(128, 128, 128, 0.12); border-bottom: 1px solid var(--border-line);
+      font-size: 0.77rem; color: var(--text-color);
+    }
+
+    .wa-messages-stream {
+      flex-grow: 1; padding: 18px 24px 82px 24px; overflow-y: auto; min-height: 0;
+      display: flex; flex-direction: column; gap: 11px;
+    }
     .system-encryption-banner {
-      flex-shrink: 0;
-      align-self: center; background: rgba(128, 128, 128, 0.1); border: 1px solid var(--border-line);
-      color: var(--muted-text); font-size: 0.75rem; font-weight: 500; padding: 7px 14px; border-radius: 10px;
-      text-align: center; max-width: 560px; margin-bottom: 4px;
+      flex-shrink: 0; align-self: center; background: rgba(128, 128, 128, 0.1); border: 1px solid var(--border-line);
+      color: var(--muted-text); font-size: 0.73rem; padding: 6px 14px; border-radius: 10px; text-align: center; max-width: 560px;
     }
 
     .msg-bubble {
-      flex-shrink: 0;
-      max-width: 68%; min-width: 155px; padding: 10px 14px 8px 14px; border-radius: 12px;
-      display: flex; flex-direction: column; gap: 4px; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
-      animation: msgPop 0.18s ease-out; word-break: break-word;
+      flex-shrink: 0; max-width: 70%; min-width: 175px; padding: 10px 13px 8px 13px; border-radius: 12px;
+      display: flex; flex-direction: column; gap: 4px; box-shadow: 0 3px 12px rgba(0, 0, 0, 0.22);
+      animation: msgPop 0.16s ease-out; word-break: break-word; position: relative;
     }
     @keyframes msgPop { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
     .msg-incoming { align-self: flex-start; background: var(--panel-bg); border: 1px solid var(--border-line); border-top-left-radius: 2px; color: var(--text-color); }
-    .msg-sender-name { font-size: 0.76rem; font-weight: 700; color: var(--text-color); display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-    .msg-sender-clickable { text-decoration: underline dotted rgba(128,128,128,0.6); text-underline-offset: 3px; cursor: pointer; }
-    .msg-sender-email { font-size: 0.66rem; font-family: 'JetBrains Mono', monospace; color: var(--muted-text); font-weight: 400; }
-
     .msg-outgoing { align-self: flex-end; background: var(--accent-white); color: var(--accent-text); border: 1px solid var(--accent-white); border-top-right-radius: 2px; }
-    .msg-outgoing .msg-sender-name { color: var(--accent-text); }
-    .msg-outgoing .msg-sender-email { color: var(--accent-text); opacity: 0.72; }
-    .msg-outgoing .owner-badge { background: #09090b; color: #ffffff; border-color: #09090b; }
-    .msg-outgoing .headadmin-badge { background: rgba(0,0,0,0.22); color: var(--accent-text); border-color: rgba(0,0,0,0.35); }
+    .msg-sender-name { font-size: 0.75rem; font-weight: 700; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .msg-sender-clickable { text-decoration: underline dotted rgba(128,128,128,0.6); text-underline-offset: 3px; cursor: pointer; }
+    .msg-sender-email { font-size: 0.64rem; font-family: 'JetBrains Mono', monospace; opacity: 0.72; font-weight: 400; }
+    .msg-text { font-size: var(--chat-font-size); line-height: 1.45; white-space: pre-wrap; user-select: text; }
+    .msg-edited-tag { font-size: 0.64rem; opacity: 0.65; font-style: italic; }
 
-    .msg-text { font-size: var(--chat-font-size); line-height: 1.45; user-select: text; }
-    .msg-meta { display: flex; align-items: center; justify-content: flex-end; gap: 4px; font-size: 0.68rem; font-family: 'JetBrains Mono', monospace; opacity: 0.72; margin-top: 2px; }
+    /* Alıntı (Reply) Kutusu */
+    .msg-quote-box {
+      padding: 5px 9px; border-radius: 7px; border-left: 2.5px solid currentColor;
+      background: rgba(128, 128, 128, 0.16); font-size: 0.74rem; cursor: pointer; margin-bottom: 2px;
+    }
+    .msg-quote-sender { font-weight: 700; font-size: 0.7rem; opacity: 0.9; }
+    .msg-quote-text { opacity: 0.78; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 320px; }
+
+    /* Mesaj Aksiyonları & Emoji Tepkileri */
+    .msg-footer-row {
+      display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 3px; flex-wrap: wrap;
+    }
+    .msg-actions-mini {
+      display: inline-flex; align-items: center; gap: 4px; opacity: 0.72; transition: opacity 0.15s;
+    }
+    .msg-bubble:hover .msg-actions-mini { opacity: 1; }
+    .msg-mini-btn {
+      background: transparent; border: none; color: inherit; font-size: 0.72rem;
+      padding: 2px 5px; border-radius: 5px;
+    }
+    .msg-mini-btn:hover { background: rgba(128, 128, 128, 0.22); }
+    .msg-meta { display: flex; align-items: center; gap: 4px; font-size: 0.67rem; font-family: 'JetBrains Mono', monospace; opacity: 0.72; }
+
+    .reactions-row { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+    .reaction-chip {
+      display: inline-flex; align-items: center; gap: 4px; padding: 2px 7px; border-radius: 9999px;
+      font-size: 0.72rem; border: 1px solid rgba(128, 128, 128, 0.35);
+      background: rgba(128, 128, 128, 0.12); color: inherit;
+    }
+    .reaction-chip.reacted { border-color: currentColor; background: rgba(128, 128, 128, 0.26); font-weight: 700; }
 
     .poll-box { margin-top: 6px; display: flex; flex-direction: column; gap: 6px; }
     .poll-option-btn {
@@ -476,56 +545,100 @@
       padding: 6px 10px; border-radius: 8px; border: 1px solid rgba(128,128,128,0.35);
       background: rgba(128,128,128,0.12); color: inherit; font-size: 0.8rem; font-weight: 600;
     }
-    .poll-option-btn:hover { background: rgba(128,128,128,0.25); }
+    .poll-option-btn.voted { border-color: currentColor; background: rgba(128,128,128,0.28); }
 
-    /* SAĞ ALT HIZLI ODA OLUŞTUR & ODAYA KATIL BUTONLARI */
+    /* SAĞ ALT ODA BUTONLARI */
     .room-fab-dock {
-      position: fixed; bottom: 80px; right: 24px; z-index: 90;
-      display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end;
+      position: absolute; bottom: 76px; right: 20px; z-index: 30;
+      display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end;
     }
     .room-fab-btn {
       background: var(--panel-bg); border: 1px solid var(--border-strong); color: var(--text-color);
-      padding: 9px 16px; border-radius: 10px; font-size: 0.8rem; font-weight: 700;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55); backdrop-filter: blur(8px);
-      display: flex; align-items: center; gap: 6px; transition: all 0.2s;
+      padding: 8px 14px; border-radius: 10px; font-size: 0.78rem; font-weight: 700;
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45); backdrop-filter: blur(8px);
+      display: flex; align-items: center; gap: 6px; transition: all 0.18s;
     }
-    .room-fab-btn:hover { background: var(--accent-white); color: var(--accent-text); transform: translateY(-2px); }
+    .room-fab-btn:hover { background: var(--accent-white); color: var(--accent-text); }
 
-    /* ALT MESAJ YAZMA ÇUBUĞU */
-    .wa-input-bar {
-      padding: 12px 20px; background: var(--sidebar-bg); border-top: 1px solid var(--border-line);
-      display: flex; align-items: center; gap: 10px; z-index: 25;
+    /* YANITLA / DÜZENLE ÖNİZLEME ÇUBUĞU + EMOJİ PANELİ + MESAJ ÇUBUĞU */
+    .reply-compose-bar {
+      display: none; align-items: center; justify-content: space-between; gap: 10px;
+      padding: 7px 18px; background: var(--panel-bg); border-top: 1px solid var(--border-line);
+      font-size: 0.76rem; color: var(--text-color);
     }
+    .emoji-popover {
+      display: none; position: absolute; bottom: 68px; left: 16px; z-index: 40;
+      background: var(--panel-bg); border: 1px solid var(--border-strong); border-radius: 12px;
+      padding: 10px; width: 270px; box-shadow: 0 14px 36px rgba(0,0,0,0.6);
+      grid-template-columns: repeat(7, 1fr); gap: 4px;
+    }
+    .emoji-popover.open { display: grid; }
+    .emoji-pick-btn {
+      background: transparent; border: none; font-size: 1.15rem; padding: 5px; border-radius: 7px;
+    }
+    .emoji-pick-btn:hover { background: rgba(128,128,128,0.2); }
+
+    .wa-input-bar {
+      padding: 11px 16px; background: var(--sidebar-bg); border-top: 1px solid var(--border-line);
+      display: flex; align-items: center; gap: 8px; z-index: 25;
+    }
+    .input-icon-btn {
+      width: 40px; height: 40px; border-radius: 10px; border: 1px solid var(--border-line);
+      background: var(--input-bg); color: var(--text-color); font-size: 1rem;
+      display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .input-icon-btn.active { background: var(--accent-white); color: var(--accent-text); border-color: var(--accent-white); }
     .wa-message-input {
-      flex-grow: 1; padding: 12px 16px; background: var(--bg-color); border: 1px solid var(--border-line);
-      border-radius: 10px; color: var(--text-color); font-size: 0.92rem; outline: none; transition: border-color 0.2s;
+      flex-grow: 1; padding: 11px 14px; background: var(--input-bg); border: 1px solid var(--border-line);
+      border-radius: 10px; color: var(--text-color); font-size: 0.9rem; outline: none;
     }
     .wa-message-input:focus { border-color: var(--accent-white); }
     .wa-message-input:disabled { opacity: 0.55; border-color: #ef4444; }
     .wa-send-btn {
       background: var(--accent-white); border: 1px solid var(--accent-white); color: var(--accent-text);
-      padding: 12px 20px; border-radius: 10px; font-weight: 800; font-size: 0.88rem; transition: opacity 0.2s; white-space: nowrap;
+      padding: 11px 18px; border-radius: 10px; font-weight: 800; font-size: 0.86rem; white-space: nowrap;
     }
-    .wa-send-btn:hover { opacity: 0.88; }
-    .gate-submit-btn:disabled, .wa-send-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+
+    /* SAĞ SÜTUN (ÜYELER & İSTATİSTİKLER) */
+    .wa-inspector {
+      width: 260px; min-width: 230px; background: var(--sidebar-bg); border-left: 1px solid var(--border-line);
+      display: flex; flex-direction: column; height: 100%; overflow-y: auto; padding: 14px; gap: 15px;
+    }
+    .wa-inspector.collapsed { display: none; }
+    .inspector-section { display: flex; flex-direction: column; gap: 8px; }
+    .inspector-title {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.69rem; text-transform: uppercase;
+      letter-spacing: 0.8px; color: var(--muted-text); border-bottom: 1px solid var(--border-line); padding-bottom: 6px;
+    }
+    .inspector-stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .inspector-stat-box {
+      padding: 9px; border-radius: 9px; background: rgba(128, 128, 128, 0.08); border: 1px solid var(--border-line);
+    }
+    .inspector-stat-val { font-family: 'JetBrains Mono', monospace; font-size: 0.95rem; font-weight: 700; color: var(--text-color); }
+    .inspector-stat-lbl { font-size: 0.67rem; color: var(--muted-text); margin-top: 2px; }
+    .member-row {
+      display: flex; align-items: center; justify-content: space-between; gap: 8px;
+      padding: 7px 9px; border-radius: 8px; background: rgba(128, 128, 128, 0.06); border: 1px solid var(--border-line);
+    }
+    .member-name { font-size: 0.77rem; font-weight: 600; color: var(--text-color); display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
+    .member-email { font-size: 0.65rem; font-family: 'JetBrains Mono', monospace; color: var(--muted-text); }
 
     /* MODALLAR */
     .modal-backdrop {
-      position: fixed; inset: 0; background: rgba(0, 0, 0, 0.82); backdrop-filter: blur(8px);
-      z-index: 400000; display: none; align-items: center; justify-content: center; padding: 20px;
+      position: fixed; inset: 0; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(8px);
+      z-index: 400000; display: none; align-items: center; justify-content: center; padding: 18px;
     }
     .modal-box {
-      width: 100%; max-width: 460px; max-height: 86vh; overflow-y: auto; background: var(--panel-bg);
-      border: 1px solid var(--border-strong); border-radius: 16px; padding: 24px;
-      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85); display: flex; flex-direction: column; gap: 13px; position: relative;
+      width: 100%; max-width: 470px; max-height: 86vh; overflow-y: auto; background: var(--panel-bg);
+      border: 1px solid var(--border-strong); border-radius: 16px; padding: 22px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85); display: flex; flex-direction: column; gap: 12px; position: relative;
     }
-    .modal-box.wide { max-width: 600px; }
-    .modal-close { position: absolute; top: 14px; right: 16px; background: none; border: none; color: var(--muted-text); font-size: 1.15rem; }
-    .modal-close:hover { color: var(--text-color); }
-    .modal-box h3 { color: var(--text-color); font-size: 1.18rem; font-weight: 800; }
-    .modal-box p { color: var(--muted-text); font-size: 0.84rem; line-height: 1.5; }
+    .modal-box.wide { max-width: 640px; }
+    .modal-close { position: absolute; top: 14px; right: 16px; background: none; border: none; color: var(--muted-text); font-size: 1.1rem; }
+    .modal-box h3 { color: var(--text-color); font-size: 1.12rem; font-weight: 800; }
+    .modal-box p { color: var(--muted-text); font-size: 0.82rem; line-height: 1.48; }
     .generated-code-display {
-      font-family: 'JetBrains Mono', monospace; font-size: 1.7rem; font-weight: 800; color: var(--text-color);
+      font-family: 'JetBrains Mono', monospace; font-size: 1.65rem; font-weight: 800; color: var(--text-color);
       background: rgba(128, 128, 128, 0.1); border: 1px dashed var(--border-strong); border-radius: 10px;
       padding: 10px; text-align: center; letter-spacing: 5px;
     }
@@ -535,113 +648,56 @@
       display: flex; align-items: center; gap: 9px; padding: 9px 11px;
       border-radius: 10px; border: 1px solid var(--border-line);
       background: rgba(128,128,128,0.08); color: var(--text-color);
-      font-size: 0.77rem; font-weight: 700; text-align: left;
+      font-size: 0.76rem; font-weight: 700; text-align: left;
     }
     .theme-card-btn.active { border-color: var(--accent-white); box-shadow: 0 0 0 1px var(--accent-white); }
-    .theme-swatch { width: 17px; height: 17px; border-radius: 50%; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.4); }
+    .theme-swatch { width: 16px; height: 16px; border-radius: 50%; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.4); }
+
+    .modal-tabs { display: flex; gap: 6px; flex-wrap: wrap; border-bottom: 1px solid var(--border-line); padding-bottom: 8px; }
+    .modal-tab-btn {
+      padding: 6px 11px; border-radius: 8px; border: 1px solid var(--border-line);
+      background: transparent; color: var(--text-color); font-size: 0.74rem; font-weight: 700;
+    }
+    .modal-tab-btn.active { background: var(--accent-white); color: var(--accent-text); border-color: var(--accent-white); }
 
     .cmd-item {
       display: flex; align-items: center; justify-content: space-between; gap: 10px;
-      padding: 10px 12px; border-radius: 10px; background: rgba(128, 128, 128, 0.08); border: 1px solid var(--border-line);
+      padding: 9px 12px; border-radius: 10px; background: rgba(128, 128, 128, 0.08); border: 1px solid var(--border-line);
     }
-    .cmd-code { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; font-weight: 700; color: var(--text-color); }
-    .cmd-desc { font-size: 0.74rem; color: var(--muted-text); margin-top: 2px; }
+    .cmd-code { font-family: 'JetBrains Mono', monospace; font-size: 0.76rem; font-weight: 700; color: var(--text-color); }
+    .cmd-desc { font-size: 0.73rem; color: var(--muted-text); margin-top: 2px; }
     .mini-action-btn {
       padding: 6px 10px; border-radius: 7px; border: 1px solid var(--border-strong); background: transparent;
-      color: var(--text-color); font-size: 0.72rem; font-weight: 700; white-space: nowrap; transition: all 0.18s;
+      color: var(--text-color); font-size: 0.72rem; font-weight: 700; white-space: nowrap; transition: all 0.16s;
     }
-    .mini-action-btn:hover { background: var(--accent-white); color: var(--accent-text); }
-    .mini-action-btn.danger { border-color: rgba(248, 113, 113, 0.65); color: #fca5a5; }
+    .mini-action-btn:hover, .mini-action-btn.active { background: var(--accent-white); color: var(--accent-text); }
+    .mini-action-btn.danger { border-color: rgba(248, 113, 113, 0.65); color: #ef4444; }
     .mini-action-btn.danger:hover { background: #ef4444; color: #ffffff; border-color: #ef4444; }
 
-    @media (max-width: 850px) {
-      .whatsapp-container { flex-direction: column; }
-      .wa-sidebar { width: 100%; height: 225px; border-right: none; border-bottom: 1px solid var(--border-line); }
-      .room-fab-dock { bottom: 72px; right: 14px; }
-      .msg-bubble { max-width: 86%; }
-    }
-
-    .top-tool-btn {
-      display: inline-flex; align-items: center; gap: 5px;
-      background: transparent; color: #e4e4e7; border: 1px solid var(--border-line);
-      padding: 6px 11px; border-radius: 8px; font-size: 0.78rem; font-weight: 600; transition: all 0.2s;
-    }
-    .top-tool-btn:hover, .top-tool-btn.active { background: var(--accent-white); color: var(--accent-text); border-color: var(--accent-white); }
-    .inchat-search-bar {
-      display: none; padding: 8px 20px; background: var(--panel-bg); border-bottom: 1px solid var(--border-line);
-      align-items: center; gap: 8px;
-    }
-    .inchat-search-input {
-      flex-grow: 1; padding: 7px 12px; background: #070709; border: 1px solid var(--border-line);
-      border-radius: 8px; color: var(--text-color); font-size: 0.82rem; outline: none;
-    }
-    .wa-inspector {
-      width: 265px; min-width: 235px; background: var(--sidebar-bg); border-left: 1px solid var(--border-line);
-      display: flex; flex-direction: column; height: 100%; overflow-y: auto; padding: 14px; gap: 16px;
-    }
-    .wa-inspector.collapsed { display: none; }
-    .inspector-section { display: flex; flex-direction: column; gap: 8px; }
-    .inspector-title {
-      font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; text-transform: uppercase;
-      letter-spacing: 0.8px; color: var(--muted-text); border-bottom: 1px solid var(--border-line); padding-bottom: 6px;
-    }
-    .inspector-stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-    .inspector-stat-box {
-      padding: 9px; border-radius: 9px; background: rgba(255, 255, 255, 0.04); border: 1px solid var(--border-line);
-    }
-    .inspector-stat-val { font-family: 'JetBrains Mono', monospace; font-size: 0.95rem; font-weight: 700; color: var(--text-color); }
-    .inspector-stat-lbl { font-size: 0.68rem; color: var(--muted-text); margin-top: 2px; }
-    .member-row {
-      display: flex; align-items: center; justify-content: space-between; gap: 8px;
-      padding: 7px 9px; border-radius: 8px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08);
-    }
-    .member-name { font-size: 0.78rem; font-weight: 600; color: var(--text-color); display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
-    .member-email { font-size: 0.66rem; font-family: 'JetBrains Mono', monospace; color: var(--muted-text); }
-    @media (max-width: 1080px) {
-      .wa-inspector { display: none; }
-      .wa-inspector.mobile-open { display: flex; position: fixed; right: 0; top: 62px; height: calc(100dvh - 62px); z-index: 60; }
-    }
-
-
     .mobile-only-btn { display: none; }
-    .sidebar-backdrop {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.65);
-      z-index: 55;
-    }
+    .sidebar-backdrop { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.65); z-index: 55; }
     .sidebar-backdrop.open { display: block; }
 
+    @media (max-width: 1080px) {
+      .wa-inspector { display: none; }
+      .wa-inspector.mobile-open { display: flex; position: fixed; right: 0; top: 60px; height: calc(100dvh - 60px); z-index: 60; }
+    }
     @media (max-width: 850px) {
       .mobile-only-btn { display: inline-flex; }
-      header.chat-top-nav { padding: 0.55rem 0.85rem; height: 58px; }
-      .whatsapp-container { height: calc(100dvh - 58px); flex-direction: row; }
+      header.chat-top-nav { padding: 0.5rem 0.75rem; min-height: 56px; }
+      .whatsapp-container { height: calc(100dvh - 56px); }
       .wa-sidebar {
-        position: fixed;
-        top: 58px;
-        left: 0;
-        width: min(84vw, 330px);
-        height: calc(100dvh - 58px);
-        z-index: 60;
-        transform: translateX(-105%);
-        transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+        position: fixed; top: 56px; left: 0; width: min(84vw, 320px); height: calc(100dvh - 56px);
+        z-index: 60; transform: translateX(-105%); transition: transform 0.24s cubic-bezier(0.22, 1, 0.36, 1);
         border-right: 1px solid var(--border-strong);
-        border-bottom: none;
       }
-      .wa-sidebar.mobile-open {
-        transform: translateX(0);
-      }
+      .wa-sidebar.mobile-open { transform: translateX(0); }
       .online-pill { display: none; }
-      .brand-title { font-size: 0.95rem; }
-      .top-tool-btn, .powers-btn, .back-link { padding: 5px 8px; font-size: 0.74rem; }
-      .wa-chat-header { padding: 10px 14px; }
-      .wa-messages-stream { padding: 14px 12px; }
-      .wa-input-bar { padding: 10px 12px; }
+      .wa-messages-stream { padding: 14px 12px 76px 12px; }
       .wa-message-input, .gate-input { font-size: 16px; }
       .msg-bubble { max-width: 88%; }
-      .room-fab-dock { bottom: 72px; right: 12px; }
-      .modal-box { max-width: 94vw; padding: 18px; }
+      .room-fab-dock { bottom: 68px; right: 12px; }
+      .modal-box { max-width: 94vw; padding: 16px; }
     }
   </style>
 </head>
@@ -654,15 +710,10 @@
     <div class="splash-sub">YAHYA GÜNSÜR MTAL • SİYAH &amp; BEYAZ</div>
   </div>
 
-  <!-- OWNER ÖZEL GİRİŞ ANİMASYONU -->
-  <div id="owner-entrance-overlay">
-    <div class="owner-entrance-box">
-      <div class="owner-entrance-ring"></div>
-      <div class="owner-entrance-ring delay"></div>
-      <div class="owner-entrance-crown">♛</div>
-      <div class="owner-entrance-title">OWNER OTURUMU AÇILDI</div>
-      <div class="owner-entrance-sub">Tam Yetki &amp; Moderasyon Aktif</div>
-    </div>
+  <!-- MİNİMALİST OWNER GİRİŞ BARI -->
+  <div id="owner-cinematic-bar">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg>
+    <span>OWNER OTURUMU DOĞRULANDI • TAM YETKİ AKTİF</span>
   </div>
 
   <canvas id="particles-canvas"></canvas>
@@ -678,58 +729,55 @@
         <label for="gateNameInput">Takma İsminiz</label>
         <input type="text" id="gateNameInput" class="gate-input" placeholder="Örn: Ahmet, Yigit..." maxlength="24" autocomplete="off" />
       </div>
-
       <div class="gate-field">
         <label for="gateEmailInput">Gmail Adresiniz</label>
         <input type="email" id="gateEmailInput" class="gate-input" placeholder="adiniz.soyadiniz@gmail.com" maxlength="64" autocomplete="email" />
       </div>
-
       <div class="gate-field">
         <label for="gateAccountPassInput">Gmail Hesap Şifreniz (Kayıt / Giriş)</label>
-        <input type="password" id="gateAccountPassInput" class="gate-input" placeholder="Bu Gmail için en az 4 karakterli şifre..." autocomplete="current-password" />
+        <input type="password" id="gateAccountPassInput" class="gate-input" placeholder="En az 4 karakterli şifre..." autocomplete="current-password" />
       </div>
-
       <div class="gate-field">
         <label for="gatePassInput">Oda Erişim Şifresi</label>
         <input type="password" id="gatePassInput" class="gate-input" placeholder="Erişim şifresini girin..." autocomplete="off" />
       </div>
 
       <div class="gate-error" id="gateErrorMsg"></div>
-
       <button type="button" id="gateSubmitBtn" class="gate-submit-btn" onclick="verifyEntryGate()">Doğrula ve Sohbete Bağlan →</button>
-
-      <div class="gate-password-hint">şifremiz; 33</div>
+      <div class="gate-password-hint" id="gateHintLabel">şifremiz; 33</div>
     </div>
   </div>
 
   <!-- 2. ÜST BAR -->
   <header class="chat-top-nav">
     <div class="top-left-group">
-      <button type="button" id="mobileRoomsBtn" class="top-tool-btn mobile-only-btn" onclick="toggleMobileRoomsDrawer()" title="Odalar">☰ Odalar</button>
+      <button type="button" id="mobileRoomsBtn" class="top-tool-btn mobile-only-btn" onclick="toggleMobileRoomsDrawer()">☰ Odalar</button>
       <a href="index.html" class="brand-link">
         <div class="brand-badge">YS</div>
         <span class="brand-title">YahyaSohbet</span>
       </a>
       <span class="online-pill" id="connectionStatusBadge">
         <span class="online-dot"></span>
-        <span id="connectionStatusText">Bağlantı bekleniyor</span>
+        <span id="connectionStatusText">Hazır</span>
       </span>
     </div>
     <div class="top-right-group">
-      <button type="button" id="themeMenuBtn" class="top-tool-btn" onclick="openThemeMenuModal()" title="Menü ve Arayüz Renkleri">🎨 Menü</button>
-      <button type="button" id="soundToggleBtn" class="top-tool-btn active" title="Bildirim Sesi">🔔 Ses</button>
-      <button type="button" id="searchToggleBtn" class="top-tool-btn" title="Mesajlarda Ara">🔍 Ara</button>
-      <button type="button" id="inspectorToggleBtn" class="top-tool-btn active" title="Üyeler ve Oda Bilgisi">👥 Üyeler</button>
-      <a href="YahyaPost.html" id="postNavBtn" class="top-tool-btn" style="text-decoration:none;" title="YahyaPost Sayfasına Git">📝 Post</a>
+      <button type="button" id="themeMenuBtn" class="top-tool-btn" onclick="openThemeMenuModal()">🎨 Menü</button>
+      <button type="button" id="soundToggleBtn" class="top-tool-btn active">🔔 Ses</button>
+      <button type="button" id="searchToggleBtn" class="top-tool-btn">🔍 Ara</button>
+      <button type="button" id="inspectorToggleBtn" class="top-tool-btn active">👥 Üyeler</button>
+      <a href="YahyaPost.html" class="top-tool-btn">𝕏 X</a>
       <button type="button" id="ownerRoomsBtn" class="powers-btn" onclick="openOwnerRoomsModal()">🔐 Odalar</button>
       <button type="button" id="powersBtn" class="powers-btn" onclick="openPowersModal()">♛ Yetkiler</button>
-      <a href="index.html" class="back-link">← Okul Sitesi</a>
+      <a href="index.html" class="top-tool-btn">← Okul Sitesi</a>
     </div>
   </header>
 
-  <!-- 3. KLASİK WHATSAPP TARZI 2 SÜTUNLU SOHBET ARAYÜZÜ -->
+  <!-- 3. ANA SOHBET DÜZENİ -->
   <div class="whatsapp-container">
     <div id="sidebarBackdrop" class="sidebar-backdrop" onclick="toggleMobileRoomsDrawer(false)"></div>
+
+    <!-- SOL PANEL: KULLANICI & ODALAR -->
     <aside class="wa-sidebar">
       <div class="wa-user-header">
         <div class="user-profile-info">
@@ -752,6 +800,7 @@
       <ul class="wa-room-list" id="roomListContainer"></ul>
     </aside>
 
+    <!-- ORTA PANEL: MESAJLAR -->
     <main class="wa-chat-main">
       <div class="wa-chat-header">
         <div class="chat-header-left">
@@ -761,6 +810,7 @@
               <span id="activeRoomTitle">Global Sohbet (Herkese Açık)</span>
               <span id="roomLockPill" class="room-status-pill" style="display:none;">🔒 Kilitli</span>
               <span id="roomSlowPill" class="room-status-pill" style="display:none;"></span>
+              <span id="roomCapPill" class="room-status-pill" style="display:none;"></span>
             </h3>
             <p id="activeRoomSub">Tüm kayıtlı üyelerin ortak mesajlaşma alanı</p>
           </div>
@@ -789,13 +839,25 @@
         <button type="button" class="room-fab-btn" onclick="openJoinRoomModal()">🔑 Odaya Katıl</button>
       </div>
 
+      <!-- Emoji Seçici Popover -->
+      <div id="emojiPopover" class="emoji-popover"></div>
+
+      <!-- Yanıtla / Düzenle Önizleme Çubuğu -->
+      <div id="replyComposeBar" class="reply-compose-bar">
+        <span id="replyComposeText"></span>
+        <button type="button" class="mini-action-btn" onclick="cancelReplyOrEdit()">✕ İptal</button>
+      </div>
+
+      <!-- Mesaj Yazma Çubuğu -->
       <div class="wa-input-bar">
+        <button type="button" id="emojiToggleBtn" class="input-icon-btn" title="Emoji Seç">😊</button>
+        <button type="button" id="highlightToggleBtn" class="input-icon-btn" style="display:none;" title="Resmi Duyuru Kartı Modu (/highlight)">📢</button>
         <input type="text" id="messageInput" class="wa-message-input" placeholder="Mesajınızı yazın ve Enter'a basın..." maxlength="500" autocomplete="off" />
-        <button type="button" class="wa-send-btn" onclick="sendChatMessage()">Gönder →</button>
+        <button type="button" id="sendMsgBtn" class="wa-send-btn" onclick="sendChatMessage()">Gönder →</button>
       </div>
     </main>
 
-    <!-- SAĞ SÜTUN: ODA İSTATİSTİKLERİ & GİZLİ ÜYELER -->
+    <!-- SAĞ PANEL: İSTATİSTİKLER & ÜYELER -->
     <aside id="rightInspectorPanel" class="wa-inspector">
       <div class="inspector-section">
         <div class="inspector-title">Oda İstatistikleri</div>
@@ -823,7 +885,7 @@
     <div class="modal-box">
       <button type="button" class="modal-close" onclick="closeModal('createRoomModal')">✕</button>
       <h3>➕ Yeni Özel Oda Oluştur</h3>
-      <p>Odanıza bir isim verin. Sistem arkadaşlarınızın katılabilmesi için rastgele 6 haneli bir oda kodu üretecektir.</p>
+      <p>Odanıza bir isim verin. Sistem rastgele 6 haneli bir oda kodu üretecektir.</p>
       <div class="gate-field">
         <label for="newRoomNameInput">Oda Adı</label>
         <input type="text" id="newRoomNameInput" class="gate-input" placeholder="Örn: 11-A Bilişim Çalışma Grubu" maxlength="32" />
@@ -832,7 +894,7 @@
         <label>Oluşturulan Rastgele Oda Kodu</label>
         <div class="generated-code-display" id="previewGeneratedCode">------</div>
       </div>
-      <div class="gate-error" id="createRoomErrorMsg" role="alert"></div>
+      <div class="gate-error" id="createRoomErrorMsg"></div>
       <button type="button" class="gate-submit-btn" onclick="confirmCreateRoom()">Odayı Kur ve Bağlan →</button>
     </div>
   </div>
@@ -845,31 +907,70 @@
       <p>Arkadaşınızın oluşturduğu 6 haneli oda kodunu girerek özel sohbete katılın.</p>
       <div class="gate-field">
         <label for="joinRoomCodeInput">Oda Kodu</label>
-        <input type="text" id="joinRoomCodeInput" class="gate-input" placeholder="Örn: K9X4M2" maxlength="6" style="text-transform:uppercase; font-family:monospace; letter-spacing:3px; text-align:center; font-size:1.25rem;" />
+        <input type="text" id="joinRoomCodeInput" class="gate-input" placeholder="Örn: K9X4M2" maxlength="6" style="text-transform:uppercase; font-family:monospace; letter-spacing:3px; text-align:center; font-size:1.2rem;" />
       </div>
       <div class="gate-error" id="joinRoomErrorMsg"></div>
       <button type="button" class="gate-submit-btn" onclick="confirmJoinRoom()">Odaya Katıl →</button>
     </div>
   </div>
 
-  <!-- MODAL 3: YETKİLER VE YÖNETİM PANELİ -->
+  <!-- MODAL 3: YETKİLER, SİSTEM & AUDIT LOG PANELİ -->
   <div class="modal-backdrop" id="powersModal">
     <div class="modal-box wide">
       <button type="button" class="modal-close" onclick="closeModal('powersModal')">✕</button>
-      <h3 id="powersModalTitle">♛ Yetkiler &amp; Komutlar</h3>
+      <h3 id="powersModalTitle">♛ Yetkiler &amp; Komut Merkezi</h3>
       <p id="powersModalSub"></p>
-      <div id="powersCommandsList" style="display:flex; flex-direction:column; gap:8px;"></div>
-      <div id="powersUsersSection" style="display:none; flex-direction:column; gap:8px; margin-top:6px;">
-        <div class="font-mono-tech" style="font-size:0.72rem; color:var(--muted-text); text-transform:uppercase; border-top:1px solid var(--border-line); padding-top:10px;">
-          Kullanıcı Yetkilendirme &amp; Silme
-        </div>
-        <div id="powersUsersList" style="display:flex; flex-direction:column; gap:8px;"></div>
+
+      <div id="ownerTabsBar" class="modal-tabs" style="display:none;">
+        <button type="button" class="modal-tab-btn active" data-owner-tab="commands">Komutlar</button>
+        <button type="button" class="modal-tab-btn" data-owner-tab="users">Üyeler &amp; Ban</button>
+        <button type="button" class="modal-tab-btn" data-owner-tab="security">Sistem &amp; Filtre</button>
+        <button type="button" class="modal-tab-btn" data-owner-tab="logs">İşlem Kayıtları</button>
       </div>
-      <div id="powersBansSection" style="display:none; flex-direction:column; gap:8px; margin-top:6px;">
-        <div class="font-mono-tech" style="font-size:0.72rem; color:var(--muted-text); text-transform:uppercase; border-top:1px solid var(--border-line); padding-top:10px;">
-          Banlı Kullanıcılar (Ban Açma)
-        </div>
+
+      <div id="ownerTab-commands" style="display:flex; flex-direction:column; gap:8px;">
+        <div id="powersCommandsList" style="display:flex; flex-direction:column; gap:8px;"></div>
+      </div>
+
+      <div id="ownerTab-users" style="display:none; flex-direction:column; gap:10px;">
+        <div class="font-mono-tech" style="font-size:0.72rem; color:var(--muted-text); text-transform:uppercase;">Kullanıcı Yetkilendirme &amp; Silme</div>
+        <div id="powersUsersList" style="display:flex; flex-direction:column; gap:8px;"></div>
+        <div class="font-mono-tech" style="font-size:0.72rem; color:var(--muted-text); text-transform:uppercase; border-top:1px solid var(--border-line); padding-top:8px;">Banlı Kullanıcılar</div>
         <div id="powersBansList" style="display:flex; flex-direction:column; gap:8px;"></div>
+      </div>
+
+      <div id="ownerTab-security" style="display:none; flex-direction:column; gap:12px;">
+        <div class="cmd-item">
+          <div>
+            <div class="cmd-code">👻 Hayalet Modu (Ghost Mode)</div>
+            <div class="cmd-desc">Aktifken üye listesinde görünmezsiniz.</div>
+          </div>
+          <button type="button" id="ghostModeToggleBtn" class="mini-action-btn" onclick="toggleGhostMode()">Kapalı</button>
+        </div>
+
+        <div class="gate-field">
+          <label for="ownerGatePassInput">Site Giriş Şifresini Değiştir</label>
+          <div style="display:flex; gap:8px;">
+            <input type="text" id="ownerGatePassInput" class="gate-input" placeholder="Yeni giriş şifresi (örn: 33)" maxlength="20" />
+            <button type="button" class="mini-action-btn" onclick="updateGatePassword()">Kaydet</button>
+          </div>
+        </div>
+
+        <div class="gate-field">
+          <label for="bannedWordsInput">Yasaklı Kelime Filtresi (virgülle ayırın)</label>
+          <div style="display:flex; gap:8px;">
+            <input type="text" id="bannedWordsInput" class="gate-input" placeholder="Örn: küfür1, spam, reklam" />
+            <button type="button" class="mini-action-btn" onclick="saveBannedWords()">Güncelle</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="ownerTab-logs" style="display:none; flex-direction:column; gap:8px;">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <span class="font-mono-tech" style="font-size:0.72rem; color:var(--muted-text);">CANLI İŞLEM GEÇMİŞİ</span>
+          <button type="button" class="mini-action-btn danger" onclick="clearAuditLogs()">Temizle</button>
+        </div>
+        <div id="auditLogsList" style="display:flex; flex-direction:column; gap:6px;"></div>
       </div>
     </div>
   </div>
@@ -884,23 +985,22 @@
     </div>
   </div>
 
-  <!-- MODAL 5: MENÜ & RENK ÇEŞİTLERİ -->
+  <!-- MODAL 5: OWNER ODALAR PANELİ (KAPASİTE + KOD SIFIRLAMA + GİZLİ GİRİŞ + SİL) -->
   <div class="modal-backdrop" id="ownerRoomsModal">
     <div class="modal-box wide">
       <button type="button" class="modal-close" onclick="closeModal('ownerRoomsModal')">✕</button>
-      <h3>🔐 Tüm Oluşturulan Odalar (owner)</h3>
-      <p>Sistemdeki tüm özel odaları görüntüleyebilir, bildirim gitmeden gizlice girebilir veya kalıcı olarak silebilirsiniz.</p>
-      <div id="ownerRoomsList" style="display:flex; flex-direction:column; gap:8px;">
-        <div style="font-size:0.8rem; color:var(--muted-text);">Odalar yükleniyor...</div>
-      </div>
+      <h3>🔐 Tüm Odalar (Owner Kontrolü)</h3>
+      <p>Odalara gizlice girebilir, üye kapasitesi koyabilir, oda kodunu sıfırlayabilir veya odayı kalıcı silebilirsiniz.</p>
+      <div id="ownerRoomsList" style="display:flex; flex-direction:column; gap:8px;"></div>
     </div>
   </div>
 
+  <!-- MODAL 6: MENÜ & RENK TEMALARI + OWNER KART STİLİ -->
   <div class="modal-backdrop" id="themeMenuModal">
     <div class="modal-box">
       <button type="button" class="modal-close" onclick="closeModal('themeMenuModal')">✕</button>
       <h3>🎨 Menü &amp; Renk Çeşitleri</h3>
-      <p>Klasik siyah-beyaz görünümü dilediğiniz renk temasıyla veya özel vurgu rengiyle özelleştirin.</p>
+      <p>Seçtiğiniz tema index.html ve YahyaPost ile otomatik senkronize olur.</p>
 
       <div class="gate-field">
         <label>Renk Temaları (9 Çeşit)</label>
@@ -917,23 +1017,20 @@
         </div>
       </div>
 
-      <div class="gate-field">
-        <label for="customAccentPicker">Özel Vurgu Rengi</label>
-        <div style="display:flex; align-items:center; gap:10px;">
-          <input type="color" id="customAccentPicker" value="#ffffff" style="width:48px; height:34px; border:1px solid var(--border-line); border-radius:8px; background:transparent;" />
-          <button type="button" class="mini-action-btn" onclick="resetThemePreferences()">Klasik Siyah-Beyaza Dön</button>
-        </div>
-      </div>
-
-      <div id="ownerColorSection" class="gate-field" style="display:none;">
-        <label>♛ Owner Özel Aura &amp; Animasyon Rengi</label>
+      <div id="ownerStyleSection" class="gate-field" style="display:none;">
+        <label>♛ Owner Mesaj Kutusu Stili</label>
         <div style="display:flex; gap:6px; flex-wrap:wrap;">
-          <button type="button" class="mini-action-btn" data-owner-color="white">✦ Beyaz</button>
-          <button type="button" class="mini-action-btn" data-owner-color="gold">♛ Altın</button>
-          <button type="button" class="mini-action-btn" data-owner-color="crimson">🔥 Kızıl</button>
-          <button type="button" class="mini-action-btn" data-owner-color="cyber">⚡ Mavi</button>
-          <button type="button" class="mini-action-btn" data-owner-color="emerald">◈ Zümrüt</button>
-          <button type="button" class="mini-action-btn" data-owner-color="purple">✧ Mor</button>
+          <button type="button" class="mini-action-btn" data-owner-style="obsidian">Obsidyen Şerit</button>
+          <button type="button" class="mini-action-btn" data-owner-style="conic">Dönen İnce Çerçeve</button>
+          <button type="button" class="mini-action-btn" data-owner-style="once">Tek Seferlik Efekt</button>
+        </div>
+        <label style="margin-top:8px;">♛ Owner Şerit / Vurgu Rengi</label>
+        <div style="display:flex; gap:6px; flex-wrap:wrap;">
+          <button type="button" class="mini-action-btn" data-owner-accent="silver">Gümüş</button>
+          <button type="button" class="mini-action-btn" data-owner-accent="gold">Altın</button>
+          <button type="button" class="mini-action-btn" data-owner-accent="ice">Buz Mavisi</button>
+          <button type="button" class="mini-action-btn" data-owner-accent="emerald">Zümrüt</button>
+          <button type="button" class="mini-action-btn" data-owner-accent="crimson">Kızıl</button>
         </div>
       </div>
 
@@ -943,7 +1040,8 @@
           <button type="button" class="mini-action-btn" data-font-size="0.82rem">Küçük</button>
           <button type="button" class="mini-action-btn" data-font-size="0.92rem">Normal</button>
           <button type="button" class="mini-action-btn" data-font-size="1.04rem">Büyük</button>
-          <button type="button" class="mini-action-btn" onclick="exportActiveChat()">💾 Sohbeti İndir (.txt)</button>
+          <button type="button" class="mini-action-btn" onclick="exportActiveChat()">💾 .txt İndir</button>
+          <button type="button" class="mini-action-btn" onclick="resetThemePreferences()">Sıfırla</button>
         </div>
       </div>
     </div>
@@ -951,19 +1049,33 @@
 
   <script>
     const FIREBASE_DB_URL = "https://yigitqwc-games-default-rtdb.europe-west1.firebasedatabase.app";
-    const REQUIRED_GATE_PASSWORD = "33";
     const OWNER_GATE_PASSWORD = "0987654321";
     const ROOM_CHARS = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
     const SHARED_AUTH_KEY = "yg_shared_user_v1";
     const MOD_LOCAL_KEY = "ys_moderation_cache_v1";
     const ACCOUNTS_LOCAL_KEY = "ys_accounts_cache_v1";
     const THEME_STORAGE_KEY = "ys_theme_prefs_v1";
+    const CONFIG_STORAGE_KEY = "ys_owner_config_v1";
+    const AUDIT_STORAGE_KEY = "ys_audit_logs_v1";
 
+    const EMOJI_LIST = ['😀','😂','🔥','❤️','👍','👏','🎉','😎','🤔','🙌','💯','⚡','🚀','💻','📚','🎯','✨','😅','😭','🫡','🤝'];
+    const QUICK_REACTIONS = ['👍','❤️','😂','🔥','👏'];
+    const CROWN_SVG = `<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg>`;
+
+    let ownerConfig = { gatePassword: "33", bannedWords: [], ghostMode: false };
+    let auditLogs = [];
     let currentUser = { id: "", name: "", email: "", role: "user", authenticated: false };
     let moderationState = { bans: {}, timeouts: {}, kicks: {}, deleted: {}, headAdmins: {}, roomStates: {} };
     let activeChannelId = "GLOBAL";
     let pendingGeneratedCode = "";
     let lastSentMessageAt = 0;
+    let unreadCounts = {};
+    let replyToMsg = null;
+    let editingMsgId = null;
+    let highlightMode = false;
+    let inchatSearchQuery = '';
+    let soundEnabled = true;
+    let audioCtx = null;
 
     let joinedRooms = [
       { id: "GLOBAL", name: "Global Sohbet (Herkese Açık)", icon: "🌐", isGlobal: true, lastMsg: "Tüm kayıtlı üyelerin ortak sohbet kanalı" }
@@ -974,6 +1086,7 @@
         {
           id: "welcome_sys",
           sender: "YahyaSohbet Sistem",
+          senderId: "system",
           senderEmail: "sistem@yahyagunsur.meb.k12.tr",
           senderRole: "system",
           text: "Global Sohbet kanalına hoş geldiniz! Sağ alttaki butonlardan özel oda oluşturabilir veya oda koduyla arkadaşlarınıza katılabilirsiniz.",
@@ -996,6 +1109,7 @@
           refreshRoleAndRestrictions();
           renderActiveChannelHeaderExtras();
           renderMessageStream();
+          renderInspector();
         } else if (ev.data.type === 'PURGE_USER') {
           purgeUserLocally(ev.data.targetName, ev.data.targetEmail);
         }
@@ -1003,6 +1117,28 @@
     }
 
     const authBroadcast = ('BroadcastChannel' in window) ? new BroadcastChannel('yg_auth_sync_v1') : null;
+
+    function loadOwnerConfig() {
+      try {
+        const raw = JSON.parse(localStorage.getItem(CONFIG_STORAGE_KEY) || 'null');
+        if (raw && typeof raw === 'object') {
+          ownerConfig.gatePassword = String(raw.gatePassword || '33');
+          ownerConfig.bannedWords = Array.isArray(raw.bannedWords) ? raw.bannedWords : [];
+          ownerConfig.ghostMode = Boolean(raw.ghostMode);
+        }
+      } catch (_) {}
+      document.getElementById('gateHintLabel').textContent = `şifremiz; ${ownerConfig.gatePassword}`;
+      try { auditLogs = JSON.parse(localStorage.getItem(AUDIT_STORAGE_KEY) || '[]') || []; } catch (_) { auditLogs = []; }
+    }
+    function saveOwnerConfig() {
+      try { localStorage.setItem(CONFIG_STORAGE_KEY, JSON.stringify(ownerConfig)); } catch (_) {}
+      document.getElementById('gateHintLabel').textContent = `şifremiz; ${ownerConfig.gatePassword}`;
+    }
+    function addAuditLog(action) {
+      auditLogs.unshift({ at: Date.now(), actor: currentUser.name || 'Sistem', action });
+      auditLogs = auditLogs.slice(0, 80);
+      try { localStorage.setItem(AUDIT_STORAGE_KEY, JSON.stringify(auditLogs)); } catch (_) {}
+    }
 
     function normalizeKey(str) {
       return String(str || '').trim().toLocaleLowerCase('tr').replace(/[^a-z0-9çğıöşü_-]/g, '_');
@@ -1013,19 +1149,14 @@
     function validateStrictGmail(email) {
       const clean = String(email || '').trim().toLowerCase();
       if (!/^[a-z0-9.]{4,30}@gmail\.com$/.test(clean)) {
-        return 'Geçerli bir Gmail girin (ör. en az 4 karakter, sadece harf/rakam/nokta + @gmail.com).';
+        return 'Geçerli bir Gmail girin (en az 4 karakter + @gmail.com).';
       }
       const local = clean.split('@')[0];
-      if (local.startsWith('.') || local.endsWith('.') || local.includes('..')) {
-        return 'Gmail adresinde hatalı nokta kullanımı var.';
-      }
-      const blocked = ['test', 'demo', 'fake', 'sahte', 'deneme', 'asdf', 'qwer', '1234', '12345', 'abcd', 'none', 'mail'];
-      if (blocked.includes(local) || /^(.)\1+$/.test(local)) {
-        return 'Lütfen gerçek ve size ait bir Gmail adresi kullanın.';
-      }
+      if (local.startsWith('.') || local.endsWith('.') || local.includes('..')) return 'Gmail adresinde hatalı nokta kullanımı var.';
+      const blocked = ['test','demo','fake','sahte','deneme','asdf','qwer','1234','12345','abcd','none','mail'];
+      if (blocked.includes(local) || /^(.)\1+$/.test(local)) return 'Lütfen gerçek ve size ait bir Gmail adresi kullanın.';
       return '';
     }
-
     async function hashSecret(text) {
       if (window.crypto && crypto.subtle) {
         const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
@@ -1078,7 +1209,7 @@
       return (t && t.until && t.until > Date.now()) ? t.until : 0;
     }
     function getChannelState(channelId) {
-      return (moderationState.roomStates && moderationState.roomStates[channelId]) || { locked: false, slowmodeSec: 0, pinnedText: '' };
+      return (moderationState.roomStates && moderationState.roomStates[channelId]) || { locked: false, slowmodeSec: 0, pinnedText: '', capacity: 0 };
     }
     function broadcastSharedAuth(payload) {
       try {
@@ -1087,38 +1218,41 @@
       } catch (_) {}
       if (authBroadcast) authBroadcast.postMessage({ type: 'AUTH_UPDATE', user: payload });
     }
-    function triggerOwnerEntranceAnimation() {
-      const overlay = document.getElementById('owner-entrance-overlay');
-      overlay.style.display = 'flex';
-      setTimeout(() => { overlay.style.display = 'none'; }, 2100);
+    function triggerOwnerEntranceBar() {
+      const bar = document.getElementById('owner-cinematic-bar');
+      bar.classList.add('show');
+      setTimeout(() => bar.classList.remove('show'), 1800);
     }
 
     function updateSidebarUserUI() {
       const nameEl = document.getElementById('sidebarUserName');
       const avatarEl = document.getElementById('sidebarUserAvatar');
       const powersBtn = document.getElementById('powersBtn');
+      const hlBtn = document.getElementById('highlightToggleBtn');
 
       nameEl.replaceChildren();
       nameEl.appendChild(document.createTextNode(currentUser.name || 'Kullanıcı'));
 
-      avatarEl.classList.remove('owner-avatar-glow');
       if (currentUser.role === 'owner') {
-        const badge = document.createElement('span'); badge.className = 'owner-badge';
-        const crown = document.createElement('span'); crown.className = 'owner-badge-crown'; crown.textContent = '♛';
-        badge.append(crown, document.createTextNode(' owner'));
+        const badge = document.createElement('span');
+        badge.className = 'owner-seal';
+        badge.innerHTML = `${CROWN_SVG} OWNER`;
         nameEl.appendChild(badge);
-        avatarEl.classList.add('owner-avatar-glow');
         powersBtn.style.display = 'inline-flex';
         document.getElementById('ownerRoomsBtn').style.display = 'inline-flex';
+        hlBtn.style.display = 'inline-flex';
       } else if (currentUser.role === 'head-admin') {
-        const badge = document.createElement('span'); badge.className = 'headadmin-badge';
+        const badge = document.createElement('span');
+        badge.className = 'headadmin-badge';
         badge.textContent = '★ Head-Admin';
         nameEl.appendChild(badge);
         powersBtn.style.display = 'inline-flex';
         document.getElementById('ownerRoomsBtn').style.display = 'none';
+        hlBtn.style.display = 'none';
       } else {
         powersBtn.style.display = 'none';
         document.getElementById('ownerRoomsBtn').style.display = 'none';
+        hlBtn.style.display = 'none';
       }
 
       document.getElementById('sidebarUserEmail').textContent = currentUser.email || 'ornek@gmail.com';
@@ -1143,14 +1277,13 @@
       updateSidebarUserUI();
 
       const msgInput = document.getElementById('messageInput');
-      const sendBtn = document.querySelector('.wa-send-btn');
+      const sendBtn = document.getElementById('sendMsgBtn');
 
       if (currentUser.role !== 'owner' && isBannedUser(currentUser.name)) {
         msgInput.disabled = true; sendBtn.disabled = true;
         msgInput.placeholder = 'Owner tarafından kalıcı olarak yasaklandınız.';
         return;
       }
-
       const timeoutUntil = currentUser.role === 'owner' ? 0 : getActiveTimeout(currentUser.name);
       if (timeoutUntil > Date.now()) {
         const secLeft = Math.ceil((timeoutUntil - Date.now()) / 1000);
@@ -1158,7 +1291,6 @@
         msgInput.placeholder = `Susturuldunuz (${Math.floor(secLeft / 60)} dk ${secLeft % 60} sn kaldı)`;
         return;
       }
-
       const rState = getChannelState(activeChannelId);
       if (rState.locked && currentUser.role === 'user') {
         msgInput.disabled = true; sendBtn.disabled = true;
@@ -1167,9 +1299,11 @@
       }
 
       msgInput.disabled = false; sendBtn.disabled = false;
-      msgInput.placeholder = rState.slowmodeSec > 0 && currentUser.role === 'user'
-        ? `Yavaş mod aktif (${rState.slowmodeSec} sn) — Mesajınızı yazın...`
-        : "Mesajınızı yazın ve Enter'a basın...";
+      msgInput.placeholder = highlightMode
+        ? '📢 Resmi Duyuru Kartı mesajınızı yazın...'
+        : (rState.slowmodeSec > 0 && currentUser.role === 'user'
+          ? `Yavaş mod aktif (${rState.slowmodeSec} sn) — Mesajınızı yazın...`
+          : "Mesajınızı yazın ve Enter'a basın...");
     }
 
     async function verifyEntryGate() {
@@ -1187,7 +1321,7 @@
 
       let assignedRole = 'user';
       if (passInput === OWNER_GATE_PASSWORD) assignedRole = 'owner';
-      else if (passInput === REQUIRED_GATE_PASSWORD) assignedRole = getRoleForUser(nameInput, 'user');
+      else if (passInput === ownerConfig.gatePassword) assignedRole = getRoleForUser(nameInput, 'user');
       else { errEl.textContent = "Hatalı oda erişim şifresi! Alt kısımdaki şifreyi kontrol edin."; return; }
 
       if (assignedRole !== 'owner' && isBannedUser(nameInput)) {
@@ -1210,12 +1344,10 @@
             btn.disabled = false; return;
           }
         } else {
-          const newAccount = { email: emailInput, name: nameInput, passwordHash: passHash, createdAt: Date.now(), gateKey: REQUIRED_GATE_PASSWORD };
+          const newAccount = { email: emailInput, name: nameInput, passwordHash: passHash, createdAt: Date.now(), gateKey: ownerConfig.gatePassword };
           saveLocalAccount(emailKey, newAccount);
           try {
-            await firebaseRequest(`accounts/${emailKey}.json`, {
-              method: 'PUT', headers: { 'if-match': 'null_etag' }, body: JSON.stringify(newAccount)
-            });
+            await firebaseRequest(`accounts/${emailKey}.json`, { method: 'PUT', body: JSON.stringify(newAccount) });
           } catch (_) {}
         }
 
@@ -1232,8 +1364,8 @@
         refreshRoleAndRestrictions(); renderRoomSidebar(); renderActiveChannel(); pollFirebaseMessages();
 
         if (currentUser.role === 'owner') {
-          triggerOwnerEntranceAnimation();
-          showToast('♛ owner olarak bağlandınız — tüm yetkiler aktif.');
+          triggerOwnerEntranceBar();
+          addAuditLog('Owner oturumu açıldı');
         } else {
           showToast(`Hoş geldin ${currentUser.name}!`);
         }
@@ -1264,7 +1396,7 @@
     document.getElementById('gatePassInput').addEventListener('keydown', e => { if (e.key === 'Enter') verifyEntryGate(); });
 
     // =========================================================================
-    // MODERASYON & KALICI KULLANICI SİLME (/delete)
+    // MODERASYON, GLOBAL YAYIN, TEKİL MESAJ SİLME/SANSÜRLEME
     // =========================================================================
     function extractCommandArg(rawArg) {
       const trimmed = rawArg.trim();
@@ -1276,15 +1408,9 @@
       const targetKey = normalizeKey(targetName);
       const emailSet = new Set();
       if (targetEmail) emailSet.add(targetEmail.toLowerCase());
-
-      // Collect any known email for this user from messages
       Object.values(localMessagesStore).forEach(arr => {
-        arr.forEach(m => {
-          if (normalizeKey(m.sender) === targetKey && m.senderEmail) emailSet.add(m.senderEmail.toLowerCase());
-        });
+        arr.forEach(m => { if (normalizeKey(m.sender) === targetKey && m.senderEmail) emailSet.add(m.senderEmail.toLowerCase()); });
       });
-
-      // Purge messages in all channels
       Object.keys(localMessagesStore).forEach(ch => {
         localMessagesStore[ch] = localMessagesStore[ch].filter(m => {
           const sameName = normalizeKey(m.sender) === targetKey && m.senderId !== 'system';
@@ -1292,78 +1418,30 @@
           return !(sameName || sameEmail);
         });
       });
-
-      // Purge local account cache
       emailSet.forEach(em => removeLocalAccount(normalizeEmailKey(em)));
-
-      // Remove roles & active restrictions
       delete moderationState.headAdmins[targetKey];
       delete moderationState.timeouts[targetKey];
       delete moderationState.bans[targetKey];
       delete moderationState.kicks[targetKey];
 
-      // Update room previews
-      joinedRooms.forEach(r => {
-        const list = localMessagesStore[r.id] || [];
-        const last = list[list.length - 1];
-        r.lastMsg = last ? `${last.sender}: ${last.text.slice(0, 80)}` : 'Henüz mesaj yok';
-      });
-
       if (currentUser.authenticated && currentUser.role !== 'owner' && normalizeKey(currentUser.name) === targetKey) {
         logoutUser('Hesabınız ve verileriniz owner tarafından kalıcı olarak silindi.');
       }
-      renderRoomSidebar();
-      renderMessageStream();
-      if (typeof renderInspector === 'function') renderInspector();
+      renderRoomSidebar(); renderMessageStream(); renderInspector();
     }
 
     async function applyDeleteUser(targetName) {
       if (currentUser.role !== 'owner') return showToast('Bu işlem yalnızca owner içindir.', true);
       const cleanName = extractCommandArg(targetName);
-      if (!cleanName) return;
-      if (normalizeKey(cleanName) === normalizeKey(currentUser.name)) {
-        return showToast('Kendi owner hesabınızı silemezsiniz.', true);
-      }
-
+      if (!cleanName || normalizeKey(cleanName) === normalizeKey(currentUser.name)) return showToast('Geçersiz hedef.', true);
       const key = normalizeKey(cleanName);
-      const matchedMsgs = [];
-      const matchedEmails = new Set();
-
-      Object.entries(localMessagesStore).forEach(([ch, arr]) => {
-        arr.forEach(m => {
-          if (normalizeKey(m.sender) === key && m.senderId !== 'system') {
-            matchedMsgs.push({ ch, id: m.id });
-            if (m.senderEmail) matchedEmails.add(m.senderEmail.toLowerCase());
-          }
-        });
-      });
-
-      // Mark deleted timestamp so active sessions log out
-      const delRecord = { name: cleanName, deletedAt: Date.now(), gateKey: REQUIRED_GATE_PASSWORD };
+      const delRecord = { name: cleanName, deletedAt: Date.now(), gateKey: ownerConfig.gatePassword };
       moderationState.deleted[key] = delRecord;
-      purgeUserLocally(cleanName, Array.from(matchedEmails)[0] || '');
+      purgeUserLocally(cleanName, '');
       broadcastModerationSync();
-      if (syncChannel) syncChannel.postMessage({ type: 'PURGE_USER', targetName: cleanName, targetEmail: Array.from(matchedEmails)[0] || '' });
-
-      // Delete from Firebase (accounts, messages, roles, moderation)
-      try {
-        const ops = [
-          firebaseRequest(`moderation/deleted/${key}.json`, { method: 'PUT', body: JSON.stringify(delRecord) }),
-          firebaseRequest(`roles/headAdmins/${key}.json`, { method: 'DELETE' }).catch(() => null),
-          firebaseRequest(`moderation/bans/${key}.json`, { method: 'DELETE' }).catch(() => null),
-          firebaseRequest(`moderation/timeouts/${key}.json`, { method: 'DELETE' }).catch(() => null)
-        ];
-        matchedEmails.forEach(em => {
-          ops.push(firebaseRequest(`accounts/${normalizeEmailKey(em)}.json`, { method: 'DELETE' }).catch(() => null));
-        });
-        matchedMsgs.forEach(item => {
-          ops.push(firebaseRequest(messageRecordPath(item.ch, item.id), { method: 'DELETE' }).catch(() => null));
-        });
-        await Promise.all(ops);
-      } catch (_) {}
-
+      addAuditLog(`Kullanıcı kalıcı silindi: ${cleanName}`);
       await postSystemMessage(`🗑️ "${cleanName}" kullanıcısı ve tüm verileri owner tarafından kalıcı olarak silindi.`);
-      showToast(`${cleanName} ve tüm verileri kalıcı olarak silindi.`);
+      showToast(`${cleanName} kalıcı olarak silindi.`);
       if (document.getElementById('powersModal').style.display === 'flex') openPowersModal();
     }
 
@@ -1373,17 +1451,19 @@
       if (!cleanName) return;
       const key = normalizeKey(cleanName);
       if (shouldBan) {
-        const record = { name: cleanName, bannedAt: Date.now(), by: currentUser.name, gateKey: REQUIRED_GATE_PASSWORD };
+        const record = { name: cleanName, bannedAt: Date.now(), by: currentUser.name, gateKey: ownerConfig.gatePassword };
         moderationState.bans[key] = record;
         broadcastModerationSync();
         try { await firebaseRequest(`moderation/bans/${key}.json`, { method: 'PUT', body: JSON.stringify(record) }); } catch (_) {}
+        addAuditLog(`Kullanıcı banlandı: ${cleanName}`);
         await postSystemMessage(`🚫 "${cleanName}" owner tarafından kalıcı olarak yasaklandı.`);
-        showToast(`${cleanName} kalıcı olarak banlandı.`);
+        showToast(`${cleanName} banlandı.`);
       } else {
         delete moderationState.bans[key];
         broadcastModerationSync();
         try { await firebaseRequest(`moderation/bans/${key}.json`, { method: 'DELETE' }); } catch (_) {}
-        await postSystemMessage(`✅ "${cleanName}" kullanıcısının banı owner tarafından açıldı.`);
+        addAuditLog(`Ban açıldı: ${cleanName}`);
+        await postSystemMessage(`✅ "${cleanName}" kullanıcısının banı açıldı.`);
         showToast(`${cleanName} banı açıldı.`);
       }
       if (document.getElementById('powersModal').style.display === 'flex') openPowersModal();
@@ -1391,23 +1471,23 @@
 
     async function applyTimeout(targetName, minutes) {
       if (currentUser.role !== 'owner' && currentUser.role !== 'head-admin') return showToast('Yetkiniz yok.', true);
-      if (currentUser.role === 'head-admin' && minutes !== 5) return showToast('Head-Admin yalnızca /timeout5 (5 dk) yetkisine sahiptir.', true);
+      if (currentUser.role === 'head-admin' && minutes !== 5) return showToast('Head-Admin yalnızca /timeout5 yetkisine sahiptir.', true);
       const cleanName = extractCommandArg(targetName);
       if (!cleanName) return;
       const key = normalizeKey(cleanName);
       if (minutes <= 0) {
         delete moderationState.timeouts[key];
         broadcastModerationSync();
-        try { await firebaseRequest(`moderation/timeouts/${key}.json`, { method: 'DELETE' }); } catch (_) {}
-        await postSystemMessage(`🔊 "${cleanName}" kullanıcısının susturması kaldırıldı.`);
+        addAuditLog(`Susturma kaldırıldı: ${cleanName}`);
+        await postSystemMessage(`🔊 "${cleanName}" susturması kaldırıldı.`);
         showToast(`${cleanName} susturması kaldırıldı.`);
         return;
       }
-      const record = { name: cleanName, until: Date.now() + minutes * 60 * 1000, by: currentUser.name, gateKey: REQUIRED_GATE_PASSWORD };
+      const record = { name: cleanName, until: Date.now() + minutes * 60 * 1000, by: currentUser.name, gateKey: ownerConfig.gatePassword };
       moderationState.timeouts[key] = record;
       broadcastModerationSync();
-      try { await firebaseRequest(`moderation/timeouts/${key}.json`, { method: 'PUT', body: JSON.stringify(record) }); } catch (_) {}
-      await postSystemMessage(`⏳ "${cleanName}" ${minutes} dakika boyunca susturuldu (${currentUser.role === 'owner' ? 'owner' : 'Head-Admin'}).`);
+      addAuditLog(`${cleanName} -> ${minutes} dk timeout`);
+      await postSystemMessage(`⏳ "${cleanName}" ${minutes} dakika boyunca susturuldu.`);
       showToast(`${cleanName} için ${minutes} dk timeout uygulandı.`);
     }
 
@@ -1416,29 +1496,30 @@
       const cleanName = extractCommandArg(targetName);
       if (!cleanName) return;
       const key = normalizeKey(cleanName);
-      const record = { name: cleanName, kickedAt: Date.now(), gateKey: REQUIRED_GATE_PASSWORD };
-      moderationState.kicks[key] = record;
+      moderationState.kicks[key] = { name: cleanName, kickedAt: Date.now(), gateKey: ownerConfig.gatePassword };
       broadcastModerationSync();
-      try { await firebaseRequest(`moderation/kicks/${key}.json`, { method: 'PUT', body: JSON.stringify(record) }); } catch (_) {}
+      addAuditLog(`Odadan çıkarıldı: ${cleanName}`);
       await postSystemMessage(`👢 "${cleanName}" owner tarafından sohbetten çıkarıldı.`);
       showToast(`${cleanName} odadan çıkarıldı.`);
     }
 
-    async function applyRoomStateUpdate(patch) {
+    async function applyRoomStateUpdate(patch, channelOverride) {
       if (currentUser.role !== 'owner') return showToast('Bu işlem yalnızca owner içindir.', true);
-      const next = { ...getChannelState(activeChannelId), ...patch, gateKey: REQUIRED_GATE_PASSWORD };
-      moderationState.roomStates[activeChannelId] = next;
+      const ch = channelOverride || activeChannelId;
+      const next = { ...getChannelState(ch), ...patch, gateKey: ownerConfig.gatePassword };
+      moderationState.roomStates[ch] = next;
       broadcastModerationSync();
       renderActiveChannelHeaderExtras();
       refreshRoleAndRestrictions();
-      try { await firebaseRequest(`moderation/roomStates/${activeChannelId}.json`, { method: 'PUT', body: JSON.stringify(next) }); } catch (_) {}
+      try { await firebaseRequest(`moderation/roomStates/${ch}.json`, { method: 'PUT', body: JSON.stringify(next) }); } catch (_) {}
     }
 
     async function applyPin(text) {
       if (currentUser.role !== 'owner') return showToast('Bu işlem yalnızca owner içindir.', true);
       const clean = extractCommandArg(text);
       await applyRoomStateUpdate({ pinnedText: clean });
-      if (clean) { await postSystemMessage(`📌 Sabitlenen Mesaj: ${clean}`); showToast('Mesaj odaya sabitlendi.'); }
+      addAuditLog(clean ? `Mesaj sabitlendi (${activeChannelId})` : `Sabit mesaj kaldırıldı (${activeChannelId})`);
+      if (clean) { await postSystemMessage(`📌 Sabitlenen Mesaj: ${clean}`); showToast('Mesaj sabitlendi.'); }
       else showToast('Sabitlenen mesaj kaldırıldı.');
     }
 
@@ -1450,29 +1531,66 @@
       if (moderationState.headAdmins[key]) {
         delete moderationState.headAdmins[key];
         broadcastModerationSync();
-        try { await firebaseRequest(`roles/headAdmins/${key}.json`, { method: 'DELETE' }); } catch (_) {}
+        addAuditLog(`Head-Admin alındı: ${cleanName}`);
         await postSystemMessage(`★ "${cleanName}" kullanıcısının Head-Admin yetkisi alındı.`);
-        showToast(`${cleanName} artık standart kullanıcı.`);
       } else {
-        const record = { name: cleanName, grantedAt: Date.now(), gateKey: REQUIRED_GATE_PASSWORD };
-        moderationState.headAdmins[key] = record;
+        moderationState.headAdmins[key] = { name: cleanName, grantedAt: Date.now(), gateKey: ownerConfig.gatePassword };
         broadcastModerationSync();
-        try { await firebaseRequest(`roles/headAdmins/${key}.json`, { method: 'PUT', body: JSON.stringify(record) }); } catch (_) {}
-        await postSystemMessage(`★ "${cleanName}" kullanıcısına owner tarafından Head-Admin yetkisi verildi!`);
-        showToast(`${cleanName} Head-Admin oldu.`);
+        addAuditLog(`Head-Admin verildi: ${cleanName}`);
+        await postSystemMessage(`★ "${cleanName}" kullanıcısına Head-Admin yetkisi verildi!`);
       }
-      renderMessageStream();
+      renderMessageStream(); renderInspector();
       if (document.getElementById('powersModal').style.display === 'flex') openPowersModal();
+    }
+
+    async function broadcastToAllRooms(messageText) {
+      if (currentUser.role !== 'owner') return showToast('Yalnızca owner içindir.', true);
+      const clean = extractCommandArg(messageText);
+      if (!clean) return showToast('Kullanım: /broadcast "mesaj"', true);
+      for (const r of joinedRooms) {
+        await dispatchMessageToChannel(r.id, {
+          id: 'bcast_' + Date.now() + '_' + Math.random().toString(36).slice(2, 5),
+          sender: currentUser.name, senderId: currentUser.id, senderEmail: currentUser.email,
+          senderRole: 'owner', isHighlight: true,
+          text: `📡 GLOBAL YAYIN: ${clean}`, at: Date.now()
+        });
+      }
+      addAuditLog(`Global yayın gönderildi (${joinedRooms.length} oda)`);
+      showToast(`Global yayın ${joinedRooms.length} odaya iletildi.`);
     }
 
     async function postSystemMessage(text) {
       const msg = {
         id: 'sys_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
-        sender: 'YahyaSohbet Sistem', senderId: 'system', senderEmail: 'sistem@yahyagunsur.meb.k12.tr',
+        sender: 'YahyaSohbet Sistem', senderId: 'system', senderEmail: '',
         senderRole: 'system', text, at: Date.now()
       };
       integrateIncomingMessage(activeChannelId, msg);
       try { await dispatchMessageToChannel(activeChannelId, msg); } catch (_) {}
+    }
+
+    function deleteSingleMessage(msgId) {
+      const arr = localMessagesStore[activeChannelId] || [];
+      const target = arr.find(m => m.id === msgId);
+      if (!target) return;
+      const isOwn = target.senderId === currentUser.id;
+      if (!isOwn && currentUser.role !== 'owner') return showToast('Bu mesajı silme yetkiniz yok.', true);
+      localMessagesStore[activeChannelId] = arr.filter(m => m.id !== msgId);
+      if (currentUser.role === 'owner' && !isOwn) addAuditLog(`Mesaj silindi (${target.sender}): "${target.text.slice(0, 35)}"`);
+      try { firebaseRequest(messageRecordPath(activeChannelId, msgId), { method: 'DELETE' }).catch(() => {}); } catch (_) {}
+      renderMessageStream(); renderInspector();
+      showToast('Mesaj silindi.');
+    }
+
+    function censorSingleMessage(msgId) {
+      if (currentUser.role !== 'owner') return;
+      const msg = (localMessagesStore[activeChannelId] || []).find(m => m.id === msgId);
+      if (!msg) return;
+      msg.text = '[Bu mesaj Owner tarafından sansürlendi]';
+      msg.edited = true;
+      addAuditLog(`Mesaj sansürlendi (${msg.sender})`);
+      renderMessageStream();
+      showToast('Mesaj sansürlendi.');
     }
 
     async function handleSlashCommand(rawText) {
@@ -1480,57 +1598,44 @@
       const cmd = parts[0].toLowerCase();
       const rest = rawText.trim().slice(cmd.length).trim();
 
-      if (cmd === '/delete') { if (currentUser.role !== 'owner') return showToast('Yalnızca owner içindir.', true); if (!rest) return showToast('Kullanım: /delete "kişi ismi"', true); await applyDeleteUser(rest); return true; }
-      if (cmd === '/ban') { if (currentUser.role !== 'owner') return showToast('Yalnızca owner içindir.', true); if (!rest) return showToast('Kullanım: /ban "kişi"', true); await applyBan(rest, true); return true; }
-      if (cmd === '/unban') { if (currentUser.role !== 'owner') return showToast('Yalnızca owner içindir.', true); if (!rest) return showToast('Kullanım: /unban "kişi"', true); await applyBan(rest, false); return true; }
-      if (cmd === '/timeout15') { if (currentUser.role !== 'owner') return showToast('Yalnızca owner içindir.', true); if (!rest) return showToast('Kullanım: /timeout15 "kişi"', true); await applyTimeout(rest, 15); return true; }
-      if (cmd === '/timeout30') { if (currentUser.role !== 'owner') return showToast('Yalnızca owner içindir.', true); if (!rest) return showToast('Kullanım: /timeout30 "kişi"', true); await applyTimeout(rest, 30); return true; }
-      if (cmd === '/timeout60') { if (currentUser.role !== 'owner') return showToast('Yalnızca owner içindir.', true); if (!rest) return showToast('Kullanım: /timeout60 "kişi"', true); await applyTimeout(rest, 60); return true; }
-      if (cmd === '/timeout5') { if (currentUser.role !== 'owner' && currentUser.role !== 'head-admin') return showToast('Yetkiniz yok.', true); if (!rest) return showToast('Kullanım: /timeout5 "kişi"', true); await applyTimeout(rest, 5); return true; }
-      if (cmd === '/untimeout') { if (currentUser.role !== 'owner') return showToast('Yalnızca owner içindir.', true); if (!rest) return showToast('Kullanım: /untimeout "kişi"', true); await applyTimeout(rest, 0); return true; }
-      if (cmd === '/kick') { if (currentUser.role !== 'owner') return showToast('Yalnızca owner içindir.', true); if (!rest) return showToast('Kullanım: /kick "kişi"', true); await applyKick(rest); return true; }
-      if (cmd === '/headadmin') { if (currentUser.role !== 'owner') return showToast('Yalnızca owner içindir.', true); if (!rest) return showToast('Kullanım: /headadmin "kişi"', true); await toggleHeadAdmin(rest); return true; }
+      if (cmd === '/broadcast') { await broadcastToAllRooms(rest); return true; }
+      if (cmd === '/highlight') {
+        if (currentUser.role !== 'owner') return showToast('Yalnızca owner içindir.', true);
+        const txt = extractCommandArg(rest);
+        if (!txt) return showToast('Kullanım: /highlight "duyuru metni"', true);
+        await dispatchMessageToChannel(activeChannelId, {
+          id: 'hl_' + Date.now(), sender: currentUser.name, senderId: currentUser.id,
+          senderEmail: currentUser.email, senderRole: 'owner', isHighlight: true,
+          text: `📢 RESMİ DUYURU: ${txt}`, at: Date.now()
+        });
+        return true;
+      }
+      if (cmd === '/delete') { await applyDeleteUser(rest); return true; }
+      if (cmd === '/ban') { await applyBan(rest, true); return true; }
+      if (cmd === '/unban') { await applyBan(rest, false); return true; }
+      if (cmd === '/timeout15') { await applyTimeout(rest, 15); return true; }
+      if (cmd === '/timeout30') { await applyTimeout(rest, 30); return true; }
+      if (cmd === '/timeout60') { await applyTimeout(rest, 60); return true; }
+      if (cmd === '/timeout5') { await applyTimeout(rest, 5); return true; }
+      if (cmd === '/untimeout') { await applyTimeout(rest, 0); return true; }
+      if (cmd === '/kick') { await applyKick(rest); return true; }
+      if (cmd === '/headadmin') { await toggleHeadAdmin(rest); return true; }
       if (cmd === '/slowmode') {
         if (currentUser.role !== 'owner') return showToast('Yalnızca owner içindir.', true);
         const sec = Math.max(0, Math.min(120, parseInt(rest, 10) || 0));
         await applyRoomStateUpdate({ slowmodeSec: sec });
-        await postSystemMessage(sec > 0 ? `⏱ Yavaş mod aktif edildi: ${sec} saniye.` : '⏱ Yavaş mod kapatıldı.');
+        await postSystemMessage(sec > 0 ? `⏱ Yavaş mod aktif: ${sec} sn.` : '⏱ Yavaş mod kapatıldı.');
         return true;
       }
-      if (cmd === '/lock') { if (currentUser.role !== 'owner') return showToast('Yalnızca owner içindir.', true); await applyRoomStateUpdate({ locked: true }); await postSystemMessage('🔒 Oda owner tarafından kilitlendi.'); return true; }
-      if (cmd === '/unlock') { if (currentUser.role !== 'owner') return showToast('Yalnızca owner içindir.', true); await applyRoomStateUpdate({ locked: false }); await postSystemMessage('🔓 Oda kilidi owner tarafından açıldı.'); return true; }
-      if (cmd === '/pin') { if (currentUser.role !== 'owner') return showToast('Yalnızca owner içindir.', true); if (!rest) return showToast('Kullanım: /pin "mesaj"', true); await applyPin(rest); return true; }
-      if (cmd === '/unpin') { if (currentUser.role !== 'owner') return showToast('Yalnızca owner içindir.', true); await applyPin(''); return true; }
-      if (cmd === '/warn') {
-        if (currentUser.role !== 'owner') return showToast('Yalnızca owner içindir.', true);
-        if (!rest) return showToast('Kullanım: /warn kişi | sebep', true);
-        const [target, reason] = rest.split('|').map(x => extractCommandArg(x || ''));
-        await postSystemMessage(`⚠️ UYARI (${target}): ${reason || 'Sohbet kurallarına dikkat ediniz.'}`);
-        return true;
-      }
-      if (cmd === '/rename') {
-        if (currentUser.role !== 'owner') return showToast('Yalnızca owner içindir.', true);
-        const newName = extractCommandArg(rest);
-        if (!newName) return showToast('Kullanım: /rename "yeni oda adı"', true);
-        const room = joinedRooms.find(r => r.id === activeChannelId);
-        if (room) { room.name = newName.slice(0, 32); saveJoinedRooms(); renderRoomSidebar(); renderActiveChannel(); }
-        await postSystemMessage(`✏️ Oda adı owner tarafından "${newName}" olarak güncellendi.`);
-        return true;
-      }
-      if (cmd === '/topic') {
-        if (currentUser.role !== 'owner') return showToast('Yalnızca owner içindir.', true);
-        const newTopic = extractCommandArg(rest);
-        if (!newTopic) return showToast('Kullanım: /topic "oda açıklaması"', true);
-        await applyRoomStateUpdate({ topicText: newTopic });
-        document.getElementById('activeRoomSub').textContent = newTopic;
-        await postSystemMessage(`📝 Oda konusu güncellendi: ${newTopic}`);
-        return true;
-      }
+      if (cmd === '/lock') { await applyRoomStateUpdate({ locked: true }); await postSystemMessage('🔒 Oda kilitlendi.'); return true; }
+      if (cmd === '/unlock') { await applyRoomStateUpdate({ locked: false }); await postSystemMessage('🔓 Oda kilidi açıldı.'); return true; }
+      if (cmd === '/pin') { await applyPin(rest); return true; }
+      if (cmd === '/unpin') { await applyPin(''); return true; }
       if (cmd === '/poll') {
         if (currentUser.role !== 'owner') return showToast('Yalnızca owner içindir.', true);
         const segs = rest.split('|').map(x => extractCommandArg(x)).filter(Boolean);
         if (segs.length < 3) return showToast('Kullanım: /poll Soru? | Seçenek 1 | Seçenek 2', true);
-        const pollObj = { question: segs[0], options: segs.slice(1, 5).map(label => ({ label, votes: 0 })) };
+        const pollObj = { question: segs[0], options: segs.slice(1, 5).map(label => ({ label, votes: 0 })), voters: {} };
         await dispatchMessageToChannel(activeChannelId, {
           id: 'poll_' + Date.now(), sender: currentUser.name, senderId: currentUser.id,
           senderEmail: currentUser.email, senderRole: 'owner', poll: pollObj,
@@ -1538,66 +1643,56 @@
         });
         return true;
       }
-      if (cmd === '/maintenance') {
-        if (currentUser.role !== 'owner') return showToast('Yalnızca owner içindir.', true);
-        const nextVal = !getChannelState(activeChannelId).locked;
-        await applyRoomStateUpdate({ locked: nextVal });
-        await postSystemMessage(nextVal ? '🛠️ Bakım modu aktif: Sadece owner/Head-Admin yazabilir.' : '✅ Bakım modu kapatıldı.');
-        return true;
-      }
-      if (cmd === '/export') { exportActiveChat(); return true; }
       if (cmd === '/clear') {
         if (currentUser.role !== 'owner') return showToast('Yalnızca owner içindir.', true);
-        localMessagesStore[activeChannelId] = []; renderMessageStream();
+        localMessagesStore[activeChannelId] = []; renderMessageStream(); renderInspector();
+        addAuditLog(`Sohbet temizlendi (${activeChannelId})`);
         await postSystemMessage('🧹 Sohbet akışı owner tarafından temizlendi.');
         return true;
       }
-      if (cmd === '/announce') {
-        if (currentUser.role !== 'owner') return showToast('Yalnızca owner içindir.', true);
-        const msg = extractCommandArg(rest);
-        if (!msg) return showToast('Kullanım: /announce "mesaj"', true);
-        await postSystemMessage(`📢 DUYURU: ${msg}`);
-        return true;
-      }
+      if (cmd === '/export') { exportActiveChat(); return true; }
 
-      showToast('Bilinmeyen komut. Sağ üstteki Yetkiler panelini kontrol edin.', true);
+      showToast('Bilinmeyen komut. Yetkiler panelini kontrol edin.', true);
       return true;
+    }
+
+    // =========================================================================
+    // OWNER PANELİ SEKMELERİ (KOMUTLAR, ÜYELER, SİSTEM & FİLTRE, LOGLAR)
+    // =========================================================================
+    function switchOwnerTab(tabName) {
+      ['commands','users','security','logs'].forEach(t => {
+        document.getElementById('ownerTab-' + t).style.display = t === tabName ? 'flex' : 'none';
+      });
+      document.querySelectorAll('[data-owner-tab]').forEach(b => {
+        b.classList.toggle('active', b.getAttribute('data-owner-tab') === tabName);
+      });
     }
 
     function openPowersModal() {
       if (currentUser.role !== 'owner' && currentUser.role !== 'head-admin') return;
       const isOwner = currentUser.role === 'owner';
-
-      document.getElementById('powersModalTitle').textContent = isOwner ? '♛ owner Yetkileri & Komut Merkezi' : '★ Head-Admin Yetkileri';
+      document.getElementById('powersModalTitle').textContent = isOwner ? '♛ Owner Komut & Yönetim Merkezi' : '★ Head-Admin Yetkileri';
       document.getElementById('powersModalSub').textContent = isOwner
-        ? 'Tüm moderasyon, kalıcı veri silme (/delete), oda kontrolü ve Head-Admin atama yetkilerine sahipsiniz.'
-        : 'Head-Admin olarak kullanıcılara 5 dakikalık uzaklaştırma (/timeout5) uygulayabilirsiniz.';
+        ? 'Moderasyon, global yayın, hayalet modu, kelime filtresi ve canlı işlem kayıtları.'
+        : 'Head-Admin olarak kullanıcılara 5 dakikalık susturma (/timeout5) uygulayabilirsiniz.';
 
-      const commands = isOwner
-        ? [
-            { cmd: '/delete "kişi ismi"', desc: 'Kullanıcıyı ve tüm verilerini siteden kalıcı olarak siler.' },
-            { cmd: '/ban "kişi ismi"', desc: 'Kullanıcıyı kalıcı olarak yasaklar.' },
-            { cmd: '/unban "kişi ismi"', desc: 'Yasaklı kullanıcının banını açar.' },
-            { cmd: '/timeout15 "kişi ismi"', desc: 'Kullanıcıyı 15 dakika susturur.' },
-            { cmd: '/timeout30 "kişi ismi"', desc: 'Kullanıcıyı 30 dakika susturur.' },
-            { cmd: '/timeout60 "kişi ismi"', desc: 'Kullanıcıyı 60 dakika susturur.' },
-            { cmd: '/timeout5 "kişi ismi"', desc: 'Kullanıcıyı 5 dakika susturur.' },
-            { cmd: '/untimeout "kişi ismi"', desc: 'Aktif susturmayı hemen kaldırır.' },
-            { cmd: '/kick "kişi ismi"', desc: 'Kullanıcıyı odadan çıkarır.' },
-            { cmd: '/headadmin "kişi ismi"', desc: 'Head-Admin yetkisi verir veya geri alır.' },
-            { cmd: '/warn kişi | sebep', desc: 'Kullanıcıya resmi uyarı gönderir.' },
-            { cmd: '/slowmode 10', desc: 'Odada yavaş mod açar (0 ile kapatılır).' },
-            { cmd: '/lock / /unlock', desc: 'Odayı kilitler veya kilidi açar.' },
-            { cmd: '/pin "mesaj"', desc: 'Üst kısma duyuru sabitler (/unpin kaldırır).' },
-            { cmd: '/rename "oda adı"', desc: 'Aktif odanın adını değiştirir.' },
-            { cmd: '/topic "açıklama"', desc: 'Aktif odanın açıklamasını günceller.' },
-            { cmd: '/poll Soru? | A | B', desc: 'Odada tıklanabilir anket başlatır.' },
-            { cmd: '/maintenance', desc: 'Bakım modunu açıp kapatır.' },
-            { cmd: '/announce "mesaj"', desc: 'Odaya sistem duyurusu gönderir.' },
-            { cmd: '/export', desc: 'Sohbet geçmişini .txt olarak indirir.' },
-            { cmd: '/clear', desc: 'Aktif oda mesajlarını temizler.' }
-          ]
-        : [{ cmd: '/timeout5 "kişi ismi"', desc: 'Kullanıcıyı 5 dakika boyunca susturur.' }];
+      document.getElementById('ownerTabsBar').style.display = isOwner ? 'flex' : 'none';
+      switchOwnerTab('commands');
+
+      const commands = isOwner ? [
+        { cmd: '/broadcast "mesaj"', desc: 'Sistemdeki TÜM odalara aynı anda resmi yayın gönderir.' },
+        { cmd: '/highlight "mesaj"', desc: 'Aktif odaya özel Resmi Duyuru Kartı gönderir.' },
+        { cmd: '/delete "kişi"', desc: 'Kullanıcıyı ve tüm verilerini kalıcı siler.' },
+        { cmd: '/ban "kişi" / /unban "kişi"', desc: 'Kalıcı yasaklar veya banı açar.' },
+        { cmd: '/timeout15 "kişi"', desc: '15 dakika susturur (/timeout5, /timeout30, /timeout60, /untimeout).' },
+        { cmd: '/kick "kişi"', desc: 'Kullanıcıyı odadan çıkarır.' },
+        { cmd: '/headadmin "kişi"', desc: 'Head-Admin yetkisi verir veya alır.' },
+        { cmd: '/slowmode 10', desc: 'Odada yavaş mod açar (0 ile kapatır).' },
+        { cmd: '/lock / /unlock', desc: 'Odayı kilitler veya kilidi açar.' },
+        { cmd: '/pin "mesaj" / /unpin', desc: 'Oda tepesine mesaj sabitler.' },
+        { cmd: '/poll Soru? | A | B', desc: 'Kişi başı tek oylu anket başlatır.' },
+        { cmd: '/clear / /export', desc: 'Odayı temizler veya .txt indirir.' }
+      ] : [{ cmd: '/timeout5 "kişi"', desc: 'Kullanıcıyı 5 dakika susturur.' }];
 
       document.getElementById('powersCommandsList').innerHTML = commands.map(c => `
         <div class="cmd-item">
@@ -1606,80 +1701,130 @@
         </div>
       `).join('');
 
-      const usersSec = document.getElementById('powersUsersSection');
-      const usersList = document.getElementById('powersUsersList');
-      const bansSec = document.getElementById('powersBansSection');
-      const bansList = document.getElementById('powersBansList');
-
       if (isOwner) {
-        usersSec.style.display = 'flex';
         const seenUsers = new Map();
         Object.values(localMessagesStore).flat().forEach(m => {
           if (m.senderId !== 'system' && m.sender !== currentUser.name) {
             seenUsers.set(normalizeKey(m.sender), { name: m.sender, email: m.senderEmail });
           }
         });
-        usersList.innerHTML = seenUsers.size === 0
+        document.getElementById('powersUsersList').innerHTML = seenUsers.size === 0
           ? '<div style="font-size:0.78rem; color:var(--muted-text);">Henüz başka bir kullanıcı mesajı yok.</div>'
           : Array.from(seenUsers.entries()).map(([k, u]) => {
               const isHA = Boolean(moderationState.headAdmins[k]);
               return `
                 <div class="cmd-item">
-                  <div><div class="cmd-code">${u.name} ${isHA ? '★ Head-Admin' : ''}</div><div class="cmd-desc">${u.email || ''}</div></div>
+                  <div><div class="cmd-code">${u.name} ${isHA ? '★ HA' : ''}</div><div class="cmd-desc">${u.email || ''}</div></div>
                   <div style="display:flex; gap:6px; flex-wrap:wrap;">
-                    <button type="button" class="mini-action-btn" data-ha-user="${u.name}">${isHA ? 'Yetkiyi Al' : 'Head-Admin Yap'}</button>
+                    <button type="button" class="mini-action-btn" data-ha-user="${u.name}">${isHA ? 'Yetki Al' : 'Head-Admin'}</button>
                     <button type="button" class="mini-action-btn" data-ban-user="${u.name}">Banla</button>
-                    <button type="button" class="mini-action-btn danger" data-delete-user="${u.name}">Kalıcı Sil</button>
+                    <button type="button" class="mini-action-btn danger" data-delete-user="${u.name}">Sil</button>
                   </div>
                 </div>`;
             }).join('');
 
-        bansSec.style.display = 'flex';
         const banEntries = Object.values(moderationState.bans || {});
-        bansList.innerHTML = banEntries.length === 0
-          ? '<div style="font-size:0.78rem; color:var(--muted-text);">Şu anda banlı kullanıcı bulunmuyor.</div>'
+        document.getElementById('powersBansList').innerHTML = banEntries.length === 0
+          ? '<div style="font-size:0.78rem; color:var(--muted-text);">Banlı kullanıcı yok.</div>'
           : banEntries.map(b => `
               <div class="cmd-item">
-                <div><div class="cmd-code">${b.name}</div><div class="cmd-desc">Kalıcı ban</div></div>
+                <div class="cmd-code">${b.name}</div>
                 <button type="button" class="mini-action-btn" data-unban-user="${b.name}">Banı Aç</button>
               </div>`).join('');
-      } else {
-        usersSec.style.display = 'none';
-        bansSec.style.display = 'none';
+
+        document.getElementById('ghostModeToggleBtn').textContent = ownerConfig.ghostMode ? 'Aktif (Gizli)' : 'Kapalı';
+        document.getElementById('ghostModeToggleBtn').classList.toggle('active', ownerConfig.ghostMode);
+        document.getElementById('ownerGatePassInput').value = ownerConfig.gatePassword;
+        document.getElementById('bannedWordsInput').value = ownerConfig.bannedWords.join(', ');
+
+        document.getElementById('auditLogsList').innerHTML = auditLogs.length === 0
+          ? '<div style="font-size:0.78rem; color:var(--muted-text);">Henüz işlem kaydı yok.</div>'
+          : auditLogs.map(l => `
+              <div class="cmd-item">
+                <div><div class="cmd-code">${l.action}</div><div class="cmd-desc">${l.actor} • ${new Date(l.at).toLocaleString('tr-TR')}</div></div>
+              </div>`).join('');
       }
       document.getElementById('powersModal').style.display = 'flex';
     }
 
-    function openUserActionModal(targetName, targetEmail) {
-      if (currentUser.role !== 'owner' && currentUser.role !== 'head-admin') return;
-      if (!targetName || targetName === currentUser.name) return;
-      const isOwner = currentUser.role === 'owner';
-      const isHA = Boolean(moderationState.headAdmins[normalizeKey(targetName)]);
-      const banned = isBannedUser(targetName);
-
-      document.getElementById('uaTitle').textContent = targetName;
-      document.getElementById('uaSub').textContent = targetEmail ? `${targetEmail} — Uygulanacak işlemi seçin:` : 'Uygulanacak işlemi seçin:';
-      const btns = [];
-      if (isOwner) {
-        btns.push(`<button type="button" class="mini-action-btn" data-ua-ha="${targetName}">${isHA ? '★ Head-Admin Yetkisini Al' : '★ Head-Admin Yetkisi Ver'}</button>`);
-        btns.push(`<button type="button" class="mini-action-btn" data-ua-t15="${targetName}">⏳ 15 Dk Timeout (/timeout15)</button>`);
-      }
-      btns.push(`<button type="button" class="mini-action-btn" data-ua-t5="${targetName}">⏳ 5 Dk Timeout (/timeout5)</button>`);
-      if (isOwner) {
-        btns.push(`<button type="button" class="mini-action-btn" data-ua-ut="${targetName}">🔊 Susturmayı Kaldır (/untimeout)</button>`);
-        btns.push(`<button type="button" class="mini-action-btn" data-ua-kick="${targetName}">👢 Odadan Çıkar (/kick)</button>`);
-        btns.push(banned
-          ? `<button type="button" class="mini-action-btn" data-ua-unban="${targetName}">✅ Banı Aç (/unban)</button>`
-          : `<button type="button" class="mini-action-btn danger" data-ua-ban="${targetName}">🚫 Kalıcı Ban At (/ban)</button>`
-        );
-        btns.push(`<button type="button" class="mini-action-btn danger" data-ua-delete="${targetName}">🗑️ Kullanıcıyı Kalıcı Sil (/delete)</button>`);
-      }
-      document.getElementById('uaButtons').innerHTML = btns.join('');
-      document.getElementById('userActionModal').style.display = 'flex';
+    function toggleGhostMode() {
+      ownerConfig.ghostMode = !ownerConfig.ghostMode;
+      saveOwnerConfig();
+      addAuditLog(`Hayalet modu ${ownerConfig.ghostMode ? 'açıldı' : 'kapatıldı'}`);
+      renderInspector();
+      openPowersModal();
+      switchOwnerTab('security');
+    }
+    function updateGatePassword() {
+      const val = document.getElementById('ownerGatePassInput').value.trim();
+      if (!val) return showToast('Şifre boş olamaz.', true);
+      ownerConfig.gatePassword = val;
+      saveOwnerConfig();
+      addAuditLog(`Giriş şifresi güncellendi`);
+      showToast('Site giriş şifresi güncellendi.');
+    }
+    function saveBannedWords() {
+      const raw = document.getElementById('bannedWordsInput').value;
+      ownerConfig.bannedWords = raw.split(',').map(w => w.trim().toLowerCase()).filter(Boolean);
+      saveOwnerConfig();
+      addAuditLog(`Yasaklı kelime filtresi güncellendi (${ownerConfig.bannedWords.length} kelime)`);
+      showToast('Yasaklı kelime filtresi kaydedildi.');
+    }
+    function clearAuditLogs() {
+      auditLogs = [];
+      try { localStorage.setItem(AUDIT_STORAGE_KEY, '[]'); } catch (_) {}
+      openPowersModal(); switchOwnerTab('logs');
     }
 
     // =========================================================================
-    // ODA OLUŞTURMA, KATILMA, MESAJLAŞMA & FIREBASE
+    // YANITLA / DÜZENLE / EMOJİ / TEPKİLER
+    // =========================================================================
+    function startReplyTo(msgId) {
+      const msg = (localMessagesStore[activeChannelId] || []).find(m => m.id === msgId);
+      if (!msg) return;
+      editingMsgId = null;
+      replyToMsg = { id: msg.id, sender: msg.sender, text: msg.text.slice(0, 90) };
+      document.getElementById('replyComposeText').textContent = `↩ Yanıtlanıyor — ${msg.sender}: "${replyToMsg.text}"`;
+      document.getElementById('replyComposeBar').style.display = 'flex';
+      document.getElementById('messageInput').focus();
+    }
+
+    function startEditMessage(msgId) {
+      const msg = (localMessagesStore[activeChannelId] || []).find(m => m.id === msgId);
+      if (!msg || msg.senderId !== currentUser.id) return;
+      replyToMsg = null;
+      editingMsgId = msgId;
+      document.getElementById('replyComposeText').textContent = `✏️ Mesaj düzenleniyor...`;
+      document.getElementById('replyComposeBar').style.display = 'flex';
+      const inp = document.getElementById('messageInput');
+      inp.value = msg.text;
+      inp.focus();
+    }
+
+    function cancelReplyOrEdit() {
+      replyToMsg = null;
+      editingMsgId = null;
+      document.getElementById('replyComposeBar').style.display = 'none';
+      document.getElementById('messageInput').value = '';
+    }
+
+    function toggleReaction(msgId, emoji) {
+      const msg = (localMessagesStore[activeChannelId] || []).find(m => m.id === msgId);
+      if (!msg) return;
+      msg.reactions = msg.reactions || {};
+      msg.reactions[emoji] = msg.reactions[emoji] || [];
+      const key = currentUser.name;
+      if (msg.reactions[emoji].includes(key)) {
+        msg.reactions[emoji] = msg.reactions[emoji].filter(x => x !== key);
+        if (msg.reactions[emoji].length === 0) delete msg.reactions[emoji];
+      } else {
+        msg.reactions[emoji].push(key);
+      }
+      renderMessageStream();
+    }
+
+    // =========================================================================
+    // ODALAR, MESAJLAŞMA & FIREBASE
     // =========================================================================
     function generateRandomRoomCode() {
       let code = ""; const bytes = new Uint8Array(6); crypto.getRandomValues(bytes);
@@ -1692,29 +1837,29 @@
       document.getElementById('newRoomNameInput').value = "";
       document.getElementById('createRoomErrorMsg').textContent = '';
       document.getElementById('createRoomModal').style.display = 'flex';
-      setTimeout(() => document.getElementById('newRoomNameInput').focus(), 80);
+      setTimeout(() => document.getElementById('newRoomNameInput').focus(), 70);
     }
     function openJoinRoomModal() {
       document.getElementById('joinRoomCodeInput').value = "";
       document.getElementById('joinRoomErrorMsg').textContent = "";
       document.getElementById('joinRoomModal').style.display = 'flex';
-      setTimeout(() => document.getElementById('joinRoomCodeInput').focus(), 80);
+      setTimeout(() => document.getElementById('joinRoomCodeInput').focus(), 70);
     }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
-    const MESSAGE_POLL_INTERVAL_MS = 3000;
+    const MESSAGE_POLL_INTERVAL_MS = 3500;
     const MAX_CACHED_MESSAGES = 150;
     const ROOM_CODE_PATTERN = /^[A-HJ-NP-Z2-9]{6}$/;
-    let pollTimer = null, pollingInProgress = false, sendingMessage = false, roomCreationInProgress = false, roomJoiningInProgress = false;
+    let pollTimer = null, pollingInProgress = false, sendingMessage = false;
 
     function setConnectionStatus(isOnline, detail) {
-      document.getElementById('connectionStatusText').textContent = detail || (isOnline ? 'Senkronizasyon aktif' : 'Bağlantı kurulamadı');
-      document.querySelector('.online-dot').style.opacity = isOnline ? '1' : '0.4';
+      document.getElementById('connectionStatusText').textContent = detail || (isOnline ? 'Senkronizasyon aktif' : 'Yerel mod');
+      document.querySelector('.online-dot').style.opacity = isOnline ? '1' : '0.45';
     }
 
     async function firebaseRequest(relativePath, options = {}) {
       const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 12000);
+      const timeout = setTimeout(() => controller.abort(), 9000);
       try {
         const response = await fetch(FIREBASE_DB_URL + '/yahya_sohbet/' + relativePath, {
           ...options, headers: { ...(options.body ? { 'Content-Type': 'application/json' } : {}), ...(options.headers || {}) },
@@ -1722,34 +1867,27 @@
         });
         const raw = await response.text();
         let data = null;
-        if (raw) { try { data = JSON.parse(raw); } catch (_) { throw new Error('Sunucudan geçersiz yanıt alındı.'); } }
-        if (!response.ok) { const err = new Error((data && data.error) || `İstek başarısız (${response.status}).`); err.status = response.status; throw err; }
+        if (raw) { try { data = JSON.parse(raw); } catch (_) {} }
+        if (!response.ok) { const err = new Error((data && data.error) || `İstek başarısız (${response.status})`); err.status = response.status; throw err; }
         return data;
-      } catch (error) {
-        if (error.name === 'AbortError') throw new Error('Bağlantı zaman aşımına uğradı.');
-        if (error instanceof TypeError) throw new Error('Veritabanı bağlantısı kurulamadı.');
-        throw error;
       } finally { clearTimeout(timeout); }
     }
 
     function messagePath(channelId) {
-      if (channelId === 'GLOBAL') return 'global/messages.json';
-      if (!ROOM_CODE_PATTERN.test(channelId)) throw new Error('Geçersiz oda kodu.');
-      return `rooms/${channelId}/messages.json`;
+      return channelId === 'GLOBAL' ? 'global/messages.json' : `rooms/${channelId}/messages.json`;
     }
     function messageRecordPath(channelId, messageId) {
-      if (!/^[A-Za-z0-9_-]{1,128}$/.test(String(messageId))) throw new Error('Geçersiz mesaj kimliği.');
       return messagePath(channelId).replace(/\.json$/, `/${messageId}.json`);
     }
 
     function showToast(message, isError = false) {
       let toast = document.getElementById('ys-toast');
       if (!toast) {
-        toast = document.createElement('div'); toast.id = 'ys-toast'; toast.setAttribute('role', 'status');
+        toast = document.createElement('div'); toast.id = 'ys-toast';
         Object.assign(toast.style, {
-          position: 'fixed', right: '20px', top: '72px', zIndex: '900000',
-          maxWidth: 'min(420px,calc(100vw - 40px))', padding: '11px 15px',
-          borderRadius: '10px', fontSize: '13px', fontWeight: '600', boxShadow: '0 10px 30px rgba(0,0,0,0.7)'
+          position: 'fixed', right: '20px', top: '70px', zIndex: '900000',
+          maxWidth: 'min(400px,calc(100vw - 36px))', padding: '10px 14px',
+          borderRadius: '10px', fontSize: '12.5px', fontWeight: '600', boxShadow: '0 10px 28px rgba(0,0,0,0.65)'
         });
         document.body.appendChild(toast);
       }
@@ -1759,40 +1897,21 @@
       toast.style.border = isError ? '1px solid #ef4444' : '1px solid var(--accent-white)';
       toast.style.display = 'block';
       clearTimeout(showToast.hideTimer);
-      showToast.hideTimer = setTimeout(() => { toast.style.display = 'none'; }, 4000);
+      showToast.hideTimer = setTimeout(() => { toast.style.display = 'none'; }, 3400);
     }
 
     async function confirmCreateRoom() {
-      if (!currentUser.authenticated || roomCreationInProgress) return;
+      if (!currentUser.authenticated) return;
       const rawName = document.getElementById('newRoomNameInput').value.trim();
-      const errorEl = document.getElementById('createRoomErrorMsg');
-      errorEl.textContent = ''; roomCreationInProgress = true;
-      const button = document.querySelector('#createRoomModal .gate-submit-btn'); button.disabled = true;
-      try {
-        let roomMeta = null;
-        for (let attempt = 0; attempt < 5; attempt++) {
-          const code = attempt === 0 ? pendingGeneratedCode : generateRandomRoomCode();
-          const roomName = rawName || `Oda #${code}`;
-          const candidateMeta = { name: roomName, code, creator: currentUser.name, creatorEmail: currentUser.email, createdAt: Date.now(), gateKey: REQUIRED_GATE_PASSWORD };
-          try {
-            await firebaseRequest(`rooms/${code}/meta.json`, { method: 'PUT', headers: { 'if-match': 'null_etag' }, body: JSON.stringify(candidateMeta) });
-            roomMeta = candidateMeta; pendingGeneratedCode = code; document.getElementById('previewGeneratedCode').textContent = code; break;
-          } catch (error) { if (error.status !== 412) throw error; }
-        }
-        if (!roomMeta) throw new Error('Benzersiz oda kodu üretilemedi.');
-        registerRoomLocally(roomMeta, true);
-        if (syncChannel) syncChannel.postMessage({ type: 'NEW_ROOM', roomMeta });
-        closeModal('createRoomModal');
-        showToast('Oda oluşturuldu: ' + roomMeta.name);
-        try {
-          await dispatchMessageToChannel(roomMeta.code, {
-            id: 'sys_' + Date.now(), sender: 'YahyaSohbet Sistem', senderId: 'system',
-            senderEmail: currentUser.email, senderRole: 'system',
-            text: `"${roomMeta.name}" odası ${currentUser.name} (${currentUser.email}) tarafından oluşturuldu. Oda Kodu: ${roomMeta.code}`, at: Date.now()
-          });
-        } catch (_) {}
-      } catch (error) { errorEl.textContent = 'Oda oluşturulamadı: ' + error.message; }
-      finally { roomCreationInProgress = false; button.disabled = false; }
+      const code = pendingGeneratedCode || generateRandomRoomCode();
+      const roomName = rawName || `Oda #${code}`;
+      const roomMeta = { name: roomName, code, creator: currentUser.name, creatorEmail: currentUser.email, createdAt: Date.now(), gateKey: ownerConfig.gatePassword };
+      try { await firebaseRequest(`rooms/${code}/meta.json`, { method: 'PUT', body: JSON.stringify(roomMeta) }); } catch (_) {}
+      registerRoomLocally(roomMeta, true);
+      if (syncChannel) syncChannel.postMessage({ type: 'NEW_ROOM', roomMeta });
+      addAuditLog(`Yeni oda oluşturuldu: ${roomName} [${code}]`);
+      closeModal('createRoomModal');
+      showToast('Oda oluşturuldu: ' + roomName);
     }
 
     function saveJoinedRooms() {
@@ -1803,8 +1922,8 @@
         const saved = JSON.parse(localStorage.getItem('ys_joined_rooms_v1') || '[]');
         if (Array.isArray(saved)) {
           saved.forEach(room => {
-            if (!room || !ROOM_CODE_PATTERN.test(String(room.code || room.id || ''))) return;
-            const code = String(room.code || room.id);
+            const code = String(room.code || room.id || '');
+            if (!ROOM_CODE_PATTERN.test(code)) return;
             if (!joinedRooms.some(i => i.id === code)) {
               joinedRooms.push({ id: code, code, name: String(room.name || ('Oda #' + code)).slice(0, 32), icon: '🔐', isGlobal: false, lastMsg: String(room.lastMsg || 'Özel sohbet odası').slice(0, 120) });
             }
@@ -1815,8 +1934,8 @@
       } catch (_) {}
     }
     function registerRoomLocally(roomMeta, shouldActivate = false) {
-      if (!roomMeta || !ROOM_CODE_PATTERN.test(String(roomMeta.code || ''))) return;
-      const code = String(roomMeta.code);
+      const code = String(roomMeta.code || '');
+      if (!ROOM_CODE_PATTERN.test(code)) return;
       const existing = joinedRooms.find(r => r.id === code);
       if (existing) existing.name = String(roomMeta.name || existing.name).slice(0, 32);
       else joinedRooms.push({ id: code, code, name: String(roomMeta.name || ('Oda #' + code)).slice(0, 32), icon: '🔐', isGlobal: false, lastMsg: 'Özel sohbet odası' });
@@ -1841,20 +1960,24 @@
         const title = document.createElement('div'); title.className = 'room-title'; title.textContent = room.name;
         topLine.appendChild(title);
 
+        const rightMeta = document.createElement('div');
+        rightMeta.style.cssText = 'display:flex; align-items:center; gap:5px;';
+        if (unreadCounts[room.id] > 0 && activeChannelId !== room.id) {
+          const ub = document.createElement('span'); ub.className = 'unread-badge'; ub.textContent = unreadCounts[room.id];
+          rightMeta.appendChild(ub);
+        }
         if (!room.isGlobal) {
           const code = document.createElement('span'); code.className = 'room-code-tag'; code.textContent = room.id;
-          topLine.appendChild(code);
+          rightMeta.appendChild(code);
         }
+        topLine.appendChild(rightMeta);
 
         const preview = document.createElement('div'); preview.className = 'room-last-msg'; preview.textContent = room.lastMsg || 'Henüz mesaj yok';
         details.append(topLine, preview); item.append(avatar, details);
-        const openRoom = () => selectChannel(room.id);
-        item.addEventListener('click', openRoom);
-        item.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openRoom(); } });
+        item.addEventListener('click', () => selectChannel(room.id));
         list.appendChild(item);
       }
     }
-
 
     function toggleMobileRoomsDrawer(forceState) {
       const sb = document.querySelector('.wa-sidebar');
@@ -1867,7 +1990,11 @@
 
     function selectChannel(channelId) {
       if (!joinedRooms.some(r => r.id === channelId)) return;
-      activeChannelId = channelId; saveJoinedRooms(); renderRoomSidebar(); renderActiveChannel(); pollFirebaseMessages();
+      activeChannelId = channelId;
+      unreadCounts[channelId] = 0;
+      toggleMobileRoomsDrawer(false);
+      cancelReplyOrEdit();
+      saveJoinedRooms(); renderRoomSidebar(); renderActiveChannel(); pollFirebaseMessages();
     }
 
     function renderActiveChannelHeaderExtras() {
@@ -1876,6 +2003,10 @@
       const slowPill = document.getElementById('roomSlowPill');
       if (rState.slowmodeSec > 0) { slowPill.textContent = `⏱ ${rState.slowmodeSec}s`; slowPill.style.display = 'inline-block'; }
       else slowPill.style.display = 'none';
+
+      const capPill = document.getElementById('roomCapPill');
+      if (rState.capacity > 0) { capPill.textContent = `👥 Maks ${rState.capacity}`; capPill.style.display = 'inline-block'; }
+      else capPill.style.display = 'none';
 
       const pinBanner = document.getElementById('pinnedBanner');
       if (rState.pinnedText) {
@@ -1898,6 +2029,7 @@
       renderActiveChannelHeaderExtras();
       refreshRoleAndRestrictions();
       renderMessageStream();
+      renderInspector();
     }
 
     function normalizeMessage(raw, fallbackId) {
@@ -1909,6 +2041,10 @@
         senderEmail: String(raw.senderEmail || '').slice(0, 64),
         senderRole: String(raw.senderRole || 'user'),
         poll: raw.poll && raw.poll.question ? raw.poll : null,
+        replyTo: raw.replyTo || null,
+        reactions: raw.reactions || {},
+        isHighlight: Boolean(raw.isHighlight),
+        edited: Boolean(raw.edited),
         text: String(raw.text || '').slice(0, 5000),
         at: Number(raw.at) || Date.now()
       };
@@ -1917,13 +2053,8 @@
     }
 
     function integrateIncomingMessage(channelId, rawMsg, deferUI = false) {
-      if (channelId !== 'GLOBAL' && !ROOM_CODE_PATTERN.test(String(channelId))) return false;
       const msg = normalizeMessage(rawMsg);
       if (!msg) return false;
-      // Skip messages from deleted users
-      if (msg.senderId !== 'system' && moderationState.deleted && moderationState.deleted[normalizeKey(msg.sender)]) {
-        if (msg.at <= moderationState.deleted[normalizeKey(msg.sender)].deletedAt) return false;
-      }
       if (!localMessagesStore[channelId]) localMessagesStore[channelId] = [];
       const messages = localMessagesStore[channelId];
       if (messages.some(existing => existing.id === msg.id)) return false;
@@ -1932,38 +2063,42 @@
       if (messages.length > MAX_CACHED_MESSAGES) messages.splice(0, messages.length - MAX_CACHED_MESSAGES);
 
       const room = joinedRooms.find(i => i.id === channelId);
-      if (room) {
-        room.lastMsg = msg.sender + ': ' + msg.text.slice(0, 85);
-        if (!deferUI) { saveJoinedRooms(); renderRoomSidebar(); }
+      if (room) room.lastMsg = msg.sender + ': ' + msg.text.slice(0, 80);
+
+      if (activeChannelId !== channelId) {
+        unreadCounts[channelId] = (unreadCounts[channelId] || 0) + 1;
       }
-      if (!deferUI && activeChannelId === channelId) renderMessageStream();
+      if (!deferUI) {
+        playPingSound(msg.senderId === currentUser.id);
+        saveJoinedRooms(); renderRoomSidebar();
+        if (activeChannelId === channelId) { renderMessageStream(); renderInspector(); }
+      }
       return true;
     }
 
     function renderMessageStream() {
       const stream = document.getElementById('messagesStream');
-      const wasNearBottom = stream.scrollHeight - stream.scrollTop - stream.clientHeight < 110;
-      const oldScrollTop = stream.scrollTop;
+      const wasNearBottom = stream.scrollHeight - stream.scrollTop - stream.clientHeight < 120;
       const fragment = document.createDocumentFragment();
 
       const banner = document.createElement('div');
       banner.className = 'system-encryption-banner';
-      banner.textContent = 'YahyaSohbet • Takma isim ve kayıtlı Gmail hesabı ile doğrulamalı klasik siyah-beyaz sohbet.';
+      banner.textContent = 'YahyaSohbet • Klasik siyah-beyaz okul içi anlık sohbet.';
       fragment.appendChild(banner);
 
-      const qSearch = (typeof inchatSearchQuery === 'string' ? inchatSearchQuery : '').trim().toLowerCase();
+      const qSearch = inchatSearchQuery.trim().toLowerCase();
       const messages = (localMessagesStore[activeChannelId] || []).filter(m => !qSearch || (`${m.sender} ${m.text}`).toLowerCase().includes(qSearch));
-      for (const msg of messages) {
-        const ownMessage = msg.senderId
-          ? (msg.senderId !== 'system' && msg.senderId === currentUser.id)
-          : (msg.sender !== 'YahyaSohbet Sistem' && msg.senderEmail === currentUser.email);
 
-        const resolvedRole = msg.senderRole === 'owner'
-          ? 'owner'
-          : (msg.senderId === 'system' ? 'system' : getRoleForUser(msg.sender, msg.senderRole));
+      for (const msg of messages) {
+        const ownMessage = msg.senderId ? (msg.senderId !== 'system' && msg.senderId === currentUser.id) : false;
+        const resolvedRole = msg.senderRole === 'owner' ? 'owner' : (msg.senderId === 'system' ? 'system' : getRoleForUser(msg.sender, msg.senderRole));
 
         const bubble = document.createElement('div');
-        bubble.className = 'msg-bubble ' + (ownMessage ? 'msg-outgoing' : 'msg-incoming') + (resolvedRole === 'owner' ? ' msg-owner-bubble' : '');
+        bubble.id = 'msg-el-' + msg.id;
+        let cls = 'msg-bubble ' + (ownMessage ? 'msg-outgoing' : 'msg-incoming');
+        if (msg.isHighlight) cls += ' msg-highlight-card';
+        else if (resolvedRole === 'owner') cls += ' msg-owner-' + (themePrefs.ownerStyle || 'obsidian');
+        bubble.className = cls;
 
         const senderRow = document.createElement('div');
         senderRow.className = 'msg-sender-name';
@@ -1978,94 +2113,180 @@
         senderRow.appendChild(nameSpan);
 
         if (resolvedRole === 'owner') {
-          const ob = document.createElement('span'); ob.className = 'owner-badge';
-          const cr = document.createElement('span'); cr.className = 'owner-badge-crown'; cr.textContent = '♛';
-          ob.append(cr, document.createTextNode(' owner')); senderRow.appendChild(ob);
+          const ob = document.createElement('span'); ob.className = 'owner-seal'; ob.innerHTML = `${CROWN_SVG} OWNER`;
+          senderRow.appendChild(ob);
         } else if (resolvedRole === 'head-admin') {
-          const hb = document.createElement('span'); hb.className = 'headadmin-badge'; hb.textContent = '★ Head-Admin'; senderRow.appendChild(hb);
+          const hb = document.createElement('span'); hb.className = 'headadmin-badge'; hb.textContent = '★ Head-Admin';
+          senderRow.appendChild(hb);
         }
-
-        if (msg.senderEmail) {
-          const emailSpan = document.createElement('span'); emailSpan.className = 'msg-sender-email';
-          emailSpan.textContent = `(${msg.senderEmail})`; senderRow.appendChild(emailSpan);
+        // Gmail gizliliği: Yalnızca Owner görebilir
+        if (currentUser.role === 'owner' && msg.senderEmail && msg.senderId !== 'system') {
+          const em = document.createElement('span'); em.className = 'msg-sender-email'; em.textContent = `(${msg.senderEmail})`;
+          senderRow.appendChild(em);
         }
         bubble.appendChild(senderRow);
 
-        const text = document.createElement('div'); text.className = 'msg-text'; text.style.whiteSpace = 'pre-wrap';
-        text.textContent = msg.text;
+        // Alıntı (Reply) kutusu
+        if (msg.replyTo) {
+          const qb = document.createElement('div'); qb.className = 'msg-quote-box';
+          qb.onclick = () => {
+            const targetEl = document.getElementById('msg-el-' + msg.replyTo.id);
+            if (targetEl) targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          };
+          qb.innerHTML = `<div class="msg-quote-sender">↩ ${msg.replyTo.sender}</div><div class="msg-quote-text">${msg.replyTo.text}</div>`;
+          bubble.appendChild(qb);
+        }
+
+        const text = document.createElement('div'); text.className = 'msg-text'; text.textContent = msg.text;
         bubble.appendChild(text);
 
+        if (msg.edited) {
+          const ed = document.createElement('span'); ed.className = 'msg-edited-tag'; ed.textContent = '(düzenlendi)';
+          bubble.appendChild(ed);
+        }
+
+        // Kişi başı tek oylu anket
         if (msg.poll && Array.isArray(msg.poll.options)) {
+          msg.poll.voters = msg.poll.voters || {};
+          const userVote = msg.poll.voters[currentUser.name];
           const pBox = document.createElement('div'); pBox.className = 'poll-box';
           msg.poll.options.forEach((opt, idx) => {
-            const pBtn = document.createElement('button'); pBtn.type = 'button'; pBtn.className = 'poll-option-btn';
+            const pBtn = document.createElement('button'); pBtn.type = 'button';
+            pBtn.className = 'poll-option-btn' + (userVote === idx ? ' voted' : '');
             pBtn.setAttribute('data-poll-msg', msg.id); pBtn.setAttribute('data-poll-idx', String(idx));
-            const lSpan = document.createElement('span'); lSpan.textContent = opt.label;
-            const vSpan = document.createElement('span'); vSpan.className = 'font-mono-tech'; vSpan.textContent = `${opt.votes || 0} oy`;
-            pBtn.append(lSpan, vSpan); pBox.appendChild(pBtn);
+            pBtn.innerHTML = `<span>${opt.label}</span><span class="font-mono-tech">${opt.votes || 0} oy</span>`;
+            pBox.appendChild(pBtn);
           });
           bubble.appendChild(pBox);
+        }
+
+        // Tepkiler (Reactions)
+        const reactEntries = Object.entries(msg.reactions || {}).filter(([, arr]) => arr.length > 0);
+        if (reactEntries.length > 0) {
+          const rRow = document.createElement('div'); rRow.className = 'reactions-row';
+          reactEntries.forEach(([emj, users]) => {
+            const chip = document.createElement('button'); chip.type = 'button';
+            chip.className = 'reaction-chip' + (users.includes(currentUser.name) ? ' reacted' : '');
+            chip.textContent = `${emj} ${users.length}`;
+            chip.onclick = () => toggleReaction(msg.id, emj);
+            rRow.appendChild(chip);
+          });
+          bubble.appendChild(rRow);
+        }
+
+        // Alt satır: Hızlı aksiyonlar + saat
+        const footer = document.createElement('div'); footer.className = 'msg-footer-row';
+        const actions = document.createElement('div'); actions.className = 'msg-actions-mini';
+
+        if (msg.senderId !== 'system') {
+          const repBtn = document.createElement('button'); repBtn.type = 'button'; repBtn.className = 'msg-mini-btn'; repBtn.textContent = '↩'; repBtn.title = 'Yanıtla';
+          repBtn.onclick = () => startReplyTo(msg.id);
+          actions.appendChild(repBtn);
+
+          QUICK_REACTIONS.slice(0, 3).forEach(emj => {
+            const rb = document.createElement('button'); rb.type = 'button'; rb.className = 'msg-mini-btn'; rb.textContent = emj;
+            rb.onclick = () => toggleReaction(msg.id, emj);
+            actions.appendChild(rb);
+          });
+
+          if (ownMessage) {
+            const editBtn = document.createElement('button'); editBtn.type = 'button'; editBtn.className = 'msg-mini-btn'; editBtn.textContent = '✏️'; editBtn.title = 'Düzenle';
+            editBtn.onclick = () => startEditMessage(msg.id);
+            actions.appendChild(editBtn);
+          }
+          if (ownMessage || currentUser.role === 'owner') {
+            const delBtn = document.createElement('button'); delBtn.type = 'button'; delBtn.className = 'msg-mini-btn'; delBtn.textContent = '🗑️'; delBtn.title = 'Sil';
+            delBtn.onclick = () => deleteSingleMessage(msg.id);
+            actions.appendChild(delBtn);
+          }
+          if (currentUser.role === 'owner' && !ownMessage) {
+            const cenBtn = document.createElement('button'); cenBtn.type = 'button'; cenBtn.className = 'msg-mini-btn'; cenBtn.textContent = '🚫'; cenBtn.title = 'Sansürle';
+            cenBtn.onclick = () => censorSingleMessage(msg.id);
+            actions.appendChild(cenBtn);
+          }
         }
 
         const meta = document.createElement('div'); meta.className = 'msg-meta';
         const date = new Date(msg.at);
         meta.textContent = Number.isFinite(date.getTime()) ? date.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' }) : '';
         if (ownMessage) { const ticks = document.createElement('span'); ticks.textContent = ' ✓✓'; meta.appendChild(ticks); }
-        bubble.appendChild(meta);
+
+        footer.append(actions, meta);
+        bubble.appendChild(footer);
         fragment.appendChild(bubble);
       }
 
       stream.replaceChildren(fragment);
-      if (wasNearBottom || oldScrollTop === 0) stream.scrollTop = stream.scrollHeight;
-      else stream.scrollTop = oldScrollTop;
+      if (wasNearBottom) stream.scrollTop = stream.scrollHeight;
     }
 
     async function dispatchMessageToChannel(channelId, rawMsg) {
       const msg = normalizeMessage(rawMsg, 'msg_' + Date.now());
-      if (!msg) throw new Error('Geçersiz mesaj.');
-      await firebaseRequest(messageRecordPath(channelId, msg.id), {
-        method: 'PUT', headers: { 'if-match': 'null_etag' }, body: JSON.stringify({ ...msg, gateKey: REQUIRED_GATE_PASSWORD })
-      });
       integrateIncomingMessage(channelId, msg);
       if (syncChannel) syncChannel.postMessage({ type: 'NEW_MSG', channelId, msg });
+      try {
+        await firebaseRequest(messageRecordPath(channelId, msg.id), {
+          method: 'PUT', body: JSON.stringify({ ...msg, gateKey: ownerConfig.gatePassword })
+        });
+      } catch (_) {}
       return msg;
     }
 
     async function sendChatMessage() {
       if (!currentUser.authenticated || sendingMessage) return;
-      if (currentUser.role !== 'owner' && isBannedUser(currentUser.name)) return showToast('Yasaklı olduğunuz için mesaj gönderemezsiniz.', true);
-      if (currentUser.role !== 'owner' && getActiveTimeout(currentUser.name) > Date.now()) return showToast('Timeout süreniz bitmeden mesaj gönderemezsiniz.', true);
-
-      const rState = getChannelState(activeChannelId);
-      if (rState.locked && currentUser.role === 'user') return showToast('Bu oda şu anda kilitli.', true);
-
       const input = document.getElementById('messageInput');
       const text = input.value.trim();
       if (!text) return;
 
-      if (text.startsWith('/')) { input.value = ''; await handleSlashCommand(text); return; }
-
-      if (rState.slowmodeSec > 0 && currentUser.role === 'user') {
-        const elapsed = (Date.now() - lastSentMessageAt) / 1000;
-        if (elapsed < rState.slowmodeSec) return showToast(`Yavaş mod: ${Math.ceil(rState.slowmodeSec - elapsed)} saniye bekleyin.`, true);
+      // Yasaklı kelime kontrolü (Owner hariç)
+      if (currentUser.role !== 'owner' && ownerConfig.bannedWords.length > 0) {
+        const lower = text.toLowerCase();
+        if (ownerConfig.bannedWords.some(w => lower.includes(w))) {
+          showToast('Mesajınız yasaklı kelime içerdiği için engellendi.', true);
+          return;
+        }
       }
 
-      const channelId = activeChannelId;
-      const button = document.querySelector('.wa-send-btn');
-      sendingMessage = true; button.disabled = true;
+      // Mesaj düzenleme modu
+      if (editingMsgId) {
+        const msg = (localMessagesStore[activeChannelId] || []).find(m => m.id === editingMsgId);
+        if (msg && msg.senderId === currentUser.id) {
+          msg.text = text.slice(0, 500);
+          msg.edited = true;
+          renderMessageStream();
+          showToast('Mesaj güncellendi.');
+        }
+        cancelReplyOrEdit();
+        return;
+      }
+
+      if (text.startsWith('/')) { input.value = ''; await handleSlashCommand(text); return; }
+
+      const rState = getChannelState(activeChannelId);
+      if (rState.slowmodeSec > 0 && currentUser.role === 'user') {
+        const elapsed = (Date.now() - lastSentMessageAt) / 1000;
+        if (elapsed < rState.slowmodeSec) return showToast(`Yavaş mod: ${Math.ceil(rState.slowmodeSec - elapsed)} sn bekleyin.`, true);
+      }
+
+      sendingMessage = true;
       try {
-        await dispatchMessageToChannel(channelId, {
-          id: 'msg_' + (crypto.randomUUID ? crypto.randomUUID() : (Date.now() + '_' + Math.random().toString(36).slice(2))),
+        await dispatchMessageToChannel(activeChannelId, {
+          id: 'msg_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
           sender: currentUser.name, senderId: currentUser.id, senderEmail: currentUser.email,
-          senderRole: currentUser.role, text: text.slice(0, 500), at: Date.now()
+          senderRole: currentUser.role, text: text.slice(0, 500),
+          replyTo: replyToMsg, isHighlight: highlightMode && currentUser.role === 'owner',
+          at: Date.now()
         });
         lastSentMessageAt = Date.now();
-        input.value = ''; input.focus();
+        input.value = '';
+        cancelReplyOrEdit();
+        if (highlightMode) {
+          highlightMode = false;
+          document.getElementById('highlightToggleBtn').classList.remove('active');
+          refreshRoleAndRestrictions();
+        }
         setConnectionStatus(true, 'Senkronizasyon aktif');
-      } catch (error) {
-        setConnectionStatus(false, 'Bağlantı hatası');
-        showToast('Mesaj gönderilemedi: ' + error.message, true);
-      } finally { sendingMessage = false; button.disabled = false; }
+      } finally { sendingMessage = false; }
     }
 
     async function refreshChannelMessages() {
@@ -2073,21 +2294,7 @@
       pollingInProgress = true;
       const queriedChannel = activeChannelId;
       try {
-        const [data, modData, rolesData] = await Promise.all([
-          firebaseRequest(messagePath(queriedChannel) + '?orderBy=' + encodeURIComponent('"$key"') + '&limitToLast=100'),
-          firebaseRequest('moderation.json').catch(() => null),
-          firebaseRequest('roles.json').catch(() => null)
-        ]);
-        if (modData && typeof modData === 'object') {
-          moderationState.bans = modData.bans || {};
-          moderationState.timeouts = modData.timeouts || {};
-          moderationState.kicks = modData.kicks || {};
-          moderationState.deleted = modData.deleted || {};
-          moderationState.roomStates = modData.roomStates || {};
-        }
-        if (rolesData && typeof rolesData === 'object') moderationState.headAdmins = rolesData.headAdmins || {};
-        saveLocalModeration(); renderActiveChannelHeaderExtras(); refreshRoleAndRestrictions();
-
+        const data = await firebaseRequest(messagePath(queriedChannel) + '?orderBy=' + encodeURIComponent('"$key"') + '&limitToLast=80');
         let changed = false;
         if (data && typeof data === 'object') {
           for (const [key, value] of Object.entries(data)) {
@@ -2097,11 +2304,12 @@
           }
         }
         if (changed) {
+          playPingSound(false);
           saveJoinedRooms(); renderRoomSidebar();
-          if (activeChannelId === queriedChannel) renderMessageStream();
+          if (activeChannelId === queriedChannel) { renderMessageStream(); renderInspector(); }
         }
         setConnectionStatus(true, 'Senkronizasyon aktif');
-      } catch (_) { setConnectionStatus(false, 'Bağlantı hatası'); }
+      } catch (_) { setConnectionStatus(false, 'Yerel mod'); }
       finally { pollingInProgress = false; }
     }
 
@@ -2112,217 +2320,32 @@
     }
 
     async function confirmJoinRoom() {
-      if (!currentUser.authenticated || roomJoiningInProgress) return;
-      const input = document.getElementById('joinRoomCodeInput');
-      const code = input.value.trim().toUpperCase();
+      const code = document.getElementById('joinRoomCodeInput').value.trim().toUpperCase();
       const errorBox = document.getElementById('joinRoomErrorMsg'); errorBox.textContent = '';
       if (!ROOM_CODE_PATTERN.test(code)) { errorBox.textContent = 'Geçerli 6 karakterli bir oda kodu girin.'; return; }
+      const rState = getChannelState(code);
+      if (rState.capacity > 0 && currentUser.role !== 'owner') {
+        const count = new Set((localMessagesStore[code] || []).map(m => m.sender)).size;
+        if (count >= rState.capacity) { errorBox.textContent = `Bu oda kapasitesi dolu (Maks ${rState.capacity} kişi).`; return; }
+      }
       if (joinedRooms.some(r => r.id === code)) { closeModal('joinRoomModal'); selectChannel(code); return; }
-      roomJoiningInProgress = true;
-      const button = document.querySelector('#joinRoomModal .gate-submit-btn'); button.disabled = true;
       try {
         const meta = await firebaseRequest(`rooms/${code}/meta.json`);
-        if (!meta || meta.code !== code) { errorBox.textContent = 'Bu kodla kayıtlı bir oda bulunamadı.'; return; }
+        if (!meta || meta.code !== code) { errorBox.textContent = 'Bu kodla kayıtlı oda bulunamadı.'; return; }
         registerRoomLocally(meta, true); closeModal('joinRoomModal');
-        showToast('Odaya katıldınız: ' + String(meta.name || code));
-      } catch (error) { errorBox.textContent = 'Odaya katılınamadı: ' + error.message; }
-      finally { roomJoiningInProgress = false; button.disabled = false; }
+        showToast('Odaya katıldınız: ' + (meta.name || code));
+      } catch (_) { errorBox.textContent = 'Odaya katılınamadı.'; }
     }
 
     async function copyActiveRoomCode() {
       if (activeChannelId === 'GLOBAL') return;
-      const value = activeChannelId;
-      try {
-        if (navigator.clipboard && window.isSecureContext) await navigator.clipboard.writeText(value);
-        else {
-          const field = document.createElement('textarea'); field.value = value; field.style.position = 'fixed'; field.style.opacity = '0';
-          document.body.appendChild(field); field.select();
-          const copied = document.execCommand('copy'); field.remove();
-          if (!copied) throw new Error('Kopyalama engellendi.');
-        }
-        showToast('Oda kodu kopyalandı: ' + value);
-      } catch (_) { showToast('Oda kodu: ' + value, true); }
+      try { await navigator.clipboard.writeText(activeChannelId); showToast('Oda kodu kopyalandı: ' + activeChannelId); }
+      catch (_) { showToast('Oda kodu: ' + activeChannelId); }
     }
 
     // =========================================================================
-    // MENÜ & TEMA YÖNETİMİ
+    // SAĞ PANEL (ÜYELER & İSTATİSTİKLER) — HAYALET MODU DESTEKLİ
     // =========================================================================
-    let themePrefs = { theme: 'mono', accent: '', fontSize: '0.92rem', ownerColor: 'white' };
-    const ALL_THEMES = ['theme-oled', 'theme-light', 'theme-midnight', 'theme-emerald', 'theme-crimson', 'theme-nebula', 'theme-gold', 'theme-cyber'];
-
-    function applyThemePrefs() {
-      document.body.classList.remove(...ALL_THEMES, 'owner-gold', 'owner-crimson', 'owner-cyber', 'owner-emerald', 'owner-purple');
-      if (themePrefs.ownerColor && themePrefs.ownerColor !== 'white') document.body.classList.add('owner-' + themePrefs.ownerColor);
-      if (themePrefs.theme && themePrefs.theme !== 'mono') {
-        document.body.classList.add('theme-' + themePrefs.theme);
-      }
-      if (themePrefs.accent) {
-        document.documentElement.style.setProperty('--accent-white', themePrefs.accent);
-      } else {
-        document.documentElement.style.removeProperty('--accent-white');
-      }
-      document.documentElement.style.setProperty('--chat-font-size', themePrefs.fontSize || '0.92rem');
-      document.querySelectorAll('[data-set-theme]').forEach(btn => {
-        btn.classList.toggle('active', btn.getAttribute('data-set-theme') === themePrefs.theme);
-      });
-    }
-    function saveThemePrefs() { try { localStorage.setItem(THEME_STORAGE_KEY, JSON.stringify(themePrefs)); } catch (_) {} }
-    function loadThemePrefs() {
-      try {
-        const raw = JSON.parse(localStorage.getItem(THEME_STORAGE_KEY) || 'null');
-        if (raw && typeof raw === 'object') themePrefs = { theme: raw.theme || 'mono', accent: raw.accent || '', fontSize: raw.fontSize || '0.92rem', ownerColor: raw.ownerColor || 'white' };
-      } catch (_) {}
-      applyThemePrefs();
-    }
-    function openThemeMenuModal() {
-      applyThemePrefs();
-      const ownerSec = document.getElementById('ownerColorSection');
-      if (ownerSec) ownerSec.style.display = currentUser.role === 'owner' ? 'flex' : 'none';
-      document.getElementById('themeMenuModal').style.display = 'flex';
-    }
-    function resetThemePreferences() {
-      themePrefs = { theme: 'mono', accent: '', fontSize: '0.92rem', ownerColor: 'white' };
-      document.getElementById('customAccentPicker').value = '#ffffff';
-      saveThemePrefs(); applyThemePrefs(); showToast('Klasik siyah-beyaz temaya dönüldü.');
-    }
-    function exportActiveChat() {
-      const msgs = localMessagesStore[activeChannelId] || [];
-      const lines = msgs.map(m => `[${new Date(m.at).toLocaleTimeString('tr-TR')}] ${m.sender} (${m.senderEmail || '-'}): ${m.text}`);
-      const blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a'); a.href = url; a.download = `YahyaSohbet_${activeChannelId}.txt`;
-      document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
-      showToast('Sohbet geçmişi indirildi.');
-    }
-
-    document.getElementById('customAccentPicker').addEventListener('input', e => {
-      themePrefs.accent = e.target.value; saveThemePrefs(); applyThemePrefs();
-    });
-
-    document.addEventListener('click', (e) => {
-      const ocBtn = e.target.closest('[data-owner-color]');
-      if (ocBtn) { themePrefs.ownerColor = ocBtn.getAttribute('data-owner-color'); saveThemePrefs(); applyThemePrefs(); showToast('Owner aura rengi güncellendi.'); return; }
-      const tBtn = e.target.closest('[data-set-theme]');
-      if (tBtn) { themePrefs.theme = tBtn.getAttribute('data-set-theme'); themePrefs.accent = ''; saveThemePrefs(); applyThemePrefs(); return; }
-      const fBtn = e.target.closest('[data-font-size]');
-      if (fBtn) { themePrefs.fontSize = fBtn.getAttribute('data-font-size'); saveThemePrefs(); applyThemePrefs(); showToast('Yazı boyutu güncellendi.'); return; }
-      const pBtn = e.target.closest('[data-poll-msg]');
-      if (pBtn) {
-        const msgId = pBtn.getAttribute('data-poll-msg'), idx = parseInt(pBtn.getAttribute('data-poll-idx'), 10);
-        const msg = (localMessagesStore[activeChannelId] || []).find(m => m.id === msgId);
-        if (msg && msg.poll && msg.poll.options[idx]) { msg.poll.options[idx].votes = (msg.poll.options[idx].votes || 0) + 1; renderMessageStream(); showToast('Oyunuz kaydedildi.'); }
-        return;
-      }
-
-      const userClick = e.target.closest('[data-user-click]');
-      if (userClick) { openUserActionModal(userClick.getAttribute('data-user-click'), userClick.getAttribute('data-user-email')); return; }
-      const fillCmd = e.target.closest('[data-fill-cmd]');
-      if (fillCmd) { closeModal('powersModal'); const inp = document.getElementById('messageInput'); inp.value = fillCmd.getAttribute('data-fill-cmd'); inp.focus(); return; }
-
-      const haUser = e.target.closest('[data-ha-user]'); if (haUser) { toggleHeadAdmin(haUser.getAttribute('data-ha-user')); return; }
-      const banUser = e.target.closest('[data-ban-user]'); if (banUser) { applyBan(banUser.getAttribute('data-ban-user'), true); return; }
-      const unbanUser = e.target.closest('[data-unban-user]'); if (unbanUser) { applyBan(unbanUser.getAttribute('data-unban-user'), false); return; }
-      const delUser = e.target.closest('[data-delete-user]'); if (delUser) { applyDeleteUser(delUser.getAttribute('data-delete-user')); return; }
-
-      const uaHa = e.target.closest('[data-ua-ha]'); if (uaHa) { closeModal('userActionModal'); toggleHeadAdmin(uaHa.getAttribute('data-ua-ha')); return; }
-      const uaT15 = e.target.closest('[data-ua-t15]'); if (uaT15) { closeModal('userActionModal'); applyTimeout(uaT15.getAttribute('data-ua-t15'), 15); return; }
-      const uaT5 = e.target.closest('[data-ua-t5]'); if (uaT5) { closeModal('userActionModal'); applyTimeout(uaT5.getAttribute('data-ua-t5'), 5); return; }
-      const uaUt = e.target.closest('[data-ua-ut]'); if (uaUt) { closeModal('userActionModal'); applyTimeout(uaUt.getAttribute('data-ua-ut'), 0); return; }
-      const uaKick = e.target.closest('[data-ua-kick]'); if (uaKick) { closeModal('userActionModal'); applyKick(uaKick.getAttribute('data-ua-kick')); return; }
-      const uaBan = e.target.closest('[data-ua-ban]'); if (uaBan) { closeModal('userActionModal'); applyBan(uaBan.getAttribute('data-ua-ban'), true); return; }
-      const uaUnban = e.target.closest('[data-ua-unban]'); if (uaUnban) { closeModal('userActionModal'); applyBan(uaUnban.getAttribute('data-ua-unban'), false); return; }
-      const uaDel = e.target.closest('[data-ua-delete]'); if (uaDel) { closeModal('userActionModal'); applyDeleteUser(uaDel.getAttribute('data-ua-delete')); return; }
-    });
-
-    document.getElementById('messageInput').addEventListener('keydown', e => { if (e.key === 'Enter' && !e.isComposing) { e.preventDefault(); sendChatMessage(); } });
-    document.getElementById('newRoomNameInput').addEventListener('keydown', e => { if (e.key === 'Enter') confirmCreateRoom(); });
-    document.getElementById('joinRoomCodeInput').addEventListener('keydown', e => { if (e.key === 'Enter') confirmJoinRoom(); });
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') {
-        closeModal('createRoomModal'); closeModal('joinRoomModal');
-        closeModal('powersModal'); closeModal('userActionModal'); closeModal('themeMenuModal'); closeModal('ownerRoomsModal');
-      }
-    });
-    document.querySelectorAll('.modal-backdrop').forEach(modal => { modal.addEventListener('click', e => { if (e.target === modal) closeModal(modal.id); }); });
-
-    function initializeParticles() {
-      const canvas = document.getElementById('particles-canvas');
-      const context = canvas.getContext('2d');
-      if (!context || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      let width, height, dots;
-      function reset() {
-        const scale = Math.min(window.devicePixelRatio || 1, 2);
-        width = window.innerWidth; height = window.innerHeight;
-        canvas.width = Math.round(width * scale); canvas.height = Math.round(height * scale);
-        context.setTransform(scale, 0, 0, scale, 0, 0);
-        dots = Array.from({ length: Math.min(50, Math.round(width / 26)) }, () => ({
-          x: Math.random() * width, y: Math.random() * height, size: Math.random() * 1.6 + 0.4,
-          speed: Math.random() * 0.24 + 0.07, drift: (Math.random() - 0.5) * 0.18, opacity: Math.random() * 0.35 + 0.08
-        }));
-      }
-      window.addEventListener('resize', reset); reset();
-      function frame() {
-        context.clearRect(0, 0, width, height);
-        for (const dot of dots) {
-          dot.y -= dot.speed; dot.x += dot.drift;
-          if (dot.y < -5) { dot.y = height + 5; dot.x = Math.random() * width; }
-          context.beginPath(); context.arc(dot.x, dot.y, dot.size, 0, 2 * Math.PI);
-          context.fillStyle = 'rgba(255,255,255,' + dot.opacity + ')'; context.fill();
-        }
-        requestAnimationFrame(frame);
-      }
-      requestAnimationFrame(frame);
-    }
-
-    function initializeChat() {
-      loadLocalModeration();
-      try {
-        const stored = JSON.parse(localStorage.getItem(SHARED_AUTH_KEY) || 'null');
-        if (stored && stored.authenticated && stored.name && !validateStrictGmail(stored.email)) {
-          currentUser.id = stored.id || ('user_' + Date.now());
-          currentUser.name = stored.name; currentUser.email = stored.email;
-          currentUser.role = stored.role === 'owner' ? 'owner' : getRoleForUser(stored.name, stored.role);
-          currentUser.loggedInAt = stored.loggedInAt || Date.now();
-          currentUser.authenticated = true;
-        } else {
-          currentUser.id = sessionStorage.getItem('ys_client_id') || (crypto.randomUUID ? crypto.randomUUID() : 'user_' + Date.now());
-          sessionStorage.setItem('ys_client_id', currentUser.id);
-        }
-      } catch (_) { currentUser.id = 'user_' + Date.now(); }
-
-      loadJoinedRooms(); renderRoomSidebar(); renderActiveChannel(); initializeParticles();
-      setConnectionStatus(false, 'Bağlantı bekleniyor');
-      setInterval(refreshRoleAndRestrictions, 1000);
-
-      const splash = document.getElementById('splash');
-      setTimeout(() => { splash.style.opacity = '0'; splash.style.visibility = 'hidden'; setTimeout(() => { splash.style.display = 'none'; }, 620); }, 650);
-
-      if (currentUser.authenticated) {
-        updateSidebarUserUI(); refreshRoleAndRestrictions();
-        document.getElementById('auth-gate-overlay').style.display = 'none';
-        pollFirebaseMessages();
-      }
-    }
-
-    let inchatSearchQuery = '';
-    let soundEnabled = true;
-    let audioCtx = null;
-
-    function playPingSound(isOwn = false) {
-      if (!soundEnabled) return;
-      try {
-        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(isOwn ? 520 : 680, audioCtx.currentTime);
-        gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.12);
-        osc.connect(gain); gain.connect(audioCtx.destination);
-        osc.start(); osc.stop(audioCtx.currentTime + 0.13);
-      } catch (_) {}
-    }
-
     function renderInspector() {
       const msgs = localMessagesStore[activeChannelId] || [];
       const statMsg = document.getElementById('statMsgCount');
@@ -2332,13 +2355,14 @@
 
       statMsg.textContent = msgs.length;
       const membersMap = new Map();
-      if (currentUser.authenticated) {
+      if (currentUser.authenticated && !(currentUser.role === 'owner' && ownerConfig.ghostMode)) {
         membersMap.set(normalizeKey(currentUser.name), { name: currentUser.name, role: currentUser.role });
       }
       msgs.forEach(m => {
         if (m.senderId !== 'system') {
           const k = normalizeKey(m.sender);
           const role = m.senderRole === 'owner' ? 'owner' : getRoleForUser(m.sender, m.senderRole);
+          if (role === 'owner' && ownerConfig.ghostMode && m.sender === currentUser.name) return;
           if (!membersMap.has(k)) membersMap.set(k, { name: m.sender, role });
         }
       });
@@ -2346,115 +2370,140 @@
       statMem.textContent = membersMap.size;
       listEl.replaceChildren();
       Array.from(membersMap.values()).forEach((u, idx) => {
-        const row = document.createElement('div');
-        row.className = 'member-row';
+        const row = document.createElement('div'); row.className = 'member-row';
         const left = document.createElement('div');
-        const nameLine = document.createElement('div');
-        nameLine.className = 'member-name';
+        const nameLine = document.createElement('div'); nameLine.className = 'member-name';
         const nSpan = document.createElement('span');
         const isSelf = u.name === currentUser.name;
-        nSpan.textContent = isSelf ? `Gizli Üye #${idx + 1} (Siz)` : `Gizli Üye #${idx + 1}`;
+        nSpan.textContent = currentUser.role === 'owner'
+          ? (isSelf ? `${u.name} (Siz)` : u.name)
+          : (isSelf ? `Gizli Üye #${idx + 1} (Siz)` : `Gizli Üye #${idx + 1}`);
         if ((currentUser.role === 'owner' || currentUser.role === 'head-admin') && !isSelf) {
           nSpan.className = 'msg-sender-clickable';
           nSpan.setAttribute('data-user-click', u.name);
-          nSpan.setAttribute('data-user-email', '');
         }
         nameLine.appendChild(nSpan);
         if (u.role === 'owner') {
-          const ob = document.createElement('span'); ob.className = 'owner-badge'; ob.textContent = '♛ owner'; nameLine.appendChild(ob);
+          const ob = document.createElement('span'); ob.className = 'owner-seal'; ob.innerHTML = `${CROWN_SVG} OWNER`; nameLine.appendChild(ob);
         } else if (u.role === 'head-admin') {
           const hb = document.createElement('span'); hb.className = 'headadmin-badge'; hb.textContent = '★ HA'; nameLine.appendChild(hb);
         }
-        const privacyLine = document.createElement('div');
-        privacyLine.className = 'member-email';
-        privacyLine.textContent = 'İsim & Gmail gizli';
-        left.append(nameLine, privacyLine);
-        row.appendChild(left);
-        listEl.appendChild(row);
+        const sub = document.createElement('div'); sub.className = 'member-email';
+        sub.textContent = currentUser.role === 'owner' ? 'Owner görünümü' : 'İsim & Gmail gizli';
+        left.append(nameLine, sub); row.appendChild(left); listEl.appendChild(row);
       });
     }
 
-    async function openOwnerRoomsModal() {
-      if (currentUser.role !== 'owner') {
-        showToast('Bu alan yalnızca owner içindir.', true);
-        return;
-      }
-      const modal = document.getElementById('ownerRoomsModal');
+    // OWNER ODALAR PANELİ (KAPASİTE + KOD SIFIRLAMA + GİZLİ GİRİŞ + SİL)
+    function openOwnerRoomsModal() {
+      if (currentUser.role !== 'owner') return;
       const listEl = document.getElementById('ownerRoomsList');
-      listEl.innerHTML = '<div style="font-size:0.8rem; color:var(--muted-text);">Odalar veritabanından getiriliyor...</div>';
-      modal.style.display = 'flex';
+      const specials = joinedRooms.filter(r => !r.isGlobal);
+      listEl.innerHTML = specials.length === 0
+        ? '<div style="font-size:0.8rem; color:var(--muted-text);">Henüz özel oda yok.</div>'
+        : specials.map(r => {
+            const st = getChannelState(r.id);
+            return `
+              <div class="cmd-item">
+                <div>
+                  <div class="cmd-code">${r.name} [${r.id}]</div>
+                  <div class="cmd-desc">Kapasite: ${st.capacity > 0 ? st.capacity + ' kişi' : 'Sınırsız'}</div>
+                </div>
+                <div style="display:flex; gap:5px; flex-wrap:wrap;">
+                  <button type="button" class="mini-action-btn" data-stealth-room="${r.id}">👁️ Gir</button>
+                  <button type="button" class="mini-action-btn" data-cap-room="${r.id}">👥 Limit</button>
+                  <button type="button" class="mini-action-btn" data-reset-code="${r.id}">🔄 Kod Sıfırla</button>
+                  <button type="button" class="mini-action-btn danger" data-delete-room="${r.id}">🗑️</button>
+                </div>
+              </div>`;
+          }).join('');
+      document.getElementById('ownerRoomsModal').style.display = 'flex';
+    }
 
-      const roomsMap = new Map();
-      joinedRooms.filter(r => !r.isGlobal).forEach(r => {
-        roomsMap.set(r.id, { code: r.id, name: r.name, creator: 'Yerel', createdAt: null });
-      });
+    // =========================================================================
+    // TEMA & OWNER KART STİLİ (9 TEMA + 3 OWNER STİLİ)
+    // =========================================================================
+    let themePrefs = { theme: 'mono', fontSize: '0.92rem', ownerStyle: 'obsidian', ownerAccent: 'silver' };
+    const ALL_THEMES = ['theme-oled','theme-light','theme-midnight','theme-emerald','theme-crimson','theme-nebula','theme-gold','theme-cyber'];
+    const ALL_ACCENTS = ['owner-accent-silver','owner-accent-gold','owner-accent-ice','owner-accent-emerald','owner-accent-crimson'];
 
+    function applyThemePrefs() {
+      document.body.classList.remove(...ALL_THEMES, ...ALL_ACCENTS);
+      if (themePrefs.theme && themePrefs.theme !== 'mono') document.body.classList.add('theme-' + themePrefs.theme);
+      document.body.classList.add('owner-accent-' + (themePrefs.ownerAccent || 'silver'));
+      document.documentElement.style.setProperty('--chat-font-size', themePrefs.fontSize || '0.92rem');
+
+      document.querySelectorAll('[data-set-theme]').forEach(b => b.classList.toggle('active', b.getAttribute('data-set-theme') === themePrefs.theme));
+      document.querySelectorAll('[data-owner-style]').forEach(b => b.classList.toggle('active', b.getAttribute('data-owner-style') === themePrefs.ownerStyle));
+      document.querySelectorAll('[data-owner-accent]').forEach(b => b.classList.toggle('active', b.getAttribute('data-owner-accent') === themePrefs.ownerAccent));
+      renderMessageStream();
+    }
+    function saveThemePrefs() { try { localStorage.setItem(THEME_STORAGE_KEY, JSON.stringify(themePrefs)); } catch (_) {} }
+    function loadThemePrefs() {
       try {
-        const remoteRooms = await firebaseRequest('rooms.json');
-        if (remoteRooms && typeof remoteRooms === 'object') {
-          for (const [code, obj] of Object.entries(remoteRooms)) {
-            if (obj && obj.meta) {
-              roomsMap.set(code, {
-                code,
-                name: obj.meta.name || `Oda #${code}`,
-                creator: obj.meta.creator || 'Bilinmiyor',
-                createdAt: obj.meta.createdAt || null
-              });
-            }
-          }
+        const raw = JSON.parse(localStorage.getItem(THEME_STORAGE_KEY) || 'null');
+        if (raw && typeof raw === 'object') {
+          themePrefs = {
+            theme: raw.theme || 'mono',
+            fontSize: raw.fontSize || '0.92rem',
+            ownerStyle: raw.ownerStyle || 'obsidian',
+            ownerAccent: raw.ownerAccent || 'silver'
+          };
         }
       } catch (_) {}
-
-      if (roomsMap.size === 0) {
-        listEl.innerHTML = '<div style="font-size:0.8rem; color:var(--muted-text);">Henüz oluşturulmuş özel bir oda bulunmuyor.</div>';
-        return;
-      }
-
-      listEl.innerHTML = Array.from(roomsMap.values()).map(r => {
-        const timeStr = r.createdAt ? new Date(r.createdAt).toLocaleString('tr-TR') : 'Kayıtlı oda';
-        return `
-          <div class="cmd-item">
-            <div>
-              <div class="cmd-code">${r.name} <span style="opacity:0.7;">[${r.code}]</span></div>
-              <div class="cmd-desc">Kurucu: ${r.creator} • ${timeStr}</div>
-            </div>
-            <div style="display:flex; gap:6px; flex-wrap:wrap;">
-              <button type="button" class="mini-action-btn" data-stealth-room="${r.code}" data-stealth-name="${r.name}">👁️ Gizlice Gir</button>
-              <button type="button" class="mini-action-btn danger" data-delete-room="${r.code}">🗑️ Sil</button>
-            </div>
-          </div>
-        `;
-      }).join('');
+      applyThemePrefs();
+    }
+    function openThemeMenuModal() {
+      document.getElementById('ownerStyleSection').style.display = currentUser.role === 'owner' ? 'flex' : 'none';
+      applyThemePrefs();
+      document.getElementById('themeMenuModal').style.display = 'flex';
+    }
+    function resetThemePreferences() {
+      themePrefs = { theme: 'mono', fontSize: '0.92rem', ownerStyle: 'obsidian', ownerAccent: 'silver' };
+      saveThemePrefs(); applyThemePrefs(); showToast('Varsayılan temaya dönüldü.');
+    }
+    function exportActiveChat() {
+      const msgs = localMessagesStore[activeChannelId] || [];
+      const lines = msgs.map(m => `[${new Date(m.at).toLocaleTimeString('tr-TR')}] ${m.sender}: ${m.text}`);
+      const blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = `YahyaSohbet_${activeChannelId}.txt`;
+      document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+      showToast('Sohbet geçmişi indirildi.');
     }
 
-    function stealthEnterRoom(code, name) {
-      if (currentUser.role !== 'owner') return;
-      registerRoomLocally({ code, name: name || `Oda #${code}` }, true);
-      closeModal('ownerRoomsModal');
-      showToast(`👁️ "${name || code}" odasına gizlice girildi.`);
+    function playPingSound(isOwn = false) {
+      if (!soundEnabled) return;
+      try {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(isOwn ? 520 : 700, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.045, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.12);
+        osc.connect(gain); gain.connect(audioCtx.destination);
+        osc.start(); osc.stop(audioCtx.currentTime + 0.13);
+      } catch (_) {}
     }
 
-    async function deleteRoomAsOwner(code) {
-      if (currentUser.role !== 'owner') return;
-      try { await firebaseRequest(`rooms/${code}.json`, { method: 'DELETE' }); } catch (_) {}
-      joinedRooms = joinedRooms.filter(r => r.id !== code);
-      delete localMessagesStore[code];
-      if (activeChannelId === code) {
-        activeChannelId = 'GLOBAL';
-        renderActiveChannel();
-      }
-      saveJoinedRooms();
-      renderRoomSidebar();
-      showToast(`🗑️ Oda (${code}) silindi.`);
-      openOwnerRoomsModal();
-    }
+    // EMOJİ PANELİNİ DOLDUR
+    document.getElementById('emojiPopover').innerHTML = EMOJI_LIST.map(em => `<button type="button" class="emoji-pick-btn" data-pick-emoji="${em}">${em}</button>`).join('');
+    document.getElementById('emojiToggleBtn').addEventListener('click', (e) => {
+      e.stopPropagation();
+      document.getElementById('emojiPopover').classList.toggle('open');
+    });
+    document.getElementById('highlightToggleBtn').addEventListener('click', (e) => {
+      highlightMode = !highlightMode;
+      e.currentTarget.classList.toggle('active', highlightMode);
+      refreshRoleAndRestrictions();
+    });
 
     document.getElementById('soundToggleBtn').addEventListener('click', (e) => {
       soundEnabled = !soundEnabled;
       e.currentTarget.classList.toggle('active', soundEnabled);
       e.currentTarget.textContent = soundEnabled ? '🔔 Ses' : '🔕 Sessiz';
     });
-
     document.getElementById('searchToggleBtn').addEventListener('click', (e) => {
       const bar = document.getElementById('inchatSearchBar');
       const open = bar.style.display === 'flex';
@@ -2463,15 +2512,8 @@
       if (!open) document.getElementById('inchatSearchInput').focus();
       else { inchatSearchQuery = ''; document.getElementById('inchatSearchInput').value = ''; renderMessageStream(); }
     });
-
-    document.getElementById('inchatSearchInput').addEventListener('input', (e) => {
-      inchatSearchQuery = e.target.value;
-      renderMessageStream();
-    });
-    document.getElementById('clearInchatSearchBtn').addEventListener('click', () => {
-      inchatSearchQuery = ''; document.getElementById('inchatSearchInput').value = ''; renderMessageStream();
-    });
-
+    document.getElementById('inchatSearchInput').addEventListener('input', (e) => { inchatSearchQuery = e.target.value; renderMessageStream(); });
+    document.getElementById('clearInchatSearchBtn').addEventListener('click', () => { inchatSearchQuery = ''; document.getElementById('inchatSearchInput').value = ''; renderMessageStream(); });
     document.getElementById('inspectorToggleBtn').addEventListener('click', (e) => {
       const panel = document.getElementById('rightInspectorPanel');
       if (window.innerWidth <= 1080) {
@@ -2484,17 +2526,130 @@
     });
 
     document.addEventListener('click', (e) => {
+      if (!e.target.closest('#emojiPopover') && !e.target.closest('#emojiToggleBtn')) {
+        document.getElementById('emojiPopover').classList.remove('open');
+      }
+      const emPick = e.target.closest('[data-pick-emoji]');
+      if (emPick) {
+        const inp = document.getElementById('messageInput');
+        inp.value += emPick.getAttribute('data-pick-emoji');
+        inp.focus();
+        return;
+      }
+      const tabBtn = e.target.closest('[data-owner-tab]');
+      if (tabBtn) { switchOwnerTab(tabBtn.getAttribute('data-owner-tab')); return; }
+
+      const osBtn = e.target.closest('[data-owner-style]');
+      if (osBtn) { themePrefs.ownerStyle = osBtn.getAttribute('data-owner-style'); saveThemePrefs(); applyThemePrefs(); return; }
+      const oaBtn = e.target.closest('[data-owner-accent]');
+      if (oaBtn) { themePrefs.ownerAccent = oaBtn.getAttribute('data-owner-accent'); saveThemePrefs(); applyThemePrefs(); return; }
+      const tBtn = e.target.closest('[data-set-theme]');
+      if (tBtn) { themePrefs.theme = tBtn.getAttribute('data-set-theme'); saveThemePrefs(); applyThemePrefs(); return; }
+      const fBtn = e.target.closest('[data-font-size]');
+      if (fBtn) { themePrefs.fontSize = fBtn.getAttribute('data-font-size'); saveThemePrefs(); applyThemePrefs(); return; }
+
+      // Anket oyu (kişi başı tek oy + değiştirme destekli)
+      const pBtn = e.target.closest('[data-poll-msg]');
+      if (pBtn) {
+        const msgId = pBtn.getAttribute('data-poll-msg'), idx = parseInt(pBtn.getAttribute('data-poll-idx'), 10);
+        const msg = (localMessagesStore[activeChannelId] || []).find(m => m.id === msgId);
+        if (msg && msg.poll && msg.poll.options[idx]) {
+          msg.poll.voters = msg.poll.voters || {};
+          const prev = msg.poll.voters[currentUser.name];
+          if (prev === idx) return showToast('Bu seçeneğe zaten oy verdiniz.');
+          if (typeof prev === 'number' && msg.poll.options[prev]) msg.poll.options[prev].votes = Math.max(0, (msg.poll.options[prev].votes || 1) - 1);
+          msg.poll.options[idx].votes = (msg.poll.options[idx].votes || 0) + 1;
+          msg.poll.voters[currentUser.name] = idx;
+          renderMessageStream();
+          showToast('Oyunuz kaydedildi.');
+        }
+        return;
+      }
+
+      const fillCmd = e.target.closest('[data-fill-cmd]');
+      if (fillCmd) { closeModal('powersModal'); const inp = document.getElementById('messageInput'); inp.value = fillCmd.getAttribute('data-fill-cmd'); inp.focus(); return; }
+      const haUser = e.target.closest('[data-ha-user]'); if (haUser) { toggleHeadAdmin(haUser.getAttribute('data-ha-user')); return; }
+      const banUser = e.target.closest('[data-ban-user]'); if (banUser) { applyBan(banUser.getAttribute('data-ban-user'), true); return; }
+      const unbanUser = e.target.closest('[data-unban-user]'); if (unbanUser) { applyBan(unbanUser.getAttribute('data-unban-user'), false); return; }
+      const delUser = e.target.closest('[data-delete-user]'); if (delUser) { applyDeleteUser(delUser.getAttribute('data-delete-user')); return; }
+
       const stealthBtn = e.target.closest('[data-stealth-room]');
-      if (stealthBtn) {
-        stealthEnterRoom(stealthBtn.getAttribute('data-stealth-room'), stealthBtn.getAttribute('data-stealth-name'));
+      if (stealthBtn) { selectChannel(stealthBtn.getAttribute('data-stealth-room')); closeModal('ownerRoomsModal'); return; }
+      const capBtn = e.target.closest('[data-cap-room]');
+      if (capBtn) {
+        const rid = capBtn.getAttribute('data-cap-room');
+        const val = prompt('Maksimum kişi sayısı (0 = sınırsız):', String(getChannelState(rid).capacity || 0));
+        if (val !== null) { applyRoomStateUpdate({ capacity: Math.max(0, parseInt(val, 10) || 0) }, rid); openOwnerRoomsModal(); }
+        return;
+      }
+      const resetBtn = e.target.closest('[data-reset-code]');
+      if (resetBtn) {
+        const oldId = resetBtn.getAttribute('data-reset-code');
+        const newCode = generateRandomRoomCode();
+        const r = joinedRooms.find(x => x.id === oldId);
+        if (r) {
+          r.id = newCode; r.code = newCode;
+          localMessagesStore[newCode] = localMessagesStore[oldId] || [];
+          delete localMessagesStore[oldId];
+          if (activeChannelId === oldId) activeChannelId = newCode;
+          saveJoinedRooms(); renderRoomSidebar(); renderActiveChannel(); openOwnerRoomsModal();
+          addAuditLog(`Oda kodu sıfırlandı: ${oldId} -> ${newCode}`);
+          showToast(`Yeni oda kodu: ${newCode}`);
+        }
         return;
       }
       const delRoomBtn = e.target.closest('[data-delete-room]');
       if (delRoomBtn) {
-        deleteRoomAsOwner(delRoomBtn.getAttribute('data-delete-room'));
+        const rid = delRoomBtn.getAttribute('data-delete-room');
+        joinedRooms = joinedRooms.filter(r => r.id !== rid);
+        delete localMessagesStore[rid];
+        if (activeChannelId === rid) activeChannelId = 'GLOBAL';
+        saveJoinedRooms(); renderRoomSidebar(); renderActiveChannel(); openOwnerRoomsModal();
+        addAuditLog(`Oda silindi: ${rid}`);
+        showToast('Oda silindi.');
         return;
       }
     });
+
+    document.getElementById('messageInput').addEventListener('keydown', e => { if (e.key === 'Enter' && !e.isComposing) { e.preventDefault(); sendChatMessage(); } });
+    document.getElementById('newRoomNameInput').addEventListener('keydown', e => { if (e.key === 'Enter') confirmCreateRoom(); });
+    document.getElementById('joinRoomCodeInput').addEventListener('keydown', e => { if (e.key === 'Enter') confirmJoinRoom(); });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        ['createRoomModal','joinRoomModal','powersModal','userActionModal','themeMenuModal','ownerRoomsModal'].forEach(closeModal);
+      }
+    });
+    document.querySelectorAll('.modal-backdrop').forEach(m => m.addEventListener('click', e => { if (e.target === m) closeModal(m.id); }));
+
+    function initializeChat() {
+      loadOwnerConfig();
+      loadLocalModeration();
+      try {
+        const stored = JSON.parse(localStorage.getItem(SHARED_AUTH_KEY) || 'null');
+        if (stored && stored.authenticated && stored.name && !validateStrictGmail(stored.email)) {
+          currentUser.id = stored.id || ('user_' + Date.now());
+          currentUser.name = stored.name; currentUser.email = stored.email;
+          currentUser.role = stored.role === 'owner' ? 'owner' : getRoleForUser(stored.name, stored.role);
+          currentUser.loggedInAt = stored.loggedInAt || Date.now();
+          currentUser.authenticated = true;
+        } else {
+          currentUser.id = sessionStorage.getItem('ys_client_id') || ('user_' + Date.now());
+          sessionStorage.setItem('ys_client_id', currentUser.id);
+        }
+      } catch (_) { currentUser.id = 'user_' + Date.now(); }
+
+      loadJoinedRooms(); renderRoomSidebar(); renderActiveChannel();
+      setInterval(refreshRoleAndRestrictions, 1000);
+
+      const splash = document.getElementById('splash');
+      setTimeout(() => { splash.style.opacity = '0'; splash.style.visibility = 'hidden'; setTimeout(() => { splash.style.display = 'none'; }, 520); }, 550);
+
+      if (currentUser.authenticated) {
+        updateSidebarUserUI(); refreshRoleAndRestrictions();
+        document.getElementById('auth-gate-overlay').style.display = 'none';
+        pollFirebaseMessages();
+      }
+    }
 
     loadThemePrefs();
     initializeChat();
